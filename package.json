@@ -1,20 +1,37 @@
 {
   "name": "mybharat_common_frontend",
-  "version": "1.0.0",
+  "version": "1.0.63",
   "description": "",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "style": "dist/index.css",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
+    },
+    "./style.css": "./dist/index.css",
+    "./header2.css": "./dist/header2.css"
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node scripts/fix-dts-version.js",
+    "watch": "tsup --watch",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "sideEffects": [
+    "**/*.css",
+    "*.css"
+  ],
   "type": "commonjs",
   "peerDependencies": {
     "react": ">=17",

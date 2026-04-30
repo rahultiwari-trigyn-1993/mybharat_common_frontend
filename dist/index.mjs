@@ -1,26 +1,876 @@
+/*! mybharat_common_frontend@1.0.63 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+
+
+// #style-inject:#style-inject
+function styleInject(css, { insertAt } = {}) {
+  if (!css || typeof document === "undefined") return;
+  const head = document.head || document.getElementsByTagName("head")[0];
+  const style = document.createElement("style");
+  style.type = "text/css";
+  if (insertAt === "top") {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+// src/components/Header.css
+styleInject("header.mb-common-header .f-hd-left {\n  float: left;\n}\nheader.mb-common-header .f-hd-right {\n  float: right;\n}\n.header-top {\n  background: #081854;\n  position: relative;\n}\n.header-top .skip01 {\n  color: #ffffff;\n  line-height: 28px;\n  font-size: 13px;\n  font-weight: 600;\n  padding-right: 15px;\n}\n.header-top .partition {\n  color: #ffffff;\n}\n.header-top .goi {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: nowrap;\n  line-height: 1.2;\n  padding-top: 2px;\n  color: #ffffff;\n  font-size: 12px;\n  font-style: normal;\n  font-weight: 500;\n  text-decoration: none;\n}\n.header-top .goi img {\n  flex-shrink: 0;\n  margin-right: 15px;\n  width: 25px;\n  height: 15px;\n  vertical-align: middle;\n}\n.header-top .font01 {\n  border: none;\n  outline: none;\n  background: no-repeat;\n  width: 40px;\n  height: auto;\n  color: #ffffff;\n  font-size: 13px;\n  font-weight: 600;\n}\n.header-top .active01 {\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 6px;\n}\n.header-top .gov_india {\n  font-size: 13px;\n  font-weight: 600;\n  line-height: 1.2;\n}\n.bhashini-plugin-container {\n  display: inline;\n  float: right;\n  margin-right: 80px !important;\n  margin-top: 2px;\n}\n.bhashini-plugin-container svg {\n  width: 24px;\n  height: 24px;\n}\n.bhashini-dropdown-content {\n  bottom: auto !important;\n  right: -75px;\n  scrollbar-width: thin;\n}\n.bhashini-dropdown-content .language-option {\n  text-align: left !important;\n}\n.mb-common-header__modal-nav a {\n  color: #000000;\n  font-weight: 600;\n}\n.mb-common-header__modal-nav a:hover {\n  color: #f15b43;\n}\n.main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-row {\n  align-items: center !important;\n  gap: 0.75rem;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-logos {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    display: grid !important;\n    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\n    gap: 0.35rem 0.5rem;\n    align-items: center;\n  }\n  header.mb-common-header .mb-common-header__mobile-logos--split {\n    min-width: 0;\n    justify-self: start;\n    align-items: center;\n    padding-right: clamp(4px, 1.5vw, 12px);\n  }\n  header.mb-common-header .mb-common-header__mobile-mid--split {\n    justify-self: center;\n    display: flex;\n    flex-wrap: nowrap;\n    align-items: center;\n    justify-content: center;\n    gap: 0.25rem;\n    min-width: 0;\n    max-width: min(260px, 38vw);\n    padding-left: 0;\n    position: relative;\n    z-index: 2;\n    background-color: #ffffff;\n  }\n  header.mb-common-header .mb-common-header__mobile-mid--split #toll_mb .lang_toll_free {\n    justify-content: center;\n  }\n  header.mb-common-header .mb-common-header__bhashini-mid--split {\n    display: inline-flex;\n    align-items: center;\n    flex: 0 0 auto;\n  }\n  header.mb-common-header .mb-common-header__mobile-end--split {\n    min-width: 0;\n    justify-self: end;\n    display: flex;\n    justify-content: flex-end;\n    align-items: center;\n    gap: 0.5rem;\n  }\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    gap: 0.2rem 0.35rem;\n  }\n  header.mb-common-header .mb-common-header__mobile-mid--split {\n    max-width: min(190px, 54vw);\n  }\n}\n.mb-common-header__mobile-bar #toll_mb.skip01 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: #1937b2;\n  text-decoration: none;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: #1937b2;\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\n@media (max-width: 575.98px) {\n  .mb-common-header__mobile-bar #toll_mb .lang_toll_free {\n    font-size: clamp(9px, 2.65vw, 11px);\n    font-weight: 600;\n    gap: 0.2em;\n    letter-spacing: -0.02em;\n    line-height: 1.1;\n  }\n  .mb-common-header__mobile-bar #mb_menus.btn-light {\n    padding: 0.28rem 0.5rem;\n    font-size: 1rem;\n    line-height: 1;\n  }\n  header.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n}\nheader.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(108deg);\n  transform-origin: 50% 58%;\n}\n.mb-common-header__mobile-bar #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n.mb-common-header__mobile-bar #mb_menus.btn-light {\n  flex: 0 0 auto;\n  border: 1px solid #dee2e6;\n}\n.mb-common-header__mobile-bar #bhashini-mobile-header {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  flex: 0 0 auto;\n  min-width: 0;\n  min-height: 0;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__register-link {\n  display: inline-block;\n  margin-left: 12px;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #f25c44;\n  --bs-btn-border-color: #f25c44;\n  color: #ffffff !important;\n  background-color: #f25c44 !important;\n  border: none !important;\n  border-radius: 8px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #f25c44 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f25c44 !important;\n  box-shadow: none !important;\n}\nheader#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {\n  width: 136px !important;\n  transform: scale(1.12);\n  margin-left: 7px;\n  margin-top: 5px;\n}\nheader#mb-common-header-root.mb-common-header .logo-w-sm-md1 {\n  width: 124px !important;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n#mobileMenuNew img.logo-w-sm-md-sec {\n  width: 136px !important;\n  transform: scale(1.12);\n}\n#mobileMenuNew img.logo-w-sm-md1 {\n  width: 124px !important;\n  max-width: none !important;\n  height: auto !important;\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 14px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content .fa {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {\n    width: clamp(118px, 32vw, 148px) !important;\n  }\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {\n    width: clamp(126px, 34vw, 156px) !important;\n    transform: scale(1.08) !important;\n  }\n  #mobileMenuNew img.logo-w-sm-md1 {\n    width: clamp(118px, 32vw, 148px) !important;\n  }\n  #mobileMenuNew img.logo-w-sm-md-sec {\n    width: clamp(126px, 34vw, 156px) !important;\n    transform: scale(1.08) !important;\n  }\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {\n    width: clamp(72px, 20vw, 142px) !important;\n    max-width: none !important;\n  }\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {\n    width: clamp(76px, 21vw, 150px) !important;\n    transform: scale(1.08) !important;\n    max-width: none !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {\n    width: clamp(52px, 14vw, 96px) !important;\n    max-width: none !important;\n  }\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {\n    width: clamp(56px, 15vw, 104px) !important;\n    transform: scale(1.06) !important;\n    max-width: none !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  .header-area {\n    min-height: 56px;\n  }\n  .bhashini-plugin-container {\n    position: absolute;\n    right: -35px;\n    top: 15px;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #f15b43;\n    color: #fff;\n  }\n}\n");
+
+// src/components/Footer.css
+styleInject("#feed_back.modal,\n#feed_back1.modal,\n#successToaster.modal {\n  z-index: 1060 !important;\n}\n.litext {\n  color: #525c66;\n  font-size: 16px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external a.litext,\n#footer_external p.litext {\n  color: #525c66 !important;\n}\n#footer_external {\n  border-top: solid 1px #d6d6d6;\n}\n#footer_external .foot_p1 {\n  color: #525c66;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external .footer-top {\n  background-color: #ffffff !important;\n}\n#footer_external .footer-links:has(> ul) {\n  text-align: center;\n}\n#footer_external .footer-links:has(> ul) h6.img_link {\n  text-align: center;\n}\n#footer_external .footer-links:has(> ul) ul {\n  padding-left: 0;\n}\n#footer_external .footer-links:has(> ul) li {\n  text-align: center;\n}\n@media (max-width: 991.98px) {\n  #footer_external .mb-common-footer__follow-col {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col h6.img_link {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .social-icons {\n    justify-content: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-by {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-inner {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-wrap: wrap;\n    gap: 0.35rem 0.75rem;\n    width: 100%;\n    max-width: 100%;\n  }\n  #footer_external .mb-common-footer__follow-col .foot_p1 {\n    text-align: center;\n  }\n}\n#footer_external .foot_p2 {\n  padding-left: initial;\n}\n.pricy1_a {\n  background-color: #000627;\n}\n.pricy1_a .row .col-sm-8 {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.pricy1_a .row .col-sm-8 p {\n  margin-bottom: 0;\n  line-height: 29px;\n}\n.pricy1_a .row {\n  color: #fff;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 500;\n  line-height: 20px;\n}\n.pricy_a ul {\n  width: 100%;\n  line-height: 31px;\n  text-align: center;\n  display: inline-flex;\n  justify-content: center;\n  padding-left: 68px;\n  list-style: none;\n  margin: 0;\n  flex-wrap: wrap;\n}\n.pricy_a ul li:nth-child(1) {\n  padding-right: 27px;\n}\n.pricy_a p {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.foot1w {\n  width: fit-content;\n  color: #000;\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n  padding: 4px 10px;\n}\n.pricy1_a a {\n  color: #fff !important;\n  text-decoration: none;\n}\n@media only screen and (max-width: 600px) {\n  .foot1w {\n    margin: auto;\n  }\n  .pricy_a ul {\n    padding-left: 0;\n    display: flex;\n    justify-content: center;\n  }\n  .new_foot li .fab {\n    vertical-align: inherit !important;\n  }\n}\n.img_link {\n  color: #343f4a;\n  font-size: 16px;\n  font-weight: 500;\n  line-height: 24px;\n  letter-spacing: 0.15px;\n}\n.new_foot li {\n  line-height: 15px;\n  padding: 1px;\n}\n.new_foot li img {\n  width: 81%;\n}\n@media (min-width: 601px) and (max-width: 991.98px) {\n  #footer_external .footer-contact,\n  #footer_external .footer-links {\n    padding-bottom: 1rem;\n  }\n}\n.mb-common-footer__social-row {\n  flex-wrap: wrap;\n}\n.feed_back {\n  text-align: end;\n}\n#feed_back textarea {\n  margin-top: 0 !important;\n  margin-bottom: 11px !important;\n}\n#feed_back label {\n  font-size: 15px;\n  font-weight: 500;\n  line-height: 20px;\n  color: #252525;\n}\n#feed_back .cross_ico img {\n  cursor: pointer;\n  padding: 6px 10px;\n}\n#feed_back .text-left {\n  text-align: left;\n}\n#feed_back .cross_ico {\n  display: flex;\n  position: absolute;\n  bottom: 18px;\n  z-index: 999;\n}\n#feed_back .radio-tile-group {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: left;\n}\n#feed_back .tt_yuvr {\n  display: inline-flex;\n  padding: 10px;\n  margin-bottom: 15px;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n#feed_back .tt_yuvr .input-container {\n  position: relative;\n  width: 50px;\n  margin-right: 18px;\n  margin-top: 7px;\n}\n#feed_back .tt_yuvr .input-container input {\n  position: absolute;\n  cursor: pointer;\n  z-index: 2;\n  opacity: 0;\n  width: 50px;\n  height: 50px;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile {\n  background: #0b6bbe;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile label {\n  color: #fff;\n}\n#feed_back .tt_yuvr .input-container .radio-tile {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  background: #eee;\n  width: 50px;\n  height: 50px;\n  border-radius: 30px;\n}\n#feed_back .tt_yuvr .input-container {\n  transition: transform 0.2s;\n}\n#feed_back .tt_yuvr .input-container:hover {\n  transform: scale(1.07);\n}\n#feed_back .tt_yuvr .input-container label {\n  font-size: 18px;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 0;\n}\n.radio-tile-group:nth-child(1),\n.radio-tile-group:nth-child(2),\n.radio-tile-group:nth-child(3),\n.radio-tile-group:nth-child(4) {\n  border-top: 3px solid #f00;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(6),\n.radio-tile-group:nth-child(7),\n.radio-tile-group:nth-child(8) {\n  border-top: 3px solid #ffbe15;\n}\n.radio-tile-group:nth-child(9),\n.radio-tile-group:nth-child(10) {\n  border-top: 3px solid #04a651;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(9) {\n  margin-left: 10px;\n}\n.vError {\n  border: 1px solid #e41f12;\n}\np.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  line-height: 1.5;\n  color: #e41f12;\n  margin-bottom: 20px;\n  float: inline-start;\n}\nsmall.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  color: #e41f12;\n  float: inline-start;\n}\n#char_left_cnt {\n  color: #252525;\n  float: inline-end;\n  font-size: small;\n}\n#successToaster .modal-dialog {\n  margin: 20% auto;\n}\n@media only screen and (min-width: 601px) {\n  #feed_back .modal-dialog {\n    max-width: 876px !important;\n    margin-top: 133px;\n  }\n  #feed_back1 .modal-dialog {\n    margin-top: 133px;\n  }\n}\n@media only screen and (max-width: 600px) {\n  #feed_back .tt_yuvr {\n    display: flex !important;\n    overflow: auto !important;\n  }\n  #feed_back .form-group {\n    margin-bottom: 10px;\n  }\n  #feed_back .tt_yuvr .input-container input {\n    width: 20px !important;\n    height: 20px !important;\n  }\n  #feed_back .tt_yuvr .input-container .radio-tile {\n    width: 30px !important;\n    height: 30px !important;\n    border-radius: 30px !important;\n  }\n  #feed_back .cross_ico {\n    position: initial !important;\n  }\n  #feed_back .tt_yuvr .input-container {\n    width: 17px !important;\n    margin-right: 18px !important;\n  }\n  #feed_back .tt_yuvr .input-container label {\n    font-size: 13px !important;\n  }\n  #feed_back .modal-dialog {\n    width: 100% !important;\n    padding: 10px 15px 10px 0;\n  }\n  .social-icons {\n    justify-content: center;\n  }\n}\n#pls_select h3 {\n  color: #343434;\n  font-weight: 600;\n}\n#pls_select {\n  text-align: center;\n}\n#pls_select #guest_usr {\n  background-color: #f15b43;\n  border: none;\n  color: #fff;\n  font-size: 16px;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select #regi_usr {\n  background-color: #fff;\n  border: 1px solid #5a6370;\n  font-size: 16px;\n  color: #5a6370;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select .btn-close {\n  border: none !important;\n  background: none !important;\n  float: right;\n  width: 32px;\n  height: 32px;\n  cursor: pointer;\n}\n#pls_select .col-sm-12:nth-child(2) {\n  margin-bottom: 20px;\n}\n#feedback_captcha_value {\n  border-top-right-radius: 3px;\n  border-bottom-right-radius: 3px;\n}\n.social-icons {\n  display: flex;\n  gap: 9px;\n  flex-wrap: wrap;\n}\n.social-icons .icon {\n  display: flex;\n  align-items: center;\n  background: white;\n  border-radius: 50px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  width: 30px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.social-icons .icon img {\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n  transition: all 0.3s ease;\n}\n.social-icons .icon span {\n  margin-left: 4px;\n  white-space: nowrap;\n  opacity: 0;\n  transform: translateX(-10px);\n  transition: all 0.3s ease;\n  font-size: 13px;\n}\n.twitter-color {\n  color: #000;\n}\n.instagram-color {\n  color: #cf188a;\n}\n.facebook-color {\n  color: #4676ed;\n}\n.linkedin-color {\n  color: #4467ad;\n}\n.whatsapp-color {\n  color: #00c169;\n}\n.youtube-color {\n  color: #e52d27;\n}\n@media (hover: hover) and (pointer: fine) {\n  .social-icons .icon:hover {\n    width: 100px;\n    justify-content: flex-start;\n  }\n  .social-icons .icon:hover span {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n.mb-20 {\n  margin-bottom: 1.25rem;\n}\n.whitetext img {\n  vertical-align: middle;\n}\n#footer_external .mb-common-footer__powered-inner {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: 0.35rem 0.75rem;\n}\n#footer_external .mb-common-footer__powered-by {\n  color: #495059 !important;\n}\n#footer_external .whitetext.mb-common-footer__powered-logo {\n  color: inherit !important;\n  display: inline-flex;\n  align-items: center;\n  line-height: 1;\n}\n#footer_external .mb-common-footer__powered-logo img {\n  display: block;\n  flex-shrink: 0;\n}\n");
+
 // src/components/Header.tsx
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
+// src/constants/cdn.ts
+var MYBHARAT_CDN_ORIGIN = "https://cdn-prod.mybharats.in";
+var MYBHARAT_CDN_BASE = `${MYBHARAT_CDN_ORIGIN}/mybharat`;
+var MYBHARAT_CDN_BASE_BETA = "https://cdn-beta.mybharats.in/mybharat";
+
+// src/components/MobileMenuModal.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
-var Header = ({ title = "My App" }) => {
-  return /* @__PURE__ */ jsx("header", { style: { padding: "1rem", background: "#f5f5f5" }, children: /* @__PURE__ */ jsxs("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
-    /* @__PURE__ */ jsx("h1", { style: { margin: 0 }, children: title }),
-    /* @__PURE__ */ jsxs("nav", { children: [
-      /* @__PURE__ */ jsx("a", { href: "#", style: { margin: "0 0.5rem", textDecoration: "none", color: "#0366d6" }, children: "Home" }),
-      /* @__PURE__ */ jsx("a", { href: "#", style: { margin: "0 0.5rem", textDecoration: "none", color: "#0366d6" }, children: "About" }),
-      /* @__PURE__ */ jsx("a", { href: "#", style: { margin: "0 0.5rem", textDecoration: "none", color: "#0366d6" }, children: "Services" }),
-      /* @__PURE__ */ jsx("a", { href: "#", style: { margin: "0 0.5rem", textDecoration: "none", color: "#0366d6" }, children: "Contact" })
-    ] })
-  ] }) });
+var youthProfileHref = "https://web.mybharat.gov.in/youth-public-profile";
+var MobileMenuModal = ({ cdnBase }) => /* @__PURE__ */ jsx(
+  "div",
+  {
+    className: "modal left fade",
+    id: "mobileMenuNew",
+    tabIndex: -1,
+    "aria-labelledby": "mobileMenuNewLabel",
+    "aria-hidden": "true",
+    children: /* @__PURE__ */ jsx("div", { className: "modal-dialog", children: /* @__PURE__ */ jsxs("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs("div", { className: "modal-header align-items-center border-0 pb-0", children: [
+        /* @__PURE__ */ jsx("h5", { className: "modal-title flex-grow-1 mb-0", id: "mobileMenuNewLabel", children: /* @__PURE__ */ jsx("div", { className: "logo", children: /* @__PURE__ */ jsx("a", { href: "/", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx(
+          "img",
+          {
+            src: `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+            className: "logo-w-sm-md-sec",
+            alt: "MY Bharat"
+          }
+        ) }) }) }),
+        /* @__PURE__ */ jsx("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "modal-body pt-2", children: [
+        /* @__PURE__ */ jsx("div", { className: "m-menu", children: /* @__PURE__ */ jsxs("ul", { className: "list-unstyled mb-0", children: [
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: youthProfileHref, className: "text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "lang_Youth d-block py-2", style: { marginLeft: 0 }, children: "Youth" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/quiz", className: "fontchange14 text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "d-block py-2", style: { marginLeft: 0 }, children: "Quiz & Essay" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/voices/blogs", className: "fontchange14 text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "d-block py-2", style: { marginLeft: 0 }, children: "Blogs" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/pages/newsletter", className: "fontchange14 text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "d-block py-2", style: { marginLeft: 0 }, children: "Newsletters" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/pages/experiential_learning?mode=I", className: "academia text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "lang_exp_lrn01 d-block py-2", style: { marginLeft: 0 }, children: "Experiential Learning" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/pages/events", className: "text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "lang_event d-block py-2", children: "Volunteer for Bharat" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/mega_events", className: "text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "lang_mega_event d-block py-2", children: "Mega Events" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/pages/vbyld_2026", className: "text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "lang_event d-block py-2", children: "VBYLD-2026" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/pages/podcasts", className: "text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "lang_event d-block py-2", children: "MY Bharat Podcast" }) }) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/pages/brics_2026", className: "text-decoration-none text-reset", "data-bs-dismiss": "modal", children: /* @__PURE__ */ jsx("span", { className: "lang_event d-block py-2", children: "BRICS India 2026" }) }) })
+        ] }) }),
+        /* @__PURE__ */ jsx("div", { className: "m-menu border-top mt-2 pt-2", children: /* @__PURE__ */ jsxs("ul", { className: "list-unstyled mb-0", children: [
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(
+            "a",
+            {
+              className: "mbv_yuva_drop border-bottom text-decoration-none text-reset d-block",
+              href: "#",
+              id: "signInLink",
+              style: { borderBottom: "1px solid #D7D7D7" },
+              onClick: (e) => e.preventDefault(),
+              children: /* @__PURE__ */ jsx("span", { className: "lang_yuva_register_login_link d-block py-2", style: { marginLeft: 0 }, children: "Sign In" })
+            }
+          ) }),
+          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(
+            "a",
+            {
+              className: "mbv_yuva_drop border-bottom text-decoration-none text-reset d-block",
+              href: "/yuva_register",
+              "data-bs-dismiss": "modal",
+              style: { borderBottom: "1px solid #D7D7D7" },
+              children: /* @__PURE__ */ jsx("span", { className: "lang_register d-block py-2", style: { marginLeft: 0 }, children: "Register Now" })
+            }
+          ) })
+        ] }) }),
+        /* @__PURE__ */ jsx("div", { className: "accordion mt-2", id: "accordionExamples", children: /* @__PURE__ */ jsxs("div", { className: "accordion-item border-0", children: [
+          /* @__PURE__ */ jsx("h2", { className: "accordion-header", id: "headingTwos", children: /* @__PURE__ */ jsx(
+            "button",
+            {
+              className: "accordion-button collapsed",
+              type: "button",
+              "data-bs-toggle": "collapse",
+              "data-bs-target": "#collapseTwos",
+              "aria-expanded": "false",
+              "aria-controls": "collapseTwos",
+              children: /* @__PURE__ */ jsx("span", { className: "lang_register", children: "Get Started" })
+            }
+          ) }),
+          /* @__PURE__ */ jsx(
+            "div",
+            {
+              id: "collapseTwos",
+              className: "accordion-collapse collapse",
+              "aria-labelledby": "headingTwos",
+              "data-bs-parent": "#accordionExamples",
+              children: /* @__PURE__ */ jsxs("div", { className: "accordion-body", children: [
+                /* @__PURE__ */ jsxs(
+                  "a",
+                  {
+                    className: "mbv_yuva_drop border-bottom text-decoration-none d-block py-2",
+                    href: "https://mybharat.gov.in/yuva_register",
+                    "data-bs-dismiss": "modal",
+                    style: { borderBottom: "1px solid #D7D7D7" },
+                    children: [
+                      /* @__PURE__ */ jsx("span", { className: "lang_yuva", children: "Youth" }),
+                      /* @__PURE__ */ jsx("br", {}),
+                      /* @__PURE__ */ jsx("span", { className: "f-10-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxs(
+                  "a",
+                  {
+                    className: "mbv_partner text-decoration-none d-block py-2",
+                    href: "https://mybharat.gov.in/partner_register",
+                    "data-bs-dismiss": "modal",
+                    style: { borderBottom: "1px solid #D7D7D7", padding: "8px 1px 3px 1px" },
+                    children: [
+                      /* @__PURE__ */ jsx("span", { className: "lang_partner", children: "Partner" }),
+                      /* @__PURE__ */ jsx("br", {}),
+                      /* @__PURE__ */ jsx("span", { className: "f-10-dropdown lang_BYCN", children: "Knowledge Institution/ Businesses/Government/NGOs/Youth Club/Academia/" }),
+                      /* @__PURE__ */ jsx("br", {}),
+                      /* @__PURE__ */ jsx("span", { className: "f-10-dropdown lang_dyo_nss_register", children: "DYOs/NSS Program Officers/Placement Officers" })
+                    ]
+                  }
+                )
+              ] })
+            }
+          )
+        ] }) })
+      ] })
+    ] }) })
+  }
+);
+
+// src/components/Header.tsx
+import { Fragment, jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
+var Header = ({ title = "MyBharat", cdnBase }) => {
+  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
+  const [menuPortalReady, setMenuPortalReady] = useState(false);
+  useEffect(() => {
+    setMenuPortalReady(true);
+    const appendStylesheet = (id, href) => {
+      if (document.getElementById(id)) return;
+      const link = document.createElement("link");
+      link.id = id;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    };
+    const appendScript = (id, src) => {
+      if (document.getElementById(id)) return;
+      const script = document.createElement("script");
+      script.id = id;
+      script.src = src;
+      script.async = true;
+      document.body.appendChild(script);
+    };
+    appendStylesheet("mb-bootstrap-css", `${cdn}/assets/css/bootstrap.min.css`);
+    appendStylesheet("mb-bootstrap-icons-css", `${cdn}/assets/css/bootstrap-icons.css`);
+    appendStylesheet("mb-fontawesome-css", "https://img1.digitallocker.gov.in/nad/v-22/assets/css/fontawesome.min.css");
+    appendScript("mb-popper-js", `${cdn}/assets/js/popper.min.js`);
+    appendScript("mb-bootstrap-js", `${cdn}/assets/js/bootstrap.min.js`);
+    appendScript(
+      "mb-bootstrap-datepicker-js",
+      `${cdn}/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js`
+    );
+  }, [cdn]);
+  return /* @__PURE__ */ jsxs2(Fragment, { children: [
+    /* @__PURE__ */ jsxs2("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", style: {}, children: [
+      /* @__PURE__ */ jsx2("div", { className: "bhashini-plugin-container", style: {} }),
+      /* @__PURE__ */ jsx2("div", { className: "header-top d-none d-sm-block ", children: /* @__PURE__ */ jsx2("div", { className: "container", children: /* @__PURE__ */ jsxs2("div", { className: "row", children: [
+        /* @__PURE__ */ jsx2("div", { className: "col-xl-3 col-lg-3 d-flex col-sm-4 col-6 align-items-center", children: /* @__PURE__ */ jsxs2("a", { href: "https://www.india.gov.in/", target: "_blank", rel: "noreferrer", className: "goi", children: [
+          /* @__PURE__ */ jsx2(
+            "img",
+            {
+              src: `${cdn}/assets/img/mybharat/Flag%20of%20India.png`,
+              style: {},
+              className: "cursor"
+            }
+          ),
+          /* @__PURE__ */ jsx2("strong", { className: "gov_india", children: "Government of India" })
+        ] }) }),
+        /* @__PURE__ */ jsx2("div", { className: "col-xl-9 col-lg-9 col-sm-8 col-6 text-end", children: /* @__PURE__ */ jsxs2("span", { className: " d-none d-md-inline", children: [
+          /* @__PURE__ */ jsx2("button", { role: "button", id: "decreasetext", className: "font01", children: "-A" }),
+          /* @__PURE__ */ jsx2("button", { role: "button", id: "resettext", className: "font01 active01", children: "A" }),
+          /* @__PURE__ */ jsx2("button", { role: "button", id: "increasetext", className: "font01", children: "A+" }),
+          /* @__PURE__ */ jsx2("span", { className: "partition", children: "| \xA0" }),
+          /* @__PURE__ */ jsx2("a", { href: "tel:18002122729", title: "Toll Free", className: "skip01", children: "Toll Free : 14472 Or 18002122729" }),
+          /* @__PURE__ */ jsx2("span", { className: "partition", children: "| \xA0" }),
+          /* @__PURE__ */ jsx2("a", { href: "/pages/support", className: "skip01", children: "support.mybharat.gov.in" }),
+          /* @__PURE__ */ jsx2("span", { className: "partition", children: "| \xA0" }),
+          /* @__PURE__ */ jsx2("div", { id: "bhashini-desktop-header" })
+        ] }) })
+      ] }) }) }),
+      /* @__PURE__ */ jsx2("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx2("div", { className: "container", children: /* @__PURE__ */ jsxs2("div", { className: "row align-items-center gx-2", children: [
+        /* @__PURE__ */ jsx2("div", { className: "col-12 d-lg-none mb-common-header__mobile-bar mb-common-header__mobile-bar--split", children: /* @__PURE__ */ jsxs2("div", { className: "mb-common-header__mobile-row mb-common-header__mobile-row--split d-flex align-items-center flex-nowrap w-100 py-2", children: [
+          /* @__PURE__ */ jsx2("div", { className: "mb-common-header__mobile-logos mb-common-header__mobile-logos--split min-w-0 d-flex align-items-center", children: /* @__PURE__ */ jsxs2("div", { className: "d-flex new_head align-items-center", children: [
+            /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2(
+              "img",
+              {
+                src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
+                className: "new_head1 logo-w-sm-md1",
+                alt: ""
+              }
+            ) }),
+            /* @__PURE__ */ jsx2("span", { className: "d-inline-flex align-items-center", children: /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2(
+              "img",
+              {
+                src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+                className: "logo-w-sm-md-sec",
+                alt: "MY Bharat"
+              }
+            ) }) })
+          ] }) }),
+          /* @__PURE__ */ jsxs2("div", { className: "mb-common-header__mobile-mid--split d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0", children: [
+            /* @__PURE__ */ jsx2("a", { href: "tel:18002122729", title: "Toll Free", id: "toll_mb", className: "skip01", children: /* @__PURE__ */ jsxs2("strong", { className: "lang_toll_free", children: [
+              /* @__PURE__ */ jsx2("i", { className: "fa fa-phone mb-common-header__toll-phone-icon", "aria-hidden": "true" }),
+              " ",
+              "14472 Or 18002122729"
+            ] }) }),
+            /* @__PURE__ */ jsx2("div", { id: "bhashini-mobile-header", className: "mb-common-header__bhashini-mid--split" })
+          ] }),
+          /* @__PURE__ */ jsx2("div", { className: "mb-common-header__mobile-end--split d-flex align-items-center justify-content-end flex-shrink-0", children: /* @__PURE__ */ jsx2(
+            "button",
+            {
+              type: "button",
+              className: "btn btn-light",
+              "data-bs-toggle": "modal",
+              id: "mb_menus",
+              "data-bs-target": "#mobileMenuNew",
+              "aria-label": "Open menu",
+              children: /* @__PURE__ */ jsx2("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" })
+            }
+          ) })
+        ] }) }),
+        /* @__PURE__ */ jsx2("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+        /* @__PURE__ */ jsx2("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ jsxs2("div", { className: "d-flex new_head", children: [
+          /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2(
+            "img",
+            {
+              src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
+              className: "new_head1 logo-w-sm-md1",
+              alt: ""
+            }
+          ) }),
+          /* @__PURE__ */ jsx2("span", { style: { display: "inline-flex" }, children: /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2(
+            "img",
+            {
+              src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+              className: "logo-w-sm-md-sec",
+              alt: "MY Bharat"
+            }
+          ) }) })
+        ] }) }),
+        /* @__PURE__ */ jsxs2("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+          /* @__PURE__ */ jsx2("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ jsxs2("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+            /* @__PURE__ */ jsxs2("ul", { className: "menu_nav1", children: [
+              /* @__PURE__ */ jsxs2("li", { children: [
+                " ",
+                /* @__PURE__ */ jsx2("a", { className: "fontchange14 youth lang_youth", href: "https://web.mybharat.gov.in/youth-public-profile", children: /* @__PURE__ */ jsx2("span", { className: "", children: "Youth" }) })
+              ] }),
+              /* @__PURE__ */ jsxs2("li", { children: [
+                " ",
+                /* @__PURE__ */ jsx2("a", { className: "fontchange14", href: "/quiz", children: /* @__PURE__ */ jsx2("span", { className: "", children: "Quiz & Essay" }) })
+              ] }),
+              /* @__PURE__ */ jsxs2("div", { className: "dropdown_evnt_prog", children: [
+                /* @__PURE__ */ jsxs2("button", { className: "dropevent", children: [
+                  "Voices ",
+                  /* @__PURE__ */ jsx2("i", { className: "fa fa-chevron-down", "aria-hidden": "true" })
+                ] }),
+                /* @__PURE__ */ jsxs2("div", { className: "dropevent_content", children: [
+                  /* @__PURE__ */ jsx2("i", { className: "fa fa-caret-up", "aria-hidden": "true" }),
+                  /* @__PURE__ */ jsx2("a", { className: "events fontchange14", href: "/voices/blogs", children: /* @__PURE__ */ jsx2("span", { className: "lang_event", children: "Blogs" }) }),
+                  /* @__PURE__ */ jsx2("a", { className: "mission_yuva fontchange14", href: "/pages/newsletter", children: /* @__PURE__ */ jsx2("span", { className: "lang_exp_lrn01", children: "Newsletters" }) })
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxs2("div", { className: "dropdown_evnt_prog", children: [
+                /* @__PURE__ */ jsxs2("button", { className: "dropevent", children: [
+                  "Events & Program ",
+                  /* @__PURE__ */ jsx2("i", { className: "fa fa-chevron-down", "aria-hidden": "true" })
+                ] }),
+                /* @__PURE__ */ jsxs2("div", { className: "dropevent_content", children: [
+                  /* @__PURE__ */ jsx2("i", { className: "fa fa-caret-up", "aria-hidden": "true" }),
+                  /* @__PURE__ */ jsx2("a", { className: "mission_yuva fontchange14", href: "/pages/experiential_learning?mode=I", children: /* @__PURE__ */ jsx2("span", { className: "lang_exp_lrn01", children: "Experiential Learning" }) }),
+                  /* @__PURE__ */ jsx2("a", { className: "events fontchange14", href: "/pages/events", children: /* @__PURE__ */ jsx2("span", { className: "lang_event", children: "Volunteer for Bharat" }) }),
+                  /* @__PURE__ */ jsx2("a", { className: "mega_event fontchange14", href: "/mega_events", children: /* @__PURE__ */ jsx2("span", { className: "lang_mega_event", children: "Mega Events" }) }),
+                  /* @__PURE__ */ jsx2("a", { className: "mega_event fontchange14", href: "/pages/vbyld_2026", children: /* @__PURE__ */ jsx2("span", { className: "lang_mega_event", children: "VBYLD-2026" }) })
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxs2("li", { children: [
+                " ",
+                /* @__PURE__ */ jsx2("a", { className: "mega_event fontchange14", href: "/pages/podcasts", children: /* @__PURE__ */ jsx2("span", { className: "lang_mega_event", children: " MY Bharat Podcast" }) })
+              ] }),
+              /* @__PURE__ */ jsxs2("li", { children: [
+                " ",
+                /* @__PURE__ */ jsx2("a", { className: "mega_event fontchange14", href: "/pages/brics_2026", children: /* @__PURE__ */ jsx2("span", { className: "lang_mega_event", children: "BRICS India 2026" }) })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsx2("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx2("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
+            /* @__PURE__ */ jsx2("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ jsx2("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx2("span", { className: "fontchange", children: "Register Now" }) }) }),
+            "\xA0\xA0",
+            /* @__PURE__ */ jsx2("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ jsx2("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ jsxs2("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
+              /* @__PURE__ */ jsx2("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+              " ",
+              /* @__PURE__ */ jsx2("span", { className: "lang_yuva", children: "Youth" }),
+              /* @__PURE__ */ jsx2("br", {}),
+              " ",
+              /* @__PURE__ */ jsx2("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+            ] }) }) })
+          ] }) }),
+          /* @__PURE__ */ jsx2("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ jsx2("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ jsx2("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+        ] })
+      ] }) }) })
+    ] }),
+    menuPortalReady ? createPortal(/* @__PURE__ */ jsx2(MobileMenuModal, { cdnBase: cdn }), document.body) : null
+  ] });
 };
 var Header_default = Header;
 
+// src/components/Header2.tsx
+import { useEffect as useEffect2, useState as useState2 } from "react";
+import { createPortal as createPortal2 } from "react-dom";
+
+// src/components/Header2.css
+styleInject("header.mb-common-header .f-hd-left {\n  float: left;\n}\nheader.mb-common-header .f-hd-right {\n  float: right;\n}\n.header-top {\n  background: #081854;\n  position: relative;\n}\n.header-top .skip01 {\n  color: #ffffff;\n  line-height: 28px;\n  font-size: 13px;\n  font-weight: 600;\n  padding-right: 15px;\n}\n.header-top .partition {\n  color: #ffffff;\n}\n.header-top .goi {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: nowrap;\n  line-height: 1.2;\n  padding-top: 2px;\n  color: #ffffff;\n  font-size: 12px;\n  font-style: normal;\n  font-weight: 500;\n  text-decoration: none;\n}\n.header-top .goi img {\n  flex-shrink: 0;\n  margin-right: 15px;\n  width: 25px;\n  height: 15px;\n  vertical-align: middle;\n}\n.header-top .font01 {\n  border: none;\n  outline: none;\n  background: no-repeat;\n  width: 40px;\n  height: auto;\n  color: #ffffff;\n  font-size: 13px;\n  font-weight: 600;\n}\n.header-top .active01 {\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 6px;\n}\n.header-top .gov_india {\n  font-size: 13px;\n  font-weight: 600;\n  line-height: 1.2;\n}\n.bhashini-plugin-container {\n  display: inline;\n  float: right;\n  margin-right: 80px !important;\n  margin-top: 2px;\n}\n.bhashini-plugin-container svg {\n  width: 24px;\n  height: 24px;\n}\n.bhashini-dropdown-content {\n  bottom: auto !important;\n  right: -75px;\n  scrollbar-width: thin;\n}\n.bhashini-dropdown-content .language-option {\n  text-align: left !important;\n}\n.mb-common-header__modal-nav a {\n  color: #000000;\n  font-weight: 600;\n}\n.mb-common-header__modal-nav a:hover {\n  color: #f15b43;\n}\n.main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-row {\n  align-items: center !important;\n  gap: 0.75rem;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-logos {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-actions-wrap.f-hd-right.d-sm-none1 {\n  flex: 0 0 auto;\n  float: none !important;\n  justify-content: flex-end;\n  align-items: center !important;\n  gap: 0.5rem;\n  margin-top: 0 !important;\n}\n.mb-common-header__mobile-bar #toll_mb.skip01 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: #1937b2;\n  text-decoration: none;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: #1937b2;\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(108deg);\n  transform-origin: 50% 58%;\n}\n.mb-common-header__mobile-bar #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n.mb-common-header__mobile-bar #mb_menus.btn-light {\n  flex: 0 0 auto;\n  border: 1px solid #dee2e6;\n}\n.mb-common-header__mobile-bar #bhashini-mobile-header {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  flex: 0 0 auto;\n  min-width: 0;\n  min-height: 0;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    display: grid !important;\n    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);\n    gap: 0.35rem 0.5rem;\n    align-items: center;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {\n    min-width: 0;\n    justify-self: start;\n    align-items: center;\n    padding-right: clamp(4px, 1.5vw, 12px);\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-mid--h2 {\n    justify-self: center;\n    display: flex;\n    flex-wrap: nowrap;\n    align-items: center;\n    justify-content: center;\n    gap: 0.25rem;\n    min-width: 0;\n    max-width: min(260px, 38vw);\n    padding-left: 0;\n    position: relative;\n    z-index: 2;\n    background-color: #ffffff;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-mid--h2 #toll_mb .lang_toll_free {\n    justify-content: center;\n  }\n  header.mb-common-header--header2 .mb-common-header__bhashini-mid--h2 {\n    display: inline-flex;\n    align-items: center;\n    flex: 0 0 auto;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-end--h2 {\n    min-width: 0;\n    justify-self: end;\n    display: flex;\n    justify-content: flex-end;\n    align-items: center;\n    gap: 0.5rem;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    gap: 0.2rem 0.35rem;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-mid--h2 {\n    max-width: min(190px, 54vw);\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-bar #toll_mb .lang_toll_free {\n    font-size: clamp(9px, 2.65vw, 11px);\n    font-weight: 600;\n    gap: 0.2em;\n    letter-spacing: -0.02em;\n    line-height: 1.1;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 {\n  width: 44px;\n  height: 44px;\n  padding: 0 !important;\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  background-color: #bc4717 !important;\n  border: none !important;\n  color: #ffffff !important;\n  border-radius: 10px !important;\n  box-shadow: none !important;\n  line-height: 1 !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n  outline: 2px solid #1937b2;\n  outline-offset: 2px;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n  color: #ffffff;\n  font-size: 1.15rem;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 {\n    width: 40px !important;\n    height: 40px !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n    font-size: 1.05rem;\n  }\n}\nheader.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  border: none !important;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {\n  display: inline-block;\n  margin-left: 12px;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  color: #ffffff !important;\n  background-color: #bc4717 !important;\n  border: none !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n  box-shadow: none !important;\n}\nheader#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {\n  width: 136px !important;\n  transform: scale(1.12);\n  margin-left: 7px;\n  margin-top: 5px;\n}\nheader#mb-common-header-root.mb-common-header .logo-w-sm-md1 {\n  width: 124px !important;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n#mobileMenuNew img.logo-w-sm-md-sec {\n  width: 136px !important;\n  transform: scale(1.12);\n}\n#mobileMenuNew img.logo-w-sm-md1 {\n  width: 124px !important;\n  max-width: none !important;\n  height: auto !important;\n}\n@media only screen and (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {\n    width: clamp(118px, 32vw, 148px) !important;\n  }\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {\n    width: clamp(126px, 34vw, 156px) !important;\n    transform: scale(1.08) !important;\n  }\n  #mobileMenuNew img.logo-w-sm-md1 {\n    width: clamp(118px, 32vw, 148px) !important;\n  }\n  #mobileMenuNew img.logo-w-sm-md-sec {\n    width: clamp(126px, 34vw, 156px) !important;\n    transform: scale(1.08) !important;\n  }\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {\n    width: clamp(72px, 20vw, 142px) !important;\n    max-width: none !important;\n  }\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {\n    width: clamp(76px, 21vw, 150px) !important;\n    transform: scale(1.08) !important;\n    max-width: none !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {\n    width: clamp(52px, 14vw, 96px) !important;\n    max-width: none !important;\n  }\n  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {\n    width: clamp(56px, 15vw, 104px) !important;\n    transform: scale(1.06) !important;\n    max-width: none !important;\n  }\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content .fa {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  .header-area {\n    min-height: 56px;\n  }\n  .bhashini-plugin-container {\n    position: absolute;\n    right: -35px;\n    top: 15px;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #f15b43;\n    color: #fff;\n  }\n}\n");
+
+// src/components/Header2.tsx
+import { Fragment as Fragment2, jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
+var Header2 = ({ title = "MyBharat", cdnBase }) => {
+  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
+  const [menuPortalReady, setMenuPortalReady] = useState2(false);
+  useEffect2(() => {
+    setMenuPortalReady(true);
+    const appendStylesheet = (id, href) => {
+      if (document.getElementById(id)) return;
+      const link = document.createElement("link");
+      link.id = id;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    };
+    const appendScript = (id, src) => {
+      if (document.getElementById(id)) return;
+      const script = document.createElement("script");
+      script.id = id;
+      script.src = src;
+      script.async = true;
+      document.body.appendChild(script);
+    };
+    appendStylesheet("mb-bootstrap-css", `${cdn}/assets/css/bootstrap.min.css`);
+    appendStylesheet("mb-bootstrap-icons-css", `${cdn}/assets/css/bootstrap-icons.css`);
+    appendStylesheet("mb-fontawesome-css", "https://img1.digitallocker.gov.in/nad/v-22/assets/css/fontawesome.min.css");
+    appendScript("mb-popper-js", `${cdn}/assets/js/popper.min.js`);
+    appendScript("mb-bootstrap-js", `${cdn}/assets/js/bootstrap.min.js`);
+    appendScript(
+      "mb-bootstrap-datepicker-js",
+      `${cdn}/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js`
+    );
+  }, [cdn]);
+  return /* @__PURE__ */ jsxs3(Fragment2, { children: [
+    /* @__PURE__ */ jsxs3(
+      "header",
+      {
+        id: "mb-common-header-root",
+        className: "fixed-top shadow mb-common-header mb-common-header--header2",
+        style: {},
+        children: [
+          /* @__PURE__ */ jsx3("div", { className: "bhashini-plugin-container", style: {} }),
+          /* @__PURE__ */ jsx3("div", { className: "header-top d-none d-sm-block ", children: /* @__PURE__ */ jsx3("div", { className: "container", children: /* @__PURE__ */ jsxs3("div", { className: "row", children: [
+            /* @__PURE__ */ jsx3("div", { className: "col-xl-3 col-lg-3 d-flex col-sm-4 col-6 align-items-center", children: /* @__PURE__ */ jsxs3("a", { href: "https://www.india.gov.in/", target: "_blank", rel: "noreferrer", className: "goi", children: [
+              /* @__PURE__ */ jsx3(
+                "img",
+                {
+                  src: `${cdn}/assets/img/mybharat/Flag%20of%20India.png`,
+                  style: {},
+                  className: "cursor"
+                }
+              ),
+              /* @__PURE__ */ jsx3("strong", { className: "gov_india", children: "Government of India" })
+            ] }) }),
+            /* @__PURE__ */ jsx3("div", { className: "col-xl-9 col-lg-9 col-sm-8 col-6 text-end", children: /* @__PURE__ */ jsxs3("span", { className: " d-none d-md-inline", children: [
+              /* @__PURE__ */ jsx3("button", { role: "button", id: "decreasetext", className: "font01", children: "-A" }),
+              /* @__PURE__ */ jsx3("button", { role: "button", id: "resettext", className: "font01 active01", children: "A" }),
+              /* @__PURE__ */ jsx3("button", { role: "button", id: "increasetext", className: "font01", children: "A+" }),
+              /* @__PURE__ */ jsx3("span", { className: "partition", children: "| \xA0" }),
+              /* @__PURE__ */ jsx3("a", { href: "tel:18002122729", title: "Toll Free", className: "skip01", children: "Toll Free : 14472 Or 18002122729" }),
+              /* @__PURE__ */ jsx3("span", { className: "partition", children: "| \xA0" }),
+              /* @__PURE__ */ jsx3("a", { href: "/pages/support", className: "skip01", children: "support.mybharat.gov.in" }),
+              /* @__PURE__ */ jsx3("span", { className: "partition", children: "| \xA0" }),
+              /* @__PURE__ */ jsx3("div", { id: "bhashini-desktop-header" })
+            ] }) })
+          ] }) }) }),
+          /* @__PURE__ */ jsx3("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx3("div", { className: "container", children: /* @__PURE__ */ jsxs3("div", { className: "row align-items-center gx-2", children: [
+            /* @__PURE__ */ jsx3("div", { className: "col-12 d-lg-none mb-common-header__mobile-bar mb-common-header__mobile-bar--h2", children: /* @__PURE__ */ jsxs3("div", { className: "mb-common-header__mobile-row mb-common-header__mobile-row--h2 d-flex align-items-center flex-nowrap w-100 py-2", children: [
+              /* @__PURE__ */ jsx3("div", { className: "mb-common-header__mobile-logos mb-common-header__mobile-logos--h2 min-w-0 d-flex align-items-center", children: /* @__PURE__ */ jsxs3("div", { className: "d-flex new_head align-items-center", children: [
+                /* @__PURE__ */ jsx3("a", { href: "/", children: /* @__PURE__ */ jsx3(
+                  "img",
+                  {
+                    src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
+                    className: "new_head1 logo-w-sm-md1",
+                    alt: ""
+                  }
+                ) }),
+                /* @__PURE__ */ jsx3("span", { className: "d-inline-flex align-items-center", children: /* @__PURE__ */ jsx3("a", { href: "/", children: /* @__PURE__ */ jsx3(
+                  "img",
+                  {
+                    src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+                    className: "logo-w-sm-md-sec",
+                    alt: "MY Bharat"
+                  }
+                ) }) })
+              ] }) }),
+              /* @__PURE__ */ jsxs3("div", { className: "mb-common-header__mobile-mid--h2 d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0", children: [
+                /* @__PURE__ */ jsx3("a", { href: "tel:18002122729", title: "Toll Free", id: "toll_mb", className: "skip01 mb-common-header__toll-link--h2", children: /* @__PURE__ */ jsxs3("strong", { className: "lang_toll_free", children: [
+                  /* @__PURE__ */ jsx3("i", { className: "fa fa-phone mb-common-header__toll-phone-icon", "aria-hidden": "true" }),
+                  " ",
+                  "14472 Or 18002122729"
+                ] }) }),
+                /* @__PURE__ */ jsx3("div", { id: "bhashini-mobile-header", className: "mb-common-header__bhashini-mid--h2" })
+              ] }),
+              /* @__PURE__ */ jsx3("div", { className: "mb-common-header__mobile-end--h2 d-flex align-items-center justify-content-end flex-shrink-0 min-w-0", children: /* @__PURE__ */ jsx3(
+                "button",
+                {
+                  type: "button",
+                  className: "btn mb-common-header__mobile-menu-btn--h2",
+                  "data-bs-toggle": "modal",
+                  id: "mb_menus",
+                  "data-bs-target": "#mobileMenuNew",
+                  "aria-label": "Open menu",
+                  children: /* @__PURE__ */ jsx3("i", { className: "fa fa-bars fa-fw", "aria-hidden": "true" })
+                }
+              ) })
+            ] }) }),
+            /* @__PURE__ */ jsx3("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsx3("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ jsxs3("div", { className: "d-flex new_head", children: [
+              /* @__PURE__ */ jsx3("a", { href: "/", children: /* @__PURE__ */ jsx3(
+                "img",
+                {
+                  src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
+                  className: "new_head1 logo-w-sm-md1",
+                  alt: ""
+                }
+              ) }),
+              /* @__PURE__ */ jsx3("span", { style: { display: "inline-flex" }, children: /* @__PURE__ */ jsx3("a", { href: "/", children: /* @__PURE__ */ jsx3(
+                "img",
+                {
+                  src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+                  className: "logo-w-sm-md-sec",
+                  alt: "MY Bharat"
+                }
+              ) }) })
+            ] }) }),
+            /* @__PURE__ */ jsxs3("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+              /* @__PURE__ */ jsx3("div", { className: "f-hd-right" }),
+              /* @__PURE__ */ jsx3("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ jsxs3("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+                /* @__PURE__ */ jsxs3("ul", { className: "menu_nav1", children: [
+                  /* @__PURE__ */ jsxs3("div", { className: "dropdown_evnt_prog", children: [
+                    /* @__PURE__ */ jsxs3("button", { type: "button", className: "dropevent", children: [
+                      "MY Bharat Diaspora ",
+                      /* @__PURE__ */ jsx3("i", { className: "fa fa-chevron-down", "aria-hidden": "true" })
+                    ] }),
+                    /* @__PURE__ */ jsxs3("div", { className: "dropevent_content", children: [
+                      /* @__PURE__ */ jsx3("i", { className: "fa fa-caret-up", "aria-hidden": "true" }),
+                      /* @__PURE__ */ jsx3("a", { className: "mission_yuva fontchange14", href: "/pages/mb_friends", children: /* @__PURE__ */ jsx3("span", { className: "lang_exp_lrn01", children: "Friends of MY Bharat" }) }),
+                      /* @__PURE__ */ jsx3("a", { className: "events fontchange14", href: "/connect-international-youth-club", children: /* @__PURE__ */ jsx3("span", { className: "lang_event", children: "International Youth Club" }) })
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsxs3("li", { children: [
+                    " ",
+                    /* @__PURE__ */ jsx3(
+                      "a",
+                      {
+                        className: "fontchange14 youth lang_youth",
+                        href: "https://web-beta.mybharats.in/youth-public-profile",
+                        children: /* @__PURE__ */ jsx3("span", { className: "", children: "Youth" })
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ jsxs3("li", { children: [
+                    " ",
+                    /* @__PURE__ */ jsx3("a", { className: "fontchange14", href: "/quiz", children: /* @__PURE__ */ jsx3("span", { className: "", children: "Quiz & Essay" }) })
+                  ] }),
+                  /* @__PURE__ */ jsxs3("div", { className: "dropdown_evnt_prog", children: [
+                    /* @__PURE__ */ jsxs3("button", { type: "button", className: "dropevent", children: [
+                      "Events & Program ",
+                      /* @__PURE__ */ jsx3("i", { className: "fa fa-chevron-down", "aria-hidden": "true" })
+                    ] }),
+                    /* @__PURE__ */ jsxs3("div", { className: "dropevent_content", children: [
+                      /* @__PURE__ */ jsx3("i", { className: "fa fa-caret-up", "aria-hidden": "true" }),
+                      /* @__PURE__ */ jsx3("a", { className: "mission_yuva fontchange14", href: "/elp/listing", children: /* @__PURE__ */ jsx3("span", { className: "lang_exp_lrn01", children: "Experiential Learning" }) }),
+                      /* @__PURE__ */ jsx3("a", { className: "events fontchange14", href: "/pages/events", children: /* @__PURE__ */ jsx3("span", { className: "lang_event", children: "Volunteer for Bharat" }) }),
+                      /* @__PURE__ */ jsx3("a", { className: "mega_event fontchange14", href: "/mega_events", children: /* @__PURE__ */ jsx3("span", { className: "lang_mega_event", children: "Mega Events" }) }),
+                      /* @__PURE__ */ jsx3("a", { className: "mega_event fontchange14", href: "/pages/vbyld_2026", children: /* @__PURE__ */ jsx3("span", { className: "lang_mega_event", children: "VBYLD-2026" }) })
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsxs3("li", { children: [
+                    " ",
+                    /* @__PURE__ */ jsx3("a", { className: "mega_event fontchange14", href: "/pages/podcasts", children: /* @__PURE__ */ jsx3("span", { className: "lang_mega_event", children: " MY Bharat Podcast" }) })
+                  ] }),
+                  /* @__PURE__ */ jsxs3("li", { children: [
+                    " ",
+                    /* @__PURE__ */ jsx3("a", { className: "mega_event fontchange14", href: "/pages/brics_2026", children: /* @__PURE__ */ jsx3("span", { className: "lang_mega_event", children: "BRICS India 2026" }) })
+                  ] }),
+                  /* @__PURE__ */ jsxs3("li", { children: [
+                    " ",
+                    /* @__PURE__ */ jsx3("a", { className: "mega_event fontchange14", href: "/mentorship", children: /* @__PURE__ */ jsx3("span", { className: "lang_mega_event", children: "Mentorship" }) })
+                  ] }),
+                  /* @__PURE__ */ jsxs3("li", { children: [
+                    " ",
+                    /* @__PURE__ */ jsx3("a", { className: "mega_event fontchange14", href: "/game/yuva", children: /* @__PURE__ */ jsx3("span", { className: "lang_mega_event", children: "Dice Roll Game" }) })
+                  ] })
+                ] }),
+                /* @__PURE__ */ jsx3("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx3("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
+                /* @__PURE__ */ jsx3("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ jsx3("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx3("span", { className: "fontchange", children: "Register Now" }) }) }),
+                "\xA0\xA0",
+                /* @__PURE__ */ jsx3("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ jsx3("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ jsxs3("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
+                  /* @__PURE__ */ jsx3("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+                  " ",
+                  /* @__PURE__ */ jsx3("span", { className: "lang_yuva", children: "Youth" }),
+                  /* @__PURE__ */ jsx3("br", {}),
+                  " ",
+                  /* @__PURE__ */ jsx3("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+                ] }) }) })
+              ] }) }),
+              /* @__PURE__ */ jsx3("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ jsx3("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ jsx3("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+            ] })
+          ] }) }) })
+        ]
+      }
+    ),
+    menuPortalReady ? createPortal2(/* @__PURE__ */ jsx3(MobileMenuModal, { cdnBase: cdn }), document.body) : null
+  ] });
+};
+var Header2_default = Header2;
+
+// src/components/FooterModals.tsx
+import { useEffect as useEffect3, useState as useState3 } from "react";
+import { createPortal as createPortal3 } from "react-dom";
+import { Fragment as Fragment3, jsx as jsx4, jsxs as jsxs4 } from "react/jsx-runtime";
+function getBootstrapModal() {
+  return typeof window !== "undefined" && window.bootstrap?.Modal;
+}
+var FooterModals = ({
+  cdnBase,
+  isLoggedIn,
+  recaptchaSiteKey,
+  onRegisteredUserClick
+}) => {
+  const [portalReady, setPortalReady] = useState3(false);
+  useEffect3(() => {
+    setPortalReady(true);
+    if (!isLoggedIn && recaptchaSiteKey && !document.getElementById("mb-google-recaptcha-script")) {
+      const s = document.createElement("script");
+      s.id = "mb-google-recaptcha-script";
+      s.src = "https://www.google.com/recaptcha/api.js";
+      s.async = true;
+      s.defer = true;
+      document.body.appendChild(s);
+    }
+  }, [isLoggedIn, recaptchaSiteKey]);
+  const hideChoiceShowForm = () => {
+    const Modal = getBootstrapModal();
+    const el1 = document.getElementById("feed_back1");
+    const elForm = document.getElementById("feed_back");
+    if (!Modal || !el1 || !elForm) return;
+    Modal.getInstance(el1)?.hide();
+    window.setTimeout(() => Modal.getOrCreateInstance(elForm).show(), 200);
+  };
+  const hideChoiceOpenRegistered = () => {
+    const Modal = getBootstrapModal();
+    Modal?.getInstance(document.getElementById("feed_back1"))?.hide();
+    onRegisteredUserClick?.();
+    const hostModal = document.getElementById("loginWithOtpModal");
+    if (hostModal && getBootstrapModal()) {
+      window.setTimeout(() => getBootstrapModal().getOrCreateInstance(hostModal).show(), 200);
+    }
+  };
+  const content = /* @__PURE__ */ jsxs4(Fragment3, { children: [
+    /* @__PURE__ */ jsx4("div", { className: "modal fade", id: "feed_back1", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx4("div", { className: "modal-dialog", children: /* @__PURE__ */ jsx4("div", { className: "modal-content", children: /* @__PURE__ */ jsx4("div", { className: "modal-body", style: { borderRadius: 8 }, children: /* @__PURE__ */ jsxs4("div", { className: "row", id: "pls_select", children: [
+      /* @__PURE__ */ jsx4("div", { className: "col-sm-12", children: /* @__PURE__ */ jsx4(
+        "img",
+        {
+          src: `${cdnBase}/assets/img/yuva_landing/XCircle_n.png`,
+          alt: "",
+          className: "btn-close",
+          "data-bs-dismiss": "modal"
+        }
+      ) }),
+      /* @__PURE__ */ jsxs4("div", { className: "col-sm-12", children: [
+        /* @__PURE__ */ jsx4("h3", { children: "Please Select" }),
+        /* @__PURE__ */ jsx4("button", { type: "button", id: "guest_usr", className: "btn btn-success", name: "Guest User", onClick: hideChoiceShowForm, children: "Guest User" }),
+        /* @__PURE__ */ jsx4("button", { type: "button", id: "regi_usr", className: "btn btn-info", name: "Registered User", onClick: hideChoiceOpenRegistered, children: "Registered User" })
+      ] })
+    ] }) }) }) }) }),
+    /* @__PURE__ */ jsx4("div", { className: "modal fade", id: "feed_back", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx4("div", { className: "modal-dialog", children: /* @__PURE__ */ jsx4("div", { className: "modal-content", children: /* @__PURE__ */ jsxs4("div", { className: "modal-body", style: { borderRadius: 8 }, children: [
+      /* @__PURE__ */ jsxs4("div", { className: "row", children: [
+        /* @__PURE__ */ jsx4("div", { className: "col-sm-10", children: /* @__PURE__ */ jsxs4("form", { id: "feedbackFrm", children: [
+          /* @__PURE__ */ jsx4("input", { type: "hidden", name: "type", value: "web" }),
+          /* @__PURE__ */ jsxs4("div", { className: "row pb-10", children: [
+            /* @__PURE__ */ jsxs4("div", { className: "col-sm-12", children: [
+              /* @__PURE__ */ jsx4("div", { className: "tt_yuvr", children: Array.from({ length: 10 }, (_, i) => {
+                const n = i + 1;
+                return /* @__PURE__ */ jsx4("div", { className: "radio-tile-group", children: /* @__PURE__ */ jsxs4("div", { className: "input-container", children: [
+                  /* @__PURE__ */ jsx4("input", { type: "radio", name: "user_rating", id: `user_rating_${n}`, value: String(n), defaultChecked: n === 10 }),
+                  /* @__PURE__ */ jsx4("div", { className: "radio-tile", children: /* @__PURE__ */ jsx4("label", { className: "label-text-space", htmlFor: `user_rating_${n}`, children: n }) })
+                ] }) }, n);
+              }) }),
+              /* @__PURE__ */ jsx4("p", { className: "vErrormsg Ratingerr" })
+            ] }),
+            /* @__PURE__ */ jsx4("div", { className: "col-sm-12", children: /* @__PURE__ */ jsxs4("div", { className: "form-group text-left", children: [
+              /* @__PURE__ */ jsx4("label", { htmlFor: "user_feedback", children: "Write a feedback*" }),
+              /* @__PURE__ */ jsx4("small", { id: "char_left_cnt" }),
+              /* @__PURE__ */ jsx4(
+                "textarea",
+                {
+                  id: "user_feedback",
+                  name: "user_feedback",
+                  rows: 4,
+                  cols: 50,
+                  className: "form-control",
+                  placeholder: "Write here (250 characters)",
+                  maxLength: 250
+                }
+              ),
+              /* @__PURE__ */ jsx4("p", { className: "vErrormsg Feedbackerr" })
+            ] }) }),
+            !isLoggedIn ? /* @__PURE__ */ jsxs4(Fragment3, { children: [
+              /* @__PURE__ */ jsx4("input", { type: "hidden", id: "feedback_captcha_name", name: "feedback_captcha_name", value: "" }),
+              /* @__PURE__ */ jsx4("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs4("div", { className: "form-group", children: [
+                /* @__PURE__ */ jsx4(
+                  "input",
+                  {
+                    type: "text",
+                    className: "form-control",
+                    id: "user_name",
+                    name: "user_name",
+                    placeholder: "Name*",
+                    maxLength: 100
+                  }
+                ),
+                /* @__PURE__ */ jsx4("p", { className: "vErrormsg Nameerr" })
+              ] }) }),
+              /* @__PURE__ */ jsx4("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs4("div", { className: "form-group", children: [
+                /* @__PURE__ */ jsx4(
+                  "input",
+                  {
+                    type: "text",
+                    className: "form-control",
+                    id: "user_mobile",
+                    name: "user_mobile",
+                    placeholder: "Mobile*",
+                    maxLength: 10
+                  }
+                ),
+                /* @__PURE__ */ jsx4("p", { className: "vErrormsg Mobileerr" })
+              ] }) }),
+              /* @__PURE__ */ jsx4("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs4("div", { className: "form-group", children: [
+                /* @__PURE__ */ jsx4("input", { type: "email", className: "form-control", id: "user_email", name: "user_email", placeholder: "Email*", maxLength: 100 }),
+                /* @__PURE__ */ jsx4("p", { className: "vErrormsg Emailerr" })
+              ] }) }),
+              recaptchaSiteKey ? /* @__PURE__ */ jsxs4("div", { className: "row", children: [
+                /* @__PURE__ */ jsx4("div", { className: "g-recaptcha", "data-sitekey": recaptchaSiteKey }),
+                /* @__PURE__ */ jsx4("p", { className: "vErrormsg captchaerr" })
+              ] }) : null
+            ] }) : null
+          ] })
+        ] }) }),
+        /* @__PURE__ */ jsx4("div", { className: "col-sm-2", children: /* @__PURE__ */ jsx4("div", { className: "row pb-10", style: { position: "relative", height: "97%" }, children: /* @__PURE__ */ jsx4("div", { className: "col-sm-12", children: /* @__PURE__ */ jsxs4("div", { className: "cross_ico", children: [
+          /* @__PURE__ */ jsx4("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`, id: "form_cl", "data-bs-dismiss": "modal", alt: "" }),
+          /* @__PURE__ */ jsx4("a", { id: "form_c2", href: "#", className: "d-inline-block", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ jsx4("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }) })
+        ] }) }) }) })
+      ] }),
+      /* @__PURE__ */ jsx4("div", { className: "row", children: /* @__PURE__ */ jsx4("div", { className: "col-sm-10", children: /* @__PURE__ */ jsx4("div", { id: "feedback_alert", className: "alert", role: "alert", style: { display: "none" } }) }) })
+    ] }) }) }) }),
+    /* @__PURE__ */ jsx4("div", { className: "modal fade", id: "successToaster", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx4("div", { className: "modal-dialog", style: { width: "fit-content" }, children: /* @__PURE__ */ jsx4("div", { className: "modal-content", style: { border: "2px solid #0fbd5f" }, children: /* @__PURE__ */ jsx4("div", { className: "modal-header", style: { borderBottom: "none" }, children: /* @__PURE__ */ jsxs4("h4", { className: "modal-title", style: { color: "#0fbd5f", fontSize: 16, fontWeight: 400 }, children: [
+      /* @__PURE__ */ jsx4("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }),
+      " Feedback has been submitted Successfully"
+    ] }) }) }) }) })
+  ] });
+  if (!portalReady) return null;
+  return createPortal3(content, document.body);
+};
+var FooterModals_default = FooterModals;
+
 // src/components/Footer.tsx
-import { jsx as jsx2 } from "react/jsx-runtime";
-var Footer = ({ text }) => {
-  const defaultText = `\xA9 ${(/* @__PURE__ */ new Date()).getFullYear()} My Company`;
-  return /* @__PURE__ */ jsx2("footer", { style: { padding: "1rem", background: "#f5f5f5" }, children: /* @__PURE__ */ jsx2("small", { children: text ?? defaultText }) });
+import { Fragment as Fragment4, jsx as jsx5, jsxs as jsxs5 } from "react/jsx-runtime";
+var footerIntroDefault = "MY Bharat is an initiative of Ministry of Youth Affairs & Sports to empower Indian youth through social mobility, educational equity, and practical skills.";
+var dicLineDefault = "Digital India Corporation (DIC) Ministry of Electronics & IT (MeitY) Government of India";
+var copyrightDefault = "\xA9 2023 - MY Bharat @ All rights reserved | Ministry of Youth Affairs and Sports, Govt. of India\xAE";
+function formatLastUpdated() {
+  const d = /* @__PURE__ */ new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()}`;
+}
+var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) => {
+  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
+  const feedbackModalTarget = isLoggedIn ? "#feed_back" : "#feed_back1";
+  return /* @__PURE__ */ jsxs5(Fragment4, { children: [
+    /* @__PURE__ */ jsxs5("footer", { id: "footer_external", className: "footer-area-1 mb-common-footer", children: [
+      /* @__PURE__ */ jsx5("div", { className: "footer-top py-3", children: /* @__PURE__ */ jsx5("div", { className: "container", children: /* @__PURE__ */ jsxs5("div", { className: "row", children: [
+        /* @__PURE__ */ jsxs5("div", { className: "col-lg-3 col-md-6 footer-contact pt-4", children: [
+          /* @__PURE__ */ jsxs5("div", { className: "d-flex flex-wrap align-items-center gap-2 mb-2", children: [
+            /* @__PURE__ */ jsx5("a", { href: "/", children: /* @__PURE__ */ jsx5(
+              "img",
+              {
+                src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
+                alt: "",
+                className: "img-responsive cursor",
+                style: { width: 100 }
+              }
+            ) }),
+            /* @__PURE__ */ jsx5("span", { className: "text-muted d-none d-sm-inline", "aria-hidden": "true", children: "|" }),
+            /* @__PURE__ */ jsx5("a", { href: "/", children: /* @__PURE__ */ jsx5(
+              "img",
+              {
+                src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+                alt: "MY Bharat",
+                className: "img-responsive cursor",
+                style: { width: 100 }
+              }
+            ) })
+          ] }),
+          /* @__PURE__ */ jsx5("p", { className: "lang_footer_page_col_one foot_p1 fontchange14", children: /* @__PURE__ */ jsx5("small", { children: footerIntroDefault }) }),
+          /* @__PURE__ */ jsxs5("p", { className: "foot1w fontchange14", children: [
+            /* @__PURE__ */ jsx5("span", { className: "lang_footer_page_last_update", children: "Last updated: " }),
+            " ",
+            formatLastUpdated()
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxs5("div", { className: "col-lg-3 col-md-6 footer-links pt-4", children: [
+          /* @__PURE__ */ jsx5("h6", { className: "img_link lang_footer_heading_import fontchange mb-2", children: "Important Links" }),
+          /* @__PURE__ */ jsxs5("ul", { className: "foot_p2 list-unstyled mb-0", children: [
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { href: "/mega_events", className: "litext lang_mega_event fontchange", children: "Mega Events" }) }),
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { href: "/pages/experiential_learning?mode=I", className: "litext lang_exp_lrn01 fontchange", children: "Experiential Learning" }) }),
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { className: "litext lang_event fontchange", href: "/pages/events", children: "Volunteer for Bharat" }) }),
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { className: "litext lang_about fontchange", href: "/pages/about_mybharat", children: "About" }) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxs5("div", { className: "col-lg-3 col-md-6 footer-links pt-4", children: [
+          /* @__PURE__ */ jsx5("h6", { className: "img_link lang_footer_heading_useful fontchange mb-2", children: "Useful Links" }),
+          /* @__PURE__ */ jsxs5("ul", { className: "list-unstyled mb-0", children: [
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { href: "/pages/policy", className: "litext lang_policy_page_header fontchange", children: "Privacy Policy" }) }),
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { href: "/resources-list", className: "litext lang_resources_list_ftr fontchange", children: "Resources" }) }),
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { href: "/pages/support", className: "litext lang_contact_page_contact_us_ftr fontchange", children: "Support" }) }),
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5("a", { href: "/sitemap", className: "litext lang_sitemap fontchange", children: "Sitemap" }) }),
+            /* @__PURE__ */ jsx5("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx5(
+              "p",
+              {
+                className: "litext lang_content_Feedback mb-0 border-0 bg-transparent",
+                id: "feedback_mdl_btn",
+                "data-bs-toggle": "modal",
+                "data-bs-target": feedbackModalTarget,
+                style: { cursor: "pointer" },
+                role: "button",
+                tabIndex: 0,
+                onKeyDown: (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.target.click();
+                  }
+                },
+                children: "Feedback"
+              }
+            ) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxs5("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__follow-col", children: [
+          /* @__PURE__ */ jsx5("h6", { className: "img_link lang_footer_heading_follow fontchange mb-2", children: "Follow Us" }),
+          /* @__PURE__ */ jsxs5("div", { className: "social-icons mb-20 mb-common-footer__social-row", children: [
+            /* @__PURE__ */ jsx5("a", { href: "https://x.com/MYBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs5("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx5("img", { src: `${cdn}/assets/img/icon/twitter_v10.png`, alt: "Twitter" }),
+              /* @__PURE__ */ jsx5("span", { className: "twitter-color", children: "Twitter" })
+            ] }) }),
+            /* @__PURE__ */ jsx5("a", { href: "https://www.instagram.com/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs5("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx5("img", { src: `${cdn}/assets/img/icon/instagram_v10.png`, alt: "Instagram" }),
+              /* @__PURE__ */ jsx5("span", { className: "instagram-color", children: "Instagram" })
+            ] }) }),
+            /* @__PURE__ */ jsx5("a", { href: "https://www.facebook.com/mybharathq/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs5("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx5("img", { src: `${cdn}/assets/img/icon/facebook_v10.png`, alt: "Facebook" }),
+              /* @__PURE__ */ jsx5("span", { className: "facebook-color", children: "Facebook" })
+            ] }) }),
+            /* @__PURE__ */ jsx5("a", { href: "https://www.linkedin.com/company/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs5("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx5("img", { src: `${cdn}/assets/img/icon/linkedin_v10.png`, alt: "Linkedin" }),
+              /* @__PURE__ */ jsx5("span", { className: "linkedin-color", children: "Linkedin" })
+            ] }) }),
+            /* @__PURE__ */ jsx5("a", { href: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs5("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx5("img", { src: `${cdn}/assets/img/icon/whatsapp_v10.png`, alt: "WhatsApp" }),
+              /* @__PURE__ */ jsx5("span", { className: "whatsapp-color", children: "WhatsApp" })
+            ] }) }),
+            /* @__PURE__ */ jsx5("a", { href: "https://www.youtube.com/@MyBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs5("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx5("img", { src: `${cdn}/assets/img/icon/youtube_v10.png`, alt: "YouTube" }),
+              /* @__PURE__ */ jsx5("span", { className: "youtube-color", children: "YouTube" })
+            ] }) })
+          ] }),
+          /* @__PURE__ */ jsx5("p", { className: "fw-normal mb-common-footer__powered-by mb-0", children: /* @__PURE__ */ jsxs5("small", { className: "mb-common-footer__powered-inner", children: [
+            /* @__PURE__ */ jsx5("span", { className: "lang_footer_page_col_powered_by", children: "Powered by:" }),
+            /* @__PURE__ */ jsx5(
+              "a",
+              {
+                className: "whitetext text-decoration-none mb-common-footer__powered-logo",
+                href: "https://digitalindia.gov.in/",
+                target: "_blank",
+                rel: "noreferrer",
+                children: /* @__PURE__ */ jsx5(
+                  "img",
+                  {
+                    src: `${cdn}/assets/img/yuva_landing/DigitalIndiamybharat.svg`,
+                    alt: "Digital India",
+                    style: { width: 100, height: "auto", display: "block" }
+                  }
+                )
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsx5("p", { className: "footertext mt-2 lang_footer_page_col_five_desc foot_p1 fontchange14", children: dicLineDefault })
+        ] })
+      ] }) }) }),
+      /* @__PURE__ */ jsx5("section", { className: "pricy1_a py-2", children: /* @__PURE__ */ jsx5("div", { className: "container", children: /* @__PURE__ */ jsxs5("div", { className: "row align-items-center flex-column flex-sm-row text-center text-sm-start", children: [
+        /* @__PURE__ */ jsx5("div", { className: "col-sm-8", children: /* @__PURE__ */ jsx5("a", { href: "https://yas.gov.in/", target: "_blank", rel: "noreferrer", className: "text-decoration-none", children: /* @__PURE__ */ jsx5("small", { className: "lang_copyryt fontchange12", children: copyrightDefault }) }) }),
+        /* @__PURE__ */ jsx5("div", { className: "col-sm-4 pricy_a", children: /* @__PURE__ */ jsx5("small", { children: /* @__PURE__ */ jsxs5("ul", { children: [
+          /* @__PURE__ */ jsx5("li", { children: /* @__PURE__ */ jsx5("a", { href: "/pages/terms_of_use", className: "pricy_a lang_trms fontchange12", children: "Terms & Conditions" }) }),
+          /* @__PURE__ */ jsx5("li", { children: /* @__PURE__ */ jsx5("a", { href: "/pages/policy", className: "lang_policy_page_header fontchange12", children: "Privacy Policy" }) })
+        ] }) }) })
+      ] }) }) })
+    ] }),
+    /* @__PURE__ */ jsx5(
+      FooterModals_default,
+      {
+        cdnBase: cdn,
+        isLoggedIn,
+        recaptchaSiteKey,
+        onRegisteredUserClick
+      }
+    )
+  ] });
 };
 var Footer_default = Footer;
+
+// src/index.js
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.63";
+var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   Footer_default as Footer,
-  Header_default as Header
+  Header_default as Header,
+  Header2_default as Header2,
+  MYBHARAT_CDN_BASE,
+  MYBHARAT_CDN_BASE_BETA,
+  MYBHARAT_CDN_ORIGIN,
+  MYBHARAT_COMMON_FRONTEND_VERSION,
+  index_default as default
 };

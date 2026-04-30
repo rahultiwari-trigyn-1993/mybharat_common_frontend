@@ -1,0 +1,769 @@
+/* Draft: paired with Header2.tsx (not bundled in dist/index.css until promoted). */
+/* =========================
+   HEADER (custom classes)
+   Source merged from:
+   - app/webroot/css/default.css
+   - View/Elements/header_external.ctp (inline style)
+   ========================= */
+
+/* Scoped float helpers (replacing host default.css .f-left / .f-right names) */
+header.mb-common-header .f-hd-left {
+  float: left;
+}
+
+header.mb-common-header .f-hd-right {
+  float: right;
+}
+
+/* top strip */
+.header-top {
+  background: #081854;
+  position: relative;
+}
+
+.header-top .skip01 {
+  color: #ffffff;
+  line-height: 28px;
+  font-size: 13px;
+  font-weight: 600;
+  padding-right: 15px;
+}
+
+.header-top .partition {
+  color: #ffffff;
+}
+
+.header-top .goi {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  line-height: 1.2;
+  padding-top: 2px;
+  color: #ffffff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.header-top .goi img {
+  flex-shrink: 0;
+  margin-right: 15px;
+  width: 25px;
+  height: 15px;
+  vertical-align: middle;
+}
+
+.header-top .font01 {
+  border: none;
+  outline: none;
+  background: no-repeat;
+  width: 40px;
+  height: auto;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.header-top .active01 {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+
+.header-top .gov_india {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* bhashini hooks */
+.bhashini-plugin-container {
+  display: inline;
+  float: right;
+  margin-right: 80px !important;
+  margin-top: 2px;
+}
+
+.bhashini-plugin-container svg {
+  width: 24px;
+  height: 24px;
+}
+
+.bhashini-dropdown-content {
+  bottom: auto !important;
+  right: -75px;
+  scrollbar-width: thin;
+}
+
+.bhashini-dropdown-content .language-option {
+  text-align: left !important;
+}
+
+/* mobile menu modal (Bootstrap #mobileMenuNew) */
+.mb-common-header__modal-nav a {
+  color: #000000;
+  font-weight: 600;
+}
+
+.mb-common-header__modal-nav a:hover {
+  color: #f15b43;
+}
+
+/* main nav links */
+.main-menu ul li {
+  display: inline-block;
+  margin: 0 3px;
+  position: relative;
+  list-style: none;
+}
+
+.main-menu ul li a {
+  color: #000000;
+  display: list-item;
+  list-style: none;
+  line-height: 1;
+  padding: 6px 4px !important;
+  font-size: 13px;
+  font-weight: 600 !important;
+}
+
+/* main header container */
+.header-area {
+  background-size: cover;
+}
+
+/* ----- Mobile / tablet bar (<lg) ----- */
+@media (max-width: 991.98px) {
+  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {
+    padding-top: 0.45rem !important;
+    padding-bottom: 0.45rem !important;
+  }
+}
+
+.mb-common-header__mobile-bar {
+  position: relative;
+  z-index: 2;
+}
+
+/* One strip: logos | flexible gap | toll + Bhashini + menu — matches mybharat.gov.in mobile header */
+.mb-common-header__mobile-bar .mb-common-header__mobile-row {
+  align-items: center !important;
+  gap: 0.75rem;
+}
+
+.mb-common-header__mobile-bar .mb-common-header__mobile-logos {
+  flex: 0 1 auto;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: center;
+}
+
+/*
+ * Right cluster: tighter gaps toll ↔ widget ↔ menu than logo ↔ toll (space-between does the latter).
+ */
+.mb-common-header__mobile-bar .mb-common-header__mobile-actions-wrap.f-hd-right.d-sm-none1 {
+  flex: 0 0 auto;
+  float: none !important;
+  justify-content: flex-end;
+  align-items: center !important;
+  gap: 0.5rem;
+  margin-top: 0 !important;
+}
+
+.mb-common-header__mobile-bar #toll_mb.skip01 {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  flex: 0 1 auto;
+  min-width: 0;
+  color: #1937b2;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.mb-common-header__mobile-bar #toll_mb .lang_toll_free {
+  font-size: clamp(11px, 3vw, 14px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #1937b2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+/* Scoped to Header2 root so it does not override Header’s toll icon when both CSS files are bundled */
+header.mb-common-header--header2
+  .mb-common-header__mobile-bar
+  #toll_mb
+  .lang_toll_free
+  .mb-common-header__toll-phone-icon {
+  display: inline-block;
+  font-size: 0.95em;
+  line-height: 1;
+  vertical-align: middle;
+  /* Match default Header: handset leans slightly clockwise */
+  transform: rotate(108deg);
+  transform-origin: 50% 58%;
+}
+
+/* Wins over legacy header.ctp rules that absolutely position the menu button only */
+.mb-common-header__mobile-bar #mb_menus {
+  position: static !important;
+  right: auto !important;
+  top: auto !important;
+}
+
+.mb-common-header__mobile-bar #mb_menus.btn-light {
+  flex: 0 0 auto;
+  border: 1px solid #dee2e6;
+}
+
+.mb-common-header__mobile-bar #bhashini-mobile-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+/*
+ * Header2 mobile strip — single-row grid with Header; terracotta menu (#BC4717).
+ */
+@media (max-width: 991.98px) {
+  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0.35rem 0.5rem;
+    align-items: center;
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {
+    min-width: 0;
+    justify-self: start;
+    align-items: center;
+    padding-right: clamp(4px, 1.5vw, 12px);
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-mid--h2 {
+    justify-self: center;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-width: 0;
+    max-width: min(260px, 38vw);
+    padding-left: 0;
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff;
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-mid--h2 #toll_mb .lang_toll_free {
+    justify-content: center;
+  }
+
+  header.mb-common-header--header2 .mb-common-header__bhashini-mid--h2 {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-end--h2 {
+    min-width: 0;
+    justify-self: end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {
+    gap: 0.2rem 0.35rem;
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-mid--h2 {
+    max-width: min(190px, 54vw);
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-bar #toll_mb .lang_toll_free {
+    font-size: clamp(9px, 2.65vw, 11px);
+    font-weight: 600;
+    gap: 0.2em;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  header.mb-common-header--header2
+    .mb-common-header__mobile-bar
+    #toll_mb
+    .lang_toll_free
+    .mb-common-header__toll-phone-icon {
+    font-size: 0.88em;
+  }
+}
+
+header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 {
+  width: 44px;
+  height: 44px;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: #bc4717 !important;
+  border: none !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  line-height: 1 !important;
+}
+
+header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {
+  background-color: #9a3a13 !important;
+  color: #ffffff !important;
+}
+
+header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {
+  background-color: #9a3a13 !important;
+  color: #ffffff !important;
+  outline: 2px solid #1937b2;
+  outline-offset: 2px;
+}
+
+header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {
+  color: #ffffff;
+  font-size: 1.15rem;
+}
+
+@media (max-width: 575.98px) {
+  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {
+    font-size: 1.05rem;
+  }
+}
+
+header.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar #mb_menus.mb-common-header__mobile-menu-btn--h2 {
+  border: none !important;
+}
+
+/* logos */
+.new_head a img {
+  padding-right: 6px;
+  padding-left: 6px;
+}
+
+.new_head1 {
+  border-right: 1px solid #bdbdbd;
+}
+
+/*
+ * Header2 only: Sign In / Register — oval (pill), brand brown #BC4717.
+ * Requires class `mb-common-header--header2` on the root <header>.
+ */
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {
+  display: inline-block;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {
+  --bs-btn-bg: #bc4717;
+  --bs-btn-border-color: #bc4717;
+  color: #ffffff !important;
+  background-color: #bc4717 !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  padding: 10px 22px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  box-shadow: none !important;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {
+  color: #bc4717 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #bc4717 !important;
+  box-shadow: none !important;
+}
+
+/*
+ * Logo sizing — duplicated from Header.css so dist/header2.css (Header2-only imports) still wins over host default.css.
+ * Keep this block in sync with the logo section in Header.css.
+ */
+header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {
+  width: 136px !important;
+  transform: scale(1.12);
+  margin-left: 7px;
+  margin-top: 5px;
+}
+
+header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
+  width: 124px !important;
+}
+
+header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+}
+
+header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md1,
+header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md-sec {
+  flex-shrink: 1;
+  min-width: 0;
+  object-fit: contain;
+  height: auto !important;
+  max-width: none !important;
+}
+
+#mobileMenuNew img.logo-w-sm-md-sec {
+  width: 136px !important;
+  transform: scale(1.12);
+}
+
+#mobileMenuNew img.logo-w-sm-md1 {
+  width: 124px !important;
+  max-width: none !important;
+  height: auto !important;
+}
+
+@media only screen and (max-width: 991.98px) {
+  header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
+    width: clamp(118px, 32vw, 148px) !important;
+  }
+
+  header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {
+    width: clamp(126px, 34vw, 156px) !important;
+    transform: scale(1.08) !important;
+  }
+
+  #mobileMenuNew img.logo-w-sm-md1 {
+    width: clamp(118px, 32vw, 148px) !important;
+  }
+
+  #mobileMenuNew img.logo-w-sm-md-sec {
+    width: clamp(126px, 34vw, 156px) !important;
+    transform: scale(1.08) !important;
+  }
+
+  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
+    width: clamp(72px, 20vw, 142px) !important;
+    max-width: none !important;
+  }
+
+  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
+    width: clamp(76px, 21vw, 150px) !important;
+    transform: scale(1.08) !important;
+    max-width: none !important;
+  }
+}
+
+@media only screen and (max-width: 575.98px) {
+  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
+    width: clamp(52px, 14vw, 96px) !important;
+    max-width: none !important;
+  }
+
+  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
+    width: clamp(56px, 15vw, 104px) !important;
+    transform: scale(1.06) !important;
+    max-width: none !important;
+  }
+}
+
+/* sign-in dropdown */
+.f-12-dropdown {
+  padding-left: 24px;
+  color: #000000;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.dropdown-menu-header {
+  background: #ffffff;
+  border: 1px solid #f15b43;
+  border-radius: 10px;
+}
+
+.dropdown-menu-header a {
+  padding-top: 4px;
+  padding-bottom: 10px;
+}
+
+/* events/program custom dropdown */
+.dropdown_evnt_prog {
+  position: relative;
+  display: inline-block;
+}
+
+.dropevent {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 6px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+}
+
+.dropevent_content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 180px;
+  z-index: 1;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  left: -25px;
+}
+
+.dropevent_content .fa {
+  position: absolute;
+  top: -10px;
+  left: 43%;
+  color: #bc4717;
+}
+
+.dropevent_content a {
+  color: black;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dropevent_content a:hover {
+  background-color: #fff;
+}
+
+.dropdown_evnt_prog:hover .dropevent_content {
+  display: block;
+}
+
+/* profile area */
+.pull-right {
+  margin-left: 30px;
+}
+
+.header_img {
+  text-align: center;
+  top: 0 !important;
+}
+
+.user-info-wrapper {
+  display: block;
+  margin: 0;
+  width: 46px;
+  height: 46px;
+  background: #6c757d8a;
+  border-radius: 50px;
+  padding: 3px;
+  float: left;
+}
+
+.user-info-wrapper .profile-wrapper {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.chat-toggler .user-details {
+  float: left;
+  line-height: 0;
+  color: #003d52;
+}
+
+.chat-toggler .dropdown-menu {
+  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);
+}
+
+.chat-toggler .dropdown-menu.pull-right {
+  right: 0;
+  left: auto;
+}
+
+.chat-toggler .dropdown-menu[data-bs-popper] {
+  top: 92%;
+}
+
+.chat-toggler .dropdown-menu li {
+  display: block !important;
+}
+
+.chat-toggler .dropdown-menu li a i {
+  font-size: 12px;
+}
+
+.chat-toggler .dropdown-menu > li > a {
+  line-height: 25px !important;
+  color: #003d52 !important;
+  margin: 4px;
+  border-radius: 3px;
+  text-align: left;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  padding: 3px 20px !important;
+}
+
+.chat-toggler .dropdown-menu > li > a:hover {
+  text-decoration: none;
+  background-color: #eff2f3;
+  background-image: none;
+}
+
+/* generic dropdown override used by header profile menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  list-style: none;
+  text-shadow: none;
+  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);
+  border: none;
+  border-radius: 3px;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* =========================
+   Responsive behavior
+   ========================= */
+
+@media only screen and (max-width: 600px) {
+  /* Logo clamps: see Header.css */
+
+  .header-area {
+    min-height: 56px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .header-top,
+  .main-menu {
+    display: none !important;
+  }
+
+  header.mb-common-header .d-sm-none1 {
+    display: block !important;
+  }
+
+  .header-area .justify-content-sm-end {
+    justify-content: flex-start !important;
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .header-area {
+    min-height: 56px;
+  }
+
+  .bhashini-plugin-container {
+    position: absolute;
+    right: -35px;
+    top: 15px;
+  }
+
+  .bhashini-dropdown-content {
+    top: 40px !important;
+    right: -40px;
+  }
+
+  .bhashini-plugin-container svg path {
+    fill: #000000 !important;
+  }
+}
+
+/*
+ * Hide mobile-only strip (toll / bhashini / hamburger) on wide viewports only.
+ * Must not override max-width:1000px rule — otherwise 768–1000px loses the menu button.
+ */
+@media (min-width: 1001px) {
+  /* Scoped so this wins over Bootstrap utilities (e.g. .d-block) when default.css is not loaded */
+  header.mb-common-header .d-sm-none1 {
+    display: none !important;
+  }
+}
+
+/* ----- Ported from header.ctp: left mobile drawer (#mobileMenuNew) ----- */
+/* Above host stacking contexts; portaled to body next to Bootstrap backdrop */
+#mobileMenuNew.modal.left {
+  z-index: 1060 !important;
+}
+
+#mobileMenuNew.modal.left .modal-dialog {
+  position: fixed;
+  margin: auto;
+  width: 75%;
+  max-width: 420px;
+  height: 100%;
+  transform: translate3d(0%, 0, 0);
+  right: 0;
+  left: auto;
+}
+
+#mobileMenuNew.modal.left .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+#mobileMenuNew .modal-header .btn-close {
+  margin: -1rem -5px -0.5rem auto;
+}
+
+/*
+ * Row separators for drawer nav. Legacy sometimes used `#mobileMenuNew .m-menu>ul>a>li`
+ * (invalid DOM). React markup is `ul.list-unstyled > li > a` — borders go on `li`.
+ * First `.m-menu` block only; Sign In / Register block keeps its own anchor borders.
+ */
+#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.f-10-dropdown {
+  font-size: 10px;
+  color: #999999;
+}
+
+@media only screen and (max-width: 600px) {
+  #mobileMenuNew .modal-content {
+    transform: translate(100%, 0) scale(1);
+    transition: transform 0.4s ease-in-out;
+  }
+
+  #mobileMenuNew.modal.show .modal-content {
+    transform: translate(0, 0) scale(1);
+  }
+
+  #mobileMenuNew .accordion-button:not(.collapsed) {
+    background-color: #f15b43;
+    color: #fff;
+  }
+}

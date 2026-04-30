@@ -1,16 +1,21 @@
+/**
+ * Alternate header (nav + auth styling). Exported as `Header2` from the package entry.
+ * Avoid mounting `Header` and `Header2` on one page — shared DOM ids / modal hooks.
+ */
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { MYBHARAT_CDN_BASE } from '../constants/cdn';
+import { MYBHARAT_CDN_BASE_BETA } from '../constants/cdn';
 import { MobileMenuModal } from './MobileMenuModal';
+import './Header2.css';
 
-export type HeaderProps = {
+export type Header2Props = {
   title?: string;
-  /** Override CDN base (no trailing slash), e.g. `https://cdn-prod.mybharats.in/mybharat` */
+  /** Override CDN base (no trailing slash), e.g. `https://cdn-beta.mybharats.in/mybharat` */
   cdnBase?: string;
 };
 
-export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) => {
-  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, '');
+export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase }) => {
+  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, '');
   const [menuPortalReady, setMenuPortalReady] = useState(false);
 
   useEffect(() => {
@@ -48,7 +53,11 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
 
   return (
     <>
-    <header id="mb-common-header-root" className="fixed-top shadow mb-common-header" style={{}}>
+    <header
+      id="mb-common-header-root"
+      className="fixed-top shadow mb-common-header mb-common-header--header2"
+      style={{}}
+    >
       <div className="bhashini-plugin-container" style={{}}></div>
       <div className="header-top d-none d-sm-block ">
         <div className="container">
@@ -98,9 +107,9 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
         <div className="container">
           <div className="row align-items-center gx-2">
             {/* Mobile / tablet (<lg): same row as mybharat.gov.in — logos left, open middle, toll + Bhashini + menu right */}
-            <div className="col-12 d-lg-none mb-common-header__mobile-bar mb-common-header__mobile-bar--split">
-              <div className="mb-common-header__mobile-row mb-common-header__mobile-row--split d-flex align-items-center flex-nowrap w-100 py-2">
-                <div className="mb-common-header__mobile-logos mb-common-header__mobile-logos--split min-w-0 d-flex align-items-center">
+            <div className="col-12 d-lg-none mb-common-header__mobile-bar mb-common-header__mobile-bar--h2">
+              <div className="mb-common-header__mobile-row mb-common-header__mobile-row--h2 d-flex align-items-center flex-nowrap w-100 py-2">
+                <div className="mb-common-header__mobile-logos mb-common-header__mobile-logos--h2 min-w-0 d-flex align-items-center">
                   <div className="d-flex new_head align-items-center">
                     <a href="/">
                       <img
@@ -120,25 +129,25 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
                     </span>
                   </div>
                 </div>
-                <div className="mb-common-header__mobile-mid--split d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0">
-                  <a href="tel:18002122729" title="Toll Free" id="toll_mb" className="skip01">
+                <div className="mb-common-header__mobile-mid--h2 d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0">
+                  <a href="tel:18002122729" title="Toll Free" id="toll_mb" className="skip01 mb-common-header__toll-link--h2">
                     <strong className="lang_toll_free">
                       <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true"></i>{' '}
                       14472 Or 18002122729
                     </strong>
                   </a>
-                  <div id="bhashini-mobile-header" className="mb-common-header__bhashini-mid--split" />
+                  <div id="bhashini-mobile-header" className="mb-common-header__bhashini-mid--h2" />
                 </div>
-                <div className="mb-common-header__mobile-end--split d-flex align-items-center justify-content-end flex-shrink-0">
+                <div className="mb-common-header__mobile-end--h2 d-flex align-items-center justify-content-end flex-shrink-0 min-w-0">
                   <button
                     type="button"
-                    className="btn btn-light"
+                    className="btn mb-common-header__mobile-menu-btn--h2"
                     data-bs-toggle="modal"
                     id="mb_menus"
                     data-bs-target="#mobileMenuNew"
                     aria-label="Open menu"
                   >
-                    <i className="fa fa-bars fa-fw " aria-hidden="true"></i>
+                    <i className="fa fa-bars fa-fw" aria-hidden="true"></i>
                   </button>
                 </div>
               </div>
@@ -169,43 +178,49 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
               </div>
             </div>
             <div className="col-xl-10 col-lg-10 d-none d-lg-block">
+              <div className="f-hd-right"></div>
               <div className="main-menu f-hd-right d-none d-md-block">
                 <nav className="navbar navbar-expand-lg navbar-light" id="mb-nav-desktop-main" aria-label="Main navigation">
                   <ul className="menu_nav1">
+                    <div className="dropdown_evnt_prog">
+                      <button type="button" className="dropevent">
+                        MY Bharat Diaspora <i className="fa fa-chevron-down" aria-hidden="true"></i>
+                      </button>
+                      <div className="dropevent_content">
+                        <i className="fa fa-caret-up" aria-hidden="true"></i>
+                        <a className="mission_yuva fontchange14" href="/pages/mb_friends">
+                          <span className="lang_exp_lrn01">Friends of MY Bharat</span>
+                        </a>
+                        <a className="events fontchange14" href="/connect-international-youth-club">
+                          <span className="lang_event">International Youth Club</span>
+                        </a>
+                      </div>
+                    </div>
+
                     <li>
                       {' '}
-                      <a className="fontchange14 youth lang_youth" href="https://web.mybharat.gov.in/youth-public-profile">
+                      <a
+                        className="fontchange14 youth lang_youth"
+                        href="https://web-beta.mybharats.in/youth-public-profile"
+                      >
                         <span className="">Youth</span>
                       </a>
                     </li>
+
                     <li>
                       {' '}
                       <a className="fontchange14" href="/quiz">
                         <span className="">Quiz &amp; Essay</span>
                       </a>
                     </li>
-                    <div className="dropdown_evnt_prog">
-                      <button className="dropevent">
-                        Voices <i className="fa fa-chevron-down" aria-hidden="true"></i>
-                      </button>
-                      <div className="dropevent_content">
-                        <i className="fa fa-caret-up" aria-hidden="true"></i>
-                        <a className="events fontchange14" href="/voices/blogs">
-                          <span className="lang_event">Blogs</span>
-                        </a>
-                        <a className="mission_yuva fontchange14" href="/pages/newsletter">
-                          <span className="lang_exp_lrn01">Newsletters</span>
-                        </a>
-                      </div>
-                    </div>
 
                     <div className="dropdown_evnt_prog">
-                      <button className="dropevent">
+                      <button type="button" className="dropevent">
                         Events &amp; Program <i className="fa fa-chevron-down" aria-hidden="true"></i>
                       </button>
                       <div className="dropevent_content">
                         <i className="fa fa-caret-up" aria-hidden="true"></i>
-                        <a className="mission_yuva fontchange14" href="/pages/experiential_learning?mode=I">
+                        <a className="mission_yuva fontchange14" href="/elp/listing">
                           <span className="lang_exp_lrn01">Experiential Learning</span>
                         </a>
                         <a className="events fontchange14" href="/pages/events">
@@ -231,6 +246,20 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
                       {' '}
                       <a className="mega_event fontchange14" href="/pages/brics_2026">
                         <span className="lang_mega_event">BRICS India 2026</span>
+                      </a>
+                    </li>
+
+                    <li>
+                      {' '}
+                      <a className="mega_event fontchange14" href="/mentorship">
+                        <span className="lang_mega_event">Mentorship</span>
+                      </a>
+                    </li>
+
+                    <li>
+                      {' '}
+                      <a className="mega_event fontchange14" href="/game/yuva">
+                        <span className="lang_mega_event">Dice Roll Game</span>
                       </a>
                     </li>
                   </ul>
@@ -273,4 +302,4 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
   );
 };
 
-export default Header;
+export default Header2;

@@ -1,0 +1,559 @@
+/* Ported from footer_external.ctp inline <style> — scoped to #footer_external + modals */
+
+#feed_back.modal,
+#feed_back1.modal,
+#successToaster.modal {
+  z-index: 1060 !important;
+}
+
+.litext {
+  color: #525c66;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+/* Host themes sometimes set `.litext { color: #fff }` — unreadable on white footer */
+#footer_external a.litext,
+#footer_external p.litext {
+  color: #525c66 !important;
+}
+
+#footer_external {
+  border-top: solid 1px #d6d6d6;
+}
+
+#footer_external .foot_p1 {
+  color: #525c66;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+/* Beat host overrides (e.g. #08192b) — white strip on all breakpoints */
+#footer_external .footer-top {
+  background-color: #ffffff !important;
+}
+
+/*
+ * Important / Useful columns: headings + lists share one alignment (matches centred links under host CSS).
+ * Only columns with a direct child `ul` — not Follow Us (no `ul`), not `.footer-contact`.
+ */
+#footer_external .footer-links:has(> ul) {
+  text-align: center;
+}
+
+#footer_external .footer-links:has(> ul) h6.img_link {
+  text-align: center;
+}
+
+#footer_external .footer-links:has(> ul) ul {
+  padding-left: 0;
+}
+
+#footer_external .footer-links:has(> ul) li {
+  text-align: center;
+}
+
+/*
+ * Follow Us column (no direct `ul`) — center heading, social row, Powered by + logo, DIC line on stacked/mobile widths.
+ * Shared by any app that mounts `Footer` (with or without Header vs Header2).
+ */
+@media (max-width: 991.98px) {
+  #footer_external .mb-common-footer__follow-col {
+    text-align: center;
+  }
+
+  #footer_external .mb-common-footer__follow-col h6.img_link {
+    text-align: center;
+  }
+
+  #footer_external .mb-common-footer__follow-col .social-icons {
+    justify-content: center;
+  }
+
+  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-by {
+    text-align: center;
+  }
+
+  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #footer_external .mb-common-footer__follow-col .foot_p1 {
+    text-align: center;
+  }
+}
+
+#footer_external .foot_p2 {
+  padding-left: initial;
+}
+
+.pricy1_a {
+  background-color: #000627;
+}
+
+.pricy1_a .row .col-sm-8 {
+  margin-bottom: 0;
+  line-height: 35px;
+}
+
+.pricy1_a .row .col-sm-8 p {
+  margin-bottom: 0;
+  line-height: 29px;
+}
+
+.pricy1_a .row {
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.pricy_a ul {
+  width: 100%;
+  line-height: 31px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  padding-left: 68px;
+  list-style: none;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.pricy_a ul li:nth-child(1) {
+  padding-right: 27px;
+}
+
+.pricy_a p {
+  margin-bottom: 0;
+  line-height: 35px;
+}
+
+.foot1w {
+  width: fit-content;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+}
+
+.pricy1_a a {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .foot1w {
+    margin: auto;
+  }
+
+  .pricy_a ul {
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .new_foot li .fab {
+    vertical-align: inherit !important;
+  }
+}
+
+.img_link {
+  color: #343f4a;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.new_foot li {
+  line-height: 15px;
+  padding: 1px;
+}
+
+.new_foot li img {
+  width: 81%;
+}
+
+/* Tablet: tighten footer columns */
+@media (min-width: 601px) and (max-width: 991.98px) {
+  #footer_external .footer-contact,
+  #footer_external .footer-links {
+    padding-bottom: 1rem;
+  }
+}
+
+.mb-common-footer__social-row {
+  flex-wrap: wrap;
+}
+
+/* Feedback modals */
+.feed_back {
+  text-align: end;
+}
+
+#feed_back textarea {
+  margin-top: 0 !important;
+  margin-bottom: 11px !important;
+}
+
+#feed_back label {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #252525;
+}
+
+#feed_back .cross_ico img {
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+#feed_back .text-left {
+  text-align: left;
+}
+
+#feed_back .cross_ico {
+  display: flex;
+  position: absolute;
+  bottom: 18px;
+  z-index: 999;
+}
+
+#feed_back .radio-tile-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+#feed_back .tt_yuvr {
+  display: inline-flex;
+  padding: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+#feed_back .tt_yuvr .input-container {
+  position: relative;
+  width: 50px;
+  margin-right: 18px;
+  margin-top: 7px;
+}
+
+#feed_back .tt_yuvr .input-container input {
+  position: absolute;
+  cursor: pointer;
+  z-index: 2;
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+}
+
+#feed_back .tt_yuvr input:checked + .radio-tile {
+  background: #0b6bbe;
+}
+
+#feed_back .tt_yuvr input:checked + .radio-tile label {
+  color: #fff;
+}
+
+#feed_back .tt_yuvr .input-container .radio-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #eee;
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+}
+
+#feed_back .tt_yuvr .input-container {
+  transition: transform 0.2s;
+}
+
+#feed_back .tt_yuvr .input-container:hover {
+  transform: scale(1.07);
+}
+
+#feed_back .tt_yuvr .input-container label {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.radio-tile-group:nth-child(1),
+.radio-tile-group:nth-child(2),
+.radio-tile-group:nth-child(3),
+.radio-tile-group:nth-child(4) {
+  border-top: 3px solid #f00;
+}
+
+.radio-tile-group:nth-child(5),
+.radio-tile-group:nth-child(6),
+.radio-tile-group:nth-child(7),
+.radio-tile-group:nth-child(8) {
+  border-top: 3px solid #ffbe15;
+}
+
+.radio-tile-group:nth-child(9),
+.radio-tile-group:nth-child(10) {
+  border-top: 3px solid #04a651;
+}
+
+.radio-tile-group:nth-child(5),
+.radio-tile-group:nth-child(9) {
+  margin-left: 10px;
+}
+
+.vError {
+  border: 1px solid #e41f12;
+}
+
+p.vErrormsg {
+  font-size: small;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #e41f12;
+  margin-bottom: 20px;
+  float: inline-start;
+}
+
+small.vErrormsg {
+  font-size: small;
+  font-weight: 400;
+  color: #e41f12;
+  float: inline-start;
+}
+
+#char_left_cnt {
+  color: #252525;
+  float: inline-end;
+  font-size: small;
+}
+
+#successToaster .modal-dialog {
+  margin: 20% auto;
+}
+
+@media only screen and (min-width: 601px) {
+  #feed_back .modal-dialog {
+    max-width: 876px !important;
+    margin-top: 133px;
+  }
+
+  #feed_back1 .modal-dialog {
+    margin-top: 133px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #feed_back .tt_yuvr {
+    display: flex !important;
+    overflow: auto !important;
+  }
+
+  #feed_back .form-group {
+    margin-bottom: 10px;
+  }
+
+  #feed_back .tt_yuvr .input-container input {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  #feed_back .tt_yuvr .input-container .radio-tile {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 30px !important;
+  }
+
+  #feed_back .cross_ico {
+    position: initial !important;
+  }
+
+  #feed_back .tt_yuvr .input-container {
+    width: 17px !important;
+    margin-right: 18px !important;
+  }
+
+  #feed_back .tt_yuvr .input-container label {
+    font-size: 13px !important;
+  }
+
+  #feed_back .modal-dialog {
+    width: 100% !important;
+    padding: 10px 15px 10px 0;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+#pls_select h3 {
+  color: #343434;
+  font-weight: 600;
+}
+
+#pls_select {
+  text-align: center;
+}
+
+#pls_select #guest_usr {
+  background-color: #f15b43;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+#pls_select #regi_usr {
+  background-color: #fff;
+  border: 1px solid #5a6370;
+  font-size: 16px;
+  color: #5a6370;
+  font-weight: 500;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+#pls_select .btn-close {
+  border: none !important;
+  background: none !important;
+  float: right;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+#pls_select .col-sm-12:nth-child(2) {
+  margin-bottom: 20px;
+}
+
+#feedback_captcha_value {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+/* Social icons */
+.social-icons {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.social-icons .icon {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 30px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.social-icons .icon img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.social-icons .icon span {
+  margin-left: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  font-size: 13px;
+}
+
+.twitter-color {
+  color: #000;
+}
+
+.instagram-color {
+  color: #cf188a;
+}
+
+.facebook-color {
+  color: #4676ed;
+}
+
+.linkedin-color {
+  color: #4467ad;
+}
+
+.whatsapp-color {
+  color: #00c169;
+}
+
+.youtube-color {
+  color: #e52d27;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .social-icons .icon:hover {
+    width: 100px;
+    justify-content: flex-start;
+  }
+
+  .social-icons .icon:hover span {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mb-20 {
+  margin-bottom: 1.25rem;
+}
+
+.whitetext img {
+  vertical-align: middle;
+}
+
+/* “Powered by” + Digital India logo — single horizontal row (web / tablet / mobile) */
+#footer_external .mb-common-footer__powered-inner {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+}
+
+#footer_external .mb-common-footer__powered-by {
+  color: #495059 !important;
+}
+
+#footer_external .whitetext.mb-common-footer__powered-logo {
+  color: inherit !important;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+#footer_external .mb-common-footer__powered-logo img {
+  display: block;
+  flex-shrink: 0;
+}
