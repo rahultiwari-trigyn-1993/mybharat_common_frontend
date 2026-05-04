@@ -5,6 +5,9 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { MYBHARAT_CDN_BASE_BETA } from '../constants/cdn';
+import { DEFAULT_HEADER2_MAIN_NAV } from '../navigation/header2MainNav.defaults';
+import type { NavTreeItem } from '../navigation/types';
+import { DesktopMainNav } from './DesktopMainNav';
 import { MobileMenuModal } from './MobileMenuModal';
 import './Header2.css';
 
@@ -12,9 +15,11 @@ export type Header2Props = {
   title?: string;
   /** Override CDN base (no trailing slash), e.g. `https://cdn-beta.mybharats.in/mybharat` */
   cdnBase?: string;
+  /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER2_MAIN_NAV}. */
+  mainNavItems?: readonly NavTreeItem[];
 };
 
-export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase }) => {
+export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase, mainNavItems }) => {
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, '');
   const [menuPortalReady, setMenuPortalReady] = useState(false);
 
@@ -181,88 +186,7 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase })
               <div className="f-hd-right"></div>
               <div className="main-menu f-hd-right d-none d-md-block">
                 <nav className="navbar navbar-expand-lg navbar-light" id="mb-nav-desktop-main" aria-label="Main navigation">
-                  <ul className="menu_nav1">
-                    <div className="dropdown_evnt_prog">
-                      <button type="button" className="dropevent">
-                        MY Bharat Diaspora <i className="fa fa-chevron-down" aria-hidden="true"></i>
-                      </button>
-                      <div className="dropevent_content">
-                        <i className="fa fa-caret-up" aria-hidden="true"></i>
-                        <a className="mission_yuva fontchange14" href="/pages/mb_friends">
-                          <span className="lang_exp_lrn01">Friends of MY Bharat</span>
-                        </a>
-                        <a className="events fontchange14" href="/connect-international-youth-club">
-                          <span className="lang_event">International Youth Club</span>
-                        </a>
-                      </div>
-                    </div>
-
-                    <li>
-                      {' '}
-                      <a
-                        className="fontchange14 youth lang_youth"
-                        href="https://web-beta.mybharats.in/youth-public-profile"
-                      >
-                        <span className="">Youth</span>
-                      </a>
-                    </li>
-
-                    <li>
-                      {' '}
-                      <a className="fontchange14" href="/quiz">
-                        <span className="">Quiz &amp; Essay</span>
-                      </a>
-                    </li>
-
-                    <div className="dropdown_evnt_prog">
-                      <button type="button" className="dropevent">
-                        Events &amp; Program <i className="fa fa-chevron-down" aria-hidden="true"></i>
-                      </button>
-                      <div className="dropevent_content">
-                        <i className="fa fa-caret-up" aria-hidden="true"></i>
-                        <a className="mission_yuva fontchange14" href="/elp/listing">
-                          <span className="lang_exp_lrn01">Experiential Learning</span>
-                        </a>
-                        <a className="events fontchange14" href="/pages/events">
-                          <span className="lang_event">Volunteer for Bharat</span>
-                        </a>
-                        <a className="mega_event fontchange14" href="/mega_events">
-                          <span className="lang_mega_event">Mega Events</span>
-                        </a>
-                        <a className="mega_event fontchange14" href="/pages/vbyld_2026">
-                          <span className="lang_mega_event">VBYLD-2026</span>
-                        </a>
-                      </div>
-                    </div>
-
-                    <li>
-                      {' '}
-                      <a className="mega_event fontchange14" href="/pages/podcasts">
-                        <span className="lang_mega_event"> MY Bharat Podcast</span>
-                      </a>
-                    </li>
-
-                    <li>
-                      {' '}
-                      <a className="mega_event fontchange14" href="/pages/brics_2026">
-                        <span className="lang_mega_event">BRICS India 2026</span>
-                      </a>
-                    </li>
-
-                    <li>
-                      {' '}
-                      <a className="mega_event fontchange14" href="/mentorship">
-                        <span className="lang_mega_event">Mentorship</span>
-                      </a>
-                    </li>
-
-                    <li>
-                      {' '}
-                      <a className="mega_event fontchange14" href="/game/yuva">
-                        <span className="lang_mega_event">Dice Roll Game</span>
-                      </a>
-                    </li>
-                  </ul>
+                  <DesktopMainNav items={mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV} />
 
                   <button id="btnGroupDrop1" type="button" className="btn mb-common-header__auth-btn">
                     <span className="lang_yuva_register_login_link fontchange">Sign In</span>
@@ -297,7 +221,12 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase })
       </div>
     </header>
     {/* Portal to document.body so .modal-backdrop (sibling to #root) stacks below the modal — inside fixed header it sat under the dimmer and blocked all clicks */}
-    {menuPortalReady ? createPortal(<MobileMenuModal cdnBase={cdn} />, document.body) : null}
+    {menuPortalReady ? (
+      createPortal(
+        <MobileMenuModal cdnBase={cdn} items={mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV} />,
+        document.body
+      )
+    ) : null}
     </>
   );
 };

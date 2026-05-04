@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, "package.json"), "utf8"));
 
 export default defineConfig({
-  entry: ["src/index.js"],
+  entry: ["src/index.ts"],
   format: ["cjs", "esm"],
   injectStyle: true,
   esbuildOptions(options) {

@@ -474,6 +474,28 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   display: block;
 }
 
+/* Nested dropdown inside panel (multilevel nav from API) */
+.dropevent_content .dropdown_evnt_prog {
+  display: block;
+  width: 100%;
+}
+
+.dropevent_content .dropdown_evnt_prog .dropevent {
+  width: 100%;
+  text-align: left;
+  border-top: 1px solid #dcdcdc;
+}
+
+.dropevent_content .dropdown_evnt_prog .dropevent_content {
+  left: 100%;
+  top: 0;
+  margin-left: 2px;
+}
+
+.dropevent_content .dropdown_evnt_prog:hover .dropevent_content {
+  display: block;
+}
+
 /* profile area */
 .pull-right {
   margin-left: 30px;
