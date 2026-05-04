@@ -463,7 +463,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   border-bottom: none !important;
   border: none !important;
   text-decoration: none !important;
-  text-underline: none !important;
 }
 
 .dropdown-menu-header a.border-bottom:hover,
@@ -471,7 +470,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   border-bottom: none !important;
   border: none !important;
   text-decoration: none !important;
-  text-underline: none !important;
 }
 
 .dropdown-menu-header a {
