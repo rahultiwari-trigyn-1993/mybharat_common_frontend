@@ -774,13 +774,11 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   border-bottom: 1px solid #d7d7d7;
 }
 
-/* Match legacy mobile drawer menu look: bold, underlined labels with clear separators */
+/* Mobile drawer menu: no underlines on nav links */
 #mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li > a {
   display: block;
   color: #333333 !important;
-  text-decoration: underline !important;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
+  text-decoration: none !important;
 }
 
 #mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li > a > span {
@@ -791,18 +789,16 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   font-weight: 700 !important;
   line-height: 1.2;
   color: #333333 !important;
-  text-decoration: underline !important;
+  text-decoration: none !important;
   text-underline-offset: 2px;
   text-decoration-thickness: 1px;
 }
 
-/* Secondary section (Sign In/Register): match legacy drawer text treatment */
+/* Secondary section (Sign In/Register): no underlines */
 #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li > a {
   display: block;
   color: #333333 !important;
-  text-decoration: underline !important;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
+  text-decoration: none !important;
 }
 
 #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li > a > span {
@@ -813,7 +809,7 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   font-weight: 500 !important;
   line-height: 1.2;
   color: #333333 !important;
-  text-decoration: underline !important;
+  text-decoration: none !important;
   text-underline-offset: 2px;
   text-decoration-thickness: 1px;
 }
@@ -850,9 +846,7 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   header#mb-common-header-root.mb-common-header.mb-common-header--header2
     .mb-common-header__mobile-bar--h2
     #toll_mb.skip01.mb-common-header__toll-link--h2 {
-    text-decoration: underline !important;
-    text-underline-offset: 1px;
-    text-decoration-thickness: 1px;
+    text-decoration: none !important;
   }
 
   header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {
@@ -935,6 +929,7 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     line-height: 0.78 !important;
     letter-spacing: 0 !important;
     min-width: 12px !important;
+    padding-left: 10px !important;
     transform: translateY(1px);
   }
 

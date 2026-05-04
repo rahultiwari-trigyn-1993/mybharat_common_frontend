@@ -132,7 +132,12 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mai
                       14472 Or 18002122729
                     </strong>
                   </a>
-                  <div id="bhashini-mobile-header" className="mb-common-header__bhashini-mid--split" />
+                  <div id="bhashini-mobile-header" className="mb-common-header__bhashini-mid--split">
+                    <span className="mb-common-header__bhashini-fallback" aria-hidden="true">
+                      <span>अ</span>
+                      <span>A</span>
+                    </span>
+                  </div>
                 </div>
                 <div className="mb-common-header__mobile-end--split d-flex align-items-center justify-content-end flex-shrink-0">
                   <button
@@ -179,12 +184,12 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mai
                   <DesktopMainNav items={mainNavItems ?? DEFAULT_HEADER_MAIN_NAV} />
 
                   <button id="btnGroupDrop1" type="button" className="btn mb-common-header__auth-btn">
-                    <span className="lang_yuva_register_login_link fontchange">Sign In</span>
+                    Sign In
                   </button>
 
                   <a href="/yuva_register" className="mb-common-header__register-link text-decoration-none">
                     <button id="btnGroupDrop2" type="button" className="btn mb-common-header__auth-btn">
-                      <span className="fontchange">Register Now</span>
+                      Register Now
                     </button>
                   </a>
                   &nbsp;&nbsp;
@@ -192,7 +197,7 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mai
                     <div className="dropdown-menu dropdown-menu-header" aria-labelledby="btnGroupDrop1">
                       <a className="dropdown-item border-bottom" href="/yuva_register">
                         <img src={`${cdn}/assets/img/yuva_landing/youth_icon1.png`} alt="" />{' '}
-                        <span className="lang_yuva">Youth</span>
+                        Youth
                         <br /> <span className="f-12-dropdown lang_applicants_volunteer">Applicants/Volunteers/Participants</span>
                       </a>
                     </div>

@@ -124,6 +124,7 @@ header.mb-common-header .f-hd-right {
   padding: 6px 4px !important;
   font-size: 13px;
   font-weight: 600 !important;
+  text-decoration: none !important;
 }
 
 /* main header container */
@@ -198,6 +199,24 @@ header.mb-common-header .f-hd-right {
     flex: 0 0 auto;
   }
 
+  header.mb-common-header .mb-common-header__bhashini-mid--split .mb-common-header__bhashini-fallback {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #111111 !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 0.78 !important;
+    letter-spacing: 0 !important;
+    min-width: 12px !important;
+    transform: translateY(1px);
+  }
+
+  header.mb-common-header .mb-common-header__bhashini-mid--split .mb-common-header__bhashini-fallback span {
+    display: block;
+  }
+
   header.mb-common-header .mb-common-header__mobile-end--split {
     min-width: 0;
     justify-self: end;
@@ -266,6 +285,24 @@ header.mb-common-header .f-hd-right {
     .lang_toll_free
     .mb-common-header__toll-phone-icon {
     font-size: 0.88em;
+  }
+
+  /* Remove dropdown underlines on mobile */
+  .dropdown-menu-header a,
+  .dropdown-item,
+  .dropdown-menu-header a.border-bottom {
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+
+  .dropdown-menu-header a:hover,
+  .dropdown-menu-header a:focus,
+  .dropdown-item:hover,
+  .dropdown-item:focus {
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
   }
 }
 
@@ -421,9 +458,26 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   border-radius: 10px;
 }
 
+/* Remove all borders and underlines from dropdown items */
+.dropdown-menu-header a.border-bottom {
+  border-bottom: none !important;
+  border: none !important;
+  text-decoration: none !important;
+  text-underline: none !important;
+}
+
+.dropdown-menu-header a.border-bottom:hover,
+.dropdown-menu-header a.border-bottom:focus {
+  border-bottom: none !important;
+  border: none !important;
+  text-decoration: none !important;
+  text-underline: none !important;
+}
+
 .dropdown-menu-header a {
   padding-top: 4px;
   padding-bottom: 10px;
+  text-decoration: none !important;
 }
 
 /* events/program custom dropdown */
@@ -617,27 +671,27 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
    * Strip logos — larger so they balance toll + menu (single-row layout preserved).
    */
   header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
-    width: clamp(72px, 20vw, 142px) !important;
+    width: clamp(100px, 28vw, 180px) !important;
     max-width: none !important;
   }
 
   header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
-    width: clamp(76px, 21vw, 150px) !important;
-    transform: scale(1.08) !important;
+    width: clamp(110px, 30vw, 200px) !important;
+    transform: scale(1.1) !important;
     max-width: none !important;
   }
 }
 
 @media only screen and (max-width: 575.98px) {
   header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
-    width: clamp(64px, 17vw, 104px) !important;
+    width: clamp(85px, 23vw, 135px) !important;
     max-width: none !important;
     flex-shrink: 0;
   }
 
   header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
-    width: clamp(68px, 18vw, 112px) !important;
-    transform: scale(1.06) !important;
+    width: clamp(95px, 26vw, 155px) !important;
+    transform: scale(1.08) !important;
     max-width: none !important;
     flex-shrink: 0;
   }
@@ -732,6 +786,38 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   border-bottom: 1px solid #d7d7d7;
 }
 
+#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,
+#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {
+  border-bottom: none !important;
+  border: none !important;
+  text-decoration: none !important;
+}
+
+/* Remove all underlines from mobile drawer menu links */
+#mobileMenuNew a,
+#mobileMenuNew a * {
+  text-decoration: none !important;
+}
+
+#mobileMenuNew a:hover,
+#mobileMenuNew a:focus,
+#mobileMenuNew a:visited,
+#mobileMenuNew a:active {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+#mobileMenuNew .modal-body ul.list-unstyled li a {
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  color: #333333 !important;
+}
+
+#mobileMenuNew .modal-body ul li a,
+#mobileMenuNew .modal-body ul li a span {
+  text-decoration: none !important;
+}
+
 .f-10-dropdown {
   font-size: 10px;
   color: #999999;
@@ -752,7 +838,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     color: #fff;
   }
 }
-
 /* Ported from footer_external.ctp inline <style> — scoped to #footer_external + modals */
 
 #feed_back.modal,
@@ -948,6 +1033,18 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 
 .new_foot li img {
   width: 81%;
+}
+
+/* Mobile: center footer-contact column (logos + description) to match host default.css behaviour */
+@media (max-width: 767.98px) {
+  #footer_external .footer-contact {
+    text-align: center !important;
+  }
+
+  /* Center the flex logo row inside footer-contact — wins over Bootstrap .d-flex and host utilities */
+  #footer_external .footer-contact .d-flex.align-items-center {
+    justify-content: center !important;
+  }
 }
 
 /* Tablet: tighten footer columns */

@@ -195,6 +195,18 @@
   width: 81%;
 }
 
+/* Mobile: center footer-contact column (logos + description) to match host default.css behaviour */
+@media (max-width: 767.98px) {
+  #footer_external .footer-contact {
+    text-align: center !important;
+  }
+
+  /* Center the flex logo row inside footer-contact — wins over Bootstrap .d-flex and host utilities */
+  #footer_external .footer-contact .d-flex.align-items-center {
+    justify-content: center !important;
+  }
+}
+
 /* Tablet: tighten footer columns */
 @media (min-width: 601px) and (max-width: 991.98px) {
   #footer_external .footer-contact,
