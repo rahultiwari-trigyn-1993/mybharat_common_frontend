@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { MYBHARAT_CDN_BASE } from '../constants/cdn';
+import { DEFAULT_HEADER_MAIN_NAV } from '../navigation/headerMainNav.defaults';
+import type { NavTreeItem } from '../navigation/types';
+import { DesktopMainNav } from './DesktopMainNav';
 import { MobileMenuModal } from './MobileMenuModal';
 
 export type HeaderProps = {
   title?: string;
   /** Override CDN base (no trailing slash), e.g. `https://cdn-prod.mybharats.in/mybharat` */
   cdnBase?: string;
+  /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER_MAIN_NAV}. */
+  mainNavItems?: readonly NavTreeItem[];
 };
 
-export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) => {
+export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mainNavItems }) => {
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, '');
   const [menuPortalReady, setMenuPortalReady] = useState(false);
 
@@ -171,69 +176,7 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
             <div className="col-xl-10 col-lg-10 d-none d-lg-block">
               <div className="main-menu f-hd-right d-none d-md-block">
                 <nav className="navbar navbar-expand-lg navbar-light" id="mb-nav-desktop-main" aria-label="Main navigation">
-                  <ul className="menu_nav1">
-                    <li>
-                      {' '}
-                      <a className="fontchange14 youth lang_youth" href="https://web.mybharat.gov.in/youth-public-profile">
-                        <span className="">Youth</span>
-                      </a>
-                    </li>
-                    <li>
-                      {' '}
-                      <a className="fontchange14" href="/quiz">
-                        <span className="">Quiz &amp; Essay</span>
-                      </a>
-                    </li>
-                    <div className="dropdown_evnt_prog">
-                      <button className="dropevent">
-                        Voices <i className="fa fa-chevron-down" aria-hidden="true"></i>
-                      </button>
-                      <div className="dropevent_content">
-                        <i className="fa fa-caret-up" aria-hidden="true"></i>
-                        <a className="events fontchange14" href="/voices/blogs">
-                          <span className="lang_event">Blogs</span>
-                        </a>
-                        <a className="mission_yuva fontchange14" href="/pages/newsletter">
-                          <span className="lang_exp_lrn01">Newsletters</span>
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="dropdown_evnt_prog">
-                      <button className="dropevent">
-                        Events &amp; Program <i className="fa fa-chevron-down" aria-hidden="true"></i>
-                      </button>
-                      <div className="dropevent_content">
-                        <i className="fa fa-caret-up" aria-hidden="true"></i>
-                        <a className="mission_yuva fontchange14" href="/pages/experiential_learning?mode=I">
-                          <span className="lang_exp_lrn01">Experiential Learning</span>
-                        </a>
-                        <a className="events fontchange14" href="/pages/events">
-                          <span className="lang_event">Volunteer for Bharat</span>
-                        </a>
-                        <a className="mega_event fontchange14" href="/mega_events">
-                          <span className="lang_mega_event">Mega Events</span>
-                        </a>
-                        <a className="mega_event fontchange14" href="/pages/vbyld_2026">
-                          <span className="lang_mega_event">VBYLD-2026</span>
-                        </a>
-                      </div>
-                    </div>
-
-                    <li>
-                      {' '}
-                      <a className="mega_event fontchange14" href="/pages/podcasts">
-                        <span className="lang_mega_event"> MY Bharat Podcast</span>
-                      </a>
-                    </li>
-
-                    <li>
-                      {' '}
-                      <a className="mega_event fontchange14" href="/pages/brics_2026">
-                        <span className="lang_mega_event">BRICS India 2026</span>
-                      </a>
-                    </li>
-                  </ul>
+                  <DesktopMainNav items={mainNavItems ?? DEFAULT_HEADER_MAIN_NAV} />
 
                   <button id="btnGroupDrop1" type="button" className="btn mb-common-header__auth-btn">
                     <span className="lang_yuva_register_login_link fontchange">Sign In</span>
@@ -268,7 +211,12 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase }) =
       </div>
     </header>
     {/* Portal to document.body so .modal-backdrop (sibling to #root) stacks below the modal — inside fixed header it sat under the dimmer and blocked all clicks */}
-    {menuPortalReady ? createPortal(<MobileMenuModal cdnBase={cdn} />, document.body) : null}
+    {menuPortalReady ? (
+      createPortal(
+        <MobileMenuModal cdnBase={cdn} items={mainNavItems ?? DEFAULT_HEADER_MAIN_NAV} />,
+        document.body
+      )
+    ) : null}
     </>
   );
 };

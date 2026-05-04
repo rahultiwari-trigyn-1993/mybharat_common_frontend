@@ -4,14 +4,16 @@ Reusable Header and Footer components.
 
 ## Install
 
+```bash
 npm install git+https://openforge.gov.in/plugins/git/yuvaproj/mybharat_common_frontend.git
+```
 
 ## Usage
 
 ```tsx
 import { Header, Footer } from "mybharat_common_frontend";
 import "mybharat_common_frontend/style.css";
-// import "mybharat_common_frontend/header2.css"; // if using <Header2 />
+// import "mybharat_common_frontend/header2.css"; // only if you use <Header2 />
 
 function App() {
   return (
@@ -23,43 +25,83 @@ function App() {
 }
 ```
 
-`cdnBase` is optional (defaults to `https://cdn-prod.mybharats.in/mybharat`). For beta assets use `cdnBase="https://cdn-beta.mybharats.in/mybharat"`. You can also import `MYBHARAT_CDN_BASE` from this package if you need the same default elsewhere (no trailing slash).
+Optional **`cdnBase`** (no trailing slash): production default is `https://cdn-prod.mybharats.in/mybharat`; for beta assets use `https://cdn-beta.mybharats.in/mybharat`. Import **`MYBHARAT_CDN_BASE`** from this package if you need the same default elsewhere.
 
-## If your app does not show the latest changes
+## Navigation (`mainNavItems`)
 
-This package ships **compiled `dist/`** only. The host app must load a build that includes your edits.
+> **@developers — required**  
+> **Call every `.json` URL or navigation API only from your host application.** This package **does not** fetch remote URLs for menu data and **must not** be extended to do so: pass data in via **`mainNavItems`** only. **Do not add `fetch` / HTTP calls for nav JSON inside `mybharat_common_frontend`.** _(Host-app integrators and contributors to this repo.)_
 
-### Prove which build the app is using
+Desktop and the mobile drawer use **one** array. Pass **`mainNavItems`** to **`Header`** or **`Header2`** to replace the package defaults (**`DEFAULT_HEADER_MAIN_NAV`** / **`DEFAULT_HEADER2_MAIN_NAV`**). Types: **`NavTreeItem`**, **`NavLinkItem`**, **`NavGroupItem`**.
 
-After `npm run build`, open `node_modules/mybharat_common_frontend/dist/index.mjs` in your app (or DevTools → Sources) and search for **`mybharat_common_frontend@`**. The comment at the top shows the **installed** version. If it is old, the problem is install or cache—not this repo’s source.
+The payload is almost always a **JSON array**—whether it comes from an API, DB, Elasticsearch, CMS, or a static `.json` URL. If your API wraps it (e.g. `{ "nav": [...] }`), unwrap to the array before passing it in.
 
-### Vite dev server (e.g. `localhost:5173`) — most common cause
+| `type`   | Fields |
+|----------|--------|
+| `"link"` | `label`, `href`; optional `linkClassName`, `spanClassName`, `external` (adds `target="_blank"`). |
+| `"group"` | `label`, `children` (same items; nesting allowed). |
 
-Vite **pre-bundles** dependencies into `node_modules/.vite/deps/`. It often **never re-reads** `mybharat_common_frontend` after you change this library, so the UI looks frozen.
+Example:
 
-**Do this once in the Vite app** (`vite.config.ts` / `vite.config.js`):
-
-```ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-
-export default defineConfig({
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ["mybharat_common_frontend"],
-  },
-});
+```json
+[
+  { "type": "link", "label": "Quiz", "href": "/quiz", "linkClassName": "fontchange14" },
+  {
+    "type": "group",
+    "label": "Voices",
+    "children": [
+      { "type": "link", "label": "Blogs", "href": "/voices/blogs", "linkClassName": "events fontchange14", "spanClassName": "lang_event" }
+    ]
+  }
+]
 ```
 
-Then **stop** the dev server, delete the folder **`node_modules/.vite`** in the consumer project, run **`npm run dev`** again, and hard-refresh the browser.
+Example: **`fetch` in your app**, then pass the array (see callout above):
 
-After that, each `npm run build` (or `npm run watch`) in **this** repo should show up after a normal refresh, as long as the app resolves the same `node_modules/mybharat_common_frontend` path (symlinked `file:` or `npm link`).
+```tsx
+import { useEffect, useState } from "react";
+import { Header, DEFAULT_HEADER_MAIN_NAV, isSafeNavHref, type NavTreeItem } from "mybharat_common_frontend";
 
-### Install / lockfile
+function filterUnsafeLinks(items: NavTreeItem[]): NavTreeItem[] {
+  return items
+    .map((item) => {
+      if (item.type === "link") return isSafeNavHref(item.href) ? item : null;
+      const children = filterUnsafeLinks(item.children);
+      return children.length ? { ...item, children } : null;
+    })
+    .filter(Boolean) as NavTreeItem[];
+}
 
-1. **In this repo:** run `npm run build` (or `npm run watch` while developing).
-2. **Re-link the consumer to this build:**
-   - **`file:` dependency:** from the consumer app folder run `npm install` again after each build **if** npm copied the package instead of symlinking (Windows defaults vary). Prefer **`npm link`** (below) for daily work.
-   - **`npm link`:** run `npm link` in this repo, then `npm link mybharat_common_frontend` in the consumer; keep `npm run watch` running here so `dist/` updates continuously.
-   - **Git / registry install:** commit and push, bump `version` in `package.json`, publish or install by tag/commit, then in the consumer run `npm update mybharat_common_frontend` or `npm install mybharat_common_frontend@<version>` so the lockfile picks up the new tarball.
-3. **CSS:** import `mybharat_common_frontend/style.css` after your theme (includes Header + Footer). If you use **`Header2`**, also import **`mybharat_common_frontend/header2.css`**, or rely on styles injected when `Header2` loads from the bundle import chain.
+export function AppHeader() {
+  const [nav, setNav] = useState<readonly NavTreeItem[]>(DEFAULT_HEADER_MAIN_NAV);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("https://example.com/header.json", { credentials: "omit" });
+        if (!res.ok) throw new Error(String(res.status));
+        const data = (await res.json()) as NavTreeItem[];
+        if (!cancelled && Array.isArray(data)) setNav(filterUnsafeLinks(data));
+      } catch {
+        if (!cancelled) setNav(DEFAULT_HEADER_MAIN_NAV);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return <Header mainNavItems={nav} />;
+}
+```
+
+For **`Header2`**, swap in **`DEFAULT_HEADER2_MAIN_NAV`** as the initial state and catch fallback. **`isSafeNavHref`** is a light client guard on `href`; prefer stricter validation server-side for untrusted JSON. **`fetch`** needs **CORS** from the JSON host. Cache **`header.json`** with HTTP headers or a versioned URL if you need busting.
+
+## Consumer app shows an old build
+
+This package is **prebuilt `dist/`**. Confirm the installed build by opening `node_modules/mybharat_common_frontend/dist/index.mjs` and searching for **`mybharat_common_frontend@`** in the banner comment.
+
+**Vite** often caches deps: in the consumer’s `vite.config.ts` / `vite.config.js` set `optimizeDeps.exclude: ["mybharat_common_frontend"]`, then stop dev server, delete **`node_modules/.vite`**, run **`npm run dev`** again, and hard-refresh.
+
+**Publishing / linking:** run **`npm run build`** (or **`npm run watch`**) in this repo; in the consumer use **`npm link`**, a **`file:`** path, or bump the package **version** and reinstall so the lockfile picks up the new build.
