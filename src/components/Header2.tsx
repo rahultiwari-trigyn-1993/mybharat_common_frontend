@@ -136,7 +136,12 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase })
                       14472 Or 18002122729
                     </strong>
                   </a>
-                  <div id="bhashini-mobile-header" className="mb-common-header__bhashini-mid--h2" />
+                  <div id="bhashini-mobile-header" className="mb-common-header__bhashini-mid--h2">
+                    <span className="mb-common-header__bhashini-fallback" aria-hidden="true">
+                      <span>अ</span>
+                      <span>A</span>
+                    </span>
+                  </div>
                 </div>
                 <div className="mb-common-header__mobile-end--h2 d-flex align-items-center justify-content-end flex-shrink-0 min-w-0">
                   <button

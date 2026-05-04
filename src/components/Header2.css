@@ -481,6 +481,33 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 }
 
 @media only screen and (max-width: 575.98px) {
+  /* Exact mobile logo sizing for Header2 strip (prevents host/theme overrides like `.logo-w-sm-md1 { width: 90px }`) */
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .new_head
+    img.new_head1.logo-w-sm-md1 {
+    width: 66px !important;
+    min-width: 66px !important;
+    max-width: 66px !important;
+    height: auto !important;
+    transform: none !important;
+    flex-shrink: 0 !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .new_head
+    img.logo-w-sm-md-sec {
+    width: 74px !important;
+    min-width: 74px !important;
+    max-width: 74px !important;
+    height: auto !important;
+    transform: none !important;
+    margin-left: 2px !important;
+    margin-top: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
   header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
     width: clamp(52px, 14vw, 96px) !important;
     max-width: none !important;
@@ -747,6 +774,56 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   border-bottom: 1px solid #d7d7d7;
 }
 
+/* Match legacy mobile drawer menu look: bold, underlined labels with clear separators */
+#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li > a {
+  display: block;
+  color: #333333 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li > a > span {
+  display: block;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+  color: #333333 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+/* Secondary section (Sign In/Register): match legacy drawer text treatment */
+#mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li > a {
+  display: block;
+  color: #333333 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+#mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li > a > span {
+  display: block;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.2;
+  color: #333333 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+/* Register Now is highlighted in orange in the working drawer */
+#mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,
+#mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {
+  color: #f15f22 !important;
+}
+
 .f-10-dropdown {
   font-size: 10px;
   color: #999999;
@@ -765,5 +842,153 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   #mobileMenuNew .accordion-button:not(.collapsed) {
     background-color: #f15b43;
     color: #fff;
+  }
+}
+
+/* Final mobile logo lock for Header2: keep exact visual size at 359px and prevent grid shrink */
+@media only screen and (max-width: 575.98px) {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #toll_mb.skip01.mb-common-header__toll-link--h2 {
+    text-decoration: underline !important;
+    text-underline-offset: 1px;
+    text-decoration-thickness: 1px;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    column-gap: 5px !important;
+    padding-left: 10px !important;
+    padding-right: 6px !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    padding-right: 4px !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-mid--h2 {
+    max-width: 142px !important;
+    gap: 0.12rem !important;
+    justify-self: end !important;
+    overflow: visible !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #toll_mb.skip01.mb-common-header__toll-link--h2 {
+    white-space: nowrap !important;
+    min-width: 0 !important;
+    max-width: 104px !important;
+    overflow: visible !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #toll_mb
+    .lang_toll_free {
+    font-size: 9.7px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0 !important;
+    gap: 0.2em !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #toll_mb
+    .lang_toll_free
+    .mb-common-header__toll-phone-icon {
+    font-size: 0.82em !important;
+    margin-right: 0.1em !important;
+  }
+
+  /* Keep A/A (Bhashini mobile hook) visible between toll number and menu */
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .mb-common-header__bhashini-mid--h2,
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #bhashini-mobile-header {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    min-width: 16px !important;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    overflow: visible !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #bhashini-mobile-header
+    .mb-common-header__bhashini-fallback {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #111111 !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 0.78 !important;
+    letter-spacing: 0 !important;
+    min-width: 12px !important;
+    transform: translateY(1px);
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #bhashini-mobile-header
+    .mb-common-header__bhashini-fallback
+    span {
+    display: block;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-end--h2 {
+    flex: 0 0 auto !important;
+    min-width: 40px !important;
+    justify-self: end !important;
+    margin-left: 0 !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #mb_menus.mb-common-header__mobile-menu-btn--h2 {
+    width: 33px !important;
+    height: 38px !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #mb_menus.mb-common-header__mobile-menu-btn--h2
+    .fa {
+    font-size: 0.98rem !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .new_head
+    img.new_head1.logo-w-sm-md1 {
+    width: 78px !important;
+    min-width: 78px !important;
+    max-width: 78px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .new_head
+    img.logo-w-sm-md-sec {
+    width: 86px !important;
+    min-width: 86px !important;
+    max-width: 86px !important;
+    height: auto !important;
+    transform: none !important;
+    margin-left: 1px !important;
+    margin-top: 0 !important;
+    flex-shrink: 0 !important;
   }
 }

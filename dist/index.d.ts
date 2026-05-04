@@ -39,7 +39,7 @@ declare const MYBHARAT_CDN_BASE = "https://cdn-prod.mybharats.in/mybharat";
 declare const MYBHARAT_CDN_BASE_BETA = "https://cdn-beta.mybharats.in/mybharat";
 
 /** Published npm version — inlined at build from `package.json`. Compare with DevTools Sources banner. */
-export declare const MYBHARAT_COMMON_FRONTEND_VERSION: "1.0.63";
+export declare const MYBHARAT_COMMON_FRONTEND_VERSION: "1.0.83";
 
 var index = { Header, Header2, Footer };
 

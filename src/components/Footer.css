@@ -21,6 +21,11 @@
   color: #525c66 !important;
 }
 
+/* Remove underline from footer links */
+#footer_external a.litext {
+  text-decoration: none !important;
+}
+
 #footer_external {
   border-top: solid 1px #d6d6d6;
 }
