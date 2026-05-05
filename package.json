@@ -1,6 +1,6 @@
 {
   "name": "mybharat_common_frontend",
-  "version": "1.0.135",
+  "version": "1.0.137",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
