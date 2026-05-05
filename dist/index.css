@@ -666,34 +666,153 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   }
 
   /*
-   * Strip logos — larger so they balance toll + menu (single-row layout preserved).
+   * Strip logos — default Header only: smaller clamps (same idea as Header2) so toll + lang + menu fit without crowding.
+   * Header2 overrides via Header2.css + mb-common-header--header2.
    */
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
-    width: clamp(100px, 28vw, 180px) !important;
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar
+    .logo-w-sm-md1 {
+    width: clamp(72px, 20vw, 142px) !important;
     max-width: none !important;
   }
 
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
-    width: clamp(110px, 30vw, 200px) !important;
-    transform: scale(1.1) !important;
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar
+    .logo-w-sm-md-sec {
+    width: clamp(76px, 21vw, 150px) !important;
+    transform: scale(1.08) !important;
     max-width: none !important;
   }
 }
 
 @media only screen and (max-width: 575.98px) {
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
-    width: clamp(85px, 23vw, 135px) !important;
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar
+    .logo-w-sm-md1 {
+    width: clamp(52px, 14vw, 96px) !important;
     max-width: none !important;
     flex-shrink: 0;
   }
 
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
-    width: clamp(95px, 26vw, 155px) !important;
-    transform: scale(1.08) !important;
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar
+    .logo-w-sm-md-sec {
+    width: clamp(56px, 15vw, 104px) !important;
+    transform: scale(1.06) !important;
     max-width: none !important;
     flex-shrink: 0;
   }
+}
 
+/*
+ * Default Header mobile strip — alignment refinements aligned with Header2.tsx / Header2.css:
+ * grid columns, fixed logo widths on narrow phones, toll cluster hugging the menu, Bhashini spacing.
+ */
+@media only screen and (max-width: 575.98px) {
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-row--split {
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    column-gap: 5px !important;
+    padding-left: 10px !important;
+    padding-right: 6px !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-logos--split {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    padding-right: 4px !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-mid--split {
+    max-width: 142px !important;
+    gap: 0.12rem !important;
+    justify-self: end !important;
+    overflow: visible !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #toll_mb.skip01 {
+    white-space: nowrap !important;
+    min-width: 0 !important;
+    max-width: 104px !important;
+    overflow: visible !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #toll_mb
+    .lang_toll_free {
+    font-size: 9.7px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0 !important;
+    gap: 0.2em !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #toll_mb
+    .lang_toll_free
+    .mb-common-header__toll-phone-icon {
+    font-size: 0.82em !important;
+    margin-right: 0.1em !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .mb-common-header__bhashini-mid--split,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #bhashini-mobile-header {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    min-width: 16px !important;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    overflow: visible !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #bhashini-mobile-header
+    .mb-common-header__bhashini-fallback {
+    padding-left: 10px !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-end--split {
+    flex: 0 0 auto !important;
+    min-width: 40px !important;
+    justify-self: end !important;
+    margin-left: 0 !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .new_head
+    img.new_head1.logo-w-sm-md1 {
+    width: 78px !important;
+    min-width: 78px !important;
+    max-width: 78px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+    transform: none !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .new_head
+    img.logo-w-sm-md-sec {
+    width: 86px !important;
+    min-width: 86px !important;
+    max-width: 86px !important;
+    height: auto !important;
+    transform: none !important;
+    margin-left: 1px !important;
+    margin-top: 0 !important;
+    flex-shrink: 0 !important;
+  }
 }
 
 @media only screen and (max-width: 600px) {

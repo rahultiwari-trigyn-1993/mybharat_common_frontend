@@ -139,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mai
                     </span>
                   </div>
                 </div>
-                <div className="mb-common-header__mobile-end--split d-flex align-items-center justify-content-end flex-shrink-0">
+                <div className="mb-common-header__mobile-end--split d-flex align-items-center justify-content-end flex-shrink-0 min-w-0">
                   <button
                     type="button"
                     className="btn btn-light"

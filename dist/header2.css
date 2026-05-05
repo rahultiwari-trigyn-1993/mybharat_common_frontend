@@ -140,18 +140,22 @@ header.mb-common-header .f-hd-right {
   }
 }
 
-.mb-common-header__mobile-bar {
+/*
+ * Header2 mobile strip root — use only `--h2` (no shared `.mb-common-header__mobile-bar`) so Header.css
+ * and Header2.css never fight over the same class when both load.
+ */
+.mb-common-header__mobile-bar--h2 {
   position: relative;
   z-index: 2;
 }
 
 /* One strip: logos | flexible gap | toll + Bhashini + menu — matches mybharat.gov.in mobile header */
-.mb-common-header__mobile-bar .mb-common-header__mobile-row {
+.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {
   align-items: center !important;
   gap: 0.75rem;
 }
 
-.mb-common-header__mobile-bar .mb-common-header__mobile-logos {
+.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {
   flex: 0 1 auto;
   justify-content: flex-start;
   align-items: center;
@@ -161,7 +165,7 @@ header.mb-common-header .f-hd-right {
 /*
  * Right cluster: tighter gaps toll ↔ widget ↔ menu than logo ↔ toll (space-between does the latter).
  */
-.mb-common-header__mobile-bar .mb-common-header__mobile-actions-wrap.f-hd-right.d-sm-none1 {
+.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-actions-wrap.f-hd-right.d-sm-none1 {
   flex: 0 0 auto;
   float: none !important;
   justify-content: flex-end;
@@ -170,23 +174,23 @@ header.mb-common-header .f-hd-right {
   margin-top: 0 !important;
 }
 
-.mb-common-header__mobile-bar #toll_mb.skip01 {
+.mb-common-header__mobile-bar--h2 #toll_mb.skip01 {
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
   flex: 0 1 auto;
   min-width: 0;
-  color: #1937b2;
+  color: rgb(13 110 253);
   text-decoration: none;
   line-height: 1;
 }
 
-.mb-common-header__mobile-bar #toll_mb .lang_toll_free {
+.mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {
   font-size: clamp(11px, 3vw, 14px);
   font-weight: 700;
   line-height: 1.15;
-  color: #1937b2;
+  color: rgb(13 110 253);
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
@@ -194,32 +198,32 @@ header.mb-common-header .f-hd-right {
 
 /* Scoped to Header2 root so it does not override Header’s toll icon when both CSS files are bundled */
 header.mb-common-header--header2
-  .mb-common-header__mobile-bar
+  .mb-common-header__mobile-bar--h2
   #toll_mb
   .lang_toll_free
   .mb-common-header__toll-phone-icon {
   display: inline-block;
   font-size: 0.95em;
-  line-height: 1;
+  line-height: 0;
   vertical-align: middle;
   /* Match default Header: handset leans slightly clockwise */
-  transform: rotate(108deg);
+  transform: rotate(180deg);
   transform-origin: 50% 58%;
 }
 
 /* Wins over legacy header.ctp rules that absolutely position the menu button only */
-.mb-common-header__mobile-bar #mb_menus {
+.mb-common-header__mobile-bar--h2 #mb_menus {
   position: static !important;
   right: auto !important;
   top: auto !important;
 }
 
-.mb-common-header__mobile-bar #mb_menus.btn-light {
+.mb-common-header__mobile-bar--h2 #mb_menus.btn-light {
   flex: 0 0 auto;
   border: 1px solid #dee2e6;
 }
 
-.mb-common-header__mobile-bar #bhashini-mobile-header {
+.mb-common-header__mobile-bar--h2 #bhashini-mobile-header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -295,7 +299,7 @@ header.mb-common-header--header2
     max-width: min(190px, 54vw);
   }
 
-  header.mb-common-header--header2 .mb-common-header__mobile-bar #toll_mb .lang_toll_free {
+  header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {
     font-size: clamp(9px, 2.65vw, 11px);
     font-weight: 600;
     gap: 0.2em;
@@ -304,7 +308,7 @@ header.mb-common-header--header2
   }
 
   header.mb-common-header--header2
-    .mb-common-header__mobile-bar
+    .mb-common-header__mobile-bar--h2
     #toll_mb
     .lang_toll_free
     .mb-common-header__toll-phone-icon {
@@ -335,7 +339,7 @@ header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {
 header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {
   background-color: #9a3a13 !important;
   color: #ffffff !important;
-  outline: 2px solid #1937b2;
+  outline: 2px solid rgb(13 110 253);
   outline-offset: 2px;
 }
 
@@ -355,7 +359,7 @@ header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {
   }
 }
 
-header.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar #mb_menus.mb-common-header__mobile-menu-btn--h2 {
+header.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {
   border: none !important;
 }
 
@@ -422,15 +426,15 @@ header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
   width: 124px !important;
 }
 
-header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {
   display: flex;
   align-items: center;
   min-width: 0;
   max-width: 100%;
 }
 
-header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md1,
-header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md-sec {
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,
+header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {
   flex-shrink: 1;
   min-width: 0;
   object-fit: contain;
@@ -468,12 +472,12 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     transform: scale(1.08) !important;
   }
 
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .logo-w-sm-md1 {
     width: clamp(72px, 20vw, 142px) !important;
     max-width: none !important;
   }
 
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .logo-w-sm-md-sec {
     width: clamp(76px, 21vw, 150px) !important;
     transform: scale(1.08) !important;
     max-width: none !important;
@@ -508,12 +512,12 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     flex-shrink: 0 !important;
   }
 
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md1 {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .logo-w-sm-md1 {
     width: clamp(52px, 14vw, 96px) !important;
     max-width: none !important;
   }
 
-  header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .logo-w-sm-md-sec {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .logo-w-sm-md-sec {
     width: clamp(56px, 15vw, 104px) !important;
     transform: scale(1.06) !important;
     max-width: none !important;

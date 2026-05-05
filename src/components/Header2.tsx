@@ -112,7 +112,7 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase, m
         <div className="container">
           <div className="row align-items-center gx-2">
             {/* Mobile / tablet (<lg): same row as mybharat.gov.in — logos left, open middle, toll + Bhashini + menu right */}
-            <div className="col-12 d-lg-none mb-common-header__mobile-bar mb-common-header__mobile-bar--h2">
+            <div className="col-12 d-lg-none mb-common-header__mobile-bar--h2">
               <div className="mb-common-header__mobile-row mb-common-header__mobile-row--h2 d-flex align-items-center flex-nowrap w-100 py-2">
                 <div className="mb-common-header__mobile-logos mb-common-header__mobile-logos--h2 min-w-0 d-flex align-items-center">
                   <div className="d-flex new_head align-items-center">
