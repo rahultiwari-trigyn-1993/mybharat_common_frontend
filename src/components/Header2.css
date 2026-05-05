@@ -970,9 +970,9 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     .mb-common-header__mobile-bar--h2
     .new_head
     img.new_head1.logo-w-sm-md1 {
-    width: 95px !important;
-    min-width: 95px !important;
-    max-width: 95px !important;
+    width: 78px !important;
+    min-width: 78px !important;
+    max-width: 78px !important;
     height: auto !important;
     flex-shrink: 0 !important;
   }
