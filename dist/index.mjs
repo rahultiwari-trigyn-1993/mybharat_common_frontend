@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.141 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.142 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 
 // #style-inject:#style-inject
@@ -1213,7 +1213,7 @@ var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) 
 var Footer_default = Footer;
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.141";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.142";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   DEFAULT_HEADER2_MAIN_NAV,
