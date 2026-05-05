@@ -439,7 +439,7 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   min-width: 0;
   object-fit: contain;
   height: auto !important;
-  max-width: none !important;
+  max-width: 99px !important;
 }
 
 #mobileMenuNew img.logo-w-sm-md-sec {
@@ -970,9 +970,9 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     .mb-common-header__mobile-bar--h2
     .new_head
     img.new_head1.logo-w-sm-md1 {
-    width: 78px !important;
-    min-width: 78px !important;
-    max-width: 78px !important;
+    width: 95px !important;
+    min-width: 95px !important;
+    max-width: 95px !important;
     height: auto !important;
     flex-shrink: 0 !important;
   }
@@ -981,9 +981,9 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     .mb-common-header__mobile-bar--h2
     .new_head
     img.logo-w-sm-md-sec {
-    width: 86px !important;
-    min-width: 86px !important;
-    max-width: 86px !important;
+    width: 105px !important;
+    min-width: 105px !important;
+    max-width: 105px !important;
     height: auto !important;
     transform: none !important;
     margin-left: 1px !important;
