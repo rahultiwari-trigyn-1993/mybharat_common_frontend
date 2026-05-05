@@ -1,6 +1,7 @@
 import React from 'react';
 import type { NavLinkItem, NavTreeItem } from '../navigation/types';
 import { getNavLinkAttrs } from '../navigation/navLinkAttrs';
+import { isNavGroupItem, normalizeNavTree } from '../navigation/navTree';
 
 export type MobileMenuModalProps = {
   cdnBase: string;
@@ -32,7 +33,7 @@ function MobileNavLinkRow({ item }: { item: NavLinkItem }) {
 }
 
 function MobileNavNode({ item, path }: { item: NavTreeItem; path: string }) {
-  if (item.type === 'link') {
+  if (!isNavGroupItem(item)) {
     return (
       <li>
         <MobileNavLinkRow item={item} />
@@ -72,6 +73,7 @@ function MobileNavNode({ item, path }: { item: NavTreeItem; path: string }) {
  */
 export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({ cdnBase, items }) => {
   const rootPath = React.useId().replace(/:/g, '');
+  const tree = React.useMemo(() => normalizeNavTree(items), [items]);
 
   return (
     <div
@@ -100,7 +102,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({ cdnBase, items
           <div className="modal-body pt-2">
             <div className="m-menu">
               <ul className="list-unstyled mb-0">
-                {items.map((item, i) => (
+                {tree.map((item, i) => (
                   <MobileNavNode key={`${rootPath}-${i}`} item={item} path={`${rootPath}-${i}`} />
                 ))}
               </ul>

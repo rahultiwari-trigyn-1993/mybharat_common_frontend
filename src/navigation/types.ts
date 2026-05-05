@@ -17,7 +17,11 @@ export type NavLinkItem = {
   external?: boolean;
 };
 
-/** Dropdown group: label + children (links or nested groups for multilevel). */
+/**
+ * Dropdown group: label + children. JSON from CMS/API may contain **any mix** of nested `group`
+ * and `link` nodes at every level (single child or many). Rendering is recursive in
+ * {@link DesktopMainNav} and {@link MobileMenuModal}; use {@link normalizeNavTree} for loose payloads.
+ */
 export type NavGroupItem = {
   type: 'group';
   label: string;

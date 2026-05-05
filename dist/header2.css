@@ -569,7 +569,8 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   left: -25px;
 }
 
-.dropevent_content .fa {
+/* Only the top “notch” caret on each panel — not chevrons on nested group buttons */
+.dropevent_content > .fa.fa-caret-up {
   position: absolute;
   top: -10px;
   left: 43%;
@@ -590,7 +591,34 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   background-color: #fff;
 }
 
-.dropdown_evnt_prog:hover .dropevent_content {
+/* Only the direct submenu opens — nested panels stay closed until their parent row is hovered. */
+.dropdown_evnt_prog:hover > .dropevent_content {
+  display: block;
+}
+
+/*
+ * Nested groups (group inside group) — required when importing only header2.css.
+ * Without this, inner .dropevent_content never gets display:block on hover.
+ */
+.dropevent_content .dropdown_evnt_prog {
+  display: block;
+  width: 100%;
+}
+
+.dropevent_content .dropdown_evnt_prog .dropevent {
+  width: 100%;
+  text-align: left;
+  border-top: 1px solid #dcdcdc;
+}
+
+.dropevent_content .dropdown_evnt_prog .dropevent_content {
+  left: 100%;
+  top: 0;
+  margin-left: 2px;
+  z-index: 2;
+}
+
+.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {
   display: block;
 }
 

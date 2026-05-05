@@ -504,7 +504,8 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   left: -25px;
 }
 
-.dropevent_content .fa {
+/* Only the top “notch” caret on each panel — not chevrons on nested group buttons */
+.dropevent_content > .fa.fa-caret-up {
   position: absolute;
   top: -10px;
   left: 43%;
@@ -525,7 +526,8 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   background-color: #fff;
 }
 
-.dropdown_evnt_prog:hover .dropevent_content {
+/* Only the direct submenu panel opens — not nested .dropevent_content descendants (fixes inner groups auto-expanding). */
+.dropdown_evnt_prog:hover > .dropevent_content {
   display: block;
 }
 
@@ -547,7 +549,7 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   margin-left: 2px;
 }
 
-.dropevent_content .dropdown_evnt_prog:hover .dropevent_content {
+.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {
   display: block;
 }
 

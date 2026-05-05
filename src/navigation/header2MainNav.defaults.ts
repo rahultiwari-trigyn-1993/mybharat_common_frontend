@@ -23,6 +23,39 @@ export const DEFAULT_HEADER2_MAIN_NAV: readonly NavTreeItem[] = [
     ],
   },
   {
+    type: 'group',
+    label: 'Resources',
+    children: [
+      {
+        type: 'group',
+        label: 'Voices',
+        children: [
+          {
+            type: 'link',
+            label: 'Blogs',
+            href: '/voices/blogs',
+            linkClassName: 'mission_yuva fontchange14',
+            spanClassName: 'lang_exp_lrn01',
+          },
+          {
+            type: 'link',
+            label: 'Newsletters',
+            href: '/pages/newsletter',
+            linkClassName: 'events fontchange14',
+            spanClassName: 'lang_event',
+          },
+        ],
+      },
+      {
+        type: 'link',
+        label: 'Other Resources',
+        href: '/resources-list',
+        linkClassName: 'events fontchange14',
+        spanClassName: 'lang_event',
+      },
+    ],
+  },
+  {
     type: 'link',
     label: 'Youth',
     href: 'https://web-beta.mybharats.in/youth-public-profile',

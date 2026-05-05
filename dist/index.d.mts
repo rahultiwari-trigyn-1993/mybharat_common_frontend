@@ -30,7 +30,11 @@ type NavLinkItem = {
     /** Sets `rel="noopener noreferrer"` and `target="_blank"` when true. */
     external?: boolean;
 };
-/** Dropdown group: label + children (links or nested groups for multilevel). */
+/**
+ * Dropdown group: label + children. JSON from CMS/API may contain **any mix** of nested `group`
+ * and `link` nodes at every level (single child or many). Rendering is recursive in
+ * {@link DesktopMainNav} and {@link MobileMenuModal}; use {@link normalizeNavTree} for loose payloads.
+ */
 type NavGroupItem = {
     type: 'group';
     label: string;
@@ -88,6 +92,19 @@ declare const DEFAULT_HEADER2_MAIN_NAV: readonly NavTreeItem[];
  */
 declare function isSafeNavHref(href: string): boolean;
 
+type NormalizeNavTreeOptions = {
+    /** Guard against runaway trees (default 32). */
+    maxDepth?: number;
+};
+/**
+ * Normalizes API/CMS JSON into a safe {@link NavTreeItem} tree: any mix of `group` and `link`
+ * at any depth; drops invalid nodes; drops empty groups; enforces max nesting depth.
+ * Use before rendering when `mainNavItems` comes from untrusted or loose JSON.
+ */
+declare function normalizeNavTree(items: unknown, options?: NormalizeNavTreeOptions): NavTreeItem[];
+declare function isNavLinkItem(item: NavTreeItem): item is NavLinkItem;
+declare function isNavGroupItem(item: NavTreeItem): item is NavGroupItem;
+
 /** Published npm version — inlined at build from `package.json`. Compare with DevTools Sources banner. */
 declare const MYBHARAT_COMMON_FRONTEND_VERSION: string;
 declare const _default: {
@@ -96,4 +113,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, Header, Header2, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, _default as default, isSafeNavHref };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, Header, Header2, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeNavTreeOptions, _default as default, isNavGroupItem, isNavLinkItem, isSafeNavHref, normalizeNavTree };

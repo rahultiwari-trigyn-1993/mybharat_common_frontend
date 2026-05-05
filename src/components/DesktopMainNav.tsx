@@ -1,6 +1,7 @@
 import React from 'react';
 import type { NavGroupItem, NavLinkItem, NavTreeItem } from '../navigation/types';
 import { getNavLinkAttrs } from '../navigation/navLinkAttrs';
+import { isNavGroupItem, normalizeNavTree } from '../navigation/navTree';
 
 function NavLinkLi({ item, id }: { item: NavLinkItem; id: string }) {
   const { href, external } = getNavLinkAttrs(item, 'DesktopMainNav');
@@ -37,7 +38,7 @@ function NavLinkInline({ item, id }: { item: NavLinkItem; id: string }) {
 }
 
 function NavDropdownChild({ item, id }: { item: NavTreeItem; id: string }) {
-  if (item.type === 'link') {
+  if (!isNavGroupItem(item)) {
     return <NavLinkInline item={item} id={id} />;
   }
   return (
@@ -75,7 +76,7 @@ function DropdownLi({ item, id }: { item: NavGroupItem; id: string }) {
 
 function TopItem({ item, index }: { item: NavTreeItem; index: number }) {
   const id = `nav-${index}`;
-  if (item.type === 'link') {
+  if (!isNavGroupItem(item)) {
     return <NavLinkLi item={item} id={id} />;
   }
   return <DropdownLi item={item} id={id} />;
@@ -89,10 +90,13 @@ export type DesktopMainNavProps = {
  * Renders only `ul.menu_nav1` — place inside the existing desktop `nav.navbar` next to auth controls.
  * Tree from API/CMS/ELK; {@link isSafeNavHref} blocks `javascript:` / `data:` on the client.
  */
-export const DesktopMainNav: React.FC<DesktopMainNavProps> = ({ items }) => (
-  <ul className="menu_nav1">
-    {items.map((item, index) => (
-      <TopItem key={index} item={item} index={index} />
-    ))}
-  </ul>
-);
+export const DesktopMainNav: React.FC<DesktopMainNavProps> = ({ items }) => {
+  const tree = React.useMemo(() => normalizeNavTree(items), [items]);
+  return (
+    <ul className="menu_nav1">
+      {tree.map((item, index) => (
+        <TopItem key={index} item={item} index={index} />
+      ))}
+    </ul>
+  );
+};
