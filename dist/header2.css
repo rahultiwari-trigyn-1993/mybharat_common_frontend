@@ -129,10 +129,10 @@ header.mb-common-header .f-hd-right {
   transition: all 0.3s ease-in-out;
 }
 
-/* All chevron icons point right by default (like Voices) */
+/* All chevron icons point DOWN by default */
 .dropevent i.fa-chevron-down {
   display: inline-block;
-  transform: rotate(-90deg);
+  transform: rotate(0deg);
   transition: transform 0.3s ease-in-out;
   margin-left: 4px;
 }
@@ -143,19 +143,19 @@ header.mb-common-header .f-hd-right {
   display: block !important;
 }
 
-/* On click, rotate chevron from right to down */
+/* On click, rotate chevron from down to right */
 .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {
-  transform: rotate(0deg);
+  transform: rotate(-90deg);
 }
 
-/* Nested dropdown chevrons — same default right, rotate down only on their own active state */
+/* Nested dropdown chevrons — same default down, rotate right only on their own active state */
 .dropevent_content .dropdown_evnt_prog.active > .dropevent_content {
   display: block !important;
 }
 
 /* Nested dropdown chevron rotation on active */
 .dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {
-  transform: rotate(0deg);
+  transform: rotate(-90deg);
 }
 
 /* main header container */
@@ -903,38 +903,27 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     color: #fff;
   }
 
-  /* Arrow animation for mobile accordion menus — right by default, down when open */
+  /* Arrow animation for mobile accordion menus — DOWN by default, right when open */
   #mobileMenuNew .accordion-button::after {
-    transform: rotate(-90deg);
+    transform: rotate(0deg);
     transition: transform 0.3s ease-in-out;
   }
 
   #mobileMenuNew .accordion-button:not(.collapsed)::after {
-    transform: rotate(0deg);
+    transform: rotate(-90deg);
     transition: transform 0.3s ease-in-out;
   }
 }
 
-/* Mobile drawer collapse buttons — fa-chevron-down points right by default, down when expanded */
+/* Mobile drawer collapse buttons — fa-chevron-down points DOWN by default, right when expanded */
 #mobileMenuNew [data-bs-toggle="collapse"] i.fa-chevron-down {
   display: inline-block;
-  transform: rotate(-90deg);
+  transform: rotate(0deg);
   transition: transform 0.3s ease-in-out;
 }
 
 #mobileMenuNew [data-bs-toggle="collapse"][aria-expanded="true"] i.fa-chevron-down {
-  transform: rotate(0deg);
-}
-
-/* Mobile drawer collapse buttons — fa-chevron-down points right by default, down when expanded */
-#mobileMenuNew [data-bs-toggle="collapse"] i.fa-chevron-down {
-  display: inline-block;
   transform: rotate(-90deg);
-  transition: transform 0.3s ease-in-out;
-}
-
-#mobileMenuNew [data-bs-toggle="collapse"][aria-expanded="true"] i.fa-chevron-down {
-  transform: rotate(0deg);
 }
 
 /* Final mobile logo lock for Header2: keep exact visual size at 359px and prevent grid shrink */
