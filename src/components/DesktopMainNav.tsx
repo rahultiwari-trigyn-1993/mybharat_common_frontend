@@ -38,15 +38,23 @@ function NavLinkInline({ item, id }: { item: NavLinkItem; id: string }) {
 }
 
 function NavDropdownChild({ item, id }: { item: NavTreeItem; id: string }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  
   if (!isNavGroupItem(item)) {
     return <NavLinkInline item={item} id={id} />;
   }
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
+  
   return (
-    <div key={id} className="dropdown_evnt_prog">
-      <button type="button" className="dropevent">
+    <div key={id} className={`dropdown_evnt_prog ${isOpen ? 'active' : ''}`}>
+      <button type="button" className="dropevent" onClick={handleClick}>
         {item.label} <i className="fa fa-chevron-down" aria-hidden="true"></i>
       </button>
-      <div className="dropevent_content" role="menu">
+      <div className="dropevent_content" role="menu" style={{ display: isOpen ? 'block' : 'none' }}>
         <i className="fa fa-caret-up" aria-hidden="true"></i>
         {item.children.map((child, i) => (
           <NavDropdownChild key={`${id}-n-${i}`} item={child} id={`${id}-n-${i}`} />
@@ -57,13 +65,20 @@ function NavDropdownChild({ item, id }: { item: NavTreeItem; id: string }) {
 }
 
 function DropdownLi({ item, id }: { item: NavGroupItem; id: string }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
+  
   return (
     <li key={id} role="presentation">
-      <div className="dropdown_evnt_prog">
-        <button type="button" className="dropevent">
+      <div className={`dropdown_evnt_prog ${isOpen ? 'active' : ''}`}>
+        <button type="button" className="dropevent" onClick={handleClick}>
           {item.label} <i className="fa fa-chevron-down" aria-hidden="true"></i>
         </button>
-        <div className="dropevent_content" role="menu">
+        <div className="dropevent_content" role="menu" style={{ display: isOpen ? 'block' : 'none' }}>
           <i className="fa fa-caret-up" aria-hidden="true"></i>
           {item.children.map((child, i) => (
             <NavDropdownChild key={`${id}-${i}`} item={child} id={`${id}-${i}`} />
