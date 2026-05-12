@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.159 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.161 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 
 // #style-inject:#style-inject
@@ -271,16 +271,27 @@ function NavLinkInline({ item }) {
     }
   );
 }
-function NavDropdownChild({ item, segments }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+function NavDropdownChild({
+  item,
+  segments,
+  nestedOpenKey,
+  setNestedOpenKey
+}) {
+  const myKey = navTreeItemKey(item, segments);
   if (!isNavGroupItem(item)) {
     return /* @__PURE__ */ jsx(NavLinkInline, { item });
   }
+  const isOpen = nestedOpenKey === myKey;
   const handleClick = (e) => {
     e.preventDefault();
-    setIsOpen(!isOpen);
+    setNestedOpenKey(isOpen ? null : myKey);
   };
-  return /* @__PURE__ */ jsxs("div", { className: `dropdown_evnt_prog ${isOpen ? "active" : ""}`, children: [
+  const handleMouseLeave = React.useCallback(() => {
+    if (isOpen) {
+      setNestedOpenKey(null);
+    }
+  }, [isOpen, setNestedOpenKey]);
+  return /* @__PURE__ */ jsxs("div", { className: `dropdown_evnt_prog ${isOpen ? "active" : ""}`, onMouseLeave: handleMouseLeave, children: [
     /* @__PURE__ */ jsxs("button", { type: "button", className: "dropevent", onClick: handleClick, children: [
       item.label,
       " ",
@@ -290,43 +301,102 @@ function NavDropdownChild({ item, segments }) {
       /* @__PURE__ */ jsx("i", { className: "fa fa-caret-up", "aria-hidden": "true" }),
       item.children.map((child, i) => {
         const childSegments = [...segments, i];
-        return /* @__PURE__ */ jsx(NavDropdownChild, { item: child, segments: childSegments }, navTreeItemKey(child, childSegments));
+        return /* @__PURE__ */ jsx(
+          NavDropdownChild,
+          {
+            item: child,
+            segments: childSegments,
+            nestedOpenKey,
+            setNestedOpenKey
+          },
+          navTreeItemKey(child, childSegments)
+        );
       })
     ] })
   ] });
 }
-function DropdownLi({ item, segments }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+function DropdownLi({
+  item,
+  segments,
+  openTopKey,
+  setOpenTopKey,
+  topMenuKey
+}) {
+  const [nestedOpenKey, setNestedOpenKey] = React.useState(null);
+  const isOpenTop = openTopKey === topMenuKey;
+  React.useEffect(() => {
+    if (!isOpenTop) {
+      setNestedOpenKey(null);
+    }
+  }, [isOpenTop]);
   const handleClick = (e) => {
     e.preventDefault();
-    setIsOpen(!isOpen);
+    setOpenTopKey(isOpenTop ? null : topMenuKey);
   };
-  return /* @__PURE__ */ jsx("li", { role: "presentation", children: /* @__PURE__ */ jsxs("div", { className: `dropdown_evnt_prog ${isOpen ? "active" : ""}`, children: [
+  const handleMouseLeave = React.useCallback(() => {
+    if (isOpenTop) {
+      setOpenTopKey(null);
+    }
+  }, [isOpenTop, setOpenTopKey]);
+  return /* @__PURE__ */ jsx("li", { role: "presentation", children: /* @__PURE__ */ jsxs("div", { className: `dropdown_evnt_prog ${isOpenTop ? "active" : ""}`, onMouseLeave: handleMouseLeave, children: [
     /* @__PURE__ */ jsxs("button", { type: "button", className: "dropevent", onClick: handleClick, children: [
       item.label,
       " ",
       /* @__PURE__ */ jsx("i", { className: "fa fa-chevron-down", "aria-hidden": "true" })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "dropevent_content", role: "menu", style: { display: isOpen ? "block" : "none" }, children: [
+    /* @__PURE__ */ jsxs("div", { className: "dropevent_content", role: "menu", style: { display: isOpenTop ? "block" : "none" }, children: [
       /* @__PURE__ */ jsx("i", { className: "fa fa-caret-up", "aria-hidden": "true" }),
       item.children.map((child, i) => {
         const childSegments = [...segments, i];
-        return /* @__PURE__ */ jsx(NavDropdownChild, { item: child, segments: childSegments }, navTreeItemKey(child, childSegments));
+        return /* @__PURE__ */ jsx(
+          NavDropdownChild,
+          {
+            item: child,
+            segments: childSegments,
+            nestedOpenKey,
+            setNestedOpenKey
+          },
+          navTreeItemKey(child, childSegments)
+        );
       })
     ] })
   ] }) });
 }
-function TopItem({ item, segments }) {
+function TopItem({
+  item,
+  segments,
+  openTopKey,
+  setOpenTopKey
+}) {
   if (!isNavGroupItem(item)) {
     return /* @__PURE__ */ jsx(NavLinkLi, { item });
   }
-  return /* @__PURE__ */ jsx(DropdownLi, { item, segments });
+  return /* @__PURE__ */ jsx(
+    DropdownLi,
+    {
+      item,
+      segments,
+      openTopKey,
+      setOpenTopKey,
+      topMenuKey: navTreeItemKey(item, segments)
+    }
+  );
 }
 var DesktopMainNav = ({ items }) => {
   const tree = React.useMemo(() => normalizeNavTree(items), [items]);
+  const [openTopKey, setOpenTopKey] = React.useState(null);
   return /* @__PURE__ */ jsx("ul", { className: "menu_nav1", children: tree.map((item, index) => {
     const segments = [index];
-    return /* @__PURE__ */ jsx(TopItem, { item, segments }, navTreeItemKey(item, segments));
+    return /* @__PURE__ */ jsx(
+      TopItem,
+      {
+        item,
+        segments,
+        openTopKey,
+        setOpenTopKey
+      },
+      navTreeItemKey(item, segments)
+    );
   }) });
 };
 
@@ -1155,7 +1225,7 @@ var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) 
 var Footer_default = Footer;
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.159";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.161";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   DEFAULT_HEADER2_MAIN_NAV,

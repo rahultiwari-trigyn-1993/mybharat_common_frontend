@@ -73,6 +73,8 @@ type DesktopMainNavProps = {
 /**
  * Renders only `ul.menu_nav1` — place inside the existing desktop `nav.navbar` next to auth controls.
  * Tree from API/CMS/ELK; {@link isSafeNavHref} blocks `javascript:` / `data:` on the client.
+ * Only one top-level dropdown is open at a time; within an open panel, only one nested group is open at a time.
+ * Menus close when the pointer leaves the trigger + panel wrapper (desktop).
  */
 declare const DesktopMainNav: React__default.FC<DesktopMainNavProps>;
 
