@@ -2,6 +2,7 @@ import React from 'react';
 import type { NavLinkItem, NavTreeItem } from '../navigation/types';
 import { getNavLinkAttrs } from '../navigation/navLinkAttrs';
 import { isNavGroupItem, normalizeNavTree } from '../navigation/navTree';
+import { navTreeItemKey } from '../navigation/navTreeKeys';
 
 export type MobileMenuModalProps = {
   cdnBase: string;
@@ -32,7 +33,7 @@ function MobileNavLinkRow({ item }: { item: NavLinkItem }) {
   );
 }
 
-function MobileNavNode({ item, path }: { item: NavTreeItem; path: string }) {
+function MobileNavNode({ item, segments }: { item: NavTreeItem; segments: readonly number[] }) {
   if (!isNavGroupItem(item)) {
     return (
       <li>
@@ -41,6 +42,7 @@ function MobileNavNode({ item, path }: { item: NavTreeItem; path: string }) {
     );
   }
 
+  const path = navTreeItemKey(item, segments);
   const collapseId = collapseDomId(path);
   return (
     <li className="border-0">
@@ -57,9 +59,12 @@ function MobileNavNode({ item, path }: { item: NavTreeItem; path: string }) {
       </button>
       <div id={collapseId} className="collapse">
         <ul className="list-unstyled mb-0 ps-3 pb-1 border-start ms-1">
-          {item.children.map((child, j) => (
-            <MobileNavNode key={`${path}-${j}`} item={child} path={`${path}-${j}`} />
-          ))}
+          {item.children.map((child, j) => {
+            const childSegments = [...segments, j] as const;
+            return (
+              <MobileNavNode key={navTreeItemKey(child, childSegments)} item={child} segments={childSegments} />
+            );
+          })}
         </ul>
       </div>
     </li>
@@ -72,7 +77,6 @@ function MobileNavNode({ item, path }: { item: NavTreeItem; path: string }) {
  * Main links are driven by `items` (same as desktop). Login modals / jQuery live in the host app — see `docs/header-ctp-reference.md`.
  */
 export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({ cdnBase, items }) => {
-  const rootPath = React.useId().replace(/:/g, '');
   const tree = React.useMemo(() => normalizeNavTree(items), [items]);
 
   return (
@@ -102,9 +106,10 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({ cdnBase, items
           <div className="modal-body pt-2">
             <div className="m-menu">
               <ul className="list-unstyled mb-0">
-                {tree.map((item, i) => (
-                  <MobileNavNode key={`${rootPath}-${i}`} item={item} path={`${rootPath}-${i}`} />
-                ))}
+                {tree.map((item, i) => {
+                  const segments = [i] as const;
+                  return <MobileNavNode key={navTreeItemKey(item, segments)} item={item} segments={segments} />;
+                })}
               </ul>
             </div>
 

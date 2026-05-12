@@ -48,6 +48,7 @@ type NavTreeItem = NavLinkItem | NavGroupItem;
  */
 
 type Header2Props = {
+    /** Landmark label for the root `<header>` (`aria-label`). Does not change visible UI. */
     title?: string;
     /** Override CDN base (no trailing slash), e.g. `https://cdn-beta.mybharats.in/mybharat` */
     cdnBase?: string;
@@ -57,6 +58,7 @@ type Header2Props = {
 declare const Header2: React__default.FC<Header2Props>;
 
 type HeaderProps = {
+    /** Landmark label for the root `<header>` (`aria-label`). Does not change visible UI. */
     title?: string;
     /** Override CDN base (no trailing slash), e.g. `https://cdn-prod.mybharats.in/mybharat` */
     cdnBase?: string;
@@ -105,6 +107,12 @@ declare function normalizeNavTree(items: unknown, options?: NormalizeNavTreeOpti
 declare function isNavLinkItem(item: NavTreeItem): item is NavLinkItem;
 declare function isNavGroupItem(item: NavTreeItem): item is NavGroupItem;
 
+/**
+ * Stable React key from tree position + item identity (label/href/child count).
+ * Safer than `key={index}` when CMS reorders items at the same depth.
+ */
+declare function navTreeItemKey(item: NavTreeItem, segments: readonly number[]): string;
+
 /** Published npm version — inlined at build from `package.json`. Compare with DevTools Sources banner. */
 declare const MYBHARAT_COMMON_FRONTEND_VERSION: string;
 declare const _default: {
@@ -113,4 +121,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, Header, Header2, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeNavTreeOptions, _default as default, isNavGroupItem, isNavLinkItem, isSafeNavHref, normalizeNavTree };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, Header, Header2, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeNavTreeOptions, _default as default, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeNavTree };

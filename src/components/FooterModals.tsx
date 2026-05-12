@@ -32,14 +32,24 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
 
   useEffect(() => {
     setPortalReady(true);
-    if (!isLoggedIn && recaptchaSiteKey && !document.getElementById('mb-google-recaptcha-script')) {
+    const scriptId = 'mb-google-recaptcha-script';
+    let created = false;
+
+    if (!isLoggedIn && recaptchaSiteKey && !document.getElementById(scriptId)) {
       const s = document.createElement('script');
-      s.id = 'mb-google-recaptcha-script';
+      s.id = scriptId;
       s.src = 'https://www.google.com/recaptcha/api.js';
       s.async = true;
       s.defer = true;
       document.body.appendChild(s);
+      created = true;
     }
+
+    return () => {
+      if (created) {
+        document.getElementById(scriptId)?.remove();
+      }
+    };
   }, [isLoggedIn, recaptchaSiteKey]);
 
   const hideChoiceShowForm = () => {

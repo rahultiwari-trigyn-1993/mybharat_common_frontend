@@ -1,6 +1,5 @@
-/* Draft: paired with Header2.tsx (not bundled in dist/index.css until promoted). */
 /* =========================
-   HEADER (custom classes)
+   HEADER (custom classes) — shared by Header + Header2
    Source merged from:
    - app/webroot/css/default.css
    - View/Elements/header_external.ctp (inline style)
@@ -108,6 +107,8 @@ header.mb-common-header .f-hd-right {
 .mb-common-header__modal-nav a:hover {
   color: #f15b43;
 }
+
+/* Draft: paired with Header2.tsx — shared base: header/Header.common.css (prepended in dist/header2.css). */
 
 /* main nav links */
 .main-menu ul li {

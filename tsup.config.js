@@ -28,10 +28,11 @@ export default defineConfig({
   external: ["react", "react-dom"],
   // package.json "style" / exports["./style.css"] must exist; injectStyle only embeds CSS in JS.
   async onSuccess() {
+    const headerCommonCss = readFileSync(join(__dirname, "src/components/header/Header.common.css"), "utf8");
     const headerCss = readFileSync(join(__dirname, "src/components/Header.css"), "utf8");
     const footerCss = readFileSync(join(__dirname, "src/components/Footer.css"), "utf8");
-    writeFileSync(join(__dirname, "dist/index.css"), `${headerCss}\n${footerCss}`);
+    writeFileSync(join(__dirname, "dist/index.css"), `${headerCommonCss}\n${headerCss}\n${footerCss}`);
     const header2Css = readFileSync(join(__dirname, "src/components/Header2.css"), "utf8");
-    writeFileSync(join(__dirname, "dist/header2.css"), header2Css);
+    writeFileSync(join(__dirname, "dist/header2.css"), `${headerCommonCss}\n${header2Css}`);
   }
 });
