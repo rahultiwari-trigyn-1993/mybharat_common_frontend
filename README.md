@@ -64,47 +64,71 @@ Use **`useMainNavItems`** or **`prepareMainNavItems`** so you do not copy unwrap
 import { useCallback } from "react";
 import {
   Header,
+  Header2,
   Footer,
   DEFAULT_HEADER_MAIN_NAV,
   useMainNavItems,
+  MYBHARAT_COMMON_FRONTEND_VERSION,
 } from "mybharat_common_frontend";
 import "mybharat_common_frontend/style.css";
 
+console.info("[mybharat_common_frontend]", MYBHARAT_COMMON_FRONTEND_VERSION);
+
 export default function App() {
   const loadHeaderNav = useCallback(async () => {
-    const token = import.meta.env.VITE_API_TOKEN;
-    const res = await fetch("https://your-api.example/api/getDynamicMenuTree", {
-      method: "POST",
+
+    /* Uncomment below to get Dynamic Menu Tree from CDN for Header */
+    const res = await fetch("https://cdn-beta.mybharats.in/master/header.json", {
       credentials: "omit",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      body: JSON.stringify({
-        menu_section: "header",
-        menu_key: "betaheader",
-        include_inactive: false,
-      }),
     });
     if (!res.ok) throw new Error(String(res.status));
     return res.json();
+    /* Get Dynamic Menu Tree from CDN for Header */
+
+    /* Uncomment below to get Dynamic Menu Tree from API for Header */
+    // const bearer_token = import.meta.env.VITE_API_TOKEN; // do not hardcode JWT in source
+    // const res = await fetch("http://127.0.0.1:8000/api/getDynamicMenuTree", {
+    //   method: "POST",
+    //   credentials: "omit",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     ...(bearer_token && { Authorization: `Bearer ${bearer_token}` }),
+    //   },
+    //   body: JSON.stringify({
+    //     menu_section: "header",
+    //     menu_key: "betaheader",
+    //     include_inactive: false,
+    //   }),
+    // });
+    // if (!res.ok) throw new Error(String(res.status));
+    // return res.json();
+    /* Get Dynamic Menu Tree from API for Header */
+    
   }, []);
+
+  const selectHeaderNav = useCallback((raw) => raw?.data ?? raw, []);
 
   const nav = useMainNavItems({
     load: loadHeaderNav,
-    select: (raw) => raw?.data ?? raw,
+    select: selectHeaderNav,
     fallback: DEFAULT_HEADER_MAIN_NAV,
   });
 
   return (
-    <>
+    <div>
       <Header mainNavItems={nav} />
-      <main>...</main>
+      <main>
+        <div className="container mx-auto px-16 py-32">
+          <p>Main Content</p>
+        </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 ```
+
+For **`Header2`**, add `import "mybharat_common_frontend/header2.css"` and use `<Header2 mainNavItems={nav} />` with **`DEFAULT_HEADER2_MAIN_NAV`** as `fallback`.
 
 One-shot (no hook), e.g. after your own `fetch`:
 
