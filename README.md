@@ -56,47 +56,67 @@ Example:
 ]
 ```
 
-Example: **`fetch` in your app**, then pass the array (see callout above):
+### Dynamic menu (API or CDN)
+
+Use **`useMainNavItems`** or **`prepareMainNavItems`** so you do not copy unwrap/normalize/filter helpers into every app. **`fetch` stays in your app** (auth, CORS, env); the package only shapes the payload.
 
 ```tsx
-import { useEffect, useState } from "react";
-import { Header, DEFAULT_HEADER_MAIN_NAV, isSafeNavHref, type NavTreeItem } from "mybharat_common_frontend";
+import { useCallback } from "react";
+import {
+  Header,
+  Footer,
+  DEFAULT_HEADER_MAIN_NAV,
+  useMainNavItems,
+} from "mybharat_common_frontend";
+import "mybharat_common_frontend/style.css";
 
-function filterUnsafeLinks(items: NavTreeItem[]): NavTreeItem[] {
-  return items
-    .map((item) => {
-      if (item.type === "link") return isSafeNavHref(item.href) ? item : null;
-      const children = filterUnsafeLinks(item.children);
-      return children.length ? { ...item, children } : null;
-    })
-    .filter(Boolean) as NavTreeItem[];
-}
-
-export function AppHeader() {
-  const [nav, setNav] = useState<readonly NavTreeItem[]>(DEFAULT_HEADER_MAIN_NAV);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch("https://example.com/header.json", { credentials: "omit" });
-        if (!res.ok) throw new Error(String(res.status));
-        const data = (await res.json()) as NavTreeItem[];
-        if (!cancelled && Array.isArray(data)) setNav(filterUnsafeLinks(data));
-      } catch {
-        if (!cancelled) setNav(DEFAULT_HEADER_MAIN_NAV);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+export default function App() {
+  const loadHeaderNav = useCallback(async () => {
+    const token = import.meta.env.VITE_API_TOKEN;
+    const res = await fetch("https://your-api.example/api/getDynamicMenuTree", {
+      method: "POST",
+      credentials: "omit",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: JSON.stringify({
+        menu_section: "header",
+        menu_key: "betaheader",
+        include_inactive: false,
+      }),
+    });
+    if (!res.ok) throw new Error(String(res.status));
+    return res.json();
   }, []);
 
-  return <Header mainNavItems={nav} />;
+  const nav = useMainNavItems({
+    load: loadHeaderNav,
+    select: (raw) => raw?.data ?? raw,
+    fallback: DEFAULT_HEADER_MAIN_NAV,
+  });
+
+  return (
+    <>
+      <Header mainNavItems={nav} />
+      <main>...</main>
+      <Footer />
+    </>
+  );
 }
 ```
 
-For **`Header2`**, swap in **`DEFAULT_HEADER2_MAIN_NAV`** as the initial state and catch fallback. **`isSafeNavHref`** is a light client guard on `href`; prefer stricter validation server-side for untrusted JSON. **`fetch`** needs **CORS** from the JSON host. Cache **`header.json`** with HTTP headers or a versioned URL if you need busting.
+One-shot (no hook), e.g. after your own `fetch`:
+
+```tsx
+import { prepareMainNavItems, DEFAULT_HEADER_MAIN_NAV } from "mybharat_common_frontend";
+
+const nav = prepareMainNavItems(apiJson.data, { fallback: DEFAULT_HEADER_MAIN_NAV });
+```
+
+Exports: **`normalizeApiMenuTree`**, **`filterUnsafeNavTree`**, **`unwrapMenuListFromPayload`**, **`normalizeHrefForNav`**, **`prepareMainNavItems`**, **`useMainNavItems`**. Strict CMS JSON can still use **`normalizeNavTree`**.
+
+For **`Header2`**, use **`DEFAULT_HEADER2_MAIN_NAV`** as `fallback`. Prefer server-side validation for untrusted menu JSON; **`isSafeNavHref`** is a light client guard on `href`.
 
 ## Consumer app shows an old build
 

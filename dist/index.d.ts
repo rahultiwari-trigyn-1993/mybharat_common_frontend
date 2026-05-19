@@ -115,6 +115,50 @@ declare function isNavGroupItem(item: NavTreeItem): item is NavGroupItem;
  */
 declare function navTreeItemKey(item: NavTreeItem, segments: readonly number[]): string;
 
+type NormalizeApiMenuTreeOptions = {
+    maxDepth?: number;
+};
+/** Normalizes relative paths and blocks dangerous schemes in loose API `href` fields. */
+declare function normalizeHrefForNav(href: unknown): string;
+/**
+ * Maps loose API/CMS menu nodes (`name`, `url`, `submenu`, etc.) into {@link NavTreeItem} trees.
+ * Also accepts strict `{ type: "link" | "group", label, href, children }` payloads.
+ */
+declare function normalizeApiMenuTree(items: unknown, options?: NormalizeApiMenuTreeOptions): NavTreeItem[];
+
+/** Drops links with unsafe `href` values; prunes empty groups. */
+declare function filterUnsafeNavTree(items: readonly NavTreeItem[]): NavTreeItem[];
+
+type PrepareMainNavItemsOptions = {
+    /** Used when payload is empty or normalizes to no safe links (default `[]`). */
+    fallback?: readonly NavTreeItem[];
+    maxDepth?: number;
+};
+/**
+ * Unwraps API JSON → loose API normalize → {@link filterUnsafeNavTree}.
+ * Pass the result to `Header` / `Header2` as `mainNavItems`.
+ */
+declare function prepareMainNavItems(raw: unknown, options?: PrepareMainNavItemsOptions): readonly NavTreeItem[];
+
+/**
+ * Unwraps a nav array from a raw API payload (array or one-level wrapper object).
+ */
+declare function unwrapMenuListFromPayload(data: unknown): unknown[] | null;
+
+type UseMainNavItemsOptions = {
+    /** Host-provided loader (API, CDN, etc.). This package does not call `fetch` by itself. */
+    load: () => Promise<unknown>;
+    /** Pick the slice to normalize, e.g. `(raw) => raw.data` */
+    select?: (raw: unknown) => unknown;
+    fallback?: readonly NavTreeItem[];
+    maxDepth?: number;
+};
+/**
+ * Loads nav in the host app, then unwraps / normalizes / filters for `mainNavItems`.
+ * Memoize `load` (and `select` if inline) with `useCallback` to avoid duplicate requests.
+ */
+declare function useMainNavItems(options: UseMainNavItemsOptions): readonly NavTreeItem[];
+
 /** Published npm version — inlined at build from `package.json`. Compare with DevTools Sources banner. */
 declare const MYBHARAT_COMMON_FRONTEND_VERSION: string;
 declare const _default: {
@@ -123,4 +167,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, Header, Header2, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeNavTreeOptions, _default as default, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeNavTree };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, Header, Header2, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, _default as default, filterUnsafeNavTree, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };

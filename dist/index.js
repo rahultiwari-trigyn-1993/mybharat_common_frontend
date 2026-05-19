@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.161 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.162 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -43,11 +43,17 @@ __export(index_exports, {
   MYBHARAT_CDN_ORIGIN: () => MYBHARAT_CDN_ORIGIN,
   MYBHARAT_COMMON_FRONTEND_VERSION: () => MYBHARAT_COMMON_FRONTEND_VERSION,
   default: () => index_default,
+  filterUnsafeNavTree: () => filterUnsafeNavTree,
   isNavGroupItem: () => isNavGroupItem,
   isNavLinkItem: () => isNavLinkItem,
   isSafeNavHref: () => isSafeNavHref,
   navTreeItemKey: () => navTreeItemKey,
-  normalizeNavTree: () => normalizeNavTree
+  normalizeApiMenuTree: () => normalizeApiMenuTree,
+  normalizeHrefForNav: () => normalizeHrefForNav,
+  normalizeNavTree: () => normalizeNavTree,
+  prepareMainNavItems: () => prepareMainNavItems,
+  unwrapMenuListFromPayload: () => unwrapMenuListFromPayload,
+  useMainNavItems: () => useMainNavItems
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -1274,8 +1280,145 @@ var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) 
 };
 var Footer_default = Footer;
 
+// src/navigation/navApiNormalize.ts
+var LABEL_KEYS = ["label", "name", "title", "text", "menu_label", "menu_name", "display_name"];
+var HREF_KEYS = ["href", "url", "path", "link", "route", "slug", "menu_url"];
+var CHILD_KEYS = [
+  "children",
+  "submenu",
+  "items",
+  "nodes",
+  "child_menus",
+  "menu_items",
+  "sub_menus"
+];
+function isPlainRecord2(v) {
+  return v !== null && typeof v === "object" && !Array.isArray(v);
+}
+function pickFirstString(obj, keys) {
+  for (const k of keys) {
+    const v = obj[k];
+    if (typeof v === "string" && v.trim()) return v.trim();
+  }
+  return "";
+}
+function pickChildArray(raw) {
+  for (const k of CHILD_KEYS) {
+    const v = raw[k];
+    if (Array.isArray(v) && v.length) return v;
+  }
+  return [];
+}
+function normalizeHrefForNav(href) {
+  if (typeof href !== "string") return "";
+  const t = href.trim();
+  if (!t) return "";
+  if (/^\s*(javascript:|data:|vbscript:)/i.test(t)) return "";
+  if (/^https?:\/\//i.test(t)) return t;
+  if (t.startsWith("mailto:") || t.startsWith("tel:")) return t;
+  if (t.startsWith("/")) return t.startsWith("//") ? "" : t;
+  return `/${t.replace(/^\.\//, "")}`;
+}
+function normalizeApiMenuNode(raw, depth, maxDepth) {
+  if (depth > maxDepth) return null;
+  if (!isPlainRecord2(raw)) return null;
+  const rawType = typeof raw.type === "string" ? raw.type.trim().toLowerCase() : "";
+  const childSource = pickChildArray(raw);
+  const children = childSource.map((c) => normalizeApiMenuNode(c, depth + 1, maxDepth)).filter((n) => n !== null);
+  const label = pickFirstString(raw, LABEL_KEYS);
+  const hrefRaw = pickFirstString(raw, HREF_KEYS);
+  const treatAsGroup = rawType === "group" || rawType !== "link" && children.length > 0;
+  if (treatAsGroup) {
+    if (!children.length) return null;
+    return { type: "group", label: label || "More", children };
+  }
+  const href = normalizeHrefForNav(hrefRaw);
+  const link = {
+    type: "link",
+    label: label || href || "Link",
+    href: href || "/"
+  };
+  if (typeof raw.linkClassName === "string") link.linkClassName = raw.linkClassName;
+  if (typeof raw.spanClassName === "string") link.spanClassName = raw.spanClassName;
+  if (typeof raw.external === "boolean") link.external = raw.external;
+  return link;
+}
+function normalizeApiMenuTree(items, options) {
+  const maxDepth = options?.maxDepth ?? 32;
+  if (!Array.isArray(items)) return [];
+  return items.map((raw) => normalizeApiMenuNode(raw, 0, maxDepth)).filter((n) => n !== null);
+}
+
+// src/navigation/filterUnsafeNavTree.ts
+function filterUnsafeNavTree(items) {
+  return items.map((item) => {
+    if (item.type === "link") return isSafeNavHref(item.href) ? item : null;
+    const children = filterUnsafeNavTree(item.children);
+    return children.length ? { ...item, children } : null;
+  }).filter((item) => item !== null);
+}
+
+// src/navigation/unwrapMenuList.ts
+var MENU_LIST_KEYS = [
+  "items",
+  "children",
+  "menus",
+  "menu_items",
+  "nodes",
+  "data",
+  "tree",
+  "mainNavItems",
+  "nav",
+  "navigation"
+];
+function unwrapMenuListFromPayload(data) {
+  if (Array.isArray(data)) return data;
+  if (!data || typeof data !== "object") return null;
+  const obj = data;
+  for (const k of MENU_LIST_KEYS) {
+    const v = obj[k];
+    if (Array.isArray(v) && v.length) return v;
+  }
+  return null;
+}
+
+// src/navigation/prepareMainNavItems.ts
+function prepareMainNavItems(raw, options) {
+  const fallback = options?.fallback ?? [];
+  const list = unwrapMenuListFromPayload(raw);
+  if (!list?.length) return fallback.length ? fallback : [];
+  const shaped = normalizeApiMenuTree(list, { maxDepth: options?.maxDepth });
+  const safe = filterUnsafeNavTree(shaped);
+  if (safe.length) return safe;
+  return fallback.length ? fallback : [];
+}
+
+// src/navigation/useMainNavItems.ts
+var import_react5 = require("react");
+function useMainNavItems(options) {
+  const { load, select, fallback = DEFAULT_HEADER_MAIN_NAV, maxDepth } = options;
+  const [nav, setNav] = (0, import_react5.useState)(fallback);
+  (0, import_react5.useEffect)(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const raw = await load();
+        const slice = select ? select(raw) : raw;
+        const items = prepareMainNavItems(slice, { fallback, maxDepth });
+        if (!cancelled) setNav(items);
+      } catch {
+        if (!cancelled) setNav(fallback);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [load, select, fallback, maxDepth]);
+  return nav;
+}
+
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.161";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.162";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -1289,9 +1432,15 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   MYBHARAT_CDN_BASE_BETA,
   MYBHARAT_CDN_ORIGIN,
   MYBHARAT_COMMON_FRONTEND_VERSION,
+  filterUnsafeNavTree,
   isNavGroupItem,
   isNavLinkItem,
   isSafeNavHref,
   navTreeItemKey,
-  normalizeNavTree
+  normalizeApiMenuTree,
+  normalizeHrefForNav,
+  normalizeNavTree,
+  prepareMainNavItems,
+  unwrapMenuListFromPayload,
+  useMainNavItems
 });

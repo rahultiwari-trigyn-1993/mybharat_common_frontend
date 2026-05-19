@@ -14,7 +14,18 @@ export { DEFAULT_HEADER2_MAIN_NAV } from './navigation/header2MainNav.defaults';
 export { isSafeNavHref } from './navigation/navHref';
 export { normalizeNavTree, isNavLinkItem, isNavGroupItem } from './navigation/navTree';
 export { navTreeItemKey } from './navigation/navTreeKeys';
+export {
+  normalizeApiMenuTree,
+  normalizeHrefForNav,
+} from './navigation/navApiNormalize';
+export { filterUnsafeNavTree } from './navigation/filterUnsafeNavTree';
+export { prepareMainNavItems } from './navigation/prepareMainNavItems';
+export { unwrapMenuListFromPayload } from './navigation/unwrapMenuList';
+export { useMainNavItems } from './navigation/useMainNavItems';
 export type { NormalizeNavTreeOptions } from './navigation/navTree';
+export type { NormalizeApiMenuTreeOptions } from './navigation/navApiNormalize';
+export type { PrepareMainNavItemsOptions } from './navigation/prepareMainNavItems';
+export type { UseMainNavItemsOptions } from './navigation/useMainNavItems';
 export type { NavTreeItem, NavLinkItem, NavGroupItem } from './navigation/types';
 
 /** Published npm version — inlined at build from `package.json`. Compare with DevTools Sources banner. */
