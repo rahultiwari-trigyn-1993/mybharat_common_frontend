@@ -64,6 +64,11 @@ header.mb-common-header .f-hd-right {
   font-weight: 600;
 }
 
+.header-top .language01 {
+  height: auto;
+  padding: 2px 0 2px 14px;
+}
+
 .header-top .active01 {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
