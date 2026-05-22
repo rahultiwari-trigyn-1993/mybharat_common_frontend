@@ -407,14 +407,14 @@ header#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-heade
  * (often `.logo-w-sm-md1 { width: 70px }`) do not override package sizing.
  */
 header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {
-  width: 136px !important;
+  width: 98px !important;
   transform: scale(1.12);
   margin-left: 7px;
   margin-top: 5px;
 }
 
 header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
-  width: 124px !important;
+  width: 90px !important;
 }
 
 header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {
