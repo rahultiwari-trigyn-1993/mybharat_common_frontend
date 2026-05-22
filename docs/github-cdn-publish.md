@@ -6,10 +6,14 @@ After you push and tag, assets load from [jsDelivr](https://www.jsdelivr.com/?do
 
 | File | jsDelivr URL (v1.0.163) |
 |------|-------------------------|
-| CSS | `https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.css` |
-| JS | `https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.js` |
+| CSS | `https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.163/dist/shell/mybharat-shell.css` |
+| JS | `https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.163/dist/shell/shell.js` |
 
-Pin the version (`@1.0.163`) in CakePHP / yuva_application — do not use `@main`.
+Pin the version (`@v1.0.163`) in CakePHP / yuva_application — do not use `@main`.
+
+> **jsDelivr quirks:**
+> - CDN URLs must use **`@v1.0.163`** (with `v`). `@1.0.163` fails with “Failed to fetch version info”.
+> - CSS file must be **`mybharat-shell.css`**, not `shell.css` (jsDelivr 404 on `dist/shell/shell.css`).
 
 ---
 
@@ -48,9 +52,16 @@ git add package.json package-lock.json tsup.config.js README.md dist/shell
 git commit -m "Add CDN shell Web Components for CakePHP and GitHub jsDelivr"
 
 git push github beta
-git tag 1.0.163
-git push github 1.0.163
+git tag v1.0.163
+git push github v1.0.163
 ```
+
+Use **`v`-prefixed tags** (`v1.0.163`) for jsDelivr. You can keep `1.0.163` as well, but CDN URLs must use `@v1.0.163`.
+
+Alternatively push only the branch and use `@beta` until tags are set:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@beta/dist/shell/shell.js" defer></script>
 
 Use your branch name instead of `beta` if different. jsDelivr accepts tags like `1.0.163` or `v1.0.163` — match what you push.
 
@@ -63,7 +74,7 @@ Wait **~5 minutes** after the first push before jsDelivr serves new files.
 ```html
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.css"
+  href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.163/dist/shell/mybharat-shell.css"
 />
 <script>
   window.MYBHARAT_SHELL = {
@@ -75,7 +86,7 @@ Wait **~5 minutes** after the first push before jsDelivr serves new files.
 <mybharat-header nav-json-id="mybharat-header-nav"></mybharat-header>
 <mybharat-footer></mybharat-footer>
 <script
-  src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.js"
+  src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.163/dist/shell/shell.js"
   defer
 ></script>
 ```
@@ -101,7 +112,7 @@ Run: `npm run demo`
 ## Verify
 
 1. Open the jsDelivr CSS URL in a browser — should return CSS text.
-2. Open the jsDelivr JS URL — should start with `/*! mybharat_shell@1.0.163`.
+2. Open the jsDelivr JS URL — should start with `/*! mybharat_shell@v1.0.163`.
 3. Check `dist/shell/manifest.json` for the latest `cdn.github` URLs after each build.
 
 ---

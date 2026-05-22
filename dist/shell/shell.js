@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.163 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.164 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -23123,7 +23123,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.163" }
+          detail: { component: "header", version: "1.0.164" }
         })
       );
     }
@@ -23164,7 +23164,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.163" }
+          detail: { component: "footer", version: "1.0.164" }
         })
       );
     }
@@ -23208,7 +23208,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.163";
+  var MYBHARAT_SHELL_VERSION = "1.0.164";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

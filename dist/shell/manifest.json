@@ -1,9 +1,9 @@
 {
   "name": "mybharat-shell",
-  "version": "1.0.163",
+  "version": "1.0.164",
   "files": {
     "shell.js": "shell.js",
-    "shell.css": "shell.css (Header + Footer)",
+    "mybharat-shell.css": "mybharat-shell.css (Header + Footer — use this, not shell.css)",
     "header2.css": "header2.css (Header2 variant)",
     "footer.css": "footer.css (Footer only, for Header2 layouts)"
   },
@@ -15,10 +15,10 @@
     "github": {
       "user": "rahultiwari-trigyn-1993",
       "repo": "mybharat_common_frontend",
-      "tag": "1.0.163",
-      "jsdelivrBase": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell",
-      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.css",
-      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.js"
+      "tag": "1.0.164",
+      "jsdelivrBase": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.164/dist/shell",
+      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.164/dist/shell/mybharat-shell.css",
+      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.164/dist/shell/shell.js"
     }
   },
   "docs": "docs/github-cdn-publish.md"

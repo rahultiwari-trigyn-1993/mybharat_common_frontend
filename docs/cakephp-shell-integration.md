@@ -13,7 +13,7 @@ After `npm run build`:
 | File | Purpose |
 |------|---------|
 | `dist/shell/shell.js` | Registers `<mybharat-header>` and `<mybharat-footer>` |
-| `dist/shell/shell.css` | Header + Footer styles (default `variant="header"`) |
+| `dist/shell/mybharat-shell.css` | Header + Footer styles (default `variant="header"`) |
 | `dist/shell/header2.css` | Header2 styles only — pair with `footer.css` |
 | `dist/shell/footer.css` | Footer styles only (for Header2 layouts) |
 | `dist/shell/manifest.json` | Version + file list |
@@ -31,8 +31,8 @@ After `npm run build`:
 Or publish a **git tag** and use jsDelivr ([`rahultiwari-trigyn-1993/mybharat_common_frontend`](https://github.com/rahultiwari-trigyn-1993)):
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.css" />
-<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.163/dist/shell/mybharat-shell.css" />
+<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.163/dist/shell/shell.js" defer></script>
 ```
 
 See [`docs/github-cdn-publish.md`](github-cdn-publish.md) for push steps.
@@ -42,8 +42,8 @@ See [`docs/github-cdn-publish.md`](github-cdn-publish.md) for push steps.
 Upload `dist/shell/*` to S3 → CloudFront, e.g.:
 
 ```html
-<link rel="stylesheet" href="https://cdn-prod.mybharats.in/shell/shell@1.0.163.css" />
-<script src="https://cdn-prod.mybharats.in/shell/shell@1.0.163.js" defer></script>
+<link rel="stylesheet" href="https://cdn-prod.mybharats.in/shell/shell@v1.0.163.css" />
+<script src="https://cdn-prod.mybharats.in/shell/shell@v1.0.163.js" defer></script>
 ```
 
 Use **immutable versioned filenames** — do not use `@latest` on live sites.
@@ -58,10 +58,10 @@ In your layout (replacing or alongside `header.ctp` / `footer_external.ctp` frag
 <?php
 // Controller should set $cdnPath, $headerNavJson, $isLoggedIn, $recaptchaKey
 $cdnPath = Configure::read('cdn_path'); // e.g. https://cdn-prod.mybharats.in/mybharat — no trailing slash
-$shellBase = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell'; // dev GitHub CDN
+$shellBase = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.163/dist/shell'; // dev GitHub CDN
 // $shellBase = 'https://cdn-prod.mybharats.in/shell'; // production
 ?>
-<link rel="stylesheet" href="<?= h($shellBase) ?>/shell.css" />
+<link rel="stylesheet" href="<?= h($shellBase) ?>/mybharat-shell.css" />
 <script>
   window.MYBHARAT_SHELL = {
     header: {
@@ -168,6 +168,6 @@ The header is `fixed-top`. Add top padding on the host body/main (your CakePHP l
 2. Mobile hamburger opens `#mobileMenuNew`.
 3. Sign In in drawer triggers host login (jQuery or `mb:registered-user-click` / modal).
 4. Feedback button opens footer modals.
-5. DevTools → Sources → confirm banner `mybharat_shell@1.0.163`.
+5. DevTools → Sources → confirm banner `mybharat_shell@v1.0.163`.
 
 See also: `demo/cakephp-shell.html` in this repo.

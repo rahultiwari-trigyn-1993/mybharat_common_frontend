@@ -11,9 +11,13 @@
     -->
     <script>
       (function () {
-        var VERSION = "1.0.163";
+        var VERSION = "v1.0.164";
         var GITHUB_USER = "rahultiwari-trigyn-1993";
         var GITHUB_REPO = "mybharat_common_frontend";
+        var branchOverride =
+          typeof URLSearchParams !== "undefined"
+            ? new URLSearchParams(location.search).get("branch")
+            : null;
         var local =
           typeof URLSearchParams !== "undefined" &&
           new URLSearchParams(location.search).get("local") === "1";
@@ -24,14 +28,14 @@
             "/" +
             GITHUB_REPO +
             "@" +
-            VERSION +
+            (branchOverride || VERSION) +
             "/dist/shell";
 
         window.__MYBHARAT_SHELL_ASSET_BASE = base;
 
         var link = document.createElement("link");
         link.rel = "stylesheet";
-        link.href = base + "/shell.css";
+        link.href = base + "/mybharat-shell.css";
         document.head.appendChild(link);
 
         var loadScript = function () {
