@@ -1,0 +1,25 @@
+{
+  "name": "mybharat-shell",
+  "version": "1.0.163",
+  "files": {
+    "shell.js": "shell.js",
+    "shell.css": "shell.css (Header + Footer)",
+    "header2.css": "header2.css (Header2 variant)",
+    "footer.css": "footer.css (Footer only, for Header2 layouts)"
+  },
+  "customElements": [
+    "mybharat-header",
+    "mybharat-footer"
+  ],
+  "cdn": {
+    "github": {
+      "user": "rahultiwari-trigyn-1993",
+      "repo": "mybharat_common_frontend",
+      "tag": "1.0.163",
+      "jsdelivrBase": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell",
+      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.css",
+      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@1.0.163/dist/shell/shell.js"
+    }
+  },
+  "docs": "docs/github-cdn-publish.md"
+}

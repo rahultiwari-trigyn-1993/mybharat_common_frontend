@@ -1,6 +1,6 @@
 {
   "name": "mybharat_common_frontend",
-  "version": "1.0.162",
+  "version": "1.0.163",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -14,7 +14,11 @@
       "default": "./dist/index.mjs"
     },
     "./style.css": "./dist/index.css",
-    "./header2.css": "./dist/header2.css"
+    "./header2.css": "./dist/header2.css",
+    "./shell": "./dist/shell/shell.js",
+    "./shell.js": "./dist/shell/shell.js",
+    "./shell.css": "./dist/shell/shell.css",
+    "./shell/header2.css": "./dist/shell/header2.css"
   },
   "files": [
     "dist"
@@ -22,12 +26,17 @@
   "scripts": {
     "build": "tsup && node scripts/fix-dts-version.js",
     "watch": "tsup --watch",
+    "demo": "npm run build && npx --yes serve . -p 3456",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rahultiwari-trigyn-1993/mybharat_common_frontend.git"
+  },
   "sideEffects": [
     "**/*.css",
     "*.css"
@@ -40,6 +49,8 @@
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3"
   }

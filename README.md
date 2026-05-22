@@ -27,6 +27,27 @@ function App() {
 
 Optional **`cdnBase`** (no trailing slash): production default is `https://cdn-prod.mybharats.in/mybharat`; for beta assets use `https://cdn-beta.mybharats.in/mybharat`. Import **`MYBHARAT_CDN_BASE`** from this package if you need the same default elsewhere.
 
+## CDN shell (CakePHP, Laravel, WordPress, plain HTML)
+
+For non-React hosts, use the Web Component bundle in **`dist/shell/`** after `npm run build`:
+
+```html
+<link rel="stylesheet" href="CDN_URL/shell.css" />
+<script>
+  window.MYBHARAT_SHELL = { header: { cdnBase: "https://cdn-prod.mybharats.in/mybharat" } };
+</script>
+<script type="application/json" id="mybharat-header-nav">[...]</script>
+<mybharat-header nav-json-id="mybharat-header-nav"></mybharat-header>
+<mybharat-footer is-logged-in="false"></mybharat-footer>
+<script src="CDN_URL/shell.js" defer></script>
+```
+
+- **CakePHP:** see [`docs/cakephp-shell-integration.md`](docs/cakephp-shell-integration.md)
+- **GitHub jsDelivr (dev CDN):** [`docs/github-cdn-publish.md`](docs/github-cdn-publish.md) — `rahultiwari-trigyn-1993/mybharat_common_frontend`
+- **Local demo:** `npm run demo` → `/demo/cakephp-shell.html` (GitHub CDN) or `?local=1` for local `dist/shell`
+
+Custom elements: **`mybharat-header`**, **`mybharat-footer`**. Host app still owns login modals, session, and nav fetch.
+
 ## Navigation (`mainNavItems`)
 
 > **@developers — required**  

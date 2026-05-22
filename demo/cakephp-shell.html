@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MY Bharat Shell — CakePHP-style demo</title>
+    <!--
+      Default: GitHub jsDelivr CDN (rahultiwari-trigyn-1993/mybharat_common_frontend).
+      Local:   ?local=1  → ../dist/shell (run npm run demo)
+      See docs/github-cdn-publish.md to push dist/shell to GitHub.
+    -->
+    <script>
+      (function () {
+        var VERSION = "1.0.163";
+        var GITHUB_USER = "rahultiwari-trigyn-1993";
+        var GITHUB_REPO = "mybharat_common_frontend";
+        var local =
+          typeof URLSearchParams !== "undefined" &&
+          new URLSearchParams(location.search).get("local") === "1";
+        var base = local
+          ? "../dist/shell"
+          : "https://cdn.jsdelivr.net/gh/" +
+            GITHUB_USER +
+            "/" +
+            GITHUB_REPO +
+            "@" +
+            VERSION +
+            "/dist/shell";
+
+        window.__MYBHARAT_SHELL_ASSET_BASE = base;
+
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = base + "/shell.css";
+        document.head.appendChild(link);
+
+        var loadScript = function () {
+          var s = document.createElement("script");
+          s.src = base + "/shell.js";
+          s.defer = true;
+          document.body.appendChild(s);
+        };
+        if (document.body) loadScript();
+        else document.addEventListener("DOMContentLoaded", loadScript);
+      })();
+    </script>
+    <style>
+      body {
+        margin: 0;
+        padding-top: 120px;
+        font-family: system-ui, sans-serif;
+      }
+      .host-main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem 1rem 4rem;
+      }
+      .cdn-badge {
+        font-size: 0.875rem;
+        color: #555;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      window.MYBHARAT_SHELL = {
+        header: {
+          cdnBase: "https://cdn-prod.mybharats.in/mybharat",
+          variant: "header",
+        },
+        footer: {
+          isLoggedIn: false,
+        },
+      };
+    </script>
+
+    <script type="application/json" id="mybharat-header-nav">
+      [
+        { "type": "link", "label": "Quiz & Essay", "href": "/quiz", "linkClassName": "fontchange14" },
+        {
+          "type": "group",
+          "label": "Voices",
+          "children": [
+            { "type": "link", "label": "Blogs", "href": "/voices/blogs", "linkClassName": "events fontchange14" }
+          ]
+        }
+      ]
+    </script>
+
+    <mybharat-header nav-json-id="mybharat-header-nav"></mybharat-header>
+
+    <main class="host-main">
+      <h1>Yuva application — host page content</h1>
+      <p>
+        Shell loaded from GitHub jsDelivr (<a href="https://github.com/rahultiwari-trigyn-1993">rahultiwari-trigyn-1993</a>).
+        Add <code>?local=1</code> to use a local build.
+      </p>
+      <p class="cdn-badge">Asset base: <code id="cdn-base">…</code></p>
+      <p>Shell version: <code id="shell-version">…</code></p>
+    </main>
+
+    <mybharat-footer></mybharat-footer>
+
+    <div class="modal fade" id="loginWithOtpModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p class="mb-0">Host login modal placeholder (wire your CakePHP OTP flow here).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("cdn-base").textContent =
+        window.__MYBHARAT_SHELL_ASSET_BASE || "(unknown)";
+      document.addEventListener("mb:ready", function (e) {
+        if (e.detail && e.detail.version) {
+          document.getElementById("shell-version").textContent = e.detail.version;
+        }
+      });
+      document.addEventListener("mb:registered-user-click", function () {
+        console.info("[demo] mb:registered-user-click — open host login modal");
+      });
+    </script>
+  </body>
+</html>
