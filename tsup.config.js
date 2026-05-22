@@ -24,14 +24,17 @@ function writeShellCssAndManifest() {
     /* first run or already renamed */
   }
 
-  writeFileSync(join(shellDir, "shell.css"), `${headerCommonCss}\n${headerCss}\n${footerCss}`);
+  const combinedCss = `${headerCommonCss}\n${headerCss}\n${footerCss}`;
+  writeFileSync(join(shellDir, "shell.css"), combinedCss);
+  /* jsDelivr 404 on dist/shell/shell.css — duplicate name for CDN embeds */
+  writeFileSync(join(shellDir, "mybharat-shell.css"), combinedCss);
   writeFileSync(join(shellDir, "header2.css"), `${headerCommonCss}\n${header2Css}`);
   writeFileSync(join(shellDir, "footer.css"), footerCss);
 
   const githubUser = "rahultiwari-trigyn-1993";
   const githubRepo = "mybharat_common_frontend";
   const gitTag = `v${pkg.version}`;
-  const rawGithubBase = `https://raw.githubusercontent.com/${githubUser}/${githubRepo}/${gitTag}/dist/shell`;
+  const jsdelivrBase = `https://cdn.jsdelivr.net/gh/${githubUser}/${githubRepo}@${gitTag}/dist/shell`;
 
   writeFileSync(
     join(shellDir, "manifest.json"),
@@ -41,20 +44,21 @@ function writeShellCssAndManifest() {
         version: pkg.version,
         files: {
           "shell.js": "shell.js",
-          "shell.css": "shell.css (Header + Footer)",
+          "shell.css": "shell.css (local / npm)",
+          "mybharat-shell.css": "mybharat-shell.css (jsDelivr CDN — same content as shell.css)",
           "header2.css": "header2.css (Header2 variant)",
           "footer.css": "footer.css (Footer only, for Header2 layouts)",
         },
         customElements: ["mybharat-header", "mybharat-footer"],
         cdn: {
-          github: {
-            user: githubUser,
-            repo: githubRepo,
+          recommended: "jsdelivr",
+          jsdelivr: {
             tag: gitTag,
-            rawGithubBase,
-            shellCss: `${rawGithubBase}/shell.css`,
-            shellJs: `${rawGithubBase}/shell.js`,
+            base: jsdelivrBase,
+            shellJs: `${jsdelivrBase}/shell.js`,
+            shellCss: `${jsdelivrBase}/mybharat-shell.css`,
           },
+          note: "Do not use raw.githubusercontent.com in <link>/<script> — Content-Type text/plain causes net::ERR_BLOCKED_BY_ORB in Chrome.",
         },
         docs: "docs/github-cdn-publish.md",
       },

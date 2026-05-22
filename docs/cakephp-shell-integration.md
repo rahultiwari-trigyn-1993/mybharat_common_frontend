@@ -13,7 +13,8 @@ After `npm run build`:
 | File | Purpose |
 |------|---------|
 | `dist/shell/shell.js` | Registers `<mybharat-header>` and `<mybharat-footer>` |
-| `dist/shell/shell.css` | Header + Footer styles (default `variant="header"`) |
+| `dist/shell/shell.css` | Header + Footer styles (local / npm) |
+| `dist/shell/mybharat-shell.css` | Same as `shell.css` — use this name on jsDelivr CDN |
 | `dist/shell/header2.css` | Header2 styles only — pair with `footer.css` |
 | `dist/shell/footer.css` | Footer styles only (for Header2 layouts) |
 | `dist/shell/manifest.json` | Version + file list |
@@ -31,9 +32,11 @@ After `npm run build`:
 Or publish a **git tag** and use jsDelivr ([`rahultiwari-trigyn-1993/mybharat_common_frontend`](https://github.com/rahultiwari-trigyn-1993)):
 
 ```html
-<link rel="stylesheet" href="https://raw.githubusercontent.com/rahultiwari-trigyn-1993/mybharat_common_frontend/v1.0.164/dist/shell/shell.css" />
-<script src="https://raw.githubusercontent.com/rahultiwari-trigyn-1993/mybharat_common_frontend/v1.0.164/dist/shell/shell.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/mybharat-shell.css" />
+<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/shell.js" defer></script>
 ```
+
+> Do **not** use `raw.githubusercontent.com` in `<link>` / `<script>` — Chrome blocks with `net::ERR_BLOCKED_BY_ORB` (wrong MIME type).
 
 See [`docs/github-cdn-publish.md`](github-cdn-publish.md) for push steps.
 
@@ -42,8 +45,8 @@ See [`docs/github-cdn-publish.md`](github-cdn-publish.md) for push steps.
 Upload `dist/shell/*` to S3 → CloudFront, e.g.:
 
 ```html
-<link rel="stylesheet" href="https://cdn-prod.mybharats.in/shell/shell@v1.0.164.css" />
-<script src="https://cdn-prod.mybharats.in/shell/shell@v1.0.164.js" defer></script>
+<link rel="stylesheet" href="https://cdn-prod.mybharats.in/shell/shell@v1.0.165.css" />
+<script src="https://cdn-prod.mybharats.in/shell/shell@v1.0.165.js" defer></script>
 ```
 
 Use **immutable versioned filenames** — do not use `@latest` on live sites.
@@ -58,8 +61,8 @@ In your layout (replacing or alongside `header.ctp` / `footer_external.ctp` frag
 <?php
 // Controller should set $cdnPath, $headerNavJson, $isLoggedIn, $recaptchaKey
 $cdnPath = Configure::read('cdn_path'); // e.g. https://cdn-prod.mybharats.in/mybharat — no trailing slash
-$shellCss = 'https://raw.githubusercontent.com/rahultiwari-trigyn-1993/mybharat_common_frontend/v1.0.164/dist/shell/shell.css';
-$shellJs = 'https://raw.githubusercontent.com/rahultiwari-trigyn-1993/mybharat_common_frontend/v1.0.164/dist/shell/shell.js';
+$shellCss = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/mybharat-shell.css';
+$shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/shell.js';
 // production: upload dist/shell/* to S3 + CloudFront and set $shellCss / $shellJs accordingly
 ?>
 <link rel="stylesheet" href="<?= h($shellCss) ?>" />
@@ -169,6 +172,6 @@ The header is `fixed-top`. Add top padding on the host body/main (your CakePHP l
 2. Mobile hamburger opens `#mobileMenuNew`.
 3. Sign In in drawer triggers host login (jQuery or `mb:registered-user-click` / modal).
 4. Feedback button opens footer modals.
-5. DevTools → Sources → confirm banner `mybharat_shell@v1.0.164`.
+5. DevTools → Sources → confirm banner `mybharat_shell@v1.0.165`.
 
 See also: `demo/cakephp-shell.html` in this repo.

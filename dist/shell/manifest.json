@@ -1,9 +1,10 @@
 {
   "name": "mybharat-shell",
-  "version": "1.0.164",
+  "version": "1.0.165",
   "files": {
     "shell.js": "shell.js",
-    "shell.css": "shell.css (Header + Footer)",
+    "shell.css": "shell.css (local / npm)",
+    "mybharat-shell.css": "mybharat-shell.css (jsDelivr CDN — same content as shell.css)",
     "header2.css": "header2.css (Header2 variant)",
     "footer.css": "footer.css (Footer only, for Header2 layouts)"
   },
@@ -12,14 +13,14 @@
     "mybharat-footer"
   ],
   "cdn": {
-    "github": {
-      "user": "rahultiwari-trigyn-1993",
-      "repo": "mybharat_common_frontend",
-      "tag": "v1.0.164",
-      "rawGithubBase": "https://raw.githubusercontent.com/rahultiwari-trigyn-1993/mybharat_common_frontend/v1.0.164/dist/shell",
-      "shellCss": "https://raw.githubusercontent.com/rahultiwari-trigyn-1993/mybharat_common_frontend/v1.0.164/dist/shell/shell.css",
-      "shellJs": "https://raw.githubusercontent.com/rahultiwari-trigyn-1993/mybharat_common_frontend/v1.0.164/dist/shell/shell.js"
-    }
+    "recommended": "jsdelivr",
+    "jsdelivr": {
+      "tag": "v1.0.165",
+      "base": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell",
+      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/shell.js",
+      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/mybharat-shell.css"
+    },
+    "note": "Do not use raw.githubusercontent.com in <link>/<script> — Content-Type text/plain causes net::ERR_BLOCKED_BY_ORB in Chrome."
   },
   "docs": "docs/github-cdn-publish.md"
 }

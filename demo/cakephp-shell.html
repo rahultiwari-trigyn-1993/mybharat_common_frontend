@@ -5,30 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MY Bharat Shell — CakePHP-style demo</title>
     <!--
-      CSS + JS: raw GitHub @v1.0.164
+      CDN: jsDelivr @v1.0.165 (correct MIME types — raw GitHub causes ERR_BLOCKED_BY_ORB)
       Local: ?local=1 → ../dist/shell
     -->
     <script>
       (function () {
-        var TAG = "v1.0.164";
+        var TAG = "v1.0.165";
         var GITHUB_USER = "rahultiwari-trigyn-1993";
         var GITHUB_REPO = "mybharat_common_frontend";
         var local =
           typeof URLSearchParams !== "undefined" &&
           new URLSearchParams(location.search).get("local") === "1";
 
-        var rawBase = local
+        var cdnBase = local
           ? "../dist/shell"
-          : "https://raw.githubusercontent.com/" +
+          : "https://cdn.jsdelivr.net/gh/" +
             GITHUB_USER +
             "/" +
             GITHUB_REPO +
-            "/" +
+            "@" +
             TAG +
             "/dist/shell";
 
-        var cssHref = rawBase + "/shell.css";
-        var jsSrc = rawBase + "/shell.js";
+        var cssHref = local ? cdnBase + "/shell.css" : cdnBase + "/mybharat-shell.css";
+        var jsSrc = cdnBase + "/shell.js";
 
         window.__MYBHARAT_SHELL_CSS = cssHref;
         window.__MYBHARAT_SHELL_JS = jsSrc;
@@ -97,8 +97,8 @@
     <main class="host-main">
       <h1>Yuva application — host page content</h1>
       <p>
-        CSS + JS from raw GitHub (<a href="https://github.com/rahultiwari-trigyn-1993">rahultiwari-trigyn-1993</a>, tag <code>v1.0.164</code>).
-        Add <code>?local=1</code> for a local build.
+        Shell from jsDelivr (<code>@v1.0.165</code>). Raw GitHub URLs fail in Chrome with
+        <code>ERR_BLOCKED_BY_ORB</code> — use jsDelivr instead.
       </p>
       <p class="cdn-badge">CSS: <code id="cdn-css">…</code></p>
       <p class="cdn-badge">JS: <code id="cdn-js">…</code></p>
