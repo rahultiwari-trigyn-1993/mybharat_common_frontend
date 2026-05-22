@@ -14,6 +14,10 @@ header.mb-common-header .f-hd-right {
   float: right;
 }
 
+#mb-nav-desktop-main {
+  padding: 0;
+}
+
 /* top strip */
 .header-top {
   background: #081854;
@@ -412,14 +416,14 @@ header#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-heade
  * (often `.logo-w-sm-md1 { width: 70px }`) do not override package sizing.
  */
 header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {
-  width: 98px !important;
+  width: 136px !important;
   transform: scale(1.12);
   margin-left: 7px;
   margin-top: 5px;
 }
 
 header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
-  width: 90px !important;
+  width: 124px !important;
 }
 
 /* Default Header (not Header2) — yuva_application header.ctp logo sizes */

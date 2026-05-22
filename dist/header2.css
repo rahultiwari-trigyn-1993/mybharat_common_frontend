@@ -14,6 +14,10 @@ header.mb-common-header .f-hd-right {
   float: right;
 }
 
+#mb-nav-desktop-main {
+  padding: 0;
+}
+
 /* top strip */
 .header-top {
   background: #081854;
