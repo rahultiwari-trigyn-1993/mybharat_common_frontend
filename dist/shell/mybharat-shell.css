@@ -375,7 +375,7 @@ header.mb-common-header:not(.mb-common-header--header2)
 }
 
 /*
- * Sign In / Register — flat coral rectangles, rounded corners (reference ~8px / #F15B43).
+ * Sign In / Register — coral #F15B43 (Bootstrap btn defaults for size/radius).
  */
 header#mb-common-header-root.mb-common-header .mb-common-header__register-link {
   display: inline-block;
@@ -383,32 +383,17 @@ header#mb-common-header-root.mb-common-header .mb-common-header__register-link {
   vertical-align: middle;
 }
 
-header#mb-common-header-root.mb-common-header #btnGroupDrop1.btn.mb-common-header__auth-btn,
-header#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-header__auth-btn {
-  --bs-btn-bg: #f15b43;
-  --bs-btn-border-color: #f15b43;
+header#mb-common-header-root.mb-common-header .mb-common-header__auth-btn {
   color: #ffffff !important;
   background-color: #f15b43 !important;
   border: none !important;
-  border-radius: 8px !important;
-  padding: 10px 22px !important;
-  font-weight: 600 !important;
-  line-height: 1.25 !important;
-  box-shadow: none !important;
-  min-height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
-header#mb-common-header-root.mb-common-header #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,
-header#mb-common-header-root.mb-common-header #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,
-header#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,
-header#mb-common-header-root.mb-common-header #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {
+header#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:hover,
+header#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:focus-visible {
   color: #f15b43 !important;
   background-color: #ffffff !important;
   border: 1px solid #f15b43 !important;
-  box-shadow: none !important;
 }
 
 /*
