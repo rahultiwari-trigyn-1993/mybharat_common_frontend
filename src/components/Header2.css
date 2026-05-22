@@ -301,7 +301,6 @@ header.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar-
  */
 header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {
   display: inline-block;
-  margin-left: 12px;
   vertical-align: middle;
 }
 

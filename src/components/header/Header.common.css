@@ -18,6 +18,43 @@ header.mb-common-header .f-hd-right {
   padding: 0;
 }
 
+/*
+ * Desktop nav row — keep links + auth buttons on one line (Bootstrap .navbar flex-wrap
+ * otherwise pushes Sign In / Register below the ul when the menu is wide).
+ */
+@media (min-width: 992px) {
+  header.mb-common-header #mb-nav-desktop-main.navbar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+  }
+
+  header.mb-common-header #mb-nav-desktop-main .menu_nav1 {
+    display: inline-flex;
+    flex: 0 1 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__auth-btn,
+  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__register-link {
+    flex: 0 0 auto;
+    align-self: center;
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+
+  header.mb-common-header #mb-nav-desktop-main > .btn-group {
+    flex: 0 0 auto;
+    align-self: center;
+  }
+}
+
 /* top strip */
 .header-top {
   background: #081854;
