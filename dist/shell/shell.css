@@ -1353,15 +1353,15 @@ header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .r
 }
 
 /*
- * Important / Useful columns: headings + lists share one alignment (matches centred links under host CSS).
+ * Important / Useful columns: headings + lists left-aligned.
  * Only columns with a direct child `ul` — not Follow Us (no `ul`), not `.footer-contact`.
  */
 #footer_external .footer-links:has(> ul) {
-  text-align: center;
+  text-align: left;
 }
 
 #footer_external .footer-links:has(> ul) h6.img_link {
-  text-align: center;
+  text-align: left;
 }
 
 #footer_external .footer-links:has(> ul) ul {
@@ -1369,7 +1369,7 @@ header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .r
 }
 
 #footer_external .footer-links:has(> ul) li {
-  text-align: center;
+  text-align: left;
 }
 
 /*

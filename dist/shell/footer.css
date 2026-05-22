@@ -45,15 +45,15 @@
 }
 
 /*
- * Important / Useful columns: headings + lists share one alignment (matches centred links under host CSS).
+ * Important / Useful columns: headings + lists left-aligned.
  * Only columns with a direct child `ul` — not Follow Us (no `ul`), not `.footer-contact`.
  */
 #footer_external .footer-links:has(> ul) {
-  text-align: center;
+  text-align: left;
 }
 
 #footer_external .footer-links:has(> ul) h6.img_link {
-  text-align: center;
+  text-align: left;
 }
 
 #footer_external .footer-links:has(> ul) ul {
@@ -61,7 +61,7 @@
 }
 
 #footer_external .footer-links:has(> ul) li {
-  text-align: center;
+  text-align: left;
 }
 
 /*
