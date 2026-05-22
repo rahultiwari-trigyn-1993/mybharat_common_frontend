@@ -5,42 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MY Bharat Shell — CakePHP-style demo</title>
     <!--
-      Default: GitHub jsDelivr CDN (rahultiwari-trigyn-1993/mybharat_common_frontend).
-      Local:   ?local=1  → ../dist/shell (run npm run demo)
-      See docs/github-cdn-publish.md to push dist/shell to GitHub.
+      CSS + JS: raw GitHub @v1.0.164
+      Local: ?local=1 → ../dist/shell
     -->
     <script>
       (function () {
-        var VERSION = "v1.0.164";
+        var TAG = "v1.0.164";
         var GITHUB_USER = "rahultiwari-trigyn-1993";
         var GITHUB_REPO = "mybharat_common_frontend";
-        var branchOverride =
-          typeof URLSearchParams !== "undefined"
-            ? new URLSearchParams(location.search).get("branch")
-            : null;
         var local =
           typeof URLSearchParams !== "undefined" &&
           new URLSearchParams(location.search).get("local") === "1";
-        var base = local
+
+        var rawBase = local
           ? "../dist/shell"
-          : "https://cdn.jsdelivr.net/gh/" +
+          : "https://raw.githubusercontent.com/" +
             GITHUB_USER +
             "/" +
             GITHUB_REPO +
-            "@" +
-            (branchOverride || VERSION) +
+            "/" +
+            TAG +
             "/dist/shell";
 
-        window.__MYBHARAT_SHELL_ASSET_BASE = base;
+        var cssHref = rawBase + "/shell.css";
+        var jsSrc = rawBase + "/shell.js";
+
+        window.__MYBHARAT_SHELL_CSS = cssHref;
+        window.__MYBHARAT_SHELL_JS = jsSrc;
 
         var link = document.createElement("link");
         link.rel = "stylesheet";
-        link.href = base + "/mybharat-shell.css";
+        link.href = cssHref;
         document.head.appendChild(link);
 
         var loadScript = function () {
           var s = document.createElement("script");
-          s.src = base + "/shell.js";
+          s.src = jsSrc;
           s.defer = true;
           document.body.appendChild(s);
         };
@@ -97,10 +97,11 @@
     <main class="host-main">
       <h1>Yuva application — host page content</h1>
       <p>
-        Shell loaded from GitHub jsDelivr (<a href="https://github.com/rahultiwari-trigyn-1993">rahultiwari-trigyn-1993</a>).
-        Add <code>?local=1</code> to use a local build.
+        CSS + JS from raw GitHub (<a href="https://github.com/rahultiwari-trigyn-1993">rahultiwari-trigyn-1993</a>, tag <code>v1.0.164</code>).
+        Add <code>?local=1</code> for a local build.
       </p>
-      <p class="cdn-badge">Asset base: <code id="cdn-base">…</code></p>
+      <p class="cdn-badge">CSS: <code id="cdn-css">…</code></p>
+      <p class="cdn-badge">JS: <code id="cdn-js">…</code></p>
       <p>Shell version: <code id="shell-version">…</code></p>
     </main>
 
@@ -117,8 +118,8 @@
     </div>
 
     <script>
-      document.getElementById("cdn-base").textContent =
-        window.__MYBHARAT_SHELL_ASSET_BASE || "(unknown)";
+      document.getElementById("cdn-css").textContent = window.__MYBHARAT_SHELL_CSS || "(unknown)";
+      document.getElementById("cdn-js").textContent = window.__MYBHARAT_SHELL_JS || "(unknown)";
       document.addEventListener("mb:ready", function (e) {
         if (e.detail && e.detail.version) {
           document.getElementById("shell-version").textContent = e.detail.version;

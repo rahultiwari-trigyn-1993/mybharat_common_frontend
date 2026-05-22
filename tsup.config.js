@@ -1,4 +1,4 @@
-import { readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
+import { readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "tsup";
@@ -24,19 +24,14 @@ function writeShellCssAndManifest() {
     /* first run or already renamed */
   }
 
-  writeFileSync(join(shellDir, "mybharat-shell.css"), `${headerCommonCss}\n${headerCss}\n${footerCss}`);
+  writeFileSync(join(shellDir, "shell.css"), `${headerCommonCss}\n${headerCss}\n${footerCss}`);
   writeFileSync(join(shellDir, "header2.css"), `${headerCommonCss}\n${header2Css}`);
   writeFileSync(join(shellDir, "footer.css"), footerCss);
-  /* Remove tsup-extracted shell.css — jsDelivr breaks on dist/shell/shell.css path */
-  try {
-    unlinkSync(join(shellDir, "shell.css"));
-  } catch {
-    /* ok */
-  }
 
   const githubUser = "rahultiwari-trigyn-1993";
   const githubRepo = "mybharat_common_frontend";
-  const jsdelivrBase = `https://cdn.jsdelivr.net/gh/${githubUser}/${githubRepo}@v${pkg.version}/dist/shell`;
+  const gitTag = `v${pkg.version}`;
+  const rawGithubBase = `https://raw.githubusercontent.com/${githubUser}/${githubRepo}/${gitTag}/dist/shell`;
 
   writeFileSync(
     join(shellDir, "manifest.json"),
@@ -46,7 +41,7 @@ function writeShellCssAndManifest() {
         version: pkg.version,
         files: {
           "shell.js": "shell.js",
-          "mybharat-shell.css": "mybharat-shell.css (Header + Footer — use this, not shell.css)",
+          "shell.css": "shell.css (Header + Footer)",
           "header2.css": "header2.css (Header2 variant)",
           "footer.css": "footer.css (Footer only, for Header2 layouts)",
         },
@@ -55,10 +50,10 @@ function writeShellCssAndManifest() {
           github: {
             user: githubUser,
             repo: githubRepo,
-            tag: pkg.version,
-            jsdelivrBase,
-            shellCss: `${jsdelivrBase}/mybharat-shell.css`,
-            shellJs: `${jsdelivrBase}/shell.js`,
+            tag: gitTag,
+            rawGithubBase,
+            shellCss: `${rawGithubBase}/shell.css`,
+            shellJs: `${rawGithubBase}/shell.js`,
           },
         },
         docs: "docs/github-cdn-publish.md",

@@ -17,7 +17,7 @@
     "./header2.css": "./dist/header2.css",
     "./shell": "./dist/shell/shell.js",
     "./shell.js": "./dist/shell/shell.js",
-    "./shell.css": "./dist/shell/mybharat-shell.css",
+    "./shell.css": "./dist/shell/shell.css",
     "./shell/header2.css": "./dist/shell/header2.css"
   },
   "files": [
