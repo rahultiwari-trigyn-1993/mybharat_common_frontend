@@ -2,7 +2,7 @@
 import '../components/header/Header.common.css';
 import '../components/Header.css';
 import '../components/Footer.css';
-import '../components/Header2.css';
+/* Header2.css is NOT bundled — load dist/shell/header2.css separately when variant="header2". */
 
 import { registerMyBharatWebComponents } from './registerWebComponents';
 

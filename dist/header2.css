@@ -489,18 +489,20 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGrou
 }
 
 /*
- * Logo sizing — duplicated from Header.css so dist/header2.css (Header2-only imports) still wins over host default.css.
- * Keep this block in sync with the logo section in Header.css.
+ * Logo sizing — Header2 only. Scoped so this file never overrides default Header (Header.css).
+ * Keep desktop sizes in sync with the logo section in Header.css where applicable.
  */
-header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {
-  width: 136px !important;
-  transform: scale(1.12);
-  margin-left: 7px;
-  margin-top: 5px;
-}
+@media (min-width: 992px) {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {
+    width: 136px !important;
+    transform: scale(1.12);
+    margin-left: 7px;
+    margin-top: 5px;
+  }
 
-header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
-  width: 124px !important;
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {
+    width: 124px !important;
+  }
 }
 
 header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {
@@ -519,32 +521,34 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   max-width: 99px !important;
 }
 
-#mobileMenuNew img.logo-w-sm-md-sec {
-  width: 136px !important;
-  transform: scale(1.12);
-}
+@media (min-width: 992px) {
+  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {
+    width: 136px !important;
+    transform: scale(1.12);
+  }
 
-#mobileMenuNew img.logo-w-sm-md1 {
-  width: 124px !important;
-  max-width: none !important;
-  height: auto !important;
+  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {
+    width: 124px !important;
+    max-width: none !important;
+    height: auto !important;
+  }
 }
 
 @media only screen and (max-width: 991.98px) {
-  header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {
     width: clamp(118px, 32vw, 148px) !important;
   }
 
-  header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {
     width: clamp(126px, 34vw, 156px) !important;
     transform: scale(1.08) !important;
   }
 
-  #mobileMenuNew img.logo-w-sm-md1 {
+  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {
     width: clamp(118px, 32vw, 148px) !important;
   }
 
-  #mobileMenuNew img.logo-w-sm-md-sec {
+  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {
     width: clamp(126px, 34vw, 156px) !important;
     transform: scale(1.08) !important;
   }
