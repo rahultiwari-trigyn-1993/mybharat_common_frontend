@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mai
   return (
     <>
       <header id="mb-common-header-root" className="fixed-top shadow mb-common-header" aria-label={title}>
-        <div className="bhashini-plugin-container" />
+        <div className="bhashini-plugin-container mb-common-header__bhashini-root" />
         <HeaderGovernmentStrip cdn={cdn} />
 
         <div className="header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area">

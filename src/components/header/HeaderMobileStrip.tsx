@@ -48,7 +48,7 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
           <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true" /> 14472 Or 18002122729
         </strong>
       </a>
-      <div id="bhashini-mobile-header" />
+      <div id="bhashini-mobile-header" className="bhashini-plugin-container" />
     </>
   );
 

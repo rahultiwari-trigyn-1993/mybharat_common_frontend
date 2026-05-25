@@ -276,14 +276,6 @@ header.mb-common-header .f-hd-right {
 }
 
 @media (max-width: 575.98px) {
-  .mb-common-header__mobile-bar #toll_mb .lang_toll_free {
-    font-size: clamp(9px, 2.65vw, 11px);
-    font-weight: 600;
-    gap: 0.2em;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-  }
-
   .mb-common-header__mobile-bar #mb_menus.btn-light {
     padding: 0.28rem 0.5rem;
     font-size: 1rem;
@@ -721,29 +713,55 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 
 @media only screen and (max-width: 999px) {
   /*
-   * Production header.ctp mobile strip — absolute toll, Bhashini, menu; logos 70px at ≤600px below.
+   * Production mobile strip — one flex row: logos | toll + Bhashini + menu.
+   * Root .bhashini-plugin-container is desktop-only; mobile uses the copy in the actions cluster.
    */
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {
-    position: relative;
     height: 60px;
     min-height: 56px;
   }
 
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mb_menus {
-    position: absolute !important;
-    right: 10px;
-    top: 12px;
-    padding: 6px;
-    z-index: 999;
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    > .bhashini-plugin-container.mb-common-header__bhashini-root {
+    display: none !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-row--split {
+    align-items: center !important;
+    min-height: 52px;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-logos--split {
+    position: static !important;
+    flex: 0 0 auto;
+    max-width: none;
+    top: auto;
+    left: auto;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-actions--split {
+    flex: 1 1 auto;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    min-width: 0;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #toll_mb {
-    display: block !important;
-    position: absolute !important;
-    right: 95px;
-    top: 23px;
+    display: inline-flex !important;
+    position: static !important;
+    right: auto !important;
+    top: auto !important;
     font-size: 10px;
-    z-index: 999;
+    z-index: auto;
+    white-space: nowrap;
+    flex: 0 1 auto;
+    min-width: 0;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #toll_mb .lang_toll_free {
@@ -751,28 +769,43 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     font-weight: 700;
     line-height: 1.1;
     gap: 0.2em;
+    align-items: center;
   }
 
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .bhashini-plugin-container {
-    position: absolute;
-    right: -35px;
-    top: 15px;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #bhashini-mobile-header {
-    position: absolute !important;
-    right: 45px;
-    top: 15px;
-    z-index: 999;
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mb_menus {
+    position: static !important;
+    right: auto !important;
+    top: auto !important;
+    padding: 6px;
+    z-index: auto;
+    flex: 0 0 auto;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-bar--split
-    .mb-common-header__mobile-logos--split {
-    position: absolute;
-    left: 0;
-    top: 12px;
-    max-width: calc(100% - 150px);
+    .mb-common-header__mobile-actions--split
+    .bhashini-plugin-container,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #bhashini-mobile-header {
+    position: static !important;
+    right: auto !important;
+    top: auto !important;
+    float: none !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto;
+    line-height: 1;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-actions--split
+    .bhashini-plugin-container
+    svg,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    #bhashini-mobile-header
+    svg {
+    width: 24px;
+    height: 24px;
   }
 
   .bhashini-dropdown-content {
