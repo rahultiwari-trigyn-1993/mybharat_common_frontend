@@ -754,15 +754,9 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .bhashini-plugin-container {
-    display: inline !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    position: absolute !important;
+    position: absolute;
     right: -35px;
     top: 15px;
-    float: none !important;
-    margin: 0 !important;
-    z-index: 999;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #bhashini-mobile-header {

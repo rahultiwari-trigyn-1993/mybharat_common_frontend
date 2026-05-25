@@ -5,7 +5,7 @@ export const MYBHARAT_SHELL_GITHUB_USER = 'rahultiwari-trigyn-1993';
 export const MYBHARAT_SHELL_GITHUB_REPO = 'mybharat_common_frontend';
 
 /** Git tag for pinned shell CDN. */
-export const MYBHARAT_SHELL_GITHUB_TAG = 'v1.0.182';
+export const MYBHARAT_SHELL_GITHUB_TAG = 'v1.0.183';
 
 /**
  * jsDelivr base — use for browser embeds (correct MIME types; raw GitHub triggers ORB).
