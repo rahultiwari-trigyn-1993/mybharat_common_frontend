@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.174 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.175 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -22485,10 +22485,7 @@ var MyBharatShell = (() => {
         /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("i", { className: "fa fa-phone mb-common-header__toll-phone-icon", "aria-hidden": "true" }),
         " 14472 Or 18002122729"
       ] }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { id: "bhashini-mobile-header", className: s.bhashini, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { className: "mb-common-header__bhashini-fallback", "aria-hidden": "true", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "\u0905" }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "A" })
-      ] }) })
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { id: "bhashini-mobile-header", className: s.bhashini })
     ] });
     const menuButton = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
       "button",
@@ -23130,7 +23127,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.174" }
+          detail: { component: "header", version: "1.0.175" }
         })
       );
     }
@@ -23171,7 +23168,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.174" }
+          detail: { component: "footer", version: "1.0.175" }
         })
       );
     }
@@ -23215,7 +23212,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.174";
+  var MYBHARAT_SHELL_VERSION = "1.0.175";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

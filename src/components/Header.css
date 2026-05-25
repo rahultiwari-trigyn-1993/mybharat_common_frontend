@@ -97,24 +97,6 @@
     flex: 0 0 auto;
   }
 
-  header.mb-common-header .mb-common-header__bhashini-mid--split .mb-common-header__bhashini-fallback {
-    display: inline-flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: #111111 !important;
-    font-size: 12px !important;
-    font-weight: 400 !important;
-    line-height: 0.78 !important;
-    letter-spacing: 0 !important;
-    min-width: 12px !important;
-    transform: translateY(1px);
-  }
-
-  header.mb-common-header .mb-common-header__bhashini-mid--split .mb-common-header__bhashini-fallback span {
-    display: block;
-  }
-
   header.mb-common-header .mb-common-header__mobile-row--split {
     padding-top: 0.3rem !important;
     padding-bottom: 0.3rem !important;
@@ -664,13 +646,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     margin-right: 2px !important;
     overflow: visible !important;
   }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-bar--split
-    #bhashini-mobile-header
-    .mb-common-header__bhashini-fallback {
-    padding-left: 4px !important;
-  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -699,10 +674,19 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     min-height: 56px;
   }
 
-  .bhashini-plugin-container {
-    position: absolute;
-    right: -35px;
-    top: 15px;
+  /* Default header mobile strip owns Bhashini — root container must not float over logos */
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .bhashini-plugin-container {
+    position: static !important;
+    float: none !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 0 !important;
   }
 
   .bhashini-dropdown-content {

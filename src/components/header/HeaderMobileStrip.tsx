@@ -51,12 +51,7 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
           <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true" /> 14472 Or 18002122729
         </strong>
       </a>
-      <div id="bhashini-mobile-header" className={s.bhashini}>
-        <span className="mb-common-header__bhashini-fallback" aria-hidden="true">
-          <span>अ</span>
-          <span>A</span>
-        </span>
-      </div>
+      <div id="bhashini-mobile-header" className={s.bhashini} />
     </>
   );
 
