@@ -1210,27 +1210,34 @@ header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .r
 }
 
 @media only screen and (max-width: 600px) {
+  /*
+   * Production header.ctp — both mobile logos 70px at ≤600px.
+   * Scoped under #mb-common-header-root so host theme rules stay predictable.
+   */
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md1,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {
+    width: 70px !important;
+  }
+
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md-sec,
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {
     width: 70px !important;
     transform: scale(1) !important;
   }
 
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md1,
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {
-    width: 70px !important;
-  }
-
-  /* Strip logos keep their own clamp rules above — do not force 70px min-width here */
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
     .mb-common-header__mobile-bar--split
     .new_head
-    img.logo-w-sm-md1,
+    img.new_head1.logo-w-sm-md1,
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
     .mb-common-header__mobile-bar--split
     .new_head
     img.logo-w-sm-md-sec {
-    min-width: 0 !important;
+    width: 70px !important;
+    min-width: 70px !important;
+    max-width: 70px !important;
+    transform: none !important;
+    margin-left: 2px !important;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {
