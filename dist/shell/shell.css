@@ -680,18 +680,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-bar--split
-    .mb-common-header__toll-full {
-    display: none !important;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-bar--split
-    .mb-common-header__toll-short {
-    display: inline !important;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
     > .bhashini-plugin-container.mb-common-header__bhashini-root {
     bottom: 12px !important;
     right: 42px !important;
@@ -789,12 +777,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     min-width: 28px;
     height: 24px;
     display: inline-block;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-bar--split
-    .mb-common-header__toll-short {
-    display: none;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)

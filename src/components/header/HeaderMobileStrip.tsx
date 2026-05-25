@@ -44,9 +44,7 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
   const tollLink = (
     <a href="tel:18002122729" title="Toll Free" id="toll_mb" className={s.tollLink}>
       <strong className="lang_toll_free">
-        <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true" />
-        <span className="mb-common-header__toll-full">14472 Or 18002122729</span>
-        <span className="mb-common-header__toll-short">14472</span>
+        <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true" /> 14472 Or 18002122729
       </strong>
     </a>
   );
