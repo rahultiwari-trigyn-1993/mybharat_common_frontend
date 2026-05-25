@@ -95,16 +95,6 @@
     padding-top: 0.3rem !important;
     padding-bottom: 0.3rem !important;
   }
-
-  /*
-   * Desktop Bhashini hook floats at header root — on mobile it overlaps logos.
-   * Strip uses #bhashini-mobile-header inside the actions cluster instead.
-   */
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
 }
 
 .mb-common-header__mobile-bar #toll_mb.skip01 {
@@ -632,13 +622,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 @media only screen and (max-width: 999px) {
   .header-area {
     min-height: 56px;
-  }
-
-  /* Default header mobile strip owns Bhashini — root container must not float over logos */
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .bhashini-plugin-container {
