@@ -437,25 +437,13 @@ header#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:focus-
  * (often `.logo-w-sm-md1 { width: 70px }`) do not override package sizing.
  */
 header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {
-  width: 136px !important;
+  width: 98px !important;
   transform: scale(1.12);
   margin-left: 7px;
   margin-top: 5px;
 }
 
 header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {
-  width: 124px !important;
-}
-
-/* Default Header (not Header2) — yuva_application header.ctp logo sizes */
-header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md-sec {
-  width: 98px !important;
-  transform: scale(1.2);
-  margin-left: 7px;
-  margin-top: 5px;
-}
-
-header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md1 {
   width: 90px !important;
 }
 
@@ -487,12 +475,12 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 
 /* Drawer logo — modal is portaled outside <header>; keep sizes in sync with header */
 #mobileMenuNew img.logo-w-sm-md-sec {
-  width: 136px !important;
+  width: 98px !important;
   transform: scale(1.12);
 }
 
 #mobileMenuNew img.logo-w-sm-md1 {
-  width: 124px !important;
+  width: 90px !important;
   max-width: none !important;
   height: auto !important;
 }
