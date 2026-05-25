@@ -118,7 +118,7 @@ export default defineConfig([
     outDir: "dist/shell",
     platform: "browser",
     target: "es2020",
-    injectStyle: false,
+    injectStyle: true,
     clean: false,
     dts: false,
     minify: false,

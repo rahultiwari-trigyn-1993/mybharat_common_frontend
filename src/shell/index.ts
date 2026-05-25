@@ -1,3 +1,9 @@
+/* Bundled into shell.js so host pages get styles even without a separate <link> (injectStyle: true). */
+import '../components/header/Header.common.css';
+import '../components/Header.css';
+import '../components/Footer.css';
+import '../components/Header2.css';
+
 import { registerMyBharatWebComponents } from './registerWebComponents';
 
 registerMyBharatWebComponents();

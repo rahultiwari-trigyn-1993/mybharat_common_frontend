@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.177 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.178 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -462,9 +462,10 @@ function HeaderBrandLogos({ cdn, layout }) {
   const yas = `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`;
   const mb = `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
   if (layout === "mobile") {
+    const mobileLogoStyle = { width: 70, maxWidth: 70, height: "auto" };
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "d-flex new_head align-items-center", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: yas, className: "new_head1 logo-w-sm-md1", alt: "" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "d-inline-flex align-items-center", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: mb, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }) })
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: yas, className: "new_head1 logo-w-sm-md1", alt: "", style: mobileLogoStyle }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "d-inline-flex align-items-center", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: mb, className: "logo-w-sm-md-sec", alt: "MY Bharat", style: mobileLogoStyle }) }) })
     ] });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "d-flex new_head", children: [
@@ -1422,7 +1423,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.177";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.178";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

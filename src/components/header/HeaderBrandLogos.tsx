@@ -11,14 +11,15 @@ export function HeaderBrandLogos({ cdn, layout }: HeaderBrandLogosProps) {
   const mb = `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
 
   if (layout === 'mobile') {
+    const mobileLogoStyle = { width: 70, maxWidth: 70, height: 'auto' as const };
     return (
       <div className="d-flex new_head align-items-center">
         <a href="/">
-          <img src={yas} className="new_head1 logo-w-sm-md1" alt="" />
+          <img src={yas} className="new_head1 logo-w-sm-md1" alt="" style={mobileLogoStyle} />
         </a>
         <span className="d-inline-flex align-items-center">
           <a href="/">
-            <img src={mb} className="logo-w-sm-md-sec" alt="MY Bharat" />
+            <img src={mb} className="logo-w-sm-md-sec" alt="MY Bharat" style={mobileLogoStyle} />
           </a>
         </span>
       </div>

@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.177 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.178 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 
 // #style-inject:#style-inject
@@ -406,9 +406,10 @@ function HeaderBrandLogos({ cdn, layout }) {
   const yas = `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`;
   const mb = `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
   if (layout === "mobile") {
+    const mobileLogoStyle = { width: 70, maxWidth: 70, height: "auto" };
     return /* @__PURE__ */ jsxs2("div", { className: "d-flex new_head align-items-center", children: [
-      /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2("img", { src: yas, className: "new_head1 logo-w-sm-md1", alt: "" }) }),
-      /* @__PURE__ */ jsx2("span", { className: "d-inline-flex align-items-center", children: /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2("img", { src: mb, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }) })
+      /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2("img", { src: yas, className: "new_head1 logo-w-sm-md1", alt: "", style: mobileLogoStyle }) }),
+      /* @__PURE__ */ jsx2("span", { className: "d-inline-flex align-items-center", children: /* @__PURE__ */ jsx2("a", { href: "/", children: /* @__PURE__ */ jsx2("img", { src: mb, className: "logo-w-sm-md-sec", alt: "MY Bharat", style: mobileLogoStyle }) }) })
     ] });
   }
   return /* @__PURE__ */ jsxs2("div", { className: "d-flex new_head", children: [
@@ -1366,7 +1367,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.177";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.178";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   DEFAULT_HEADER2_MAIN_NAV,
