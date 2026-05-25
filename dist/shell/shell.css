@@ -208,39 +208,43 @@ header.mb-common-header .f-hd-right {
 }
 
 @media (max-width: 991.98px) {
-  /* Production layout: logos left, toll + bhashini + menu grouped on the right */
+  /*
+   * Two columns: logos (shrink) | toll + bhashini + menu (fixed cluster).
+   * Matches production CakePHP — avoids overlap from a centered mid column or floating Bhashini.
+   */
   header.mb-common-header .mb-common-header__mobile-row--split {
     display: flex !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 0.35rem 0.45rem;
+    justify-content: space-between !important;
+    gap: 0.25rem 0.35rem;
+    width: 100%;
+    min-width: 0;
   }
 
   header.mb-common-header .mb-common-header__mobile-logos--split {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     min-width: 0;
+    max-width: calc(100% - 168px);
     align-items: center;
-    padding-right: clamp(2px, 1vw, 8px);
+    overflow: hidden;
+    padding-right: 2px;
   }
 
-  header.mb-common-header .mb-common-header__mobile-mid--split {
+  header.mb-common-header .mb-common-header__mobile-actions--split {
     flex: 0 0 auto;
-    margin-left: auto;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-end;
-    gap: 0.25rem;
+    gap: 0.2rem;
     min-width: 0;
-    max-width: none;
-    padding-left: 0;
-    position: static;
-    z-index: auto;
-    background-color: transparent;
+    float: none !important;
+    margin-top: 0 !important;
   }
 
-  header.mb-common-header .mb-common-header__mobile-mid--split #toll_mb .lang_toll_free {
-    justify-content: center;
+  header.mb-common-header .mb-common-header__mobile-actions--split #toll_mb .lang_toll_free {
+    justify-content: flex-end;
   }
 
   header.mb-common-header .mb-common-header__bhashini-mid--split {
@@ -267,18 +271,19 @@ header.mb-common-header .f-hd-right {
     display: block;
   }
 
-  header.mb-common-header .mb-common-header__mobile-end--split {
-    flex: 0 0 auto;
-    min-width: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
   header.mb-common-header .mb-common-header__mobile-row--split {
     padding-top: 0.3rem !important;
     padding-bottom: 0.3rem !important;
+  }
+
+  /*
+   * Desktop Bhashini hook floats at header root — on mobile it overlaps logos.
+   * Strip uses #bhashini-mobile-header inside the actions cluster instead.
+   */
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 }
 
@@ -719,11 +724,11 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     .mb-common-header__mobile-bar--split
     .new_head
     img.new_head1.logo-w-sm-md1 {
-    width: 70px !important;
-    min-width: 70px !important;
+    width: clamp(48px, 17vw, 70px) !important;
+    min-width: 0 !important;
     max-width: 70px !important;
     height: auto !important;
-    flex-shrink: 0 !important;
+    flex-shrink: 1 !important;
     transform: none !important;
   }
 
@@ -731,13 +736,13 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     .mb-common-header__mobile-bar--split
     .new_head
     img.logo-w-sm-md-sec {
-    width: 78px !important;
-    min-width: 78px !important;
+    width: clamp(52px, 19vw, 78px) !important;
+    min-width: 0 !important;
     max-width: 78px !important;
     height: auto !important;
-    flex-shrink: 0 !important;
-    transform: scale(1.08) !important;
-    margin-left: 4px !important;
+    flex-shrink: 1 !important;
+    transform: scale(1.05) !important;
+    margin-left: 2px !important;
     margin-top: 0 !important;
   }
 
@@ -758,19 +763,18 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
  */
 @media only screen and (max-width: 575.98px) {
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-row--split {
-    gap: 0.2rem 0.35rem !important;
-    padding-left: 8px !important;
-    padding-right: 6px !important;
+    gap: 0.15rem 0.25rem !important;
+    padding-left: 6px !important;
+    padding-right: 4px !important;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-logos--split {
-    flex: 0 0 auto !important;
-    padding-right: 2px !important;
+    max-width: calc(100% - 158px);
+    padding-right: 0 !important;
   }
 
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-mid--split {
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-actions--split {
     gap: 0.12rem !important;
-    overflow: visible !important;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
@@ -778,7 +782,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     #toll_mb.skip01 {
     white-space: nowrap !important;
     min-width: 0 !important;
-    max-width: 104px !important;
     overflow: visible !important;
   }
 
@@ -822,13 +825,7 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     .mb-common-header__mobile-bar--split
     #bhashini-mobile-header
     .mb-common-header__bhashini-fallback {
-    padding-left: 10px !important;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-end--split {
-    flex: 0 0 auto !important;
-    min-width: 36px !important;
-    margin-left: 0 !important;
+    padding-left: 4px !important;
   }
 }
 
@@ -1240,6 +1237,18 @@ header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .r
     width: 70px !important;
   }
 
+  /* Strip logos keep their own clamp rules above — do not force 70px min-width here */
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .new_head
+    img.logo-w-sm-md1,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .new_head
+    img.logo-w-sm-md-sec {
+    min-width: 0 !important;
+  }
+
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {
     height: 60px;
   }
@@ -1265,11 +1274,7 @@ header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .r
   }
 }
 
-@media only screen and (max-width: 1000px) {
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #toll_mb {
-    display: none;
-  }
-}
+/* Legacy: hide desktop-only toll hook; mobile strip #toll_mb.skip01 stays visible via .mb-common-header__mobile-bar rules */
 
 /* Legacy header.ctp absolute toll/menu positioning removed — mobile strip uses flex layout */
 /* Ported from footer_external.ctp inline <style> — scoped to #footer_external + modals */

@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.173 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.174 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -22460,6 +22460,7 @@ var MyBharatShell = (() => {
       bar: "mb-common-header__mobile-bar mb-common-header__mobile-bar--split",
       row: "mb-common-header__mobile-row mb-common-header__mobile-row--split d-flex align-items-center flex-nowrap w-100 py-2",
       logos: "mb-common-header__mobile-logos mb-common-header__mobile-logos--split min-w-0 d-flex align-items-center",
+      actions: "mb-common-header__mobile-actions--split f-hd-right d-sm-none1 d-flex flex-nowrap align-items-center justify-content-end flex-shrink-0 min-w-0",
       mid: "mb-common-header__mobile-mid--split d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0",
       tollLink: "skip01",
       bhashini: "mb-common-header__bhashini-mid--split",
@@ -22479,31 +22480,37 @@ var MyBharatShell = (() => {
   };
   function HeaderMobileStrip({ cdn, variant }) {
     const s = stripClasses[variant];
+    const tollAndBhashini = /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", { href: "tel:18002122729", title: "Toll Free", id: "toll_mb", className: s.tollLink, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("strong", { className: "lang_toll_free", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("i", { className: "fa fa-phone mb-common-header__toll-phone-icon", "aria-hidden": "true" }),
+        " 14472 Or 18002122729"
+      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { id: "bhashini-mobile-header", className: s.bhashini, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { className: "mb-common-header__bhashini-fallback", "aria-hidden": "true", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "\u0905" }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "A" })
+      ] }) })
+    ] });
+    const menuButton = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+      "button",
+      {
+        type: "button",
+        className: s.menuBtn,
+        "data-bs-toggle": "modal",
+        id: "mb_menus",
+        "data-bs-target": "#mobileMenuNew",
+        "aria-label": "Open menu",
+        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" })
+      }
+    );
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: `col-12 d-lg-none ${s.bar}`, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: s.row, children: [
       /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: s.logos, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(HeaderBrandLogos, { cdn, layout: "mobile" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: s.mid, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", { href: "tel:18002122729", title: "Toll Free", id: "toll_mb", className: s.tollLink, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("strong", { className: "lang_toll_free", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("i", { className: "fa fa-phone mb-common-header__toll-phone-icon", "aria-hidden": "true" }),
-          " ",
-          "14472 Or 18002122729"
-        ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { id: "bhashini-mobile-header", className: s.bhashini, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { className: "mb-common-header__bhashini-fallback", "aria-hidden": "true", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "\u0905" }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "A" })
-        ] }) })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: s.end, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-        "button",
-        {
-          type: "button",
-          className: s.menuBtn,
-          "data-bs-toggle": "modal",
-          id: "mb_menus",
-          "data-bs-target": "#mobileMenuNew",
-          "aria-label": "Open menu",
-          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" })
-        }
-      ) })
+      variant === "split" && s.actions ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: s.actions, children: [
+        tollAndBhashini,
+        menuButton
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: s.mid, children: tollAndBhashini }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: s.end, children: menuButton })
+      ] })
     ] }) });
   }
 
@@ -23123,7 +23130,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.173" }
+          detail: { component: "header", version: "1.0.174" }
         })
       );
     }
@@ -23164,7 +23171,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.173" }
+          detail: { component: "footer", version: "1.0.174" }
         })
       );
     }
@@ -23208,7 +23215,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.173";
+  var MYBHARAT_SHELL_VERSION = "1.0.174";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:
