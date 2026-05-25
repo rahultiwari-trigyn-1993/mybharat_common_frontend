@@ -699,31 +699,22 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   }
 
   /*
-   * Mobile strip logos — match production CakePHP (~70px ministry, compact MY Bharat).
-   * Header2 overrides via Header2.css + mb-common-header--header2.
+   * Mobile strip logos — production header.ctp: both 70px on phones/tablets (<992px).
    */
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
     .mb-common-header__mobile-bar--split
     .new_head
-    img.new_head1.logo-w-sm-md1 {
-    width: clamp(48px, 17vw, 70px) !important;
-    min-width: 0 !important;
-    max-width: 70px !important;
-    height: auto !important;
-    flex-shrink: 1 !important;
-    transform: none !important;
-  }
-
+    img.new_head1.logo-w-sm-md1,
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
     .mb-common-header__mobile-bar--split
     .new_head
     img.logo-w-sm-md-sec {
-    width: clamp(52px, 19vw, 78px) !important;
+    width: 70px !important;
     min-width: 0 !important;
-    max-width: 78px !important;
+    max-width: 70px !important;
     height: auto !important;
-    flex-shrink: 1 !important;
-    transform: scale(1.05) !important;
+    flex-shrink: 0 !important;
+    transform: none !important;
     margin-left: 2px !important;
     margin-top: 0 !important;
   }
