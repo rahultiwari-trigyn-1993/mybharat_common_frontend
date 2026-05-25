@@ -41,16 +41,17 @@ const stripClasses: Record<
 export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: HeaderMobileStripVariant }) {
   const s = stripClasses[variant];
 
-  const tollAndBhashini = (
-    <>
-      <a href="tel:18002122729" title="Toll Free" id="toll_mb" className={s.tollLink}>
-        <strong className="lang_toll_free">
-          <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true" /> 14472 Or 18002122729
-        </strong>
-      </a>
-      <div id="bhashini-mobile-header" className="bhashini-plugin-container" />
-    </>
+  const tollLink = (
+    <a href="tel:18002122729" title="Toll Free" id="toll_mb" className={s.tollLink}>
+      <strong className="lang_toll_free">
+        <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true" />
+        <span className="mb-common-header__toll-full">14472 Or 18002122729</span>
+        <span className="mb-common-header__toll-short">14472</span>
+      </strong>
+    </a>
   );
+
+  const bhashiniSlot = <span className="mb-common-header__bhashini-slot" aria-hidden="true" />;
 
   const menuButton = (
     <button
@@ -73,12 +74,16 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
         </div>
         {variant === 'split' && s.actions ? (
           <div className={s.actions}>
-            {tollAndBhashini}
+            {tollLink}
+            {bhashiniSlot}
             {menuButton}
           </div>
         ) : (
           <>
-            <div className={s.mid}>{tollAndBhashini}</div>
+            <div className={s.mid}>
+              {tollLink}
+              {bhashiniSlot}
+            </div>
             <div className={s.end}>{menuButton}</div>
           </>
         )}
