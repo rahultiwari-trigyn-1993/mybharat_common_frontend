@@ -12,7 +12,6 @@ const stripClasses: Record<
     actions?: string;
     mid: string;
     tollLink: string;
-    bhashini: string;
     end: string;
     menuBtn: string;
   }
@@ -25,7 +24,6 @@ const stripClasses: Record<
       'mb-common-header__mobile-actions--split f-hd-right d-sm-none1 d-flex flex-nowrap align-items-center justify-content-end flex-shrink-0 min-w-0',
     mid: 'mb-common-header__mobile-mid--split d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0',
     tollLink: 'skip01',
-    bhashini: 'mb-common-header__bhashini-mid--split',
     end: 'mb-common-header__mobile-end--split d-flex align-items-center justify-content-end flex-shrink-0 min-w-0',
     menuBtn: 'btn btn-light',
   },
@@ -35,7 +33,6 @@ const stripClasses: Record<
     logos: 'mb-common-header__mobile-logos mb-common-header__mobile-logos--h2 min-w-0 d-flex align-items-center',
     mid: 'mb-common-header__mobile-mid--h2 d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0',
     tollLink: 'skip01 mb-common-header__toll-link--h2',
-    bhashini: 'mb-common-header__bhashini-mid--h2',
     end: 'mb-common-header__mobile-end--h2 d-flex align-items-center justify-content-end flex-shrink-0 min-w-0',
     menuBtn: 'btn mb-common-header__mobile-menu-btn--h2',
   },
@@ -51,7 +48,7 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
           <i className="fa fa-phone mb-common-header__toll-phone-icon" aria-hidden="true" /> 14472 Or 18002122729
         </strong>
       </a>
-      <div id="bhashini-mobile-header" className={s.bhashini} />
+      <div id="bhashini-mobile-header" />
     </>
   );
 

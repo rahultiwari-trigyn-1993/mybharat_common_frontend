@@ -191,12 +191,6 @@ header.mb-common-header--header2
     justify-content: center;
   }
 
-  header.mb-common-header--header2 .mb-common-header__bhashini-mid--h2 {
-    display: inline-flex;
-    align-items: center;
-    flex: 0 0 auto;
-  }
-
   header.mb-common-header--header2 .mb-common-header__mobile-end--h2 {
     min-width: 0;
     justify-self: end;
@@ -878,22 +872,6 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   }
 
   /* Keep A/A (Bhashini mobile hook) visible between toll number and menu */
-  header#mb-common-header-root.mb-common-header.mb-common-header--header2
-    .mb-common-header__mobile-bar--h2
-    .mb-common-header__bhashini-mid--h2,
-  header#mb-common-header-root.mb-common-header.mb-common-header--header2
-    .mb-common-header__mobile-bar--h2
-    #bhashini-mobile-header {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex: 0 0 auto !important;
-    min-width: 16px !important;
-    margin-left: 2px !important;
-    margin-right: 2px !important;
-    overflow: visible !important;
-  }
-
   header#mb-common-header-root.mb-common-header.mb-common-header--header2
     .mb-common-header__mobile-bar--h2
     #bhashini-mobile-header
