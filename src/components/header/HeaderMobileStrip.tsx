@@ -21,7 +21,7 @@ const stripClasses: Record<
     row: 'mb-common-header__mobile-row mb-common-header__mobile-row--split d-flex align-items-center flex-nowrap w-100 py-2',
     logos: 'mb-common-header__mobile-logos mb-common-header__mobile-logos--split min-w-0 d-flex align-items-center',
     actions:
-      'mb-common-header__mobile-actions--split f-hd-right d-sm-none1 d-flex flex-nowrap align-items-center justify-content-end flex-shrink-0 min-w-0',
+      'mb-common-header__mobile-actions--split d-sm-none1 d-flex flex-nowrap align-items-center justify-content-end flex-shrink-0 min-w-0',
     mid: 'mb-common-header__mobile-mid--split d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0',
     tollLink: 'skip01',
     end: 'mb-common-header__mobile-end--split d-flex align-items-center justify-content-end flex-shrink-0 min-w-0',

@@ -223,21 +223,21 @@ header.mb-common-header .f-hd-right {
   }
 
   header.mb-common-header .mb-common-header__mobile-logos--split {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     min-width: 0;
-    max-width: calc(100% - 168px);
+    max-width: none;
     align-items: center;
-    overflow: hidden;
+    overflow: visible;
     padding-right: 2px;
   }
 
   header.mb-common-header .mb-common-header__mobile-actions--split {
-    flex: 0 0 auto;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.2rem;
+    flex: 1 1 auto;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.35rem;
     min-width: 0;
     float: none !important;
     margin-top: 0 !important;
@@ -670,23 +670,13 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 
 
 /*
- * Default Header mobile strip — alignment refinements aligned with Header2.tsx / Header2.css:
- * grid columns, fixed logo widths on narrow phones, toll cluster hugging the menu, Bhashini spacing.
+ * Default Header mobile strip — narrow-phone padding only (layout lives in 999px block).
  */
 @media only screen and (max-width: 575.98px) {
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-row--split {
-    gap: 0.15rem 0.25rem !important;
-    padding-left: 6px !important;
-    padding-right: 4px !important;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-logos--split {
-    max-width: calc(100% - 158px);
-    padding-right: 0 !important;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-actions--split {
-    gap: 0.12rem !important;
+    gap: 0.25rem !important;
+    padding-left: 4px !important;
+    padding-right: 2px !important;
   }
 }
 
@@ -713,12 +703,19 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 
 @media only screen and (max-width: 999px) {
   /*
-   * Production mobile strip — one flex row: logos | toll + Bhashini + menu.
-   * Root .bhashini-plugin-container is desktop-only; mobile uses the copy in the actions cluster.
+   * Mobile strip — flex row matching production header.ctp.
+   * Host default.css sets #toll_mb / #mb_menus position:absolute — reset inside the strip.
    */
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {
     height: 60px;
     min-height: 56px;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .header-area
+    .container {
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
@@ -727,82 +724,133 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
     .mb-common-header__mobile-row--split {
+    display: flex !important;
+    flex-wrap: nowrap !important;
     align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.35rem !important;
+    width: 100%;
     min-height: 52px;
     padding-top: 0.25rem !important;
     padding-bottom: 0.25rem !important;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
     .mb-common-header__mobile-logos--split {
-    position: static !important;
-    flex: 0 0 auto;
-    max-width: none;
-    top: auto;
-    left: auto;
+    flex: 0 0 auto !important;
+    align-items: center !important;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-actions--split {
-    flex: 1 1 auto;
-    justify-content: flex-end !important;
+    .mb-common-header__mobile-bar--split
+    .new_head {
     align-items: center !important;
-    gap: 0.35rem !important;
-    min-width: 0;
   }
 
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #toll_mb {
-    display: inline-flex !important;
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .mb-common-header__mobile-actions--split {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.4rem !important;
+    min-width: 0;
+    float: none !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #toll_mb,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #mb_menus,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #bhashini-mobile-header,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .bhashini-plugin-container {
     position: static !important;
+    float: none !important;
     right: auto !important;
     top: auto !important;
-    font-size: 10px;
-    z-index: auto;
+    left: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    z-index: auto !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #toll_mb {
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 10px !important;
     white-space: nowrap;
     flex: 0 1 auto;
     min-width: 0;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #toll_mb .lang_toll_free {
-    font-size: 10px !important;
-    font-weight: 700;
-    line-height: 1.1;
-    gap: 0.2em;
-    align-items: center;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mb_menus {
-    position: static !important;
-    right: auto !important;
-    top: auto !important;
-    padding: 6px;
-    z-index: auto;
-    flex: 0 0 auto;
+    color: #1937b2;
+    text-decoration: none;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-actions--split
-    .bhashini-plugin-container,
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #bhashini-mobile-header {
-    position: static !important;
-    right: auto !important;
-    top: auto !important;
-    float: none !important;
-    margin: 0 !important;
+    .mb-common-header__mobile-bar--split
+    #toll_mb
+    .lang_toll_free {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    gap: 0.2em !important;
+    align-items: center !important;
+    display: inline-flex !important;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #toll_mb
+    .lang_toll_free
+    .mb-common-header__toll-phone-icon {
+    transform: rotate(108deg) !important;
+    transform-origin: 50% 58%;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #mb_menus {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    flex: 0 0 auto;
+    flex: 0 0 auto !important;
+    padding: 6px !important;
+    border: 1px solid #dee2e6;
+  }
+
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    #bhashini-mobile-header,
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    .mb-common-header__mobile-bar--split
+    .mb-common-header__mobile-actions--split
+    .bhashini-plugin-container {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
     line-height: 1;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-actions--split
-    .bhashini-plugin-container
+    .mb-common-header__mobile-bar--split
+    #bhashini-mobile-header
     svg,
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    #bhashini-mobile-header
+    .mb-common-header__mobile-bar--split
+    .bhashini-plugin-container
     svg {
     width: 24px;
     height: 24px;
