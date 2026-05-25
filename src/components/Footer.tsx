@@ -70,7 +70,7 @@ export const Footer: React.FC<FooterProps> = ({ cdnBase, isLoggedIn, recaptchaSi
                 </p>
               </div>
 
-              <div className="col-lg-3 col-md-6 footer-links pt-4">
+              <div className="col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col">
                 <h6 className="img_link lang_footer_heading_import fontchange mb-2">Important Links</h6>
                 <ul className="foot_p2 list-unstyled mb-0">
                   <li className="mb-2 fw-normal">
@@ -96,7 +96,7 @@ export const Footer: React.FC<FooterProps> = ({ cdnBase, isLoggedIn, recaptchaSi
                 </ul>
               </div>
 
-              <div className="col-lg-3 col-md-6 footer-links pt-4">
+              <div className="col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col">
                 <h6 className="img_link lang_footer_heading_useful fontchange mb-2">Useful Links</h6>
                 <ul className="list-unstyled mb-0">
                   <li className="mb-2 fw-normal">

@@ -45,23 +45,22 @@
 }
 
 /*
- * Important / Useful columns: headings + lists left-aligned.
- * Only columns with a direct child `ul` — not Follow Us (no `ul`), not `.footer-contact`.
+ * Important / Useful columns — left on desktop (lg+), center when stacked (mobile/tablet).
+ * Uses .mb-common-footer__link-col + !important to beat host .footer-links { text-align: center }.
  */
-#footer_external .footer-links:has(> ul) {
-  text-align: left;
+#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {
+  text-align: left !important;
 }
 
-#footer_external .footer-links:has(> ul) h6.img_link {
-  text-align: left;
+#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,
+#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,
+#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,
+#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {
+  text-align: left !important;
 }
 
-#footer_external .footer-links:has(> ul) ul {
+#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {
   padding-left: 0;
-}
-
-#footer_external .footer-links:has(> ul) li {
-  text-align: left;
 }
 
 /*
@@ -69,6 +68,21 @@
  * Shared by any app that mounts `Footer` (with or without Header vs Header2).
  */
 @media (max-width: 991.98px) {
+  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {
+    text-align: center !important;
+  }
+
+  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,
+  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,
+  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,
+  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {
+    text-align: center !important;
+  }
+
+  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {
+    padding-left: 0;
+  }
+
   #footer_external .mb-common-footer__follow-col {
     text-align: center;
   }

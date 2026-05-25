@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.170 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.171 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -21945,7 +21945,7 @@ var MyBharatShell = (() => {
               formatLastUpdated()
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "col-lg-3 col-md-6 footer-links pt-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col", children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h6", { className: "img_link lang_footer_heading_import fontchange mb-2", children: "Important Links" }),
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("ul", { className: "foot_p2 list-unstyled mb-0", children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/mega_events", className: "litext lang_mega_event fontchange", children: "Mega Events" }) }),
@@ -21954,7 +21954,7 @@ var MyBharatShell = (() => {
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { className: "litext lang_about fontchange", href: "/pages/about_mybharat", children: "About" }) })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "col-lg-3 col-md-6 footer-links pt-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col", children: [
             /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h6", { className: "img_link lang_footer_heading_useful fontchange mb-2", children: "Useful Links" }),
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("ul", { className: "list-unstyled mb-0", children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/pages/policy", className: "litext lang_policy_page_header fontchange", children: "Privacy Policy" }) }),
@@ -23123,7 +23123,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.170" }
+          detail: { component: "header", version: "1.0.171" }
         })
       );
     }
@@ -23164,7 +23164,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.170" }
+          detail: { component: "footer", version: "1.0.171" }
         })
       );
     }
@@ -23208,7 +23208,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.170";
+  var MYBHARAT_SHELL_VERSION = "1.0.171";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:
