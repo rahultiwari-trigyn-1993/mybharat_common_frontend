@@ -53,7 +53,6 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase, m
                 <HeaderBrandLogos cdn={cdn} layout="desktop" />
               </div>
               <div className="col-xl-10 col-lg-10 d-none d-lg-block">
-                <div className="f-hd-right" />
                 <div className="main-menu f-hd-right d-none d-md-block">
                   <nav className="navbar navbar-expand-lg navbar-light" id="mb-nav-desktop-main" aria-label="Main navigation">
                     <DesktopMainNav items={navItems} />

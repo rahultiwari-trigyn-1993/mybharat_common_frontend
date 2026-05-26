@@ -185,6 +185,10 @@ header.mb-common-header--header2
 }
 
 /* Header2 mobile menu button — rounded brand brown */
+header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,
+header#mb-common-header-root.mb-common-header.mb-common-header--header2
+  .mb-common-header__mobile-bar--h2
+  #mb_menus.mb-common-header__mobile-menu-btn--h2 {
   width: 44px;
   height: 44px;
   padding: 0 !important;
@@ -700,6 +704,22 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     align-items: center !important;
     justify-content: center !important;
     flex: 0 0 auto !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    background-color: #bc4717 !important;
+    border: none !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #mb_menus.mb-common-header__mobile-menu-btn--h2
+    .fa {
+    color: #ffffff !important;
+    font-size: 1.05rem;
   }
 
   .bhashini-dropdown-content {
@@ -820,7 +840,32 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   }
 
   body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed) {
-    background-color: #bc4717;
-    color: #fff;
+    background-color: #bc4717 !important;
+    color: #fff !important;
   }
+
+  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button::after {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed)::after {
+    transform: rotate(-90deg);
+    transition: transform 0.3s ease-in-out;
+  }
+}
+
+body:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle='collapse'] i.fa-chevron-down {
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+body:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle='collapse'][aria-expanded='true'] i.fa-chevron-down {
+  transform: rotate(-90deg);
+}
+
+body:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,
+body:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {
+  color: #bc4717 !important;
 }
