@@ -340,14 +340,15 @@ header.mb-common-header--header2
   }
 }
 
-/* Header2 mobile menu button — rounded brand brown */
+/* Header2 mobile menu button — rounded #bc4717, compact size matching Header btn-light */
 header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,
 header#mb-common-header-root.mb-common-header.mb-common-header--header2
   .mb-common-header__mobile-bar--h2
   #mb_menus.mb-common-header__mobile-menu-btn--h2 {
-  width: 44px;
-  height: 44px;
-  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  padding: 6px !important;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
@@ -357,6 +358,7 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2
   border-radius: 10px !important;
   box-shadow: none !important;
   line-height: 1 !important;
+  flex: 0 0 auto !important;
 }
 
 header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {
@@ -372,18 +374,25 @@ header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-vi
 }
 
 header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {
-  color: #ffffff;
-  font-size: 1.15rem;
+  color: #ffffff !important;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 @media (max-width: 575.98px) {
-  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 {
-    width: 40px !important;
-    height: 40px !important;
+  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #mb_menus.mb-common-header__mobile-menu-btn--h2 {
+    padding: 0.28rem 0.5rem !important;
   }
 
-  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {
-    font-size: 1.05rem;
+  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa,
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    #mb_menus.mb-common-header__mobile-menu-btn--h2
+    .fa {
+    font-size: 1rem !important;
   }
 }
 
@@ -498,8 +507,14 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   }
 }
 
-/* Mobile strip logos — lock 70px on all sub-lg widths (matches Header + HeaderBrandLogos inline) */
+/* Mobile strip logos — lock to Header production size (70px wide, capped height) */
 @media only screen and (max-width: 999px) {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .new_head {
+    align-items: center !important;
+  }
+
   header#mb-common-header-root.mb-common-header.mb-common-header--header2
     .mb-common-header__mobile-bar--h2
     .new_head
@@ -512,9 +527,12 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     max-width: 70px !important;
     min-width: 0 !important;
     height: auto !important;
+    max-height: 48px !important;
+    object-fit: contain !important;
     transform: none !important;
     margin-left: 0 !important;
     margin-top: 0 !important;
+    flex-shrink: 0 !important;
   }
 }
 
@@ -755,8 +773,8 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
 
   header#mb-common-header-root.mb-common-header.mb-common-header--header2
     > .bhashini-plugin-container.mb-common-header__bhashini-root {
-    bottom: 12px !important;
-    right: 42px !important;
+    bottom: 14px !important;
+    right: 46px !important;
   }
 }
 
@@ -826,6 +844,7 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     min-width: 28px;
     height: 24px;
     display: inline-block;
+    margin-right: 0.1rem;
   }
 
   header#mb-common-header-root.mb-common-header.mb-common-header--header2
@@ -896,14 +915,16 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     align-items: center !important;
     justify-content: center !important;
     flex: 0 0 auto !important;
-    width: 40px !important;
-    height: 40px !important;
-    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    padding: 6px !important;
     background-color: #bc4717 !important;
     border: none !important;
     color: #ffffff !important;
     border-radius: 10px !important;
     box-shadow: none !important;
+    margin-left: 0.1rem;
   }
 
   header#mb-common-header-root.mb-common-header.mb-common-header--header2
@@ -911,7 +932,8 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
     #mb_menus.mb-common-header__mobile-menu-btn--h2
     .fa {
     color: #ffffff !important;
-    font-size: 1.05rem;
+    font-size: 1rem !important;
+    line-height: 1 !important;
   }
 
   .bhashini-dropdown-content {
