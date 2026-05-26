@@ -28,9 +28,11 @@ const stripClasses: Record<
     menuBtn: 'btn btn-light',
   },
   h2: {
-    bar: 'mb-common-header__mobile-bar--h2',
+    bar: 'mb-common-header__mobile-bar mb-common-header__mobile-bar--h2',
     row: 'mb-common-header__mobile-row mb-common-header__mobile-row--h2 d-flex align-items-center flex-nowrap w-100 py-2',
     logos: 'mb-common-header__mobile-logos mb-common-header__mobile-logos--h2 min-w-0 d-flex align-items-center',
+    actions:
+      'mb-common-header__mobile-actions--h2 d-sm-none1 d-flex flex-nowrap align-items-center justify-content-end flex-shrink-0 min-w-0',
     mid: 'mb-common-header__mobile-mid--h2 d-flex flex-nowrap align-items-center justify-content-center flex-shrink-0 min-w-0',
     tollLink: 'skip01 mb-common-header__toll-link--h2',
     end: 'mb-common-header__mobile-end--h2 d-flex align-items-center justify-content-end flex-shrink-0 min-w-0',
@@ -71,7 +73,7 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
         <div className={s.logos}>
           <HeaderBrandLogos cdn={cdn} layout="mobile" />
         </div>
-        {variant === 'split' && s.actions ? (
+        {s.actions ? (
           <div className={s.actions}>
             {tollLink}
             {bhashiniSlot}
