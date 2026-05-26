@@ -309,10 +309,7 @@ header.mb-common-header .f-hd-right {
   }
 }
 
-/*
- * Phone icon rotation — scoped to default header only. Header2 uses the same #toll_mb / class names;
- * without :not(.mb-common-header--header2), Header2.css would override this for both when both sheets load.
- */
+/* Phone icon sizing — rotation is set inline in HeaderMobileStrip.tsx */
 header.mb-common-header:not(.mb-common-header--header2)
   .mb-common-header__mobile-bar
   #toll_mb
@@ -322,9 +319,6 @@ header.mb-common-header:not(.mb-common-header--header2)
   font-size: 0.95em;
   line-height: 1;
   vertical-align: middle;
-  /* Slightly past 90deg so the handset reads as leaning right (clockwise) */
-  transform: rotate(108deg);
-  transform-origin: 50% 58%;
 }
 
 /* Desktop / wide: keep toll + menu in flex flow when visible */
@@ -837,15 +831,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     gap: 0.2em !important;
     align-items: center !important;
     display: inline-flex !important;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    .mb-common-header__mobile-bar--split
-    #toll_mb
-    .lang_toll_free
-    .mb-common-header__toll-phone-icon {
-    transform: rotate(108deg) !important;
-    transform-origin: 50% 58%;
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)

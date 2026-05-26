@@ -128,9 +128,6 @@ header.mb-common-header--header2
   font-size: 0.95em;
   line-height: 0;
   vertical-align: middle;
-  /* Match default Header: handset leans slightly clockwise */
-  transform: rotate(180deg);
-  transform-origin: 50% 58%;
 }
 
 /* Wins over legacy header.ctp rules that absolutely position the menu button only */
