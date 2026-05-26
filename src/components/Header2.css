@@ -18,6 +18,15 @@
   font-weight: 600 !important;
   position: relative;
   transition: all 0.3s ease-in-out;
+  text-decoration: none !important;
+}
+
+header.mb-common-header--header2 a,
+header.mb-common-header--header2 a:hover,
+header.mb-common-header--header2 a:focus,
+header.mb-common-header--header2 a:visited,
+header.mb-common-header--header2 a:active {
+  text-decoration: none !important;
 }
 
 /* All chevron icons point DOWN by default */
@@ -134,7 +143,7 @@
   flex: 0 1 auto;
   min-width: 0;
   color: rgb(13 110 253);
-  text-decoration: none;
+  text-decoration: none !important;
   line-height: 1;
 }
 
@@ -157,6 +166,7 @@ header.mb-common-header--header2
   font-size: 0.95em;
   line-height: 1;
   vertical-align: middle;
+  transform: rotate(180deg);
 }
 
 @media (min-width: 1000px) {
@@ -181,6 +191,23 @@ header.mb-common-header--header2
     .lang_toll_free
     .mb-common-header__toll-phone-icon {
     font-size: 0.88em;
+  }
+
+  .dropdown-menu-header a,
+  .dropdown-item,
+  .dropdown-menu-header a.border-bottom {
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+
+  .dropdown-menu-header a:hover,
+  .dropdown-menu-header a:focus,
+  .dropdown-item:hover,
+  .dropdown-item:focus {
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
   }
 }
 
@@ -407,9 +434,24 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   border-radius: 10px;
 }
 
+/* Remove all borders and underlines from dropdown items */
+.dropdown-menu-header a.border-bottom {
+  border-bottom: none !important;
+  border: none !important;
+  text-decoration: none !important;
+}
+
+.dropdown-menu-header a.border-bottom:hover,
+.dropdown-menu-header a.border-bottom:focus {
+  border-bottom: none !important;
+  border: none !important;
+  text-decoration: none !important;
+}
+
 .dropdown-menu-header a {
   padding-top: 4px;
   padding-bottom: 10px;
+  text-decoration: none !important;
 }
 
 /* events/program custom dropdown */
