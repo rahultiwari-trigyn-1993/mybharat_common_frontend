@@ -439,28 +439,28 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGrou
 }
 
 /*
- * Logo sizing — Header2 only. Scoped so this file never overrides default Header (Header.css).
- * Keep desktop sizes in sync with the logo section in Header.css where applicable.
+ * Logo sizing — match Header.css (90/98 desktop, 70px mobile strip & narrow drawer).
+ * Scoped to Header2 so shell Header.css clamp rules do not win on Header2 pages.
  */
 @media (min-width: 992px) {
   header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {
-    width: 136px !important;
+    width: 98px !important;
     transform: scale(1.12);
     margin-left: 7px;
     margin-top: 5px;
   }
 
   header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {
-    width: 124px !important;
+    width: 90px !important;
   }
 
   body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {
-    width: 136px !important;
+    width: 98px !important;
     transform: scale(1.12);
   }
 
   body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {
-    width: 124px !important;
+    width: 90px !important;
     max-width: none !important;
     height: auto !important;
   }
@@ -480,6 +480,42 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   object-fit: contain;
   height: auto !important;
   max-width: none !important;
+}
+
+/* Beat shell Header.css drawer clamp sizes on Header2 pages (tablet/mobile drawer) */
+@media only screen and (max-width: 991.98px) {
+  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {
+    width: 90px !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+
+  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {
+    width: 98px !important;
+    max-width: none !important;
+    height: auto !important;
+    transform: scale(1.12) !important;
+  }
+}
+
+/* Mobile strip logos — lock 70px on all sub-lg widths (matches Header + HeaderBrandLogos inline) */
+@media only screen and (max-width: 999px) {
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .new_head
+    img.logo-w-sm-md1,
+  header#mb-common-header-root.mb-common-header.mb-common-header--header2
+    .mb-common-header__mobile-bar--h2
+    .new_head
+    img.logo-w-sm-md-sec {
+    width: 70px !important;
+    max-width: 70px !important;
+    min-width: 0 !important;
+    height: auto !important;
+    transform: none !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+  }
 }
 
 @media only screen and (max-width: 600px) {
