@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.193 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.194 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -21730,8 +21730,12 @@ var MyBharatShell = (() => {
   var shell_exports = {};
   __export(shell_exports, {
     FOOTER_TAG: () => FOOTER_TAG,
+    HEADER_LOGIN_SIGN_IN_SELECTORS: () => HEADER_LOGIN_SIGN_IN_SELECTORS,
     HEADER_TAG: () => HEADER_TAG,
     MYBHARAT_SHELL_VERSION: () => MYBHARAT_SHELL_VERSION,
+    installHeaderLoginFlow: () => installHeaderLoginFlow,
+    openLoginWithOtpModal: () => openLoginWithOtpModal,
+    openSignInPasswordModal: () => openSignInPasswordModal,
     registerMyBharatWebComponents: () => registerMyBharatWebComponents
   });
 
@@ -21777,8 +21781,747 @@ var MyBharatShell = (() => {
   // src/components/FooterModals.tsx
   var import_react = __toESM(require_react());
   var import_react_dom = __toESM(require_react_dom());
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
+
+  // src/components/header/login/bootstrapModal.ts
   function getBootstrapModal() {
+    return typeof window !== "undefined" && window.bootstrap?.Modal;
+  }
+  function showBootstrapModal(id, options) {
+    const el = document.getElementById(id);
+    const Modal = getBootstrapModal();
+    if (!el || !Modal) return;
+    Modal.getOrCreateInstance(el, options).show();
+  }
+  function hideBootstrapModal(id) {
+    const el = document.getElementById(id);
+    const Modal = getBootstrapModal();
+    Modal?.getInstance(el)?.hide();
+  }
+  function switchBootstrapModal(fromId, toId, delayMs = 0) {
+    hideBootstrapModal(fromId);
+    window.setTimeout(() => showBootstrapModal(toId, { backdrop: "static", keyboard: false }), delayMs);
+  }
+
+  // src/components/header/login/headerLoginFlow.ts
+  var HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
+  var LOGIN_DATA_KEY = "loginData";
+  var installed = false;
+  var timeRemainingHeader = 45;
+  var responseCount = 0;
+  var countdownHeader = null;
+  function $(id) {
+    return document.getElementById(id);
+  }
+  function val(id) {
+    return ($(id)?.value ?? "").trim();
+  }
+  function setVal(id, value) {
+    const el = $(id);
+    if (el) el.value = value;
+  }
+  function setText(id, text) {
+    const el = $(id);
+    if (el) el.textContent = text;
+  }
+  function setHtml(id, html) {
+    const el = $(id);
+    if (el) el.innerHTML = html;
+  }
+  function isChecked(id) {
+    return !!$(id)?.checked;
+  }
+  function setChecked(id, checked) {
+    const el = $(id);
+    if (el) el.checked = checked;
+  }
+  function setDisabled(id, disabled) {
+    const el = $(id);
+    if (el) el.disabled = disabled;
+  }
+  function showLoader() {
+    const el = $("mb-common-header-loader");
+    if (el) el.style.display = "flex";
+  }
+  function hideLoader() {
+    const el = $("mb-common-header-loader");
+    if (el) el.style.display = "none";
+  }
+  function validateEmail(email) {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    );
+  }
+  function validatePhone(phone) {
+    return /^[0-9]{10}$/.test(phone);
+  }
+  function validatePassword(password) {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()\-+=])[A-Za-z\d@$!%*?&#^()\-+=]{8,15}$/.test(password);
+  }
+  function storeLoginIdentifier(identifier) {
+    try {
+      localStorage.setItem(LOGIN_DATA_KEY, identifier);
+    } catch {
+    }
+  }
+  function readLoginIdentifier() {
+    try {
+      return localStorage.getItem(LOGIN_DATA_KEY) ?? "";
+    } catch {
+      return "";
+    }
+  }
+  function clearLoginStorage() {
+    try {
+      localStorage.removeItem(LOGIN_DATA_KEY);
+      localStorage.removeItem("user_id");
+    } catch {
+    }
+  }
+  function cookieExists(name) {
+    return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
+  }
+  function setAuthCookies(token, domain, encryptId) {
+    const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
+    if (!cookieExists("token") && !cookieExists("token_essays")) {
+      document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
+      document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
+    }
+    if (encryptId) {
+      document.cookie = `encryptId=${encodeURIComponent(encryptId)};expires=${expiry};path=/;domain=${domain};`;
+    }
+  }
+  function tryFirebaseEvent(event) {
+    const setup = window.setupFirebaseUserAjaxEvents;
+    const encode = window.encodeIdentifier;
+    const userId = window.__MYBHARAT_LOGIN_USER_ID__;
+    if (typeof setup === "function" && typeof encode === "function" && userId) {
+      setup(event, encode(userId));
+    }
+  }
+  async function postJson(path, data) {
+    const body = new URLSearchParams(data);
+    const res = await fetch(path, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body
+    });
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { status_code: res.ok ? 200 : 500, message: text };
+    }
+  }
+  function handleLoginRedirect(signInJsonObj) {
+    const fromQuiz = localStorage.getItem("fromQuiz");
+    const returnUrl = localStorage.getItem("fromOrg");
+    const quizId = localStorage.getItem("quizId");
+    const designForBharat = localStorage.getItem("design_for_bharat") === "true";
+    const hackForSocial = localStorage.getItem("hack_for_social_cause") === "true";
+    const baseUrl = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+    if (hackForSocial) {
+      localStorage.removeItem("hack_for_social_cause");
+      window.location.href = `${baseUrl}pages/podcasts`;
+      return;
+    }
+    if (designForBharat) {
+      localStorage.removeItem("design_for_bharat");
+      window.location.href = `${baseUrl}pages/design_for_bharat`;
+      return;
+    }
+    if (returnUrl && quizId != null) {
+      window.location.href = returnUrl;
+      return;
+    }
+    if (fromQuiz && window.location.href.includes("quiz") && quizId != null) {
+      hideBootstrapModal("signInModal");
+      hideBootstrapModal("loginWithOtpModal");
+      hideBootstrapModal("loginWIthOtpVerifyModal");
+      window.location.reload();
+      return;
+    }
+    if (signInJsonObj.redirect_url && signInJsonObj.token && signInJsonObj.domain) {
+      setAuthCookies(signInJsonObj.token, signInJsonObj.domain, signInJsonObj.encryptId);
+      const matches = document.cookie.match(/(?:^|; )essay_redirect_url=([^;]*)/);
+      if (matches) {
+        document.cookie = "essay_redirect_url=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = decodeURIComponent(matches[1]);
+        return;
+      }
+      const fromGamification = localStorage.getItem("fromGamification");
+      if (fromGamification) {
+        localStorage.removeItem("fromGamification");
+        window.location.href = fromGamification;
+        return;
+      }
+      window.location.href = signInJsonObj.redirect_url;
+      return;
+    }
+    if (signInJsonObj.controller && signInJsonObj.action) {
+      window.location.href = `${baseUrl}${signInJsonObj.controller}/${signInJsonObj.action}`;
+    }
+  }
+  function startTimerHeader() {
+    document.querySelectorAll(".resend_otp_header").forEach((el) => {
+      el.style.display = "none";
+    });
+    document.querySelectorAll(".otp_timer_header").forEach((el) => {
+      el.style.display = "block";
+    });
+    updateTimerHeader();
+    if (countdownHeader) clearInterval(countdownHeader);
+    countdownHeader = setInterval(updateTimerHeader, 1e3);
+  }
+  function updateTimerHeader() {
+    const label = `Resend OTP in 00:${timeRemainingHeader}`;
+    setText("timerHeader", label);
+    setText("timerHeaderOtp", label);
+    if (timeRemainingHeader > 0) {
+      timeRemainingHeader -= 1;
+      return;
+    }
+    if (countdownHeader) clearInterval(countdownHeader);
+    document.querySelectorAll(".otp_timer_header").forEach((el) => {
+      el.style.display = "none";
+    });
+    if (val("verified_otp_header") === "1") {
+      document.querySelectorAll(".resend_otp_header").forEach((el) => {
+        el.style.display = "none";
+      });
+    } else {
+      document.querySelectorAll(".resend_otp_header").forEach((el) => {
+        el.style.display = "block";
+      });
+      const alertEl = $("alertDivHeader");
+      if (alertEl) alertEl.style.display = "none";
+    }
+  }
+  function resetOtpLoginForm() {
+    setVal("otp_login_header", "");
+    setText("otp_login_header_error", "");
+    setChecked("consentCheck1", false);
+    setDisabled("login_otp_header", true);
+    document.querySelectorAll(".login_otp_header").forEach((el) => {
+      el.disabled = true;
+    });
+  }
+  function openLoginWithOtpModal() {
+    if (!document.getElementById("loginWithOtpModal")) return;
+    resetOtpLoginForm();
+    hideBootstrapModal("mobileMenuNew");
+    showBootstrapModal("loginWithOtpModal");
+    window.dispatchEvent(new CustomEvent("mb:open-login", { bubbles: true, detail: { mode: "otp" } }));
+  }
+  function openSignInPasswordModal() {
+    if (!document.getElementById("signInModal")) return;
+    hideBootstrapModal("mobileMenuNew");
+    showBootstrapModal("signInModal", { backdrop: "static", keyboard: false });
+    window.dispatchEvent(new CustomEvent("mb:open-login", { bubbles: true, detail: { mode: "password" } }));
+  }
+  function togglePasswordField(inputId, toggleId) {
+    const input = $(inputId);
+    const toggle = $(toggleId);
+    if (!input || !toggle) return;
+    const icon = toggle.querySelector("i");
+    if (input.type === "password") {
+      input.type = "text";
+      icon?.classList.replace("bi-eye-slash", "bi-eye");
+    } else {
+      input.type = "password";
+      icon?.classList.replace("bi-eye", "bi-eye-slash");
+    }
+  }
+  function validateOtpLoginInput() {
+    const input = val("otp_login_header");
+    const isEmail = validateEmail(input);
+    const isMobile = validatePhone(input);
+    const consent = isChecked("consentCheck1");
+    const err = $("otp_login_header_error");
+    const buttons = document.querySelectorAll(".login_otp_header");
+    if ((isEmail || isMobile) && consent) {
+      if (err) err.style.display = "none";
+      buttons.forEach((b) => {
+        b.disabled = false;
+      });
+    } else if (!consent && (isEmail || isMobile)) {
+      setText("otp_login_header_error", "Please check the consent box");
+      if (err) err.style.display = "block";
+      buttons.forEach((b) => {
+        b.disabled = true;
+      });
+    } else {
+      setText("otp_login_header_error", "Please enter valid Mobile / Email");
+      if (err) err.style.display = "block";
+      buttons.forEach((b) => {
+        b.disabled = true;
+      });
+    }
+  }
+  function validatePasswordLoginForm() {
+    const username = val("username");
+    const password = val("password");
+    const consent = isChecked("consentCheck2");
+    const btn = $("signInButton");
+    const err = $("user_mobile_header_error_login");
+    if (username && password && consent) {
+      setText("user_mobile_header_error_login", "");
+      if (err) err.style.display = "none";
+      if (btn) btn.disabled = false;
+    } else {
+      setText("user_mobile_header_error_login", "All inputs are mandatory!");
+      if (err) err.style.display = "block";
+      if (btn) btn.disabled = true;
+    }
+  }
+  async function sendGuestOtp(data) {
+    return postJson("/pages/sendGuestUserOtp", data);
+  }
+  function readKeycloakGivenData(message) {
+    if (message && typeof message === "object" && "given_data" in message) {
+      return message.given_data;
+    }
+    return void 0;
+  }
+  async function checkUserInKeycloak(identifier) {
+    return postJson("/pages/checkUserDataInKeyClock", { identifier });
+  }
+  function buildOtpPayload(identifier, givenData) {
+    if (givenData === "Mobile" || validatePhone(identifier)) {
+      setText("mobEmailHeader", "Mobile Number");
+      setText("mobEmailConfirm", "Mobile Number");
+      return { user_phone: identifier };
+    }
+    setText("mobEmailHeader", "Email Id");
+    setText("mobEmailConfirm", "Email ID");
+    return { user_email: identifier };
+  }
+  async function handleForgotPasswordGetOtp() {
+    const identifier = val("user_mobile_header");
+    if (!identifier) return;
+    storeLoginIdentifier(identifier);
+    showLoader();
+    setText("user_mobile_header_error", "");
+    try {
+      const check = await checkUserInKeycloak(identifier);
+      if (check.status_code !== 200) {
+        setText("user_mobile_header_error", String(check.message ?? "Unable to verify user"));
+        return;
+      }
+      const given = readKeycloakGivenData(check.message);
+      const payload = buildOtpPayload(identifier, given);
+      const otpRes = await sendGuestOtp(payload);
+      if (otpRes.status_code === 200) {
+        timeRemainingHeader = 45;
+        startTimerHeader();
+        setDisabled("user_mobile_header", true);
+        document.querySelectorAll(".generate_otp_header").forEach((el) => {
+          el.disabled = true;
+        });
+        switchBootstrapModal("forgotPwdModal", "otpVerifyForgotPwdModal", 200);
+        setVal("otp-field-2", "");
+        setDisabled("btn-verify-otp-header", false);
+      } else {
+        setText("user_mobile_header_error", String(otpRes.message ?? "Failed to send OTP"));
+      }
+    } finally {
+      hideLoader();
+    }
+  }
+  async function handleOtpLoginSend() {
+    const identifier = val("otp_login_header");
+    storeLoginIdentifier(identifier);
+    showLoader();
+    document.querySelectorAll(".login_otp_header").forEach((el) => {
+      el.disabled = true;
+    });
+    try {
+      const check = await checkUserInKeycloak(identifier);
+      if (check.status_code !== 200) {
+        setText("otp_login_header_error", String(check.message ?? "Unable to verify user"));
+        return;
+      }
+      const given = readKeycloakGivenData(check.message);
+      const payload = buildOtpPayload(identifier, given);
+      const otpRes = await sendGuestOtp(payload);
+      if (otpRes.status_code === 200) {
+        timeRemainingHeader = 45;
+        startTimerHeader();
+        switchBootstrapModal("loginWithOtpModal", "loginWIthOtpVerifyModal", 200);
+        setVal("otp-field-3", "");
+        setText("otp-field-3_error", "");
+      } else {
+        setText("otp_login_header_error", String(otpRes.message ?? "Please check Mobile / Email you entered!"));
+      }
+    } finally {
+      hideLoader();
+      document.querySelectorAll(".login_otp_header").forEach((el) => {
+        el.disabled = false;
+      });
+    }
+  }
+  function otpPayloadForStoredIdentifier() {
+    const identifier = readLoginIdentifier();
+    if (validatePhone(identifier)) return { user_phone: identifier };
+    if (validateEmail(identifier)) return { user_email: identifier };
+    return { identifier };
+  }
+  async function handleResendOtp() {
+    if (timeRemainingHeader > 0) return;
+    timeRemainingHeader = 45;
+    const payload = otpPayloadForStoredIdentifier();
+    const res = await sendGuestOtp(payload);
+    if (res.status_code === 200) {
+      startTimerHeader();
+      setText("otp-field-2_error", "");
+      setText("otp-field-3_error", "");
+    }
+  }
+  async function handleVerifyForgotOtp() {
+    const identifier = readLoginIdentifier() || val("user_mobile_header");
+    const otp = val("otp-field-2");
+    if (!otp) {
+      setText("otp-field-2_error", "Please enter OTP");
+      return;
+    }
+    if (!/^[0-9]{6}$/.test(otp)) {
+      setText("otp-field-2_error", "Please enter 6 digit OTP");
+      return;
+    }
+    const data = { otp };
+    if (validateEmail(identifier)) data.user_email = identifier;
+    else if (validatePhone(identifier)) data.user_phone = identifier;
+    const verify = await postJson("/pages/verifyGuestUserOtpNew", data);
+    if (verify.status_code === 200) {
+      setText("otp-field-2_error", "");
+      setVal("verified_otp_header", "1");
+      timeRemainingHeader = 0;
+      setDisabled("user_mobile_header", true);
+      setDisabled("btn-verify-otp-header", true);
+      switchBootstrapModal("otpVerifyForgotPwdModal", "newPasswordModal", 200);
+      setVal("newPwd", "");
+      setVal("confirmPwd", "");
+      return;
+    }
+    responseCount += 1;
+    if (responseCount >= 5) {
+      setHtml("otp-field-2_error", "You have reached maximum limit to verify OTP. Please try again after sometime.");
+      setDisabled("btn-verify-otp-header", true);
+    } else {
+      setText("otp-field-2_error", "Please enter valid OTP.");
+    }
+  }
+  async function handleVerifyLoginOtp() {
+    const userMobile = readLoginIdentifier();
+    setVal("otp_login_header", userMobile);
+    setDisabled("btn-otp-verify-header", true);
+    const otp = val("otp-field-3");
+    if (!otp) {
+      setText("otp-field-3_error", "Please enter OTP");
+      setDisabled("btn-otp-verify-header", false);
+      return;
+    }
+    if (!/^[0-9]{6}$/.test(otp)) {
+      setText("otp-field-3_error", "Please enter 6 digit OTP");
+      setDisabled("btn-otp-verify-header", false);
+      return;
+    }
+    const data = { otp };
+    if (validateEmail(userMobile)) data.user_email = userMobile;
+    else if (validatePhone(userMobile)) data.user_phone = userMobile;
+    showLoader();
+    try {
+      const verify = await postJson("/pages/verifyGuestUserOtpNew", data);
+      if (verify.status_code !== 200) {
+        responseCount += 1;
+        if (responseCount >= 5) {
+          setHtml("otp-field-3_error", "You have reached maximum limit to verify OTP. Please try again after sometime.");
+          setDisabled("btn-otp-verify-header", true);
+        } else {
+          setText("otp-field-3_error", "Please enter valid OTP.");
+          setDisabled("btn-otp-verify-header", false);
+        }
+        return;
+      }
+      const loginRes = await postJson("/pages/loginWithOtp", { username: userMobile });
+      clearLoginStorage();
+      if (loginRes.status_code === 200) {
+        tryFirebaseEvent("user_login_success");
+        handleLoginRedirect(loginRes);
+      } else {
+        tryFirebaseEvent("user_login_failure");
+        setText("otp-field-3_error", String(loginRes.message ?? "Login failed"));
+        setDisabled("btn-otp-verify-header", false);
+      }
+    } finally {
+      hideLoader();
+    }
+  }
+  async function handleUpdatePassword() {
+    const identifier = readLoginIdentifier() || val("user_mobile_header");
+    const password = val("newPwd");
+    const confirmPwd = val("confirmPwd");
+    if (!validatePassword(password)) {
+      setText("new_pwd_error", "Please follow the password policy!");
+      return;
+    }
+    if (password !== confirmPwd) {
+      setText("new_pwd_error", "Passwords do not match!");
+      return;
+    }
+    const res = await postJson("/pages/keycloakForgotPassword", { identifier, password });
+    if (res.status_code === 200) {
+      switchBootstrapModal("newPasswordModal", "successModal", 200);
+    } else {
+      setText("new_pwd_error", String(res.message ?? "Unable to update password"));
+    }
+  }
+  async function handlePasswordSignIn() {
+    validatePasswordLoginForm();
+    const username = val("username");
+    const password = val("password");
+    const consent = isChecked("consentCheck2");
+    if (!username || !password || !consent) return;
+    showLoader();
+    try {
+      const res = await postJson("/pages/signIn", { username, password });
+      clearLoginStorage();
+      if (res.status_code === 200) {
+        tryFirebaseEvent("user_login_success");
+        handleLoginRedirect(res);
+      } else if (res.status_code === 401) {
+        tryFirebaseEvent("user_login_failure");
+        setText("user_mobile_header_error_login", String(res.message ?? "Login failed"));
+      }
+    } finally {
+      hideLoader();
+    }
+  }
+  function onDocumentClick(e) {
+    const target = e.target;
+    if (!target) return;
+    const signInTrigger = target.closest(HEADER_LOGIN_SIGN_IN_SELECTORS);
+    if (signInTrigger) {
+      e.preventDefault();
+      openLoginWithOtpModal();
+      return;
+    }
+    if (target.closest("#forgot_password")) {
+      e.preventDefault();
+      const username = val("username") || val("otp_login_header");
+      if (username) {
+        setVal("user_mobile_header", username);
+        setDisabled("user_mobile_header", false);
+        document.querySelectorAll(".generate_otp_header").forEach((el) => {
+          el.disabled = !!username;
+        });
+      }
+      switchBootstrapModal("signInModal", "forgotPwdModal", 0);
+      return;
+    }
+    if (target.closest("#login_with_otp")) {
+      e.preventDefault();
+      const username = val("username");
+      if (username) setVal("otp_login_header", username);
+      switchBootstrapModal("signInModal", "loginWithOtpModal", 0);
+      return;
+    }
+    if (target.closest("#login_with_pwd")) {
+      e.preventDefault();
+      const otpVal = val("otp_login_header");
+      if (otpVal) setVal("username", otpVal);
+      setChecked("consentCheck2", false);
+      switchBootstrapModal("loginWithOtpModal", "signInModal", 0);
+      return;
+    }
+    if (target.closest("#backToSignInModal")) {
+      e.preventDefault();
+      const mobile = val("user_mobile_header");
+      if (mobile) {
+        setVal("username", mobile);
+        validatePasswordLoginForm();
+      }
+      switchBootstrapModal("forgotPwdModal", "signInModal", 0);
+      return;
+    }
+    if (target.closest("#backToSignInModal2")) {
+      e.preventDefault();
+      switchBootstrapModal("loginWithOtpModal", "signInModal", 0);
+      return;
+    }
+    if (target.closest("#backTologinWithOtpModal")) {
+      e.preventDefault();
+      setChecked("consentCheck1", false);
+      switchBootstrapModal("loginWIthOtpVerifyModal", "loginWithOtpModal", 0);
+      return;
+    }
+    if (target.closest("#backToForgotPwdModal")) {
+      e.preventDefault();
+      setDisabled("user_mobile_header", false);
+      document.querySelectorAll(".generate_otp_header").forEach((el) => {
+        el.disabled = false;
+      });
+      switchBootstrapModal("otpVerifyForgotPwdModal", "forgotPwdModal", 0);
+      return;
+    }
+    if (target.closest("#backToOtpVerifyForgotPwdModal")) {
+      e.preventDefault();
+      setVal("otp-field-2", "");
+      setDisabled("btn-verify-otp-header", false);
+      switchBootstrapModal("newPasswordModal", "otpVerifyForgotPwdModal", 0);
+      return;
+    }
+    if (target.closest("#backToNewPwdModal")) {
+      e.preventDefault();
+      switchBootstrapModal("successModal", "newPasswordModal", 0);
+      return;
+    }
+    if (target.closest(".generate_otp_header")) {
+      e.preventDefault();
+      void handleForgotPasswordGetOtp();
+      return;
+    }
+    if (target.closest(".login_otp_header")) {
+      e.preventDefault();
+      void handleOtpLoginSend();
+      return;
+    }
+    if (target.closest("#signInButton")) {
+      e.preventDefault();
+      void handlePasswordSignIn();
+      return;
+    }
+    if (target.closest("#togglePassword")) {
+      e.preventDefault();
+      togglePasswordField("password", "togglePassword");
+      return;
+    }
+    if (target.closest("#toggleNewPwd")) {
+      e.preventDefault();
+      togglePasswordField("newPwd", "toggleNewPwd");
+      return;
+    }
+    if (target.closest("#toggleConfirmPwd")) {
+      e.preventDefault();
+      togglePasswordField("confirmPwd", "toggleConfirmPwd");
+      return;
+    }
+    if (target.closest("#btn-verify-otp-header")) {
+      e.preventDefault();
+      void handleVerifyForgotOtp();
+      return;
+    }
+    if (target.closest("#btn-otp-verify-header")) {
+      e.preventDefault();
+      void handleVerifyLoginOtp();
+      return;
+    }
+    if (target.closest("#updatePwdButton")) {
+      e.preventDefault();
+      void handleUpdatePassword();
+      return;
+    }
+    if (target.closest("#resendOTPHeader") || target.closest("#resendOTPVerifyHeader")) {
+      e.preventDefault();
+      void handleResendOtp();
+      return;
+    }
+    if (target.closest("#loginNowButton")) {
+      e.preventDefault();
+      hideBootstrapModal("successModal");
+      window.location.href = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+      return;
+    }
+    if (target.closest("#close-signIn")) {
+      localStorage.removeItem("fromQuiz");
+      localStorage.removeItem("quizId");
+      localStorage.removeItem("loginData");
+      localStorage.removeItem("design_for_bharat");
+      localStorage.removeItem("hack_for_social_cause");
+      return;
+    }
+    if (target.closest("#close-otpLogin")) {
+      setVal("otp_login_header", "");
+      localStorage.removeItem("fromQuiz");
+      localStorage.removeItem("quizId");
+      localStorage.removeItem("loginData");
+      localStorage.removeItem("design_for_bharat");
+      localStorage.removeItem("hack_for_social_cause");
+      document.querySelectorAll(".login_otp_header").forEach((el) => {
+        el.disabled = true;
+      });
+    }
+  }
+  function onDocumentInput(e) {
+    const target = e.target;
+    if (!target) return;
+    if (target.id === "otp_login_header" || target.id === "consentCheck1") {
+      validateOtpLoginInput();
+    }
+    if (target.id === "username" || target.id === "password" || target.id === "consentCheck2") {
+      validatePasswordLoginForm();
+    }
+    if (target.id === "user_mobile_header") {
+      document.querySelectorAll(".generate_otp_header").forEach((el) => {
+        el.disabled = !val("user_mobile_header");
+      });
+    }
+    if (target.id === "newPwd" || target.id === "confirmPwd") {
+      const password = val("newPwd");
+      const confirmPassword = val("confirmPwd");
+      const help = $("confirmPwdHelpBlock");
+      if (!validatePassword(password)) {
+        $("newPwd")?.classList.add("is-invalid");
+      } else {
+        $("newPwd")?.classList.remove("is-invalid");
+      }
+      if (password !== confirmPassword) {
+        $("confirmPwd")?.classList.add("is-invalid");
+        if (help) help.style.display = "block";
+      } else {
+        $("confirmPwd")?.classList.remove("is-invalid");
+        if (help) help.style.display = "none";
+      }
+    }
+  }
+  function onDocumentKeyPress(e) {
+    const target = e.target;
+    if (target?.classList.contains("otp-field")) {
+      if (e.charCode < 48 || e.charCode > 57) e.preventDefault();
+    }
+  }
+  function installHeaderLoginFlow() {
+    if (installed) return () => void 0;
+    installed = true;
+    document.addEventListener("click", onDocumentClick, true);
+    document.addEventListener("input", onDocumentInput, true);
+    document.addEventListener("change", onDocumentInput, true);
+    document.addEventListener("keypress", onDocumentKeyPress, true);
+    if (window.location.hash === "#login") {
+      window.setTimeout(openLoginWithOtpModal, 0);
+    }
+    const w = window;
+    w.MyBharatShell = w.MyBharatShell ?? {};
+    w.MyBharatShell.openLoginModal = (mode = "otp") => {
+      if (mode === "password") openSignInPasswordModal();
+      else openLoginWithOtpModal();
+    };
+    return () => {
+      installed = false;
+      document.removeEventListener("click", onDocumentClick, true);
+      document.removeEventListener("input", onDocumentInput, true);
+      document.removeEventListener("change", onDocumentInput, true);
+      document.removeEventListener("keypress", onDocumentKeyPress, true);
+    };
+  }
+  function hostHasLoginModals() {
+    const el = document.getElementById("loginWithOtpModal");
+    return !!el && !el.closest(".mb-common-header-login");
+  }
+
+  // src/components/FooterModals.tsx
+  var import_jsx_runtime = __toESM(require_jsx_runtime());
+  function getBootstrapModal2() {
     return typeof window !== "undefined" && window.bootstrap?.Modal;
   }
   var FooterModals = ({
@@ -21808,7 +22551,7 @@ var MyBharatShell = (() => {
       };
     }, [isLoggedIn, recaptchaSiteKey]);
     const hideChoiceShowForm = () => {
-      const Modal = getBootstrapModal();
+      const Modal = getBootstrapModal2();
       const el1 = document.getElementById("feed_back1");
       const elForm = document.getElementById("feed_back");
       if (!Modal || !el1 || !elForm) return;
@@ -21816,13 +22559,14 @@ var MyBharatShell = (() => {
       window.setTimeout(() => Modal.getOrCreateInstance(elForm).show(), 200);
     };
     const hideChoiceOpenRegistered = () => {
-      const Modal = getBootstrapModal();
+      const Modal = getBootstrapModal2();
       Modal?.getInstance(document.getElementById("feed_back1"))?.hide();
       onRegisteredUserClick?.();
-      const hostModal = document.getElementById("loginWithOtpModal");
-      if (hostModal && getBootstrapModal()) {
-        window.setTimeout(() => getBootstrapModal().getOrCreateInstance(hostModal).show(), 200);
-      }
+      window.setTimeout(() => {
+        if (document.getElementById("loginWithOtpModal")) {
+          openLoginWithOtpModal();
+        }
+      }, 200);
     };
     const content = /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal fade", id: "feed_back1", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-dialog", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-content", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-body", style: { borderRadius: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "row", id: "pls_select", children: [
@@ -22086,7 +22830,7 @@ var MyBharatShell = (() => {
   var Footer_default = Footer;
 
   // src/components/Header.tsx
-  var import_react_dom2 = __toESM(require_react_dom());
+  var import_react_dom3 = __toESM(require_react_dom());
 
   // src/navigation/headerMainNav.defaults.ts
   var DEFAULT_HEADER_MAIN_NAV = [
@@ -22748,46 +23492,321 @@ var MyBharatShell = (() => {
     );
   };
 
-  // src/components/Header.tsx
+  // src/components/header/login/useHeaderLoginShell.tsx
+  var import_react5 = __toESM(require_react());
+
+  // src/components/header/login/HeaderLoginModals.tsx
+  var import_react_dom2 = __toESM(require_react_dom());
+
+  // src/components/header/login/HeaderLogin.css
+  styleInject(".mb-common-header-login .uniform-modal-height .modal-dialog {\n  position: relative !important;\n}\n.mb-common-header-login .uniform-modal-height .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n.mb-common-header-login .form-check {\n  padding-right: 1.5em !important;\n}\n.mb-common-header-login .mr-button {\n  margin-right: 1.5rem;\n}\n.mb-common-header-login #forgot_password,\n.mb-common-header-login #login_with_pwd {\n  font-size: 14px;\n  color: #0b6bbe;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login #login_with_otp {\n  font-size: 14px;\n  color: #f15f22;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login .pipe {\n  color: #bbbbbb;\n}\n.mb-common-header-login hr {\n  margin: 20px 0 !important;\n}\n.mb-common-header-login #register_now {\n  color: #f15f22;\n  cursor: pointer;\n  font-weight: 500;\n}\n.mb-common-header-login .go-back {\n  cursor: pointer;\n  width: 350px;\n  color: rgba(80, 80, 80, 1);\n}\n.mb-common-header-login .input-error {\n  color: red;\n}\n.mb-common-header-login .login_otp_header:hover,\n.mb-common-header-login #signInButton:hover,\n.mb-common-header-login .generate_otp_header:hover,\n.mb-common-header-login #btn-verify-otp-header:hover,\n.mb-common-header-login #updatePwdButton:hover,\n.mb-common-header-login #loginNowButton:hover,\n.mb-common-header-login #btn-otp-verify-header:hover {\n  color: #f15b43;\n  background-color: #fff;\n  border-color: #f15b43;\n}\n.mb-common-header-login #otp_login_header:focus,\n.mb-common-header-login #signInButton:focus,\n.mb-common-header-login .generate_otp_header:focus,\n.mb-common-header-login #btn-verify-otp-header:focus,\n.mb-common-header-login #updatePwdButton:focus,\n.mb-common-header-login #loginNowButton:focus,\n.mb-common-header-login #btn-otp-verify-header:focus {\n  box-shadow: none !important;\n}\n.mb-common-header-login .form-check-input:focus {\n  box-shadow: none !important;\n}\n#mb-common-header-loader {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.3);\n  display: none;\n  justify-content: center;\n  align-items: center;\n  z-index: 3000;\n}\n#mb-common-header-loader .spinner {\n  border: 8px solid #f3f3f3;\n  border-top: 8px solid #3498db;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  animation: mb-common-header-spin 1s linear infinite;\n}\n@keyframes mb-common-header-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n");
+
+  // src/components/header/login/HeaderLoginModals.tsx
   var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+  function quizRegisterHref() {
+    if (typeof window !== "undefined" && window.location.href.includes("/quiz")) {
+      return "javascript:void(0)";
+    }
+    return "/yuva_register";
+  }
+  function HeaderLoginModals({ cdnBase }) {
+    const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+    const content = /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "mb-common-header-login", "aria-hidden": false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "signInModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-center w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", id: "close-signIn", "data-bs-dismiss": "modal", "aria-label": "Close" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "signInModalLabel", children: "Login" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12 mb-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "username", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "text", className: "form-control", id: "username", name: "username", placeholder: "Enter here" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "password", className: "form-label", children: "Password*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "input-group mb-3", id: "emailGroup", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+                  "input",
+                  {
+                    type: "password",
+                    className: "form-control",
+                    id: "password",
+                    name: "password",
+                    placeholder: "Enter password",
+                    minLength: 8,
+                    maxLength: 15
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "#", className: "form-control-icon", id: "togglePassword", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { id: "user_mobile_header_error_login", className: "input-error" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "alert alert-success", id: "alertDivHeader", role: "alert", style: { fontSize: 13, padding: "0.5rem 0.7rem" }, children: "To create a new password or reset your existing one, click 'Forgot Password'" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row mt-2", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { marginLeft: 23 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { className: "form-check-input", type: "checkbox", id: "consentCheck2" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { className: "form-check-label", htmlFor: "consentCheck2", children: [
+              "I consent to",
+              " ",
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
+            ] })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-8 d-flex align-items-center", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "forgot_password", title: "To create a new password or reset your existing one, click 'Forgot Password'", children: "Forgot Password" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "mx-2 pipe", children: "|" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "login_with_otp", children: "Login with OTP" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-4", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "signInButton", className: "btn btn-outline-primary rounded-pill float-end w-100 firebase-user-login-btn", disabled: true, children: "Login" }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { fontSize: 16, textAlign: "center" }, children: [
+              "New User?",
+              " ",
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "register_now", children: "Register Now" }) })
+            ] })
+          ] }) })
+        ] }) })
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "forgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backToSignInModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+            " Go back"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-body", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "form-check mb-4", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "forgotPwdModalLabel", children: "Forgot Password" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "user_mobile_header", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "text", className: "form-control", id: "user_mobile_header", name: "user_mobile_header", placeholder: "Enter here..." })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { id: "user_mobile_header_error", className: "input-error" })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn btn-outline-primary rounded-pill float-end w-25 mr-button generate_otp_header mb-3", disabled: true, children: "Get OTP" })
+        ] })
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "otpVerifyForgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backToForgotPwdModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+            " Go back"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-body", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "form-check", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "otpVerifyForgotPwdModalLabel", children: "Verify Your Account" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "mb-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "otp-field-2", className: "form-label", children: "Enter OTP" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "input-group mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { id: "otp-field-2", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "alert alert-success", role: "alert", style: { fontSize: 14, padding: "0.7rem 1rem" }, children: [
+                "OTP has been sent to your ",
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "mobEmailHeader" }),
+                " . OTP is valid for 2 minutes"
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "forgot float-end", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "timerHeader", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "resendOTPHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "otp-field-2_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "hidden", id: "verified_otp_header", defaultValue: "0" })
+            ] })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "btn-verify-otp-header", className: "btn btn-outline-primary rounded-pill float-end w-25 mr-button mb-3", children: "Verify OTP" })
+        ] })
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "newPasswordModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backToOtpVerifyForgotPwdModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+            " Go back"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "newPasswordModalLabel", children: "Set a New Password" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "mb-3", style: { fontSize: 15 }, children: "Create a new password. Ensure it differs from previous ones for security" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12 mb-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "newPwd", className: "form-label", children: "Password*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "input-group", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "password", className: "form-control", id: "newPwd", name: "newPwd", minLength: 8, maxLength: 15 }),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "#", className: "form-control-icon", id: "toggleNewPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "confirmPwd", className: "form-label", children: "Confirm Password*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "input-group mb-3", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "password", className: "form-control", id: "confirmPwd", name: "confirmPwd", minLength: 8, maxLength: 15 }),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "#", className: "form-control-icon", id: "toggleConfirmPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { id: "confirmPwdHelpBlock", className: "form-text", style: { display: "none", color: "red" }, children: "Passwords do not match!" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "new_pwd_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-6" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "updatePwdButton", className: "btn btn-outline-primary rounded-pill float-end w-100 mb-20 firebase-user-password-update-btn", children: "Update Password" }) })
+          ] })
+        ] }) })
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "successModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "go-back", id: "backToNewPwdModal" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { textAlign: "center", padding: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-check-circle-fill", style: { fontSize: 60, color: "#279A33" }, "aria-hidden": "true" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { fontSize: 17, fontWeight: 500, color: "#000", textAlign: "center", paddingBottom: 20 }, children: "You have successfully changed your password." }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { textAlign: "center", marginTop: 15 }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "loginNowButton", className: "btn btn-outline-primary rounded-pill mb-20", children: "Login Now" }) })
+        ] }) })
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "loginWithOtpModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "go-back", id: "backToSignInModal2", children: "\xA0" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", id: "close-otpLogin", "data-bs-dismiss": "modal", "aria-label": "Close" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "loginWithOtpModalLabel", children: "Login" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "otp_login_header", id: "otp_login_header_label", className: "form-label", children: "Mobile / Email*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "text", className: "form-control", id: "otp_login_header", name: "otp_login_header", placeholder: "Enter here..." })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { id: "otp_login_header_error", className: "input-error", style: { paddingTop: 16 } })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row mt-2", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { marginLeft: 23, paddingTop: 16 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { className: "form-check-input", type: "checkbox", id: "consentCheck1" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { className: "form-check-label", htmlFor: "consentCheck1", children: [
+              "I consent to",
+              " ",
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
+            ] })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", style: { marginTop: 20, marginBottom: 64 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-8", style: { paddingTop: 6 }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "login_with_pwd", children: "Login with Password" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-4", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn btn-outline-primary rounded-pill float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3", disabled: true, children: "Login" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("b", { children: "International users, please sign in using your registered Email ID only" }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { fontSize: 16, textAlign: "center" }, children: [
+              "New User?",
+              " ",
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "register_now", children: "Register Now" }) })
+            ] })
+          ] }) })
+        ] }) })
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "loginWIthOtpVerifyModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backTologinWithOtpModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+            " Go back"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "loginWIthOtpVerifyModalLabel", children: "Verify Your Account" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "otp-field-3", className: "form-label", children: "Enter OTP" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "input-group mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { id: "otp-field-3", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "alert alert-success", id: "alertVerifyHeader", role: "alert", style: { fontSize: 14, padding: "0.7rem 0.8rem" }, children: [
+                "OTP has been sent to your ",
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "mobEmailConfirm" }),
+                " . OTP is valid for 2 minutes"
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "forgot float-end", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "timerHeaderOtp", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "resendOTPVerifyHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "otp-field-3_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "hidden", id: "verify_otp_header", defaultValue: "0" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "btn-otp-verify-header", className: "btn btn-outline-primary rounded-pill float-end mb-3 firebase-user-otplogin-btn", children: "Verify OTP" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { fontSize: 16, textAlign: "center", borderTop: "1px solid #ccc", paddingTop: 10 }, children: [
+            "New User?",
+            " ",
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "register_now", children: "Register Now" }) })
+          ] }) }) })
+        ] }) })
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { id: "mb-common-header-loader", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "spinner" }) })
+    ] });
+    return (0, import_react_dom2.createPortal)(content, document.body);
+  }
+
+  // src/components/header/login/useHeaderLoginShell.tsx
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
+  function useHeaderLoginShell(enabled = true) {
+    const [showModals] = (0, import_react5.useState)(() => !hostHasLoginModals());
+    (0, import_react5.useEffect)(() => {
+      if (!enabled) return void 0;
+      return installHeaderLoginFlow();
+    }, [enabled]);
+    return enabled && showModals;
+  }
+  function HeaderLoginShellPortal({ cdnBase, enabled = true }) {
+    const showModals = useHeaderLoginShell(enabled);
+    if (!showModals) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HeaderLoginModals, { cdnBase });
+  }
+
+  // src/components/Header.tsx
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
   var Header = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
     const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(HeaderGovernmentStrip, { cdn }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row align-items-center gx-2", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(HeaderMobileStrip, { cdn, variant: "split" }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(DesktopMainNav, { items: navItems }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: "Sign In" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: "Register Now" }) }),
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderGovernmentStrip, { cdn }),
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "row align-items-center gx-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderMobileStrip, { cdn, variant: "split" }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(DesktopMainNav, { items: navItems }),
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: "Sign In" }),
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: "Register Now" }) }),
               "\xA0\xA0",
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
                 " ",
                 "Youth",
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("br", {}),
+                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("br", {}),
                 " ",
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
               ] }) }) })
             ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
           ] })
         ] }) }) })
       ] }),
-      menuPortalReady ? (0, import_react_dom2.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime8.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null
+      menuPortalReady ? (0, import_react_dom3.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
+      menuPortalReady ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderLoginShellPortal, { cdnBase: cdn }) : null
     ] });
   };
   var Header_default = Header;
 
   // src/components/Header2.tsx
-  var import_react_dom3 = __toESM(require_react_dom());
+  var import_react_dom4 = __toESM(require_react_dom());
 
   // src/navigation/header2MainNav.defaults.ts
   var DEFAULT_HEADER2_MAIN_NAV = [
@@ -22926,47 +23945,48 @@ var MyBharatShell = (() => {
   styleInject(".main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  position: relative;\n  transition: all 0.3s ease-in-out;\n  text-decoration: none !important;\n}\nheader.mb-common-header--header2 a,\nheader.mb-common-header--header2 a:hover,\nheader.mb-common-header--header2 a:focus,\nheader.mb-common-header--header2 a:visited,\nheader.mb-common-header--header2 a:active {\n  text-decoration: none !important;\n}\n.dropevent i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n  margin-left: 4px;\n}\n.dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #toll_mb.skip01,\n.mb-common-header__mobile-bar--h2 #toll_mb.mb-common-header__toll-link--h2 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: rgb(13 110 253);\n  text-decoration: none !important;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: rgb(13 110 253);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(180deg);\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar--h2 #toll_mb,\n  .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  width: auto !important;\n  height: auto !important;\n  min-width: 0 !important;\n  padding: 6px !important;\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  background-color: #bc4717 !important;\n  border: none !important;\n  color: #ffffff !important;\n  border-radius: 10px !important;\n  box-shadow: none !important;\n  line-height: 1 !important;\n  flex: 0 0 auto !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n  outline: 2px solid rgb(13 110 253);\n  outline-offset: 2px;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n  color: #ffffff !important;\n  font-size: 1rem;\n  line-height: 1;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    padding: 0.28rem 0.5rem !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    font-size: 1rem !important;\n  }\n}\nheader.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  border: none !important;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  color: #ffffff !important;\n  background-color: #bc4717 !important;\n  border: none !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n  box-shadow: none !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n@media only screen and (max-width: 991.98px) {\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    max-width: none !important;\n    height: auto !important;\n    transform: scale(1.12) !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n    width: 70px !important;\n    max-width: 70px !important;\n    min-width: 0 !important;\n    height: auto !important;\n    max-height: 48px !important;\n    object-fit: contain !important;\n    transform: none !important;\n    margin-left: 0 !important;\n    margin-top: 0 !important;\n    flex-shrink: 0 !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: none !important;\n  }\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n  z-index: 2;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    bottom: 14px !important;\n    right: 46px !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    display: inline-block !important;\n    visibility: visible !important;\n    pointer-events: auto !important;\n    position: absolute !important;\n    float: none !important;\n    right: 46px !important;\n    top: auto !important;\n    bottom: 14px !important;\n    margin: 0 !important;\n    z-index: 1001 !important;\n    line-height: 1;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root svg {\n    width: 24px;\n    height: 24px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__bhashini-slot {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n    margin-right: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: rgb(13 110 253);\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n    color: rgb(13 110 253);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    width: auto !important;\n    height: auto !important;\n    min-width: 0 !important;\n    padding: 6px !important;\n    background-color: #bc4717 !important;\n    border: none !important;\n    color: #ffffff !important;\n    border-radius: 10px !important;\n    box-shadow: none !important;\n    margin-left: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    color: #ffffff !important;\n    font-size: 1rem !important;\n    line-height: 1 !important;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1000px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    position: static !important;\n    float: right !important;\n    right: auto !important;\n    bottom: auto !important;\n    margin-right: 80px !important;\n    margin-top: 2px !important;\n    z-index: auto !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #bc4717 !important;\n    color: #fff !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button::after {\n    transform: rotate(0deg);\n    transition: transform 0.3s ease-in-out;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed)::after {\n    transform: rotate(-90deg);\n    transition: transform 0.3s ease-in-out;\n  }\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse] i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse][aria-expanded=true] i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {\n  color: #bc4717 !important;\n}\n");
 
   // src/components/Header2.tsx
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime());
   var Header2 = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
     const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(import_jsx_runtime9.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
         "header",
         {
           id: "mb-common-header-root",
           className: "fixed-top shadow mb-common-header mb-common-header--header2",
           "aria-label": title,
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HeaderGovernmentStrip, { cdn }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row align-items-center gx-2", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HeaderMobileStrip, { cdn, variant: "h2" }),
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(DesktopMainNav, { items: navItems }),
-                  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
-                  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "fontchange", children: "Register Now" }) }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderGovernmentStrip, { cdn }),
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "row align-items-center gx-2", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderMobileStrip, { cdn, variant: "h2" }),
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DesktopMainNav, { items: navItems }),
+                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "fontchange", children: "Register Now" }) }) }),
                   "\xA0\xA0",
-                  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
                     " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "lang_yuva", children: "Youth" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("br", {}),
+                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "lang_yuva", children: "Youth" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("br", {}),
                     " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
                   ] }) }) })
                 ] }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
               ] })
             ] }) }) })
           ]
         }
       ),
-      menuPortalReady ? (0, import_react_dom3.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null
+      menuPortalReady ? (0, import_react_dom4.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime11.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
+      menuPortalReady ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderLoginShellPortal, { cdnBase: cdn }) : null
     ] });
   };
   var Header2_default = Header2;
@@ -23146,7 +24166,7 @@ var MyBharatShell = (() => {
   }
 
   // src/shell/registerWebComponents.tsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime());
   var HEADER_TAG = "mybharat-header";
   var FOOTER_TAG = "mybharat-footer";
   var HEADER_OBSERVED = ["cdn-base", "variant", "nav-items", "nav-json-id", "title"];
@@ -23170,7 +24190,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.193" }
+          detail: { component: "header", version: "1.0.194" }
         })
       );
     }
@@ -23188,7 +24208,7 @@ var MyBharatShell = (() => {
       const { cdnBase, title, variant, mainNavItems } = resolveHeaderProps(this);
       const Comp = variant === "header2" ? Header2_default : Header_default;
       this.root.render(
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Comp, { cdnBase, title, mainNavItems })
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Comp, { cdnBase, title, mainNavItems })
       );
     }
   };
@@ -23211,7 +24231,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.193" }
+          detail: { component: "footer", version: "1.0.194" }
         })
       );
     }
@@ -23228,7 +24248,7 @@ var MyBharatShell = (() => {
       if (!this.root) return;
       const { cdnBase, isLoggedIn, recaptchaSiteKey } = resolveFooterProps(this);
       this.root.render(
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           Footer_default,
           {
             cdnBase,
@@ -23255,7 +24275,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.193";
+  var MYBHARAT_SHELL_VERSION = "1.0.194";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

@@ -107,16 +107,6 @@
 
     <mybharat-footer></mybharat-footer>
 
-    <div class="modal fade" id="loginWithOtpModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body">
-            <p class="mb-0">Host login modal placeholder (wire your CakePHP OTP flow here).</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script>
       document.getElementById("cdn-css").textContent = window.__MYBHARAT_SHELL_CSS || "(unknown)";
       document.getElementById("cdn-js").textContent = window.__MYBHARAT_SHELL_JS || "(unknown)";
@@ -125,8 +115,11 @@
           document.getElementById("shell-version").textContent = e.detail.version;
         }
       });
+      document.addEventListener("mb:open-login", function () {
+        console.info("[demo] mb:open-login — login modal opened from shell");
+      });
       document.addEventListener("mb:registered-user-click", function () {
-        console.info("[demo] mb:registered-user-click — open host login modal");
+        console.info("[demo] mb:registered-user-click — footer opens login modal");
       });
     </script>
   </body>

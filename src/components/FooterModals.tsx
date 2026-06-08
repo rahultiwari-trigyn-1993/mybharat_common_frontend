@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { openLoginWithOtpModal } from './header/login/headerLoginFlow';
 
 type BootstrapModal = {
   getInstance: (el: Element | null) => { hide: () => void } | undefined;
@@ -65,10 +66,11 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
     const Modal = getBootstrapModal();
     Modal?.getInstance(document.getElementById('feed_back1'))?.hide();
     onRegisteredUserClick?.();
-    const hostModal = document.getElementById('loginWithOtpModal');
-    if (hostModal && getBootstrapModal()) {
-      window.setTimeout(() => getBootstrapModal()!.getOrCreateInstance(hostModal).show(), 200);
-    }
+    window.setTimeout(() => {
+      if (document.getElementById('loginWithOtpModal')) {
+        openLoginWithOtpModal();
+      }
+    }, 200);
   };
 
   const content = (

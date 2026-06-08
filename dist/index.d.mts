@@ -1,5 +1,6 @@
 import * as React from 'react';
 import React__default from 'react';
+import * as react_jsx_runtime from 'react/jsx-runtime';
 
 type FooterProps = {
     /** CDN origin + `/mybharat` path segment (no trailing slash) */
@@ -66,6 +67,20 @@ type HeaderProps = {
     mainNavItems?: readonly NavTreeItem[];
 };
 declare const Header: React__default.FC<HeaderProps>;
+
+/** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
+declare const HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
+/** Primary entry — matches header.ctp (`#loginWithOtpModal` first). */
+declare function openLoginWithOtpModal(): void;
+declare function openSignInPasswordModal(): void;
+/** Wire global Sign In triggers + modal interactions (idempotent). */
+declare function installHeaderLoginFlow(): () => void;
+
+type HeaderLoginShellPortalProps = {
+    cdnBase: string;
+    enabled?: boolean;
+};
+declare function HeaderLoginShellPortal({ cdnBase, enabled }: HeaderLoginShellPortalProps): react_jsx_runtime.JSX.Element | null;
 
 type DesktopMainNavProps = {
     items: readonly NavTreeItem[];
@@ -167,4 +182,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, Header, Header2, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, _default as default, filterUnsafeNavTree, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderLoginShellPortal, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, _default as default, filterUnsafeNavTree, installHeaderLoginFlow, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };

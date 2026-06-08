@@ -7,6 +7,13 @@ import Header2 from './components/Header2';
 import Footer from './components/Footer';
 
 export { Header, Header2, Footer };
+export {
+  openLoginWithOtpModal,
+  openSignInPasswordModal,
+  installHeaderLoginFlow,
+  HEADER_LOGIN_SIGN_IN_SELECTORS,
+} from './components/header/login/headerLoginFlow';
+export { HeaderLoginShellPortal } from './components/header/login/useHeaderLoginShell';
 export { DesktopMainNav } from './components/DesktopMainNav';
 export { MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN } from './constants/cdn';
 export { DEFAULT_HEADER_MAIN_NAV } from './navigation/headerMainNav.defaults';

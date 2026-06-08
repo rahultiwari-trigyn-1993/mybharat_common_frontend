@@ -9,6 +9,12 @@ import { registerMyBharatWebComponents } from './registerWebComponents';
 registerMyBharatWebComponents();
 
 export { registerMyBharatWebComponents, HEADER_TAG, FOOTER_TAG } from './registerWebComponents';
+export {
+  openLoginWithOtpModal,
+  openSignInPasswordModal,
+  installHeaderLoginFlow,
+  HEADER_LOGIN_SIGN_IN_SELECTORS,
+} from '../components/header/login/headerLoginFlow';
 export type { ShellFooterConfig, ShellHeaderConfig } from './parseShellConfig';
 
 /** Published shell version — inlined at build from `package.json`. */

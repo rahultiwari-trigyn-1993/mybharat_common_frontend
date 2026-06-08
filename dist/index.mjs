@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.193 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.194 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 
 // #style-inject:#style-inject
@@ -33,7 +33,7 @@ styleInject('.main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  p
 styleInject("#feed_back.modal,\n#feed_back1.modal,\n#successToaster.modal {\n  z-index: 1060 !important;\n}\n.litext {\n  color: #525c66;\n  font-size: 16px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external a.litext,\n#footer_external p.litext {\n  color: #525c66 !important;\n}\n#footer_external a.litext {\n  text-decoration: none !important;\n}\n#footer_external {\n  border-top: solid 1px #d6d6d6;\n}\n#footer_external .foot_p1 {\n  color: #525c66;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external .footer-top {\n  background-color: #ffffff !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {\n  text-align: left !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {\n  text-align: left !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {\n  padding-left: 0;\n}\n@media (max-width: 991.98px) {\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {\n    text-align: center !important;\n  }\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {\n    text-align: center !important;\n  }\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {\n    padding-left: 0;\n  }\n  #footer_external .mb-common-footer__follow-col {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col h6.img_link {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .social-icons {\n    justify-content: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-by {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-inner {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-wrap: wrap;\n    gap: 0.35rem 0.75rem;\n    width: 100%;\n    max-width: 100%;\n  }\n  #footer_external .mb-common-footer__follow-col .foot_p1 {\n    text-align: center;\n  }\n}\n#footer_external .foot_p2 {\n  padding-left: initial;\n}\n.pricy1_a {\n  background-color: #000627;\n}\n.pricy1_a .row .col-sm-8 {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.pricy1_a .row .col-sm-8 p {\n  margin-bottom: 0;\n  line-height: 29px;\n}\n.pricy1_a .row {\n  color: #fff;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 500;\n  line-height: 20px;\n}\n.pricy_a ul {\n  width: 100%;\n  line-height: 31px;\n  text-align: center;\n  display: inline-flex;\n  justify-content: center;\n  padding-left: 68px;\n  list-style: none;\n  margin: 0;\n  flex-wrap: wrap;\n}\n.pricy_a ul li:nth-child(1) {\n  padding-right: 27px;\n}\n.pricy_a p {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.foot1w {\n  width: fit-content;\n  color: #000;\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n  padding: 4px 10px;\n}\n.pricy1_a a {\n  color: #fff !important;\n  text-decoration: none;\n}\n@media only screen and (max-width: 600px) {\n  .foot1w {\n    margin: auto;\n  }\n  .pricy_a ul {\n    padding-left: 0;\n    display: flex;\n    justify-content: center;\n  }\n  .new_foot li .fab {\n    vertical-align: inherit !important;\n  }\n}\n.img_link {\n  color: #343f4a;\n  font-size: 16px;\n  font-weight: 500;\n  line-height: 24px;\n  letter-spacing: 0.15px;\n}\n.new_foot li {\n  line-height: 15px;\n  padding: 1px;\n}\n.new_foot li img {\n  width: 81%;\n}\n@media (max-width: 767.98px) {\n  #footer_external .footer-contact {\n    text-align: center !important;\n  }\n  #footer_external .footer-contact .d-flex.align-items-center {\n    justify-content: center !important;\n  }\n}\n@media (min-width: 601px) and (max-width: 991.98px) {\n  #footer_external .footer-contact,\n  #footer_external .footer-links {\n    padding-bottom: 1rem;\n  }\n}\n.mb-common-footer__social-row {\n  flex-wrap: wrap;\n}\n.feed_back {\n  text-align: end;\n}\n#feed_back textarea {\n  margin-top: 0 !important;\n  margin-bottom: 11px !important;\n}\n#feed_back label {\n  font-size: 15px;\n  font-weight: 500;\n  line-height: 20px;\n  color: #252525;\n}\n#feed_back .cross_ico img {\n  cursor: pointer;\n  padding: 6px 10px;\n}\n#feed_back .text-left {\n  text-align: left;\n}\n#feed_back .cross_ico {\n  display: flex;\n  position: absolute;\n  bottom: 18px;\n  z-index: 999;\n}\n#feed_back .radio-tile-group {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: left;\n}\n#feed_back .tt_yuvr {\n  display: inline-flex;\n  padding: 10px;\n  margin-bottom: 15px;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n#feed_back .tt_yuvr .input-container {\n  position: relative;\n  width: 50px;\n  margin-right: 18px;\n  margin-top: 7px;\n}\n#feed_back .tt_yuvr .input-container input {\n  position: absolute;\n  cursor: pointer;\n  z-index: 2;\n  opacity: 0;\n  width: 50px;\n  height: 50px;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile {\n  background: #0b6bbe;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile label {\n  color: #fff;\n}\n#feed_back .tt_yuvr .input-container .radio-tile {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  background: #eee;\n  width: 50px;\n  height: 50px;\n  border-radius: 30px;\n}\n#feed_back .tt_yuvr .input-container {\n  transition: transform 0.2s;\n}\n#feed_back .tt_yuvr .input-container:hover {\n  transform: scale(1.07);\n}\n#feed_back .tt_yuvr .input-container label {\n  font-size: 18px;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 0;\n}\n.radio-tile-group:nth-child(1),\n.radio-tile-group:nth-child(2),\n.radio-tile-group:nth-child(3),\n.radio-tile-group:nth-child(4) {\n  border-top: 3px solid #f00;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(6),\n.radio-tile-group:nth-child(7),\n.radio-tile-group:nth-child(8) {\n  border-top: 3px solid #ffbe15;\n}\n.radio-tile-group:nth-child(9),\n.radio-tile-group:nth-child(10) {\n  border-top: 3px solid #04a651;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(9) {\n  margin-left: 10px;\n}\n.vError {\n  border: 1px solid #e41f12;\n}\np.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  line-height: 1.5;\n  color: #e41f12;\n  margin-bottom: 20px;\n  float: inline-start;\n}\nsmall.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  color: #e41f12;\n  float: inline-start;\n}\n#char_left_cnt {\n  color: #252525;\n  float: inline-end;\n  font-size: small;\n}\n#successToaster .modal-dialog {\n  margin: 20% auto;\n}\n@media only screen and (min-width: 601px) {\n  #feed_back .modal-dialog {\n    max-width: 876px !important;\n    margin-top: 133px;\n  }\n  #feed_back1 .modal-dialog {\n    margin-top: 133px;\n  }\n}\n@media only screen and (max-width: 600px) {\n  #feed_back .tt_yuvr {\n    display: flex !important;\n    overflow: auto !important;\n  }\n  #feed_back .form-group {\n    margin-bottom: 10px;\n  }\n  #feed_back .tt_yuvr .input-container input {\n    width: 20px !important;\n    height: 20px !important;\n  }\n  #feed_back .tt_yuvr .input-container .radio-tile {\n    width: 30px !important;\n    height: 30px !important;\n    border-radius: 30px !important;\n  }\n  #feed_back .cross_ico {\n    position: initial !important;\n  }\n  #feed_back .tt_yuvr .input-container {\n    width: 17px !important;\n    margin-right: 18px !important;\n  }\n  #feed_back .tt_yuvr .input-container label {\n    font-size: 13px !important;\n  }\n  #feed_back .modal-dialog {\n    width: 100% !important;\n    padding: 10px 15px 10px 0;\n  }\n  .social-icons {\n    justify-content: center;\n  }\n}\n#pls_select h3 {\n  color: #343434;\n  font-weight: 600;\n}\n#pls_select {\n  text-align: center;\n}\n#pls_select #guest_usr {\n  background-color: #f15b43;\n  border: none;\n  color: #fff;\n  font-size: 16px;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select #regi_usr {\n  background-color: #fff;\n  border: 1px solid #5a6370;\n  font-size: 16px;\n  color: #5a6370;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select .btn-close {\n  border: none !important;\n  background: none !important;\n  float: right;\n  width: 32px;\n  height: 32px;\n  cursor: pointer;\n}\n#pls_select .col-sm-12:nth-child(2) {\n  margin-bottom: 20px;\n}\n#feedback_captcha_value {\n  border-top-right-radius: 3px;\n  border-bottom-right-radius: 3px;\n}\n.social-icons {\n  display: flex;\n  gap: 9px;\n  flex-wrap: wrap;\n}\n.social-icons .icon {\n  display: flex;\n  align-items: center;\n  background: white;\n  border-radius: 50px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  width: 30px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.social-icons .icon img {\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n  transition: all 0.3s ease;\n}\n.social-icons .icon span {\n  margin-left: 4px;\n  white-space: nowrap;\n  opacity: 0;\n  transform: translateX(-10px);\n  transition: all 0.3s ease;\n  font-size: 13px;\n}\n.twitter-color {\n  color: #000;\n}\n.instagram-color {\n  color: #cf188a;\n}\n.facebook-color {\n  color: #4676ed;\n}\n.linkedin-color {\n  color: #4467ad;\n}\n.whatsapp-color {\n  color: #00c169;\n}\n.youtube-color {\n  color: #e52d27;\n}\n@media (hover: hover) and (pointer: fine) {\n  .social-icons .icon:hover {\n    width: 100px;\n    justify-content: flex-start;\n  }\n  .social-icons .icon:hover span {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n.mb-20 {\n  margin-bottom: 1.25rem;\n}\n.whitetext img {\n  vertical-align: middle;\n}\n#footer_external .mb-common-footer__powered-inner {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: 0.35rem 0.75rem;\n}\n#footer_external .mb-common-footer__powered-by {\n  color: #495059 !important;\n}\n#footer_external .whitetext.mb-common-footer__powered-logo {\n  color: inherit !important;\n  display: inline-flex;\n  align-items: center;\n  line-height: 1;\n}\n#footer_external .mb-common-footer__powered-logo img {\n  display: block;\n  flex-shrink: 0;\n}\n");
 
 // src/components/Header.tsx
-import { createPortal } from "react-dom";
+import { createPortal as createPortal2 } from "react-dom";
 
 // src/constants/cdn.ts
 var MYBHARAT_CDN_ORIGIN = "https://cdn-prod.mybharats.in";
@@ -703,46 +703,1058 @@ var MobileMenuModal = ({ cdnBase, items }) => {
   );
 };
 
+// src/components/header/login/useHeaderLoginShell.tsx
+import { useEffect as useEffect2, useState as useState2 } from "react";
+
+// src/components/header/login/HeaderLoginModals.tsx
+import { createPortal } from "react-dom";
+
+// src/components/header/login/HeaderLogin.css
+styleInject(".mb-common-header-login .uniform-modal-height .modal-dialog {\n  position: relative !important;\n}\n.mb-common-header-login .uniform-modal-height .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n.mb-common-header-login .form-check {\n  padding-right: 1.5em !important;\n}\n.mb-common-header-login .mr-button {\n  margin-right: 1.5rem;\n}\n.mb-common-header-login #forgot_password,\n.mb-common-header-login #login_with_pwd {\n  font-size: 14px;\n  color: #0b6bbe;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login #login_with_otp {\n  font-size: 14px;\n  color: #f15f22;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login .pipe {\n  color: #bbbbbb;\n}\n.mb-common-header-login hr {\n  margin: 20px 0 !important;\n}\n.mb-common-header-login #register_now {\n  color: #f15f22;\n  cursor: pointer;\n  font-weight: 500;\n}\n.mb-common-header-login .go-back {\n  cursor: pointer;\n  width: 350px;\n  color: rgba(80, 80, 80, 1);\n}\n.mb-common-header-login .input-error {\n  color: red;\n}\n.mb-common-header-login .login_otp_header:hover,\n.mb-common-header-login #signInButton:hover,\n.mb-common-header-login .generate_otp_header:hover,\n.mb-common-header-login #btn-verify-otp-header:hover,\n.mb-common-header-login #updatePwdButton:hover,\n.mb-common-header-login #loginNowButton:hover,\n.mb-common-header-login #btn-otp-verify-header:hover {\n  color: #f15b43;\n  background-color: #fff;\n  border-color: #f15b43;\n}\n.mb-common-header-login #otp_login_header:focus,\n.mb-common-header-login #signInButton:focus,\n.mb-common-header-login .generate_otp_header:focus,\n.mb-common-header-login #btn-verify-otp-header:focus,\n.mb-common-header-login #updatePwdButton:focus,\n.mb-common-header-login #loginNowButton:focus,\n.mb-common-header-login #btn-otp-verify-header:focus {\n  box-shadow: none !important;\n}\n.mb-common-header-login .form-check-input:focus {\n  box-shadow: none !important;\n}\n#mb-common-header-loader {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.3);\n  display: none;\n  justify-content: center;\n  align-items: center;\n  z-index: 3000;\n}\n#mb-common-header-loader .spinner {\n  border: 8px solid #f3f3f3;\n  border-top: 8px solid #3498db;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  animation: mb-common-header-spin 1s linear infinite;\n}\n@keyframes mb-common-header-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n");
+
+// src/components/header/login/HeaderLoginModals.tsx
+import { jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+function quizRegisterHref() {
+  if (typeof window !== "undefined" && window.location.href.includes("/quiz")) {
+    return "javascript:void(0)";
+  }
+  return "/yuva_register";
+}
+function HeaderLoginModals({ cdnBase }) {
+  const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+  const content = /* @__PURE__ */ jsxs6("div", { className: "mb-common-header-login", "aria-hidden": false, children: [
+    /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "signInModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+        /* @__PURE__ */ jsx6("div", { className: "text-center w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn-close", id: "close-signIn", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsx6("div", { className: "modal-body", children: /* @__PURE__ */ jsxs6("div", { className: "form-check mb-1", children: [
+        /* @__PURE__ */ jsxs6("div", { className: "row", children: [
+          /* @__PURE__ */ jsx6("h5", { className: "modal-title mb-3", id: "signInModalLabel", children: "Login" }),
+          /* @__PURE__ */ jsxs6("div", { className: "col-md-12 mb-3", children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "username", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
+            /* @__PURE__ */ jsx6("input", { type: "text", className: "form-control", id: "username", name: "username", placeholder: "Enter here" })
+          ] }),
+          /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "password", className: "form-label", children: "Password*" }),
+            /* @__PURE__ */ jsxs6("div", { className: "input-group mb-3", id: "emailGroup", children: [
+              /* @__PURE__ */ jsx6(
+                "input",
+                {
+                  type: "password",
+                  className: "form-control",
+                  id: "password",
+                  name: "password",
+                  placeholder: "Enter password",
+                  minLength: 8,
+                  maxLength: 15
+                }
+              ),
+              /* @__PURE__ */ jsx6("span", { className: "input-group-text", children: /* @__PURE__ */ jsx6("a", { href: "#", className: "form-control-icon", id: "togglePassword", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ jsx6("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsx6("small", { id: "user_mobile_header_error_login", className: "input-error" })
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsx6("div", { className: "alert alert-success", id: "alertDivHeader", role: "alert", style: { fontSize: 13, padding: "0.5rem 0.7rem" }, children: "To create a new password or reset your existing one, click 'Forgot Password'" }) }) }),
+        /* @__PURE__ */ jsx6("div", { className: "row mt-2", children: /* @__PURE__ */ jsxs6("div", { style: { marginLeft: 23 }, children: [
+          /* @__PURE__ */ jsx6("input", { className: "form-check-input", type: "checkbox", id: "consentCheck2" }),
+          /* @__PURE__ */ jsxs6("label", { className: "form-check-label", htmlFor: "consentCheck2", children: [
+            "I consent to",
+            " ",
+            /* @__PURE__ */ jsx6("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
+          ] })
+        ] }) }),
+        /* @__PURE__ */ jsxs6("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
+          /* @__PURE__ */ jsxs6("div", { className: "col-md-8 d-flex align-items-center", children: [
+            /* @__PURE__ */ jsx6("p", { id: "forgot_password", title: "To create a new password or reset your existing one, click 'Forgot Password'", children: "Forgot Password" }),
+            /* @__PURE__ */ jsx6("p", { className: "mx-2 pipe", children: "|" }),
+            /* @__PURE__ */ jsx6("p", { id: "login_with_otp", children: "Login with OTP" })
+          ] }),
+          /* @__PURE__ */ jsx6("div", { className: "col-md-4", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "signInButton", className: "btn btn-outline-primary rounded-pill float-end w-100 firebase-user-login-btn", disabled: true, children: "Login" }) })
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
+          /* @__PURE__ */ jsx6("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
+          /* @__PURE__ */ jsxs6("div", { style: { fontSize: 16, textAlign: "center" }, children: [
+            "New User?",
+            " ",
+            /* @__PURE__ */ jsx6("a", { href: quizRegisterHref(), children: /* @__PURE__ */ jsx6("span", { id: "register_now", children: "Register Now" }) })
+          ] })
+        ] }) })
+      ] }) })
+    ] }) }) }),
+    /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "forgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+        /* @__PURE__ */ jsxs6("span", { className: "go-back", id: "backToSignInModal", children: [
+          /* @__PURE__ */ jsx6("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+          " Go back"
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "text-start w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsxs6("div", { className: "modal-body", children: [
+        /* @__PURE__ */ jsx6("div", { className: "form-check mb-4", children: /* @__PURE__ */ jsxs6("div", { className: "row", children: [
+          /* @__PURE__ */ jsx6("h5", { className: "modal-title mb-3", id: "forgotPwdModalLabel", children: "Forgot Password" }),
+          /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "user_mobile_header", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
+            /* @__PURE__ */ jsx6("input", { type: "text", className: "form-control", id: "user_mobile_header", name: "user_mobile_header", placeholder: "Enter here..." })
+          ] }),
+          /* @__PURE__ */ jsx6("small", { id: "user_mobile_header_error", className: "input-error" })
+        ] }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn btn-outline-primary rounded-pill float-end w-25 mr-button generate_otp_header mb-3", disabled: true, children: "Get OTP" })
+      ] })
+    ] }) }) }),
+    /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "otpVerifyForgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+        /* @__PURE__ */ jsxs6("span", { className: "go-back", id: "backToForgotPwdModal", children: [
+          /* @__PURE__ */ jsx6("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+          " Go back"
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "text-start w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsxs6("div", { className: "modal-body", children: [
+        /* @__PURE__ */ jsx6("div", { className: "form-check", children: /* @__PURE__ */ jsxs6("div", { className: "row", children: [
+          /* @__PURE__ */ jsx6("h5", { className: "modal-title mb-3", id: "otpVerifyForgotPwdModalLabel", children: "Verify Your Account" }),
+          /* @__PURE__ */ jsxs6("div", { className: "mb-3", children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "otp-field-2", className: "form-label", children: "Enter OTP" }),
+            /* @__PURE__ */ jsx6("div", { className: "input-group mb-3", children: /* @__PURE__ */ jsx6("input", { id: "otp-field-2", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
+            /* @__PURE__ */ jsxs6("div", { className: "alert alert-success", role: "alert", style: { fontSize: 14, padding: "0.7rem 1rem" }, children: [
+              "OTP has been sent to your ",
+              /* @__PURE__ */ jsx6("span", { id: "mobEmailHeader" }),
+              " . OTP is valid for 2 minutes"
+            ] }),
+            /* @__PURE__ */ jsxs6("div", { className: "forgot float-end", children: [
+              /* @__PURE__ */ jsx6("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ jsx6("p", { id: "timerHeader", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
+              /* @__PURE__ */ jsx6("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ jsx6("p", { id: "resendOTPHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
+            ] }),
+            /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsx6("p", { id: "otp-field-2_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
+            /* @__PURE__ */ jsx6("input", { type: "hidden", id: "verified_otp_header", defaultValue: "0" })
+          ] })
+        ] }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", id: "btn-verify-otp-header", className: "btn btn-outline-primary rounded-pill float-end w-25 mr-button mb-3", children: "Verify OTP" })
+      ] })
+    ] }) }) }),
+    /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "newPasswordModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+        /* @__PURE__ */ jsxs6("span", { className: "go-back", id: "backToOtpVerifyForgotPwdModal", children: [
+          /* @__PURE__ */ jsx6("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+          " Go back"
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "text-start w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsx6("div", { className: "modal-body", children: /* @__PURE__ */ jsxs6("div", { className: "form-check mb-1", children: [
+        /* @__PURE__ */ jsxs6("div", { className: "row", children: [
+          /* @__PURE__ */ jsx6("h5", { className: "modal-title mb-3", id: "newPasswordModalLabel", children: "Set a New Password" }),
+          /* @__PURE__ */ jsx6("div", { className: "mb-3", style: { fontSize: 15 }, children: "Create a new password. Ensure it differs from previous ones for security" }),
+          /* @__PURE__ */ jsxs6("div", { className: "col-md-12 mb-3", children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "newPwd", className: "form-label", children: "Password*" }),
+            /* @__PURE__ */ jsxs6("div", { className: "input-group", children: [
+              /* @__PURE__ */ jsx6("input", { type: "password", className: "form-control", id: "newPwd", name: "newPwd", minLength: 8, maxLength: 15 }),
+              /* @__PURE__ */ jsx6("span", { className: "input-group-text", children: /* @__PURE__ */ jsx6("a", { href: "#", className: "form-control-icon", id: "toggleNewPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ jsx6("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "confirmPwd", className: "form-label", children: "Confirm Password*" }),
+            /* @__PURE__ */ jsxs6("div", { className: "input-group mb-3", children: [
+              /* @__PURE__ */ jsx6("input", { type: "password", className: "form-control", id: "confirmPwd", name: "confirmPwd", minLength: 8, maxLength: 15 }),
+              /* @__PURE__ */ jsx6("span", { className: "input-group-text", children: /* @__PURE__ */ jsx6("a", { href: "#", className: "form-control-icon", id: "toggleConfirmPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ jsx6("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+            ] }),
+            /* @__PURE__ */ jsx6("div", { id: "confirmPwdHelpBlock", className: "form-text", style: { display: "none", color: "red" }, children: "Passwords do not match!" })
+          ] }),
+          /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsx6("p", { id: "new_pwd_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) })
+        ] }),
+        /* @__PURE__ */ jsxs6("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
+          /* @__PURE__ */ jsx6("div", { className: "col-md-6" }),
+          /* @__PURE__ */ jsx6("div", { className: "col-md-6", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "updatePwdButton", className: "btn btn-outline-primary rounded-pill float-end w-100 mb-20 firebase-user-password-update-btn", children: "Update Password" }) })
+        ] })
+      ] }) })
+    ] }) }) }),
+    /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "successModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+        /* @__PURE__ */ jsx6("span", { className: "go-back", id: "backToNewPwdModal" }),
+        /* @__PURE__ */ jsx6("div", { className: "text-start w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsx6("div", { className: "modal-body", children: /* @__PURE__ */ jsxs6("div", { className: "form-check mb-1", children: [
+        /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsx6("div", { style: { textAlign: "center", padding: 20 }, children: /* @__PURE__ */ jsx6("i", { className: "bi bi-check-circle-fill", style: { fontSize: 60, color: "#279A33" }, "aria-hidden": "true" }) }) }),
+        /* @__PURE__ */ jsx6("div", { style: { fontSize: 17, fontWeight: 500, color: "#000", textAlign: "center", paddingBottom: 20 }, children: "You have successfully changed your password." }),
+        /* @__PURE__ */ jsx6("div", { style: { textAlign: "center", marginTop: 15 }, children: /* @__PURE__ */ jsx6("button", { type: "button", id: "loginNowButton", className: "btn btn-outline-primary rounded-pill mb-20", children: "Login Now" }) })
+      ] }) })
+    ] }) }) }),
+    /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "loginWithOtpModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+        /* @__PURE__ */ jsx6("span", { className: "go-back", id: "backToSignInModal2", children: "\xA0" }),
+        /* @__PURE__ */ jsx6("div", { className: "text-start w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn-close", id: "close-otpLogin", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsx6("div", { className: "modal-body", children: /* @__PURE__ */ jsxs6("div", { className: "form-check mb-4", children: [
+        /* @__PURE__ */ jsxs6("div", { className: "row", children: [
+          /* @__PURE__ */ jsx6("h5", { className: "modal-title mb-3", id: "loginWithOtpModalLabel", children: "Login" }),
+          /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "otp_login_header", id: "otp_login_header_label", className: "form-label", children: "Mobile / Email*" }),
+            /* @__PURE__ */ jsx6("input", { type: "text", className: "form-control", id: "otp_login_header", name: "otp_login_header", placeholder: "Enter here..." })
+          ] }),
+          /* @__PURE__ */ jsx6("small", { id: "otp_login_header_error", className: "input-error", style: { paddingTop: 16 } })
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "row mt-2", children: /* @__PURE__ */ jsxs6("div", { style: { marginLeft: 23, paddingTop: 16 }, children: [
+          /* @__PURE__ */ jsx6("input", { className: "form-check-input", type: "checkbox", id: "consentCheck1" }),
+          /* @__PURE__ */ jsxs6("label", { className: "form-check-label", htmlFor: "consentCheck1", children: [
+            "I consent to",
+            " ",
+            /* @__PURE__ */ jsx6("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
+          ] })
+        ] }) }),
+        /* @__PURE__ */ jsxs6("div", { className: "row", style: { marginTop: 20, marginBottom: 64 }, children: [
+          /* @__PURE__ */ jsx6("div", { className: "col-md-8", style: { paddingTop: 6 }, children: /* @__PURE__ */ jsx6("p", { id: "login_with_pwd", children: "Login with Password" }) }),
+          /* @__PURE__ */ jsx6("div", { className: "col-md-4", children: /* @__PURE__ */ jsx6("button", { type: "button", className: "btn btn-outline-primary rounded-pill float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3", disabled: true, children: "Login" }) }),
+          /* @__PURE__ */ jsx6("p", { children: /* @__PURE__ */ jsx6("b", { children: "International users, please sign in using your registered Email ID only" }) })
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
+          /* @__PURE__ */ jsx6("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
+          /* @__PURE__ */ jsxs6("div", { style: { fontSize: 16, textAlign: "center" }, children: [
+            "New User?",
+            " ",
+            /* @__PURE__ */ jsx6("a", { href: quizRegisterHref(), children: /* @__PURE__ */ jsx6("span", { id: "register_now", children: "Register Now" }) })
+          ] })
+        ] }) })
+      ] }) })
+    ] }) }) }),
+    /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "loginWIthOtpVerifyModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
+      /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+        /* @__PURE__ */ jsxs6("span", { className: "go-back", id: "backTologinWithOtpModal", children: [
+          /* @__PURE__ */ jsx6("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+          " Go back"
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "text-start w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      ] }),
+      /* @__PURE__ */ jsx6("div", { className: "modal-body", children: /* @__PURE__ */ jsxs6("div", { className: "form-check", children: [
+        /* @__PURE__ */ jsxs6("div", { className: "row", children: [
+          /* @__PURE__ */ jsx6("h5", { className: "modal-title mb-3", id: "loginWIthOtpVerifyModalLabel", children: "Verify Your Account" }),
+          /* @__PURE__ */ jsxs6("div", { children: [
+            /* @__PURE__ */ jsx6("label", { htmlFor: "otp-field-3", className: "form-label", children: "Enter OTP" }),
+            /* @__PURE__ */ jsx6("div", { className: "input-group mb-3", children: /* @__PURE__ */ jsx6("input", { id: "otp-field-3", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
+            /* @__PURE__ */ jsxs6("div", { className: "alert alert-success", id: "alertVerifyHeader", role: "alert", style: { fontSize: 14, padding: "0.7rem 0.8rem" }, children: [
+              "OTP has been sent to your ",
+              /* @__PURE__ */ jsx6("span", { id: "mobEmailConfirm" }),
+              " . OTP is valid for 2 minutes"
+            ] }),
+            /* @__PURE__ */ jsxs6("div", { className: "forgot float-end", children: [
+              /* @__PURE__ */ jsx6("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ jsx6("p", { id: "timerHeaderOtp", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
+              /* @__PURE__ */ jsx6("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ jsx6("p", { id: "resendOTPVerifyHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
+            ] }),
+            /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsx6("p", { id: "otp-field-3_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
+            /* @__PURE__ */ jsx6("input", { type: "hidden", id: "verify_otp_header", defaultValue: "0" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "btn-otp-verify-header", className: "btn btn-outline-primary rounded-pill float-end mb-3 firebase-user-otplogin-btn", children: "Verify OTP" }) }) }),
+        /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsxs6("div", { style: { fontSize: 16, textAlign: "center", borderTop: "1px solid #ccc", paddingTop: 10 }, children: [
+          "New User?",
+          " ",
+          /* @__PURE__ */ jsx6("a", { href: quizRegisterHref(), children: /* @__PURE__ */ jsx6("span", { id: "register_now", children: "Register Now" }) })
+        ] }) }) })
+      ] }) })
+    ] }) }) }),
+    /* @__PURE__ */ jsx6("div", { id: "mb-common-header-loader", "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "spinner" }) })
+  ] });
+  return createPortal(content, document.body);
+}
+
+// src/components/header/login/bootstrapModal.ts
+function getBootstrapModal() {
+  return typeof window !== "undefined" && window.bootstrap?.Modal;
+}
+function showBootstrapModal(id, options) {
+  const el = document.getElementById(id);
+  const Modal = getBootstrapModal();
+  if (!el || !Modal) return;
+  Modal.getOrCreateInstance(el, options).show();
+}
+function hideBootstrapModal(id) {
+  const el = document.getElementById(id);
+  const Modal = getBootstrapModal();
+  Modal?.getInstance(el)?.hide();
+}
+function switchBootstrapModal(fromId, toId, delayMs = 0) {
+  hideBootstrapModal(fromId);
+  window.setTimeout(() => showBootstrapModal(toId, { backdrop: "static", keyboard: false }), delayMs);
+}
+
+// src/components/header/login/headerLoginFlow.ts
+var HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
+var LOGIN_DATA_KEY = "loginData";
+var installed = false;
+var timeRemainingHeader = 45;
+var responseCount = 0;
+var countdownHeader = null;
+function $(id) {
+  return document.getElementById(id);
+}
+function val(id) {
+  return ($(id)?.value ?? "").trim();
+}
+function setVal(id, value) {
+  const el = $(id);
+  if (el) el.value = value;
+}
+function setText(id, text) {
+  const el = $(id);
+  if (el) el.textContent = text;
+}
+function setHtml(id, html) {
+  const el = $(id);
+  if (el) el.innerHTML = html;
+}
+function isChecked(id) {
+  return !!$(id)?.checked;
+}
+function setChecked(id, checked) {
+  const el = $(id);
+  if (el) el.checked = checked;
+}
+function setDisabled(id, disabled) {
+  const el = $(id);
+  if (el) el.disabled = disabled;
+}
+function showLoader() {
+  const el = $("mb-common-header-loader");
+  if (el) el.style.display = "flex";
+}
+function hideLoader() {
+  const el = $("mb-common-header-loader");
+  if (el) el.style.display = "none";
+}
+function validateEmail(email) {
+  return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email
+  );
+}
+function validatePhone(phone) {
+  return /^[0-9]{10}$/.test(phone);
+}
+function validatePassword(password) {
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()\-+=])[A-Za-z\d@$!%*?&#^()\-+=]{8,15}$/.test(password);
+}
+function storeLoginIdentifier(identifier) {
+  try {
+    localStorage.setItem(LOGIN_DATA_KEY, identifier);
+  } catch {
+  }
+}
+function readLoginIdentifier() {
+  try {
+    return localStorage.getItem(LOGIN_DATA_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+function clearLoginStorage() {
+  try {
+    localStorage.removeItem(LOGIN_DATA_KEY);
+    localStorage.removeItem("user_id");
+  } catch {
+  }
+}
+function cookieExists(name) {
+  return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
+}
+function setAuthCookies(token, domain, encryptId) {
+  const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
+  if (!cookieExists("token") && !cookieExists("token_essays")) {
+    document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
+    document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
+  }
+  if (encryptId) {
+    document.cookie = `encryptId=${encodeURIComponent(encryptId)};expires=${expiry};path=/;domain=${domain};`;
+  }
+}
+function tryFirebaseEvent(event) {
+  const setup = window.setupFirebaseUserAjaxEvents;
+  const encode = window.encodeIdentifier;
+  const userId = window.__MYBHARAT_LOGIN_USER_ID__;
+  if (typeof setup === "function" && typeof encode === "function" && userId) {
+    setup(event, encode(userId));
+  }
+}
+async function postJson(path, data) {
+  const body = new URLSearchParams(data);
+  const res = await fetch(path, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body
+  });
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { status_code: res.ok ? 200 : 500, message: text };
+  }
+}
+function handleLoginRedirect(signInJsonObj) {
+  const fromQuiz = localStorage.getItem("fromQuiz");
+  const returnUrl = localStorage.getItem("fromOrg");
+  const quizId = localStorage.getItem("quizId");
+  const designForBharat = localStorage.getItem("design_for_bharat") === "true";
+  const hackForSocial = localStorage.getItem("hack_for_social_cause") === "true";
+  const baseUrl = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+  if (hackForSocial) {
+    localStorage.removeItem("hack_for_social_cause");
+    window.location.href = `${baseUrl}pages/podcasts`;
+    return;
+  }
+  if (designForBharat) {
+    localStorage.removeItem("design_for_bharat");
+    window.location.href = `${baseUrl}pages/design_for_bharat`;
+    return;
+  }
+  if (returnUrl && quizId != null) {
+    window.location.href = returnUrl;
+    return;
+  }
+  if (fromQuiz && window.location.href.includes("quiz") && quizId != null) {
+    hideBootstrapModal("signInModal");
+    hideBootstrapModal("loginWithOtpModal");
+    hideBootstrapModal("loginWIthOtpVerifyModal");
+    window.location.reload();
+    return;
+  }
+  if (signInJsonObj.redirect_url && signInJsonObj.token && signInJsonObj.domain) {
+    setAuthCookies(signInJsonObj.token, signInJsonObj.domain, signInJsonObj.encryptId);
+    const matches = document.cookie.match(/(?:^|; )essay_redirect_url=([^;]*)/);
+    if (matches) {
+      document.cookie = "essay_redirect_url=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = decodeURIComponent(matches[1]);
+      return;
+    }
+    const fromGamification = localStorage.getItem("fromGamification");
+    if (fromGamification) {
+      localStorage.removeItem("fromGamification");
+      window.location.href = fromGamification;
+      return;
+    }
+    window.location.href = signInJsonObj.redirect_url;
+    return;
+  }
+  if (signInJsonObj.controller && signInJsonObj.action) {
+    window.location.href = `${baseUrl}${signInJsonObj.controller}/${signInJsonObj.action}`;
+  }
+}
+function startTimerHeader() {
+  document.querySelectorAll(".resend_otp_header").forEach((el) => {
+    el.style.display = "none";
+  });
+  document.querySelectorAll(".otp_timer_header").forEach((el) => {
+    el.style.display = "block";
+  });
+  updateTimerHeader();
+  if (countdownHeader) clearInterval(countdownHeader);
+  countdownHeader = setInterval(updateTimerHeader, 1e3);
+}
+function updateTimerHeader() {
+  const label = `Resend OTP in 00:${timeRemainingHeader}`;
+  setText("timerHeader", label);
+  setText("timerHeaderOtp", label);
+  if (timeRemainingHeader > 0) {
+    timeRemainingHeader -= 1;
+    return;
+  }
+  if (countdownHeader) clearInterval(countdownHeader);
+  document.querySelectorAll(".otp_timer_header").forEach((el) => {
+    el.style.display = "none";
+  });
+  if (val("verified_otp_header") === "1") {
+    document.querySelectorAll(".resend_otp_header").forEach((el) => {
+      el.style.display = "none";
+    });
+  } else {
+    document.querySelectorAll(".resend_otp_header").forEach((el) => {
+      el.style.display = "block";
+    });
+    const alertEl = $("alertDivHeader");
+    if (alertEl) alertEl.style.display = "none";
+  }
+}
+function resetOtpLoginForm() {
+  setVal("otp_login_header", "");
+  setText("otp_login_header_error", "");
+  setChecked("consentCheck1", false);
+  setDisabled("login_otp_header", true);
+  document.querySelectorAll(".login_otp_header").forEach((el) => {
+    el.disabled = true;
+  });
+}
+function openLoginWithOtpModal() {
+  if (!document.getElementById("loginWithOtpModal")) return;
+  resetOtpLoginForm();
+  hideBootstrapModal("mobileMenuNew");
+  showBootstrapModal("loginWithOtpModal");
+  window.dispatchEvent(new CustomEvent("mb:open-login", { bubbles: true, detail: { mode: "otp" } }));
+}
+function openSignInPasswordModal() {
+  if (!document.getElementById("signInModal")) return;
+  hideBootstrapModal("mobileMenuNew");
+  showBootstrapModal("signInModal", { backdrop: "static", keyboard: false });
+  window.dispatchEvent(new CustomEvent("mb:open-login", { bubbles: true, detail: { mode: "password" } }));
+}
+function togglePasswordField(inputId, toggleId) {
+  const input = $(inputId);
+  const toggle = $(toggleId);
+  if (!input || !toggle) return;
+  const icon = toggle.querySelector("i");
+  if (input.type === "password") {
+    input.type = "text";
+    icon?.classList.replace("bi-eye-slash", "bi-eye");
+  } else {
+    input.type = "password";
+    icon?.classList.replace("bi-eye", "bi-eye-slash");
+  }
+}
+function validateOtpLoginInput() {
+  const input = val("otp_login_header");
+  const isEmail = validateEmail(input);
+  const isMobile = validatePhone(input);
+  const consent = isChecked("consentCheck1");
+  const err = $("otp_login_header_error");
+  const buttons = document.querySelectorAll(".login_otp_header");
+  if ((isEmail || isMobile) && consent) {
+    if (err) err.style.display = "none";
+    buttons.forEach((b) => {
+      b.disabled = false;
+    });
+  } else if (!consent && (isEmail || isMobile)) {
+    setText("otp_login_header_error", "Please check the consent box");
+    if (err) err.style.display = "block";
+    buttons.forEach((b) => {
+      b.disabled = true;
+    });
+  } else {
+    setText("otp_login_header_error", "Please enter valid Mobile / Email");
+    if (err) err.style.display = "block";
+    buttons.forEach((b) => {
+      b.disabled = true;
+    });
+  }
+}
+function validatePasswordLoginForm() {
+  const username = val("username");
+  const password = val("password");
+  const consent = isChecked("consentCheck2");
+  const btn = $("signInButton");
+  const err = $("user_mobile_header_error_login");
+  if (username && password && consent) {
+    setText("user_mobile_header_error_login", "");
+    if (err) err.style.display = "none";
+    if (btn) btn.disabled = false;
+  } else {
+    setText("user_mobile_header_error_login", "All inputs are mandatory!");
+    if (err) err.style.display = "block";
+    if (btn) btn.disabled = true;
+  }
+}
+async function sendGuestOtp(data) {
+  return postJson("/pages/sendGuestUserOtp", data);
+}
+function readKeycloakGivenData(message) {
+  if (message && typeof message === "object" && "given_data" in message) {
+    return message.given_data;
+  }
+  return void 0;
+}
+async function checkUserInKeycloak(identifier) {
+  return postJson("/pages/checkUserDataInKeyClock", { identifier });
+}
+function buildOtpPayload(identifier, givenData) {
+  if (givenData === "Mobile" || validatePhone(identifier)) {
+    setText("mobEmailHeader", "Mobile Number");
+    setText("mobEmailConfirm", "Mobile Number");
+    return { user_phone: identifier };
+  }
+  setText("mobEmailHeader", "Email Id");
+  setText("mobEmailConfirm", "Email ID");
+  return { user_email: identifier };
+}
+async function handleForgotPasswordGetOtp() {
+  const identifier = val("user_mobile_header");
+  if (!identifier) return;
+  storeLoginIdentifier(identifier);
+  showLoader();
+  setText("user_mobile_header_error", "");
+  try {
+    const check = await checkUserInKeycloak(identifier);
+    if (check.status_code !== 200) {
+      setText("user_mobile_header_error", String(check.message ?? "Unable to verify user"));
+      return;
+    }
+    const given = readKeycloakGivenData(check.message);
+    const payload = buildOtpPayload(identifier, given);
+    const otpRes = await sendGuestOtp(payload);
+    if (otpRes.status_code === 200) {
+      timeRemainingHeader = 45;
+      startTimerHeader();
+      setDisabled("user_mobile_header", true);
+      document.querySelectorAll(".generate_otp_header").forEach((el) => {
+        el.disabled = true;
+      });
+      switchBootstrapModal("forgotPwdModal", "otpVerifyForgotPwdModal", 200);
+      setVal("otp-field-2", "");
+      setDisabled("btn-verify-otp-header", false);
+    } else {
+      setText("user_mobile_header_error", String(otpRes.message ?? "Failed to send OTP"));
+    }
+  } finally {
+    hideLoader();
+  }
+}
+async function handleOtpLoginSend() {
+  const identifier = val("otp_login_header");
+  storeLoginIdentifier(identifier);
+  showLoader();
+  document.querySelectorAll(".login_otp_header").forEach((el) => {
+    el.disabled = true;
+  });
+  try {
+    const check = await checkUserInKeycloak(identifier);
+    if (check.status_code !== 200) {
+      setText("otp_login_header_error", String(check.message ?? "Unable to verify user"));
+      return;
+    }
+    const given = readKeycloakGivenData(check.message);
+    const payload = buildOtpPayload(identifier, given);
+    const otpRes = await sendGuestOtp(payload);
+    if (otpRes.status_code === 200) {
+      timeRemainingHeader = 45;
+      startTimerHeader();
+      switchBootstrapModal("loginWithOtpModal", "loginWIthOtpVerifyModal", 200);
+      setVal("otp-field-3", "");
+      setText("otp-field-3_error", "");
+    } else {
+      setText("otp_login_header_error", String(otpRes.message ?? "Please check Mobile / Email you entered!"));
+    }
+  } finally {
+    hideLoader();
+    document.querySelectorAll(".login_otp_header").forEach((el) => {
+      el.disabled = false;
+    });
+  }
+}
+function otpPayloadForStoredIdentifier() {
+  const identifier = readLoginIdentifier();
+  if (validatePhone(identifier)) return { user_phone: identifier };
+  if (validateEmail(identifier)) return { user_email: identifier };
+  return { identifier };
+}
+async function handleResendOtp() {
+  if (timeRemainingHeader > 0) return;
+  timeRemainingHeader = 45;
+  const payload = otpPayloadForStoredIdentifier();
+  const res = await sendGuestOtp(payload);
+  if (res.status_code === 200) {
+    startTimerHeader();
+    setText("otp-field-2_error", "");
+    setText("otp-field-3_error", "");
+  }
+}
+async function handleVerifyForgotOtp() {
+  const identifier = readLoginIdentifier() || val("user_mobile_header");
+  const otp = val("otp-field-2");
+  if (!otp) {
+    setText("otp-field-2_error", "Please enter OTP");
+    return;
+  }
+  if (!/^[0-9]{6}$/.test(otp)) {
+    setText("otp-field-2_error", "Please enter 6 digit OTP");
+    return;
+  }
+  const data = { otp };
+  if (validateEmail(identifier)) data.user_email = identifier;
+  else if (validatePhone(identifier)) data.user_phone = identifier;
+  const verify = await postJson("/pages/verifyGuestUserOtpNew", data);
+  if (verify.status_code === 200) {
+    setText("otp-field-2_error", "");
+    setVal("verified_otp_header", "1");
+    timeRemainingHeader = 0;
+    setDisabled("user_mobile_header", true);
+    setDisabled("btn-verify-otp-header", true);
+    switchBootstrapModal("otpVerifyForgotPwdModal", "newPasswordModal", 200);
+    setVal("newPwd", "");
+    setVal("confirmPwd", "");
+    return;
+  }
+  responseCount += 1;
+  if (responseCount >= 5) {
+    setHtml("otp-field-2_error", "You have reached maximum limit to verify OTP. Please try again after sometime.");
+    setDisabled("btn-verify-otp-header", true);
+  } else {
+    setText("otp-field-2_error", "Please enter valid OTP.");
+  }
+}
+async function handleVerifyLoginOtp() {
+  const userMobile = readLoginIdentifier();
+  setVal("otp_login_header", userMobile);
+  setDisabled("btn-otp-verify-header", true);
+  const otp = val("otp-field-3");
+  if (!otp) {
+    setText("otp-field-3_error", "Please enter OTP");
+    setDisabled("btn-otp-verify-header", false);
+    return;
+  }
+  if (!/^[0-9]{6}$/.test(otp)) {
+    setText("otp-field-3_error", "Please enter 6 digit OTP");
+    setDisabled("btn-otp-verify-header", false);
+    return;
+  }
+  const data = { otp };
+  if (validateEmail(userMobile)) data.user_email = userMobile;
+  else if (validatePhone(userMobile)) data.user_phone = userMobile;
+  showLoader();
+  try {
+    const verify = await postJson("/pages/verifyGuestUserOtpNew", data);
+    if (verify.status_code !== 200) {
+      responseCount += 1;
+      if (responseCount >= 5) {
+        setHtml("otp-field-3_error", "You have reached maximum limit to verify OTP. Please try again after sometime.");
+        setDisabled("btn-otp-verify-header", true);
+      } else {
+        setText("otp-field-3_error", "Please enter valid OTP.");
+        setDisabled("btn-otp-verify-header", false);
+      }
+      return;
+    }
+    const loginRes = await postJson("/pages/loginWithOtp", { username: userMobile });
+    clearLoginStorage();
+    if (loginRes.status_code === 200) {
+      tryFirebaseEvent("user_login_success");
+      handleLoginRedirect(loginRes);
+    } else {
+      tryFirebaseEvent("user_login_failure");
+      setText("otp-field-3_error", String(loginRes.message ?? "Login failed"));
+      setDisabled("btn-otp-verify-header", false);
+    }
+  } finally {
+    hideLoader();
+  }
+}
+async function handleUpdatePassword() {
+  const identifier = readLoginIdentifier() || val("user_mobile_header");
+  const password = val("newPwd");
+  const confirmPwd = val("confirmPwd");
+  if (!validatePassword(password)) {
+    setText("new_pwd_error", "Please follow the password policy!");
+    return;
+  }
+  if (password !== confirmPwd) {
+    setText("new_pwd_error", "Passwords do not match!");
+    return;
+  }
+  const res = await postJson("/pages/keycloakForgotPassword", { identifier, password });
+  if (res.status_code === 200) {
+    switchBootstrapModal("newPasswordModal", "successModal", 200);
+  } else {
+    setText("new_pwd_error", String(res.message ?? "Unable to update password"));
+  }
+}
+async function handlePasswordSignIn() {
+  validatePasswordLoginForm();
+  const username = val("username");
+  const password = val("password");
+  const consent = isChecked("consentCheck2");
+  if (!username || !password || !consent) return;
+  showLoader();
+  try {
+    const res = await postJson("/pages/signIn", { username, password });
+    clearLoginStorage();
+    if (res.status_code === 200) {
+      tryFirebaseEvent("user_login_success");
+      handleLoginRedirect(res);
+    } else if (res.status_code === 401) {
+      tryFirebaseEvent("user_login_failure");
+      setText("user_mobile_header_error_login", String(res.message ?? "Login failed"));
+    }
+  } finally {
+    hideLoader();
+  }
+}
+function onDocumentClick(e) {
+  const target = e.target;
+  if (!target) return;
+  const signInTrigger = target.closest(HEADER_LOGIN_SIGN_IN_SELECTORS);
+  if (signInTrigger) {
+    e.preventDefault();
+    openLoginWithOtpModal();
+    return;
+  }
+  if (target.closest("#forgot_password")) {
+    e.preventDefault();
+    const username = val("username") || val("otp_login_header");
+    if (username) {
+      setVal("user_mobile_header", username);
+      setDisabled("user_mobile_header", false);
+      document.querySelectorAll(".generate_otp_header").forEach((el) => {
+        el.disabled = !!username;
+      });
+    }
+    switchBootstrapModal("signInModal", "forgotPwdModal", 0);
+    return;
+  }
+  if (target.closest("#login_with_otp")) {
+    e.preventDefault();
+    const username = val("username");
+    if (username) setVal("otp_login_header", username);
+    switchBootstrapModal("signInModal", "loginWithOtpModal", 0);
+    return;
+  }
+  if (target.closest("#login_with_pwd")) {
+    e.preventDefault();
+    const otpVal = val("otp_login_header");
+    if (otpVal) setVal("username", otpVal);
+    setChecked("consentCheck2", false);
+    switchBootstrapModal("loginWithOtpModal", "signInModal", 0);
+    return;
+  }
+  if (target.closest("#backToSignInModal")) {
+    e.preventDefault();
+    const mobile = val("user_mobile_header");
+    if (mobile) {
+      setVal("username", mobile);
+      validatePasswordLoginForm();
+    }
+    switchBootstrapModal("forgotPwdModal", "signInModal", 0);
+    return;
+  }
+  if (target.closest("#backToSignInModal2")) {
+    e.preventDefault();
+    switchBootstrapModal("loginWithOtpModal", "signInModal", 0);
+    return;
+  }
+  if (target.closest("#backTologinWithOtpModal")) {
+    e.preventDefault();
+    setChecked("consentCheck1", false);
+    switchBootstrapModal("loginWIthOtpVerifyModal", "loginWithOtpModal", 0);
+    return;
+  }
+  if (target.closest("#backToForgotPwdModal")) {
+    e.preventDefault();
+    setDisabled("user_mobile_header", false);
+    document.querySelectorAll(".generate_otp_header").forEach((el) => {
+      el.disabled = false;
+    });
+    switchBootstrapModal("otpVerifyForgotPwdModal", "forgotPwdModal", 0);
+    return;
+  }
+  if (target.closest("#backToOtpVerifyForgotPwdModal")) {
+    e.preventDefault();
+    setVal("otp-field-2", "");
+    setDisabled("btn-verify-otp-header", false);
+    switchBootstrapModal("newPasswordModal", "otpVerifyForgotPwdModal", 0);
+    return;
+  }
+  if (target.closest("#backToNewPwdModal")) {
+    e.preventDefault();
+    switchBootstrapModal("successModal", "newPasswordModal", 0);
+    return;
+  }
+  if (target.closest(".generate_otp_header")) {
+    e.preventDefault();
+    void handleForgotPasswordGetOtp();
+    return;
+  }
+  if (target.closest(".login_otp_header")) {
+    e.preventDefault();
+    void handleOtpLoginSend();
+    return;
+  }
+  if (target.closest("#signInButton")) {
+    e.preventDefault();
+    void handlePasswordSignIn();
+    return;
+  }
+  if (target.closest("#togglePassword")) {
+    e.preventDefault();
+    togglePasswordField("password", "togglePassword");
+    return;
+  }
+  if (target.closest("#toggleNewPwd")) {
+    e.preventDefault();
+    togglePasswordField("newPwd", "toggleNewPwd");
+    return;
+  }
+  if (target.closest("#toggleConfirmPwd")) {
+    e.preventDefault();
+    togglePasswordField("confirmPwd", "toggleConfirmPwd");
+    return;
+  }
+  if (target.closest("#btn-verify-otp-header")) {
+    e.preventDefault();
+    void handleVerifyForgotOtp();
+    return;
+  }
+  if (target.closest("#btn-otp-verify-header")) {
+    e.preventDefault();
+    void handleVerifyLoginOtp();
+    return;
+  }
+  if (target.closest("#updatePwdButton")) {
+    e.preventDefault();
+    void handleUpdatePassword();
+    return;
+  }
+  if (target.closest("#resendOTPHeader") || target.closest("#resendOTPVerifyHeader")) {
+    e.preventDefault();
+    void handleResendOtp();
+    return;
+  }
+  if (target.closest("#loginNowButton")) {
+    e.preventDefault();
+    hideBootstrapModal("successModal");
+    window.location.href = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+    return;
+  }
+  if (target.closest("#close-signIn")) {
+    localStorage.removeItem("fromQuiz");
+    localStorage.removeItem("quizId");
+    localStorage.removeItem("loginData");
+    localStorage.removeItem("design_for_bharat");
+    localStorage.removeItem("hack_for_social_cause");
+    return;
+  }
+  if (target.closest("#close-otpLogin")) {
+    setVal("otp_login_header", "");
+    localStorage.removeItem("fromQuiz");
+    localStorage.removeItem("quizId");
+    localStorage.removeItem("loginData");
+    localStorage.removeItem("design_for_bharat");
+    localStorage.removeItem("hack_for_social_cause");
+    document.querySelectorAll(".login_otp_header").forEach((el) => {
+      el.disabled = true;
+    });
+  }
+}
+function onDocumentInput(e) {
+  const target = e.target;
+  if (!target) return;
+  if (target.id === "otp_login_header" || target.id === "consentCheck1") {
+    validateOtpLoginInput();
+  }
+  if (target.id === "username" || target.id === "password" || target.id === "consentCheck2") {
+    validatePasswordLoginForm();
+  }
+  if (target.id === "user_mobile_header") {
+    document.querySelectorAll(".generate_otp_header").forEach((el) => {
+      el.disabled = !val("user_mobile_header");
+    });
+  }
+  if (target.id === "newPwd" || target.id === "confirmPwd") {
+    const password = val("newPwd");
+    const confirmPassword = val("confirmPwd");
+    const help = $("confirmPwdHelpBlock");
+    if (!validatePassword(password)) {
+      $("newPwd")?.classList.add("is-invalid");
+    } else {
+      $("newPwd")?.classList.remove("is-invalid");
+    }
+    if (password !== confirmPassword) {
+      $("confirmPwd")?.classList.add("is-invalid");
+      if (help) help.style.display = "block";
+    } else {
+      $("confirmPwd")?.classList.remove("is-invalid");
+      if (help) help.style.display = "none";
+    }
+  }
+}
+function onDocumentKeyPress(e) {
+  const target = e.target;
+  if (target?.classList.contains("otp-field")) {
+    if (e.charCode < 48 || e.charCode > 57) e.preventDefault();
+  }
+}
+function installHeaderLoginFlow() {
+  if (installed) return () => void 0;
+  installed = true;
+  document.addEventListener("click", onDocumentClick, true);
+  document.addEventListener("input", onDocumentInput, true);
+  document.addEventListener("change", onDocumentInput, true);
+  document.addEventListener("keypress", onDocumentKeyPress, true);
+  if (window.location.hash === "#login") {
+    window.setTimeout(openLoginWithOtpModal, 0);
+  }
+  const w = window;
+  w.MyBharatShell = w.MyBharatShell ?? {};
+  w.MyBharatShell.openLoginModal = (mode = "otp") => {
+    if (mode === "password") openSignInPasswordModal();
+    else openLoginWithOtpModal();
+  };
+  return () => {
+    installed = false;
+    document.removeEventListener("click", onDocumentClick, true);
+    document.removeEventListener("input", onDocumentInput, true);
+    document.removeEventListener("change", onDocumentInput, true);
+    document.removeEventListener("keypress", onDocumentKeyPress, true);
+  };
+}
+function hostHasLoginModals() {
+  const el = document.getElementById("loginWithOtpModal");
+  return !!el && !el.closest(".mb-common-header-login");
+}
+
+// src/components/header/login/useHeaderLoginShell.tsx
+import { jsx as jsx7 } from "react/jsx-runtime";
+function useHeaderLoginShell(enabled = true) {
+  const [showModals] = useState2(() => !hostHasLoginModals());
+  useEffect2(() => {
+    if (!enabled) return void 0;
+    return installHeaderLoginFlow();
+  }, [enabled]);
+  return enabled && showModals;
+}
+function HeaderLoginShellPortal({ cdnBase, enabled = true }) {
+  const showModals = useHeaderLoginShell(enabled);
+  if (!showModals) return null;
+  return /* @__PURE__ */ jsx7(HeaderLoginModals, { cdnBase });
+}
+
 // src/components/Header.tsx
-import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
 var Header = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
-  return /* @__PURE__ */ jsxs6(Fragment2, { children: [
-    /* @__PURE__ */ jsxs6("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
-      /* @__PURE__ */ jsx6("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
-      /* @__PURE__ */ jsx6(HeaderGovernmentStrip, { cdn }),
-      /* @__PURE__ */ jsx6("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx6("div", { className: "container", children: /* @__PURE__ */ jsxs6("div", { className: "row align-items-center gx-2", children: [
-        /* @__PURE__ */ jsx6(HeaderMobileStrip, { cdn, variant: "split" }),
-        /* @__PURE__ */ jsx6("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
-        /* @__PURE__ */ jsx6("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ jsx6(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
-        /* @__PURE__ */ jsxs6("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
-          /* @__PURE__ */ jsx6("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ jsxs6("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
-            /* @__PURE__ */ jsx6(DesktopMainNav, { items: navItems }),
-            /* @__PURE__ */ jsx6("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: "Sign In" }),
-            /* @__PURE__ */ jsx6("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ jsx6("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: "Register Now" }) }),
+  return /* @__PURE__ */ jsxs7(Fragment2, { children: [
+    /* @__PURE__ */ jsxs7("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
+      /* @__PURE__ */ jsx8("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+      /* @__PURE__ */ jsx8(HeaderGovernmentStrip, { cdn }),
+      /* @__PURE__ */ jsx8("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx8("div", { className: "container", children: /* @__PURE__ */ jsxs7("div", { className: "row align-items-center gx-2", children: [
+        /* @__PURE__ */ jsx8(HeaderMobileStrip, { cdn, variant: "split" }),
+        /* @__PURE__ */ jsx8("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+        /* @__PURE__ */ jsx8("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ jsx8(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
+        /* @__PURE__ */ jsxs7("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+          /* @__PURE__ */ jsx8("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ jsxs7("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+            /* @__PURE__ */ jsx8(DesktopMainNav, { items: navItems }),
+            /* @__PURE__ */ jsx8("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: "Sign In" }),
+            /* @__PURE__ */ jsx8("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ jsx8("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: "Register Now" }) }),
             "\xA0\xA0",
-            /* @__PURE__ */ jsx6("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ jsx6("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ jsxs6("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-              /* @__PURE__ */ jsx6("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+            /* @__PURE__ */ jsx8("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ jsx8("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ jsxs7("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
+              /* @__PURE__ */ jsx8("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
               " ",
               "Youth",
-              /* @__PURE__ */ jsx6("br", {}),
+              /* @__PURE__ */ jsx8("br", {}),
               " ",
-              /* @__PURE__ */ jsx6("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+              /* @__PURE__ */ jsx8("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
             ] }) }) })
           ] }) }),
-          /* @__PURE__ */ jsx6("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ jsx6("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ jsx6("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+          /* @__PURE__ */ jsx8("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ jsx8("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ jsx8("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
         ] })
       ] }) }) })
     ] }),
-    menuPortalReady ? createPortal(/* @__PURE__ */ jsx6(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null
+    menuPortalReady ? createPortal2(/* @__PURE__ */ jsx8(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
+    menuPortalReady ? /* @__PURE__ */ jsx8(HeaderLoginShellPortal, { cdnBase: cdn }) : null
   ] });
 };
 var Header_default = Header;
 
 // src/components/Header2.tsx
-import { createPortal as createPortal2 } from "react-dom";
+import { createPortal as createPortal3 } from "react-dom";
 
 // src/navigation/header2MainNav.defaults.ts
 var DEFAULT_HEADER2_MAIN_NAV = [
@@ -881,56 +1893,57 @@ var DEFAULT_HEADER2_MAIN_NAV = [
 styleInject(".main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  position: relative;\n  transition: all 0.3s ease-in-out;\n  text-decoration: none !important;\n}\nheader.mb-common-header--header2 a,\nheader.mb-common-header--header2 a:hover,\nheader.mb-common-header--header2 a:focus,\nheader.mb-common-header--header2 a:visited,\nheader.mb-common-header--header2 a:active {\n  text-decoration: none !important;\n}\n.dropevent i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n  margin-left: 4px;\n}\n.dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #toll_mb.skip01,\n.mb-common-header__mobile-bar--h2 #toll_mb.mb-common-header__toll-link--h2 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: rgb(13 110 253);\n  text-decoration: none !important;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: rgb(13 110 253);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(180deg);\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar--h2 #toll_mb,\n  .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  width: auto !important;\n  height: auto !important;\n  min-width: 0 !important;\n  padding: 6px !important;\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  background-color: #bc4717 !important;\n  border: none !important;\n  color: #ffffff !important;\n  border-radius: 10px !important;\n  box-shadow: none !important;\n  line-height: 1 !important;\n  flex: 0 0 auto !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n  outline: 2px solid rgb(13 110 253);\n  outline-offset: 2px;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n  color: #ffffff !important;\n  font-size: 1rem;\n  line-height: 1;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    padding: 0.28rem 0.5rem !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    font-size: 1rem !important;\n  }\n}\nheader.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  border: none !important;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  color: #ffffff !important;\n  background-color: #bc4717 !important;\n  border: none !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n  box-shadow: none !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n@media only screen and (max-width: 991.98px) {\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    max-width: none !important;\n    height: auto !important;\n    transform: scale(1.12) !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n    width: 70px !important;\n    max-width: 70px !important;\n    min-width: 0 !important;\n    height: auto !important;\n    max-height: 48px !important;\n    object-fit: contain !important;\n    transform: none !important;\n    margin-left: 0 !important;\n    margin-top: 0 !important;\n    flex-shrink: 0 !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: none !important;\n  }\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n  z-index: 2;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    bottom: 14px !important;\n    right: 46px !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    display: inline-block !important;\n    visibility: visible !important;\n    pointer-events: auto !important;\n    position: absolute !important;\n    float: none !important;\n    right: 46px !important;\n    top: auto !important;\n    bottom: 14px !important;\n    margin: 0 !important;\n    z-index: 1001 !important;\n    line-height: 1;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root svg {\n    width: 24px;\n    height: 24px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__bhashini-slot {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n    margin-right: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: rgb(13 110 253);\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n    color: rgb(13 110 253);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    width: auto !important;\n    height: auto !important;\n    min-width: 0 !important;\n    padding: 6px !important;\n    background-color: #bc4717 !important;\n    border: none !important;\n    color: #ffffff !important;\n    border-radius: 10px !important;\n    box-shadow: none !important;\n    margin-left: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    color: #ffffff !important;\n    font-size: 1rem !important;\n    line-height: 1 !important;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1000px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    position: static !important;\n    float: right !important;\n    right: auto !important;\n    bottom: auto !important;\n    margin-right: 80px !important;\n    margin-top: 2px !important;\n    z-index: auto !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #bc4717 !important;\n    color: #fff !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button::after {\n    transform: rotate(0deg);\n    transition: transform 0.3s ease-in-out;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed)::after {\n    transform: rotate(-90deg);\n    transition: transform 0.3s ease-in-out;\n  }\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse] i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse][aria-expanded=true] i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {\n  color: #bc4717 !important;\n}\n");
 
 // src/components/Header2.tsx
-import { Fragment as Fragment3, jsx as jsx7, jsxs as jsxs7 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx9, jsxs as jsxs8 } from "react/jsx-runtime";
 var Header2 = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
-  return /* @__PURE__ */ jsxs7(Fragment3, { children: [
-    /* @__PURE__ */ jsxs7(
+  return /* @__PURE__ */ jsxs8(Fragment3, { children: [
+    /* @__PURE__ */ jsxs8(
       "header",
       {
         id: "mb-common-header-root",
         className: "fixed-top shadow mb-common-header mb-common-header--header2",
         "aria-label": title,
         children: [
-          /* @__PURE__ */ jsx7("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
-          /* @__PURE__ */ jsx7(HeaderGovernmentStrip, { cdn }),
-          /* @__PURE__ */ jsx7("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx7("div", { className: "container", children: /* @__PURE__ */ jsxs7("div", { className: "row align-items-center gx-2", children: [
-            /* @__PURE__ */ jsx7(HeaderMobileStrip, { cdn, variant: "h2" }),
-            /* @__PURE__ */ jsx7("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
-            /* @__PURE__ */ jsx7("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ jsx7(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
-            /* @__PURE__ */ jsxs7("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
-              /* @__PURE__ */ jsx7("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ jsxs7("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
-                /* @__PURE__ */ jsx7(DesktopMainNav, { items: navItems }),
-                /* @__PURE__ */ jsx7("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx7("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
-                /* @__PURE__ */ jsx7("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ jsx7("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx7("span", { className: "fontchange", children: "Register Now" }) }) }),
+          /* @__PURE__ */ jsx9("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+          /* @__PURE__ */ jsx9(HeaderGovernmentStrip, { cdn }),
+          /* @__PURE__ */ jsx9("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx9("div", { className: "container", children: /* @__PURE__ */ jsxs8("div", { className: "row align-items-center gx-2", children: [
+            /* @__PURE__ */ jsx9(HeaderMobileStrip, { cdn, variant: "h2" }),
+            /* @__PURE__ */ jsx9("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsx9("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ jsx9(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
+            /* @__PURE__ */ jsxs8("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+              /* @__PURE__ */ jsx9("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ jsxs8("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+                /* @__PURE__ */ jsx9(DesktopMainNav, { items: navItems }),
+                /* @__PURE__ */ jsx9("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx9("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
+                /* @__PURE__ */ jsx9("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ jsx9("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ jsx9("span", { className: "fontchange", children: "Register Now" }) }) }),
                 "\xA0\xA0",
-                /* @__PURE__ */ jsx7("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ jsx7("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ jsxs7("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-                  /* @__PURE__ */ jsx7("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+                /* @__PURE__ */ jsx9("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ jsx9("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ jsxs8("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
+                  /* @__PURE__ */ jsx9("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
                   " ",
-                  /* @__PURE__ */ jsx7("span", { className: "lang_yuva", children: "Youth" }),
-                  /* @__PURE__ */ jsx7("br", {}),
+                  /* @__PURE__ */ jsx9("span", { className: "lang_yuva", children: "Youth" }),
+                  /* @__PURE__ */ jsx9("br", {}),
                   " ",
-                  /* @__PURE__ */ jsx7("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+                  /* @__PURE__ */ jsx9("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
                 ] }) }) })
               ] }) }),
-              /* @__PURE__ */ jsx7("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ jsx7("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ jsx7("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+              /* @__PURE__ */ jsx9("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ jsx9("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ jsx9("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
             ] })
           ] }) }) })
         ]
       }
     ),
-    menuPortalReady ? createPortal2(/* @__PURE__ */ jsx7(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null
+    menuPortalReady ? createPortal3(/* @__PURE__ */ jsx9(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
+    menuPortalReady ? /* @__PURE__ */ jsx9(HeaderLoginShellPortal, { cdnBase: cdn }) : null
   ] });
 };
 var Header2_default = Header2;
 
 // src/components/FooterModals.tsx
-import { useEffect as useEffect2, useState as useState2 } from "react";
-import { createPortal as createPortal3 } from "react-dom";
-import { Fragment as Fragment4, jsx as jsx8, jsxs as jsxs8 } from "react/jsx-runtime";
-function getBootstrapModal() {
+import { useEffect as useEffect3, useState as useState3 } from "react";
+import { createPortal as createPortal4 } from "react-dom";
+import { Fragment as Fragment4, jsx as jsx10, jsxs as jsxs9 } from "react/jsx-runtime";
+function getBootstrapModal2() {
   return typeof window !== "undefined" && window.bootstrap?.Modal;
 }
 var FooterModals = ({
@@ -939,8 +1952,8 @@ var FooterModals = ({
   recaptchaSiteKey,
   onRegisteredUserClick
 }) => {
-  const [portalReady, setPortalReady] = useState2(false);
-  useEffect2(() => {
+  const [portalReady, setPortalReady] = useState3(false);
+  useEffect3(() => {
     setPortalReady(true);
     const scriptId = "mb-google-recaptcha-script";
     let created = false;
@@ -960,7 +1973,7 @@ var FooterModals = ({
     };
   }, [isLoggedIn, recaptchaSiteKey]);
   const hideChoiceShowForm = () => {
-    const Modal = getBootstrapModal();
+    const Modal = getBootstrapModal2();
     const el1 = document.getElementById("feed_back1");
     const elForm = document.getElementById("feed_back");
     if (!Modal || !el1 || !elForm) return;
@@ -968,17 +1981,18 @@ var FooterModals = ({
     window.setTimeout(() => Modal.getOrCreateInstance(elForm).show(), 200);
   };
   const hideChoiceOpenRegistered = () => {
-    const Modal = getBootstrapModal();
+    const Modal = getBootstrapModal2();
     Modal?.getInstance(document.getElementById("feed_back1"))?.hide();
     onRegisteredUserClick?.();
-    const hostModal = document.getElementById("loginWithOtpModal");
-    if (hostModal && getBootstrapModal()) {
-      window.setTimeout(() => getBootstrapModal().getOrCreateInstance(hostModal).show(), 200);
-    }
+    window.setTimeout(() => {
+      if (document.getElementById("loginWithOtpModal")) {
+        openLoginWithOtpModal();
+      }
+    }, 200);
   };
-  const content = /* @__PURE__ */ jsxs8(Fragment4, { children: [
-    /* @__PURE__ */ jsx8("div", { className: "modal fade", id: "feed_back1", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx8("div", { className: "modal-dialog", children: /* @__PURE__ */ jsx8("div", { className: "modal-content", children: /* @__PURE__ */ jsx8("div", { className: "modal-body", style: { borderRadius: 8 }, children: /* @__PURE__ */ jsxs8("div", { className: "row", id: "pls_select", children: [
-      /* @__PURE__ */ jsx8("div", { className: "col-sm-12", children: /* @__PURE__ */ jsx8(
+  const content = /* @__PURE__ */ jsxs9(Fragment4, { children: [
+    /* @__PURE__ */ jsx10("div", { className: "modal fade", id: "feed_back1", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx10("div", { className: "modal-dialog", children: /* @__PURE__ */ jsx10("div", { className: "modal-content", children: /* @__PURE__ */ jsx10("div", { className: "modal-body", style: { borderRadius: 8 }, children: /* @__PURE__ */ jsxs9("div", { className: "row", id: "pls_select", children: [
+      /* @__PURE__ */ jsx10("div", { className: "col-sm-12", children: /* @__PURE__ */ jsx10(
         "img",
         {
           src: `${cdnBase}/assets/img/yuva_landing/XCircle_n.png`,
@@ -987,31 +2001,31 @@ var FooterModals = ({
           "data-bs-dismiss": "modal"
         }
       ) }),
-      /* @__PURE__ */ jsxs8("div", { className: "col-sm-12", children: [
-        /* @__PURE__ */ jsx8("h3", { children: "Please Select" }),
-        /* @__PURE__ */ jsx8("button", { type: "button", id: "guest_usr", className: "btn btn-success", name: "Guest User", onClick: hideChoiceShowForm, children: "Guest User" }),
-        /* @__PURE__ */ jsx8("button", { type: "button", id: "regi_usr", className: "btn btn-info", name: "Registered User", onClick: hideChoiceOpenRegistered, children: "Registered User" })
+      /* @__PURE__ */ jsxs9("div", { className: "col-sm-12", children: [
+        /* @__PURE__ */ jsx10("h3", { children: "Please Select" }),
+        /* @__PURE__ */ jsx10("button", { type: "button", id: "guest_usr", className: "btn btn-success", name: "Guest User", onClick: hideChoiceShowForm, children: "Guest User" }),
+        /* @__PURE__ */ jsx10("button", { type: "button", id: "regi_usr", className: "btn btn-info", name: "Registered User", onClick: hideChoiceOpenRegistered, children: "Registered User" })
       ] })
     ] }) }) }) }) }),
-    /* @__PURE__ */ jsx8("div", { className: "modal fade", id: "feed_back", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx8("div", { className: "modal-dialog", children: /* @__PURE__ */ jsx8("div", { className: "modal-content", children: /* @__PURE__ */ jsxs8("div", { className: "modal-body", style: { borderRadius: 8 }, children: [
-      /* @__PURE__ */ jsxs8("div", { className: "row", children: [
-        /* @__PURE__ */ jsx8("div", { className: "col-sm-10", children: /* @__PURE__ */ jsxs8("form", { id: "feedbackFrm", children: [
-          /* @__PURE__ */ jsx8("input", { type: "hidden", name: "type", value: "web" }),
-          /* @__PURE__ */ jsxs8("div", { className: "row pb-10", children: [
-            /* @__PURE__ */ jsxs8("div", { className: "col-sm-12", children: [
-              /* @__PURE__ */ jsx8("div", { className: "tt_yuvr", children: Array.from({ length: 10 }, (_, i) => {
+    /* @__PURE__ */ jsx10("div", { className: "modal fade", id: "feed_back", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx10("div", { className: "modal-dialog", children: /* @__PURE__ */ jsx10("div", { className: "modal-content", children: /* @__PURE__ */ jsxs9("div", { className: "modal-body", style: { borderRadius: 8 }, children: [
+      /* @__PURE__ */ jsxs9("div", { className: "row", children: [
+        /* @__PURE__ */ jsx10("div", { className: "col-sm-10", children: /* @__PURE__ */ jsxs9("form", { id: "feedbackFrm", children: [
+          /* @__PURE__ */ jsx10("input", { type: "hidden", name: "type", value: "web" }),
+          /* @__PURE__ */ jsxs9("div", { className: "row pb-10", children: [
+            /* @__PURE__ */ jsxs9("div", { className: "col-sm-12", children: [
+              /* @__PURE__ */ jsx10("div", { className: "tt_yuvr", children: Array.from({ length: 10 }, (_, i) => {
                 const n = i + 1;
-                return /* @__PURE__ */ jsx8("div", { className: "radio-tile-group", children: /* @__PURE__ */ jsxs8("div", { className: "input-container", children: [
-                  /* @__PURE__ */ jsx8("input", { type: "radio", name: "user_rating", id: `user_rating_${n}`, value: String(n), defaultChecked: n === 10 }),
-                  /* @__PURE__ */ jsx8("div", { className: "radio-tile", children: /* @__PURE__ */ jsx8("label", { className: "label-text-space", htmlFor: `user_rating_${n}`, children: n }) })
+                return /* @__PURE__ */ jsx10("div", { className: "radio-tile-group", children: /* @__PURE__ */ jsxs9("div", { className: "input-container", children: [
+                  /* @__PURE__ */ jsx10("input", { type: "radio", name: "user_rating", id: `user_rating_${n}`, value: String(n), defaultChecked: n === 10 }),
+                  /* @__PURE__ */ jsx10("div", { className: "radio-tile", children: /* @__PURE__ */ jsx10("label", { className: "label-text-space", htmlFor: `user_rating_${n}`, children: n }) })
                 ] }) }, n);
               }) }),
-              /* @__PURE__ */ jsx8("p", { className: "vErrormsg Ratingerr" })
+              /* @__PURE__ */ jsx10("p", { className: "vErrormsg Ratingerr" })
             ] }),
-            /* @__PURE__ */ jsx8("div", { className: "col-sm-12", children: /* @__PURE__ */ jsxs8("div", { className: "form-group text-left", children: [
-              /* @__PURE__ */ jsx8("label", { htmlFor: "user_feedback", children: "Write a feedback*" }),
-              /* @__PURE__ */ jsx8("small", { id: "char_left_cnt" }),
-              /* @__PURE__ */ jsx8(
+            /* @__PURE__ */ jsx10("div", { className: "col-sm-12", children: /* @__PURE__ */ jsxs9("div", { className: "form-group text-left", children: [
+              /* @__PURE__ */ jsx10("label", { htmlFor: "user_feedback", children: "Write a feedback*" }),
+              /* @__PURE__ */ jsx10("small", { id: "char_left_cnt" }),
+              /* @__PURE__ */ jsx10(
                 "textarea",
                 {
                   id: "user_feedback",
@@ -1023,12 +2037,12 @@ var FooterModals = ({
                   maxLength: 250
                 }
               ),
-              /* @__PURE__ */ jsx8("p", { className: "vErrormsg Feedbackerr" })
+              /* @__PURE__ */ jsx10("p", { className: "vErrormsg Feedbackerr" })
             ] }) }),
-            !isLoggedIn ? /* @__PURE__ */ jsxs8(Fragment4, { children: [
-              /* @__PURE__ */ jsx8("input", { type: "hidden", id: "feedback_captcha_name", name: "feedback_captcha_name", value: "" }),
-              /* @__PURE__ */ jsx8("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs8("div", { className: "form-group", children: [
-                /* @__PURE__ */ jsx8(
+            !isLoggedIn ? /* @__PURE__ */ jsxs9(Fragment4, { children: [
+              /* @__PURE__ */ jsx10("input", { type: "hidden", id: "feedback_captcha_name", name: "feedback_captcha_name", value: "" }),
+              /* @__PURE__ */ jsx10("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs9("div", { className: "form-group", children: [
+                /* @__PURE__ */ jsx10(
                   "input",
                   {
                     type: "text",
@@ -1039,10 +2053,10 @@ var FooterModals = ({
                     maxLength: 100
                   }
                 ),
-                /* @__PURE__ */ jsx8("p", { className: "vErrormsg Nameerr" })
+                /* @__PURE__ */ jsx10("p", { className: "vErrormsg Nameerr" })
               ] }) }),
-              /* @__PURE__ */ jsx8("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs8("div", { className: "form-group", children: [
-                /* @__PURE__ */ jsx8(
+              /* @__PURE__ */ jsx10("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs9("div", { className: "form-group", children: [
+                /* @__PURE__ */ jsx10(
                   "input",
                   {
                     type: "text",
@@ -1053,38 +2067,38 @@ var FooterModals = ({
                     maxLength: 10
                   }
                 ),
-                /* @__PURE__ */ jsx8("p", { className: "vErrormsg Mobileerr" })
+                /* @__PURE__ */ jsx10("p", { className: "vErrormsg Mobileerr" })
               ] }) }),
-              /* @__PURE__ */ jsx8("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs8("div", { className: "form-group", children: [
-                /* @__PURE__ */ jsx8("input", { type: "email", className: "form-control", id: "user_email", name: "user_email", placeholder: "Email*", maxLength: 100 }),
-                /* @__PURE__ */ jsx8("p", { className: "vErrormsg Emailerr" })
+              /* @__PURE__ */ jsx10("div", { className: "col-sm-4", children: /* @__PURE__ */ jsxs9("div", { className: "form-group", children: [
+                /* @__PURE__ */ jsx10("input", { type: "email", className: "form-control", id: "user_email", name: "user_email", placeholder: "Email*", maxLength: 100 }),
+                /* @__PURE__ */ jsx10("p", { className: "vErrormsg Emailerr" })
               ] }) }),
-              recaptchaSiteKey ? /* @__PURE__ */ jsxs8("div", { className: "row", children: [
-                /* @__PURE__ */ jsx8("div", { className: "g-recaptcha", "data-sitekey": recaptchaSiteKey }),
-                /* @__PURE__ */ jsx8("p", { className: "vErrormsg captchaerr" })
+              recaptchaSiteKey ? /* @__PURE__ */ jsxs9("div", { className: "row", children: [
+                /* @__PURE__ */ jsx10("div", { className: "g-recaptcha", "data-sitekey": recaptchaSiteKey }),
+                /* @__PURE__ */ jsx10("p", { className: "vErrormsg captchaerr" })
               ] }) : null
             ] }) : null
           ] })
         ] }) }),
-        /* @__PURE__ */ jsx8("div", { className: "col-sm-2", children: /* @__PURE__ */ jsx8("div", { className: "row pb-10", style: { position: "relative", height: "97%" }, children: /* @__PURE__ */ jsx8("div", { className: "col-sm-12", children: /* @__PURE__ */ jsxs8("div", { className: "cross_ico", children: [
-          /* @__PURE__ */ jsx8("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`, id: "form_cl", "data-bs-dismiss": "modal", alt: "" }),
-          /* @__PURE__ */ jsx8("a", { id: "form_c2", href: "#", className: "d-inline-block", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ jsx8("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }) })
+        /* @__PURE__ */ jsx10("div", { className: "col-sm-2", children: /* @__PURE__ */ jsx10("div", { className: "row pb-10", style: { position: "relative", height: "97%" }, children: /* @__PURE__ */ jsx10("div", { className: "col-sm-12", children: /* @__PURE__ */ jsxs9("div", { className: "cross_ico", children: [
+          /* @__PURE__ */ jsx10("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`, id: "form_cl", "data-bs-dismiss": "modal", alt: "" }),
+          /* @__PURE__ */ jsx10("a", { id: "form_c2", href: "#", className: "d-inline-block", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ jsx10("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }) })
         ] }) }) }) })
       ] }),
-      /* @__PURE__ */ jsx8("div", { className: "row", children: /* @__PURE__ */ jsx8("div", { className: "col-sm-10", children: /* @__PURE__ */ jsx8("div", { id: "feedback_alert", className: "alert", role: "alert", style: { display: "none" } }) }) })
+      /* @__PURE__ */ jsx10("div", { className: "row", children: /* @__PURE__ */ jsx10("div", { className: "col-sm-10", children: /* @__PURE__ */ jsx10("div", { id: "feedback_alert", className: "alert", role: "alert", style: { display: "none" } }) }) })
     ] }) }) }) }),
-    /* @__PURE__ */ jsx8("div", { className: "modal fade", id: "successToaster", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx8("div", { className: "modal-dialog", style: { width: "fit-content" }, children: /* @__PURE__ */ jsx8("div", { className: "modal-content", style: { border: "2px solid #0fbd5f" }, children: /* @__PURE__ */ jsx8("div", { className: "modal-header", style: { borderBottom: "none" }, children: /* @__PURE__ */ jsxs8("h4", { className: "modal-title", style: { color: "#0fbd5f", fontSize: 16, fontWeight: 400 }, children: [
-      /* @__PURE__ */ jsx8("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }),
+    /* @__PURE__ */ jsx10("div", { className: "modal fade", id: "successToaster", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx10("div", { className: "modal-dialog", style: { width: "fit-content" }, children: /* @__PURE__ */ jsx10("div", { className: "modal-content", style: { border: "2px solid #0fbd5f" }, children: /* @__PURE__ */ jsx10("div", { className: "modal-header", style: { borderBottom: "none" }, children: /* @__PURE__ */ jsxs9("h4", { className: "modal-title", style: { color: "#0fbd5f", fontSize: 16, fontWeight: 400 }, children: [
+      /* @__PURE__ */ jsx10("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }),
       " Feedback has been submitted Successfully"
     ] }) }) }) }) })
   ] });
   if (!portalReady) return null;
-  return createPortal3(content, document.body);
+  return createPortal4(content, document.body);
 };
 var FooterModals_default = FooterModals;
 
 // src/components/Footer.tsx
-import { Fragment as Fragment5, jsx as jsx9, jsxs as jsxs9 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx11, jsxs as jsxs10 } from "react/jsx-runtime";
 var footerIntroDefault = "MY Bharat is an initiative of Ministry of Youth Affairs & Sports to empower Indian youth through social mobility, educational equity, and practical skills.";
 var dicLineDefault = "Digital India Corporation (DIC) Ministry of Electronics & IT (MeitY) Government of India";
 var copyrightDefault = "\xA9 2023 - MY Bharat @ All rights reserved | Ministry of Youth Affairs and Sports, Govt. of India\xAE";
@@ -1096,12 +2110,12 @@ function formatLastUpdated() {
 var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) => {
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
   const feedbackModalTarget = isLoggedIn ? "#feed_back" : "#feed_back1";
-  return /* @__PURE__ */ jsxs9(Fragment5, { children: [
-    /* @__PURE__ */ jsxs9("footer", { id: "footer_external", className: "footer-area-1 mb-common-footer", children: [
-      /* @__PURE__ */ jsx9("div", { className: "footer-top py-3", children: /* @__PURE__ */ jsx9("div", { className: "container", children: /* @__PURE__ */ jsxs9("div", { className: "row", children: [
-        /* @__PURE__ */ jsxs9("div", { className: "col-lg-3 col-md-6 footer-contact pt-4", children: [
-          /* @__PURE__ */ jsxs9("div", { className: "d-flex flex-wrap align-items-center gap-2 mb-2", children: [
-            /* @__PURE__ */ jsx9("a", { href: "/", children: /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsxs10(Fragment5, { children: [
+    /* @__PURE__ */ jsxs10("footer", { id: "footer_external", className: "footer-area-1 mb-common-footer", children: [
+      /* @__PURE__ */ jsx11("div", { className: "footer-top py-3", children: /* @__PURE__ */ jsx11("div", { className: "container", children: /* @__PURE__ */ jsxs10("div", { className: "row", children: [
+        /* @__PURE__ */ jsxs10("div", { className: "col-lg-3 col-md-6 footer-contact pt-4", children: [
+          /* @__PURE__ */ jsxs10("div", { className: "d-flex flex-wrap align-items-center gap-2 mb-2", children: [
+            /* @__PURE__ */ jsx11("a", { href: "/", children: /* @__PURE__ */ jsx11(
               "img",
               {
                 src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
@@ -1110,8 +2124,8 @@ var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) 
                 style: { width: 100 }
               }
             ) }),
-            /* @__PURE__ */ jsx9("span", { className: "text-muted d-none d-sm-inline", "aria-hidden": "true", children: "|" }),
-            /* @__PURE__ */ jsx9("a", { href: "/", children: /* @__PURE__ */ jsx9(
+            /* @__PURE__ */ jsx11("span", { className: "text-muted d-none d-sm-inline", "aria-hidden": "true", children: "|" }),
+            /* @__PURE__ */ jsx11("a", { href: "/", children: /* @__PURE__ */ jsx11(
               "img",
               {
                 src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
@@ -1121,30 +2135,30 @@ var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) 
               }
             ) })
           ] }),
-          /* @__PURE__ */ jsx9("p", { className: "lang_footer_page_col_one foot_p1 fontchange14", children: /* @__PURE__ */ jsx9("small", { children: footerIntroDefault }) }),
-          /* @__PURE__ */ jsxs9("p", { className: "foot1w fontchange14", children: [
-            /* @__PURE__ */ jsx9("span", { className: "lang_footer_page_last_update", children: "Last updated: " }),
+          /* @__PURE__ */ jsx11("p", { className: "lang_footer_page_col_one foot_p1 fontchange14", children: /* @__PURE__ */ jsx11("small", { children: footerIntroDefault }) }),
+          /* @__PURE__ */ jsxs10("p", { className: "foot1w fontchange14", children: [
+            /* @__PURE__ */ jsx11("span", { className: "lang_footer_page_last_update", children: "Last updated: " }),
             " ",
             formatLastUpdated()
           ] })
         ] }),
-        /* @__PURE__ */ jsxs9("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col", children: [
-          /* @__PURE__ */ jsx9("h6", { className: "img_link lang_footer_heading_import fontchange mb-2", children: "Important Links" }),
-          /* @__PURE__ */ jsxs9("ul", { className: "foot_p2 list-unstyled mb-0", children: [
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { href: "/mega_events", className: "litext lang_mega_event fontchange", children: "Mega Events" }) }),
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { href: "/pages/experiential_learning?mode=I", className: "litext lang_exp_lrn01 fontchange", children: "Experiential Learning" }) }),
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { className: "litext lang_event fontchange", href: "/pages/events", children: "Volunteer for Bharat" }) }),
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { className: "litext lang_about fontchange", href: "/pages/about_mybharat", children: "About" }) })
+        /* @__PURE__ */ jsxs10("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col", children: [
+          /* @__PURE__ */ jsx11("h6", { className: "img_link lang_footer_heading_import fontchange mb-2", children: "Important Links" }),
+          /* @__PURE__ */ jsxs10("ul", { className: "foot_p2 list-unstyled mb-0", children: [
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { href: "/mega_events", className: "litext lang_mega_event fontchange", children: "Mega Events" }) }),
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { href: "/pages/experiential_learning?mode=I", className: "litext lang_exp_lrn01 fontchange", children: "Experiential Learning" }) }),
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { className: "litext lang_event fontchange", href: "/pages/events", children: "Volunteer for Bharat" }) }),
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { className: "litext lang_about fontchange", href: "/pages/about_mybharat", children: "About" }) })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs9("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col", children: [
-          /* @__PURE__ */ jsx9("h6", { className: "img_link lang_footer_heading_useful fontchange mb-2", children: "Useful Links" }),
-          /* @__PURE__ */ jsxs9("ul", { className: "list-unstyled mb-0", children: [
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { href: "/pages/policy", className: "litext lang_policy_page_header fontchange", children: "Privacy Policy" }) }),
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { href: "/resources-list", className: "litext lang_resources_list_ftr fontchange", children: "Resources" }) }),
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { href: "/pages/support", className: "litext lang_contact_page_contact_us_ftr fontchange", children: "Support" }) }),
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9("a", { href: "/sitemap", className: "litext lang_sitemap fontchange", children: "Sitemap" }) }),
-            /* @__PURE__ */ jsx9("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx9(
+        /* @__PURE__ */ jsxs10("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__link-col", children: [
+          /* @__PURE__ */ jsx11("h6", { className: "img_link lang_footer_heading_useful fontchange mb-2", children: "Useful Links" }),
+          /* @__PURE__ */ jsxs10("ul", { className: "list-unstyled mb-0", children: [
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { href: "/pages/policy", className: "litext lang_policy_page_header fontchange", children: "Privacy Policy" }) }),
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { href: "/resources-list", className: "litext lang_resources_list_ftr fontchange", children: "Resources" }) }),
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { href: "/pages/support", className: "litext lang_contact_page_contact_us_ftr fontchange", children: "Support" }) }),
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11("a", { href: "/sitemap", className: "litext lang_sitemap fontchange", children: "Sitemap" }) }),
+            /* @__PURE__ */ jsx11("li", { className: "mb-2 fw-normal", children: /* @__PURE__ */ jsx11(
               "p",
               {
                 className: "litext lang_content_Feedback mb-0 border-0 bg-transparent",
@@ -1165,44 +2179,44 @@ var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) 
             ) })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs9("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__follow-col", children: [
-          /* @__PURE__ */ jsx9("h6", { className: "img_link lang_footer_heading_follow fontchange mb-2", children: "Follow Us" }),
-          /* @__PURE__ */ jsxs9("div", { className: "social-icons mb-20 mb-common-footer__social-row", children: [
-            /* @__PURE__ */ jsx9("a", { href: "https://x.com/MYBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs9("div", { className: "icon", children: [
-              /* @__PURE__ */ jsx9("img", { src: `${cdn}/assets/img/icon/twitter_v10.png`, alt: "Twitter" }),
-              /* @__PURE__ */ jsx9("span", { className: "twitter-color", children: "Twitter" })
+        /* @__PURE__ */ jsxs10("div", { className: "col-lg-3 col-md-6 footer-links pt-4 mb-common-footer__follow-col", children: [
+          /* @__PURE__ */ jsx11("h6", { className: "img_link lang_footer_heading_follow fontchange mb-2", children: "Follow Us" }),
+          /* @__PURE__ */ jsxs10("div", { className: "social-icons mb-20 mb-common-footer__social-row", children: [
+            /* @__PURE__ */ jsx11("a", { href: "https://x.com/MYBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs10("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx11("img", { src: `${cdn}/assets/img/icon/twitter_v10.png`, alt: "Twitter" }),
+              /* @__PURE__ */ jsx11("span", { className: "twitter-color", children: "Twitter" })
             ] }) }),
-            /* @__PURE__ */ jsx9("a", { href: "https://www.instagram.com/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs9("div", { className: "icon", children: [
-              /* @__PURE__ */ jsx9("img", { src: `${cdn}/assets/img/icon/instagram_v10.png`, alt: "Instagram" }),
-              /* @__PURE__ */ jsx9("span", { className: "instagram-color", children: "Instagram" })
+            /* @__PURE__ */ jsx11("a", { href: "https://www.instagram.com/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs10("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx11("img", { src: `${cdn}/assets/img/icon/instagram_v10.png`, alt: "Instagram" }),
+              /* @__PURE__ */ jsx11("span", { className: "instagram-color", children: "Instagram" })
             ] }) }),
-            /* @__PURE__ */ jsx9("a", { href: "https://www.facebook.com/mybharathq/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs9("div", { className: "icon", children: [
-              /* @__PURE__ */ jsx9("img", { src: `${cdn}/assets/img/icon/facebook_v10.png`, alt: "Facebook" }),
-              /* @__PURE__ */ jsx9("span", { className: "facebook-color", children: "Facebook" })
+            /* @__PURE__ */ jsx11("a", { href: "https://www.facebook.com/mybharathq/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs10("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx11("img", { src: `${cdn}/assets/img/icon/facebook_v10.png`, alt: "Facebook" }),
+              /* @__PURE__ */ jsx11("span", { className: "facebook-color", children: "Facebook" })
             ] }) }),
-            /* @__PURE__ */ jsx9("a", { href: "https://www.linkedin.com/company/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs9("div", { className: "icon", children: [
-              /* @__PURE__ */ jsx9("img", { src: `${cdn}/assets/img/icon/linkedin_v10.png`, alt: "Linkedin" }),
-              /* @__PURE__ */ jsx9("span", { className: "linkedin-color", children: "Linkedin" })
+            /* @__PURE__ */ jsx11("a", { href: "https://www.linkedin.com/company/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs10("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx11("img", { src: `${cdn}/assets/img/icon/linkedin_v10.png`, alt: "Linkedin" }),
+              /* @__PURE__ */ jsx11("span", { className: "linkedin-color", children: "Linkedin" })
             ] }) }),
-            /* @__PURE__ */ jsx9("a", { href: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs9("div", { className: "icon", children: [
-              /* @__PURE__ */ jsx9("img", { src: `${cdn}/assets/img/icon/whatsapp_v10.png`, alt: "WhatsApp" }),
-              /* @__PURE__ */ jsx9("span", { className: "whatsapp-color", children: "WhatsApp" })
+            /* @__PURE__ */ jsx11("a", { href: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs10("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx11("img", { src: `${cdn}/assets/img/icon/whatsapp_v10.png`, alt: "WhatsApp" }),
+              /* @__PURE__ */ jsx11("span", { className: "whatsapp-color", children: "WhatsApp" })
             ] }) }),
-            /* @__PURE__ */ jsx9("a", { href: "https://www.youtube.com/@MyBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs9("div", { className: "icon", children: [
-              /* @__PURE__ */ jsx9("img", { src: `${cdn}/assets/img/icon/youtube_v10.png`, alt: "YouTube" }),
-              /* @__PURE__ */ jsx9("span", { className: "youtube-color", children: "YouTube" })
+            /* @__PURE__ */ jsx11("a", { href: "https://www.youtube.com/@MyBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ jsxs10("div", { className: "icon", children: [
+              /* @__PURE__ */ jsx11("img", { src: `${cdn}/assets/img/icon/youtube_v10.png`, alt: "YouTube" }),
+              /* @__PURE__ */ jsx11("span", { className: "youtube-color", children: "YouTube" })
             ] }) })
           ] }),
-          /* @__PURE__ */ jsx9("p", { className: "fw-normal mb-common-footer__powered-by mb-0", children: /* @__PURE__ */ jsxs9("small", { className: "mb-common-footer__powered-inner", children: [
-            /* @__PURE__ */ jsx9("span", { className: "lang_footer_page_col_powered_by", children: "Powered by:" }),
-            /* @__PURE__ */ jsx9(
+          /* @__PURE__ */ jsx11("p", { className: "fw-normal mb-common-footer__powered-by mb-0", children: /* @__PURE__ */ jsxs10("small", { className: "mb-common-footer__powered-inner", children: [
+            /* @__PURE__ */ jsx11("span", { className: "lang_footer_page_col_powered_by", children: "Powered by:" }),
+            /* @__PURE__ */ jsx11(
               "a",
               {
                 className: "whitetext text-decoration-none mb-common-footer__powered-logo",
                 href: "https://digitalindia.gov.in/",
                 target: "_blank",
                 rel: "noreferrer",
-                children: /* @__PURE__ */ jsx9(
+                children: /* @__PURE__ */ jsx11(
                   "img",
                   {
                     src: `${cdn}/assets/img/yuva_landing/DigitalIndiamybharat.svg`,
@@ -1213,18 +2227,18 @@ var Footer = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) 
               }
             )
           ] }) }),
-          /* @__PURE__ */ jsx9("p", { className: "footertext mt-2 lang_footer_page_col_five_desc foot_p1 fontchange14", children: dicLineDefault })
+          /* @__PURE__ */ jsx11("p", { className: "footertext mt-2 lang_footer_page_col_five_desc foot_p1 fontchange14", children: dicLineDefault })
         ] })
       ] }) }) }),
-      /* @__PURE__ */ jsx9("section", { className: "pricy1_a py-2", children: /* @__PURE__ */ jsx9("div", { className: "container", children: /* @__PURE__ */ jsxs9("div", { className: "row align-items-center flex-column flex-sm-row text-center text-sm-start", children: [
-        /* @__PURE__ */ jsx9("div", { className: "col-sm-8", children: /* @__PURE__ */ jsx9("a", { href: "https://yas.gov.in/", target: "_blank", rel: "noreferrer", className: "text-decoration-none", children: /* @__PURE__ */ jsx9("small", { className: "lang_copyryt fontchange12", children: copyrightDefault }) }) }),
-        /* @__PURE__ */ jsx9("div", { className: "col-sm-4 pricy_a", children: /* @__PURE__ */ jsx9("small", { children: /* @__PURE__ */ jsxs9("ul", { children: [
-          /* @__PURE__ */ jsx9("li", { children: /* @__PURE__ */ jsx9("a", { href: "/pages/terms_of_use", className: "pricy_a lang_trms fontchange12", children: "Terms & Conditions" }) }),
-          /* @__PURE__ */ jsx9("li", { children: /* @__PURE__ */ jsx9("a", { href: "/pages/policy", className: "lang_policy_page_header fontchange12", children: "Privacy Policy" }) })
+      /* @__PURE__ */ jsx11("section", { className: "pricy1_a py-2", children: /* @__PURE__ */ jsx11("div", { className: "container", children: /* @__PURE__ */ jsxs10("div", { className: "row align-items-center flex-column flex-sm-row text-center text-sm-start", children: [
+        /* @__PURE__ */ jsx11("div", { className: "col-sm-8", children: /* @__PURE__ */ jsx11("a", { href: "https://yas.gov.in/", target: "_blank", rel: "noreferrer", className: "text-decoration-none", children: /* @__PURE__ */ jsx11("small", { className: "lang_copyryt fontchange12", children: copyrightDefault }) }) }),
+        /* @__PURE__ */ jsx11("div", { className: "col-sm-4 pricy_a", children: /* @__PURE__ */ jsx11("small", { children: /* @__PURE__ */ jsxs10("ul", { children: [
+          /* @__PURE__ */ jsx11("li", { children: /* @__PURE__ */ jsx11("a", { href: "/pages/terms_of_use", className: "pricy_a lang_trms fontchange12", children: "Terms & Conditions" }) }),
+          /* @__PURE__ */ jsx11("li", { children: /* @__PURE__ */ jsx11("a", { href: "/pages/policy", className: "lang_policy_page_header fontchange12", children: "Privacy Policy" }) })
         ] }) }) })
       ] }) }) })
     ] }),
-    /* @__PURE__ */ jsx9(
+    /* @__PURE__ */ jsx11(
       FooterModals_default,
       {
         cdnBase: cdn,
@@ -1351,11 +2365,11 @@ function prepareMainNavItems(raw, options) {
 }
 
 // src/navigation/useMainNavItems.ts
-import { useEffect as useEffect3, useState as useState3 } from "react";
+import { useEffect as useEffect4, useState as useState4 } from "react";
 function useMainNavItems(options) {
   const { load, select, fallback = DEFAULT_HEADER_MAIN_NAV, maxDepth } = options;
-  const [nav, setNav] = useState3(fallback);
-  useEffect3(() => {
+  const [nav, setNav] = useState4(fallback);
+  useEffect4(() => {
     let cancelled = false;
     (async () => {
       try {
@@ -1375,21 +2389,24 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.193";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.194";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   DEFAULT_HEADER2_MAIN_NAV,
   DEFAULT_HEADER_MAIN_NAV,
   DesktopMainNav,
   Footer_default as Footer,
+  HEADER_LOGIN_SIGN_IN_SELECTORS,
   Header_default as Header,
   Header2_default as Header2,
+  HeaderLoginShellPortal,
   MYBHARAT_CDN_BASE,
   MYBHARAT_CDN_BASE_BETA,
   MYBHARAT_CDN_ORIGIN,
   MYBHARAT_COMMON_FRONTEND_VERSION,
   index_default as default,
   filterUnsafeNavTree,
+  installHeaderLoginFlow,
   isNavGroupItem,
   isNavLinkItem,
   isSafeNavHref,
@@ -1397,6 +2414,8 @@ export {
   normalizeApiMenuTree,
   normalizeHrefForNav,
   normalizeNavTree,
+  openLoginWithOtpModal,
+  openSignInPasswordModal,
   prepareMainNavItems,
   unwrapMenuListFromPayload,
   useMainNavItems

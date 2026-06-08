@@ -9,11 +9,31 @@ Bootstrap appends `.modal-backdrop` to `body`. If the modal lived inside `header
 ## What stays in the host (Cake) app
 
 - PHP session: `$userType`, `$session_user`, `$language`, `$authDistrict`, partner OAuth URLs, etc.
-- **All login / OTP / forgot-password modals** and their markup: `#signInModal`, `#forgotPwdModal`, `#otpVerifyForgotPwdModal`, `#newPasswordModal`, `#successModal`, `#loginWithOtpModal`, `#loginWIthOtpVerifyModal`, `#autoLoadInfo`, `#loader`
-- **jQuery** handlers (`#btnGroupDrop1`, `#signInLink`, …) that open those modals and call `/pages/signIn`, etc.
+- Logged-in header UI (profile dropdown, dashboard drawer branch) — extend with session props when wiring auth
+- **Optional:** remove login modal markup from `header.ctp` when using shell `Header` / `Header2` — the package portaled modals replace `#signInModal`, `#loginWithOtpModal`, etc.
+- **jQuery** on host pages that still use legacy scripts outside the shell (not required for shell login flow — uses `fetch`)
 - **Choices.js**, **manipuri_text_v1.css**, and other page-specific assets not bundled in this npm package
 
-This library supplies the **shell header**, **Bootstrap + FA + datepicker** (see `Header.tsx` `useEffect`), **`#mobileMenuNew`** drawer (guest menu + nav links), and **Header.css** rules ported from the inline `<style>` block where applicable.
+This library supplies the **shell header**, **login / OTP modals** (portaled to `document.body`), **Bootstrap + FA + datepicker** (see `useMbHeaderBootstrapAndPortal`), **`#mobileMenuNew`** drawer (guest menu + nav links), and **Header.css** rules ported from the inline `<style>` block where applicable.
+
+### Sign In triggers (in-package and host page)
+
+Global capture-phase listener opens `#loginWithOtpModal` (same as legacy `header.ctp`) for:
+
+- `#btnGroupDrop1` — desktop Sign In
+- `#signInLink` — mobile drawer Sign In
+- `#register-login-link`, `#home-login-link` — host page hooks
+
+Programmatic API:
+
+```js
+window.MyBharatShell.openLoginModal(); // OTP (default)
+window.MyBharatShell.openLoginModal('password');
+```
+
+Custom event: `mb:open-login` (detail `{ mode: 'otp' | 'password' }`).
+
+Hash deep-link: `#login` opens OTP modal on load.
 
 ## Critical DOM ids / classes (legacy scripts)
 

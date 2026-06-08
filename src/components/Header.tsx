@@ -9,6 +9,7 @@ import { HeaderGovernmentStrip } from './header/HeaderGovernmentStrip';
 import { HeaderMobileStrip } from './header/HeaderMobileStrip';
 import { useMbHeaderBootstrapAndPortal } from './header/useMbHeaderBootstrapAndPortal';
 import { MobileMenuModal } from './MobileMenuModal';
+import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 
 export type HeaderProps = {
   /** Landmark label for the root `<header>` (`aria-label`). Does not change visible UI. */
@@ -82,6 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mai
       </header>
       {/* Portal to document.body so .modal-backdrop (sibling to #root) stacks below the modal — inside fixed header it sat under the dimmer and blocked all clicks */}
       {menuPortalReady ? createPortal(<MobileMenuModal cdnBase={cdn} items={navItems} />, document.body) : null}
+      {menuPortalReady ? <HeaderLoginShellPortal cdnBase={cdn} /> : null}
     </>
   );
 };

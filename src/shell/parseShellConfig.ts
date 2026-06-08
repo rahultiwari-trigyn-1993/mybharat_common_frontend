@@ -16,11 +16,20 @@ export type ShellFooterConfig = {
   recaptchaSiteKey?: string;
 };
 
+export type ShellLoginConfig = {
+  /** Post-login redirect prefix, e.g. `https://mybharat.gov.in/` */
+  baseUrl?: string;
+};
+
 declare global {
   interface Window {
     MYBHARAT_SHELL?: {
       header?: ShellHeaderConfig;
       footer?: ShellFooterConfig;
+      login?: ShellLoginConfig;
+    };
+    MyBharatShell?: {
+      openLoginModal?: (mode?: 'otp' | 'password') => void;
     };
   }
 }

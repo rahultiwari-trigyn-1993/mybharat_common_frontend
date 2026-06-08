@@ -11,6 +11,10 @@ function writeShellCssAndManifest() {
     join(__dirname, "src/components/header/Header.common.css"),
     "utf8"
   );
+  const headerLoginCss = readFileSync(
+    join(__dirname, "src/components/header/login/HeaderLogin.css"),
+    "utf8"
+  );
   const headerCss = readFileSync(join(__dirname, "src/components/Header.css"), "utf8");
   const footerCss = readFileSync(join(__dirname, "src/components/Footer.css"), "utf8");
   const header2Css = readFileSync(join(__dirname, "src/components/Header2.css"), "utf8");
@@ -24,11 +28,11 @@ function writeShellCssAndManifest() {
     /* first run or already renamed */
   }
 
-  const combinedCss = `${headerCommonCss}\n${headerCss}\n${footerCss}`;
+  const combinedCss = `${headerCommonCss}\n${headerLoginCss}\n${headerCss}\n${footerCss}`;
   writeFileSync(join(shellDir, "shell.css"), combinedCss);
   /* jsDelivr 404 on dist/shell/shell.css — duplicate name for CDN embeds */
   writeFileSync(join(shellDir, "mybharat-shell.css"), combinedCss);
-  writeFileSync(join(shellDir, "header2.css"), `${headerCommonCss}\n${header2Css}`);
+  writeFileSync(join(shellDir, "header2.css"), `${headerCommonCss}\n${headerLoginCss}\n${header2Css}`);
   writeFileSync(join(shellDir, "footer.css"), footerCss);
 
   const githubUser = "rahultiwari-trigyn-1993";
@@ -98,16 +102,20 @@ export default defineConfig([
         join(__dirname, "src/components/header/Header.common.css"),
         "utf8"
       );
+      const headerLoginCss = readFileSync(
+        join(__dirname, "src/components/header/login/HeaderLogin.css"),
+        "utf8"
+      );
       const headerCss = readFileSync(join(__dirname, "src/components/Header.css"), "utf8");
       const footerCss = readFileSync(join(__dirname, "src/components/Footer.css"), "utf8");
       writeFileSync(
         join(__dirname, "dist/index.css"),
-        `${headerCommonCss}\n${headerCss}\n${footerCss}`
+        `${headerCommonCss}\n${headerLoginCss}\n${headerCss}\n${footerCss}`
       );
       const header2Css = readFileSync(join(__dirname, "src/components/Header2.css"), "utf8");
       writeFileSync(
         join(__dirname, "dist/header2.css"),
-        `${headerCommonCss}\n${header2Css}`
+        `${headerCommonCss}\n${headerLoginCss}\n${header2Css}`
       );
     },
   },

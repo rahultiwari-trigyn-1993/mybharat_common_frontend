@@ -13,6 +13,7 @@ import { HeaderGovernmentStrip } from './header/HeaderGovernmentStrip';
 import { HeaderMobileStrip } from './header/HeaderMobileStrip';
 import { useMbHeaderBootstrapAndPortal } from './header/useMbHeaderBootstrapAndPortal';
 import { MobileMenuModal } from './MobileMenuModal';
+import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 import './Header2.css';
 
 export type Header2Props = {
@@ -91,6 +92,7 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase, m
       </header>
       {/* Portal to document.body so .modal-backdrop (sibling to #root) stacks below the modal — inside fixed header it sat under the dimmer and blocked all clicks */}
       {menuPortalReady ? createPortal(<MobileMenuModal cdnBase={cdn} items={navItems} />, document.body) : null}
+      {menuPortalReady ? <HeaderLoginShellPortal cdnBase={cdn} /> : null}
     </>
   );
 };
