@@ -46,6 +46,14 @@
   font-weight: 500;
 }
 
+.mb-common-header-login a,
+.mb-common-header-login a:hover,
+.mb-common-header-login a:focus,
+.mb-common-header-login a:visited,
+.mb-common-header-login a:active {
+  text-decoration: none !important;
+}
+
 .mb-common-header-login .go-back {
   cursor: pointer;
   width: 350px;

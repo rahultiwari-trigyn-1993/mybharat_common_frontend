@@ -21,8 +21,18 @@
   color: #525c66 !important;
 }
 
-/* Remove underline from footer links */
-#footer_external a.litext {
+/* Remove underline from all footer links */
+#footer_external a,
+#footer_external a:hover,
+#footer_external a:focus,
+#footer_external a:visited,
+#footer_external a:active,
+#feed_back a,
+#feed_back a:hover,
+#feed_back1 a,
+#feed_back1 a:hover,
+#successToaster a,
+#successToaster a:hover {
   text-decoration: none !important;
 }
 

@@ -32,8 +32,8 @@ After `npm run build`:
 Or publish a **git tag** and use jsDelivr ([`rahultiwari-trigyn-1993/mybharat_common_frontend`](https://github.com/rahultiwari-trigyn-1993)):
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/mybharat-shell.css" />
-<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/shell.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.196/dist/shell/mybharat-shell.css" />
+<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.196/dist/shell/shell.js" defer></script>
 ```
 
 > Do **not** use `raw.githubusercontent.com` in `<link>` / `<script>` — Chrome blocks with `net::ERR_BLOCKED_BY_ORB` (wrong MIME type).
@@ -61,8 +61,8 @@ In your layout (replacing or alongside `header.ctp` / `footer_external.ctp` frag
 <?php
 // Controller should set $cdnPath, $headerNavJson, $isLoggedIn, $recaptchaKey
 $cdnPath = Configure::read('cdn_path'); // e.g. https://cdn-prod.mybharats.in/mybharat — no trailing slash
-$shellCss = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/mybharat-shell.css';
-$shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/shell.js';
+$shellCss = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.196/dist/shell/mybharat-shell.css';
+$shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.196/dist/shell/shell.js';
 // Header2: use .../header2.css instead of mybharat-shell.css and variant => 'header2'
 // production: upload dist/shell/* to S3 + CloudFront and set $shellCss / $shellJs accordingly
 ?>
@@ -115,7 +115,7 @@ $this->set(compact('headerNavJson', 'ufdl_id'));
 | Bhashini / page-specific scripts | As today |
 | `manipuri_text_v1.css`, Choices.js | Not bundled in shell |
 
-**Remove from `header.ctp` when using shell v1.0.195+:**
+**Remove from `header.ctp` when using shell v1.0.196+:**
 
 - Login / OTP modal HTML (`#signInModal`, `#loginWithOtpModal`, …)
 - jQuery login handlers for `#btnGroupDrop1`, `#signInLink` — shell includes these

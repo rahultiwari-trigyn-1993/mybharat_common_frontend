@@ -21,14 +21,6 @@
   text-decoration: none !important;
 }
 
-header.mb-common-header--header2 a,
-header.mb-common-header--header2 a:hover,
-header.mb-common-header--header2 a:focus,
-header.mb-common-header--header2 a:visited,
-header.mb-common-header--header2 a:active {
-  text-decoration: none !important;
-}
-
 /* All chevron icons point DOWN by default */
 .dropevent i.fa-chevron-down {
   display: inline-block;

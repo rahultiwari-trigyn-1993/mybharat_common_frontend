@@ -14,6 +14,16 @@ header.mb-common-header .f-hd-right {
   float: right;
 }
 
+/* No underlines on any header links (beats host theme defaults). */
+header.mb-common-header a,
+header.mb-common-header a:hover,
+header.mb-common-header a:focus,
+header.mb-common-header a:focus-visible,
+header.mb-common-header a:visited,
+header.mb-common-header a:active {
+  text-decoration: none !important;
+}
+
 #mb-nav-desktop-main {
   padding: 0;
 }
@@ -152,4 +162,14 @@ header.mb-common-header .f-hd-right {
 
 .mb-common-header__modal-nav a:hover {
   color: #f15b43;
+}
+
+/* Mobile drawer (portaled to body) — no link underlines */
+#mobileMenuNew a,
+#mobileMenuNew a:hover,
+#mobileMenuNew a:focus,
+#mobileMenuNew a:visited,
+#mobileMenuNew a:active,
+#mobileMenuNew a * {
+  text-decoration: none !important;
 }

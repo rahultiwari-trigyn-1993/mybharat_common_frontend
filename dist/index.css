@@ -14,6 +14,16 @@ header.mb-common-header .f-hd-right {
   float: right;
 }
 
+/* No underlines on any header links (beats host theme defaults). */
+header.mb-common-header a,
+header.mb-common-header a:hover,
+header.mb-common-header a:focus,
+header.mb-common-header a:focus-visible,
+header.mb-common-header a:visited,
+header.mb-common-header a:active {
+  text-decoration: none !important;
+}
+
 #mb-nav-desktop-main {
   padding: 0;
 }
@@ -154,6 +164,16 @@ header.mb-common-header .f-hd-right {
   color: #f15b43;
 }
 
+/* Mobile drawer (portaled to body) — no link underlines */
+#mobileMenuNew a,
+#mobileMenuNew a:hover,
+#mobileMenuNew a:focus,
+#mobileMenuNew a:visited,
+#mobileMenuNew a:active,
+#mobileMenuNew a * {
+  text-decoration: none !important;
+}
+
 /* Ported from header.ctp inline styles — login / OTP modals only */
 
 .mb-common-header-login .uniform-modal-height .modal-dialog {
@@ -200,6 +220,14 @@ header.mb-common-header .f-hd-right {
   color: #f15f22;
   cursor: pointer;
   font-weight: 500;
+}
+
+.mb-common-header-login a,
+.mb-common-header-login a:hover,
+.mb-common-header-login a:focus,
+.mb-common-header-login a:visited,
+.mb-common-header-login a:active {
+  text-decoration: none !important;
 }
 
 .mb-common-header-login .go-back {
@@ -1428,8 +1456,18 @@ header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .r
   color: #525c66 !important;
 }
 
-/* Remove underline from footer links */
-#footer_external a.litext {
+/* Remove underline from all footer links */
+#footer_external a,
+#footer_external a:hover,
+#footer_external a:focus,
+#footer_external a:visited,
+#footer_external a:active,
+#feed_back a,
+#feed_back a:hover,
+#feed_back1 a,
+#feed_back1 a:hover,
+#successToaster a,
+#successToaster a:hover {
   text-decoration: none !important;
 }
 
