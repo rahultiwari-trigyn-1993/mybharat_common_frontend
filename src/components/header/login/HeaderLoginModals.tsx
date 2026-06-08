@@ -4,7 +4,11 @@ import './HeaderLogin.css';
 
 export type HeaderLoginModalsProps = {
   cdnBase: string;
+  /** Matches parent header auth button styling (`Header` orange vs `Header2` brown pill). */
+  variant?: 'header' | 'header2';
 };
+
+const LOGIN_BTN = 'btn mb-common-header-login__btn';
 
 function quizRegisterHref(): string {
   if (typeof window !== 'undefined' && window.location.href.includes('/quiz')) {
@@ -17,11 +21,13 @@ function quizRegisterHref(): string {
  * Login / OTP modals ported from `header.ctp`.
  * Portaled to `document.body` alongside `#mobileMenuNew`.
  */
-export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
+export function HeaderLoginModals({ cdnBase, variant = 'header' }: HeaderLoginModalsProps) {
   const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+  const rootClass =
+    variant === 'header2' ? 'mb-common-header-login mb-common-header-login--header2' : 'mb-common-header-login';
 
   const content = (
-    <div className="mb-common-header-login" aria-hidden={false}>
+    <div className={rootClass} aria-hidden={false}>
       <div className="modal fade uniform-modal-height" id="signInModal" tabIndex={-1} aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -93,7 +99,7 @@ export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
                     <p id="login_with_otp">Login with OTP</p>
                   </div>
                   <div className="col-md-4">
-                    <button type="button" id="signInButton" className="btn btn-outline-primary rounded-pill float-end w-100 firebase-user-login-btn" disabled>
+                    <button type="button" id="signInButton" className={`${LOGIN_BTN} float-end w-100 firebase-user-login-btn`} disabled>
                       Login
                     </button>
                   </div>
@@ -142,7 +148,7 @@ export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
                   <small id="user_mobile_header_error" className="input-error" />
                 </div>
               </div>
-              <button type="button" className="btn btn-outline-primary rounded-pill float-end w-25 mr-button generate_otp_header mb-3" disabled>
+              <button type="button" className={`${LOGIN_BTN} float-end w-25 mr-button generate_otp_header mb-3`} disabled>
                 Get OTP
               </button>
             </div>
@@ -195,7 +201,7 @@ export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
                   </div>
                 </div>
               </div>
-              <button type="button" id="btn-verify-otp-header" className="btn btn-outline-primary rounded-pill float-end w-25 mr-button mb-3">
+              <button type="button" id="btn-verify-otp-header" className={`${LOGIN_BTN} float-end w-25 mr-button mb-3`}>
                 Verify OTP
               </button>
             </div>
@@ -260,7 +266,7 @@ export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
                 <div className="row mt-2" style={{ paddingTop: '0.4rem' }}>
                   <div className="col-md-6" />
                   <div className="col-md-6">
-                    <button type="button" id="updatePwdButton" className="btn btn-outline-primary rounded-pill float-end w-100 mb-20 firebase-user-password-update-btn">
+                    <button type="button" id="updatePwdButton" className={`${LOGIN_BTN} float-end w-100 mb-20 firebase-user-password-update-btn`}>
                       Update Password
                     </button>
                   </div>
@@ -292,7 +298,7 @@ export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
                   You have successfully changed your password.
                 </div>
                 <div style={{ textAlign: 'center', marginTop: 15 }}>
-                  <button type="button" id="loginNowButton" className="btn btn-outline-primary rounded-pill mb-20">
+                  <button type="button" id="loginNowButton" className={`${LOGIN_BTN} mb-20`}>
                     Login Now
                   </button>
                 </div>
@@ -344,7 +350,7 @@ export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
                     <p id="login_with_pwd">Login with Password</p>
                   </div>
                   <div className="col-md-4">
-                    <button type="button" className="btn btn-outline-primary rounded-pill float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3" disabled>
+                    <button type="button" className={`${LOGIN_BTN} float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3`} disabled>
                       Login
                     </button>
                   </div>
@@ -415,7 +421,7 @@ export function HeaderLoginModals({ cdnBase }: HeaderLoginModalsProps) {
                 </div>
                 <div className="row">
                   <div className="col-md-12">
-                    <button type="button" id="btn-otp-verify-header" className="btn btn-outline-primary rounded-pill float-end mb-3 firebase-user-otplogin-btn">
+                    <button type="button" id="btn-otp-verify-header" className={`${LOGIN_BTN} float-end mb-3 firebase-user-otplogin-btn`}>
                       Verify OTP
                     </button>
                   </div>

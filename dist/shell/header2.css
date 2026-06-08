@@ -212,26 +212,60 @@ header.mb-common-header .f-hd-right {
   color: red;
 }
 
-.mb-common-header-login .login_otp_header:hover,
-.mb-common-header-login #signInButton:hover,
-.mb-common-header-login .generate_otp_header:hover,
-.mb-common-header-login #btn-verify-otp-header:hover,
-.mb-common-header-login #updatePwdButton:hover,
-.mb-common-header-login #loginNowButton:hover,
-.mb-common-header-login #btn-otp-verify-header:hover {
-  color: #f15b43;
-  background-color: #fff;
-  border-color: #f15b43;
+/* Match desktop Sign In / Register Now auth buttons (Header default — orange) */
+.mb-common-header-login .mb-common-header-login__btn {
+  color: #ffffff !important;
+  background-color: #f15b43 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
-.mb-common-header-login #otp_login_header:focus,
-.mb-common-header-login #signInButton:focus,
-.mb-common-header-login .generate_otp_header:focus,
-.mb-common-header-login #btn-verify-otp-header:focus,
-.mb-common-header-login #updatePwdButton:focus,
-.mb-common-header-login #loginNowButton:focus,
-.mb-common-header-login #btn-otp-verify-header:focus {
+.mb-common-header-login .mb-common-header-login__btn:hover,
+.mb-common-header-login .mb-common-header-login__btn:focus-visible {
+  color: #f15b43 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #f15b43 !important;
   box-shadow: none !important;
+}
+
+.mb-common-header-login .mb-common-header-login__btn:focus {
+  box-shadow: none !important;
+}
+
+.mb-common-header-login .mb-common-header-login__btn:disabled,
+.mb-common-header-login .mb-common-header-login__btn.disabled {
+  color: #ffffff !important;
+  background-color: #f15b43 !important;
+  border: none !important;
+  opacity: 0.65;
+}
+
+/* Header2 — brown pill auth buttons */
+.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn {
+  --bs-btn-bg: #bc4717;
+  --bs-btn-border-color: #bc4717;
+  background-color: #bc4717 !important;
+  border-radius: 9999px !important;
+  padding: 10px 22px !important;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:hover,
+.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:focus-visible {
+  color: #bc4717 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #bc4717 !important;
+}
+
+.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:disabled,
+.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn.disabled {
+  background-color: #bc4717 !important;
+  border: none !important;
 }
 
 .mb-common-header-login .form-check-input:focus {

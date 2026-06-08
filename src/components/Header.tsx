@@ -83,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ title = 'MyBharat', cdnBase, mai
       </header>
       {/* Portal to document.body so .modal-backdrop (sibling to #root) stacks below the modal — inside fixed header it sat under the dimmer and blocked all clicks */}
       {menuPortalReady ? createPortal(<MobileMenuModal cdnBase={cdn} items={navItems} />, document.body) : null}
-      {menuPortalReady ? <HeaderLoginShellPortal cdnBase={cdn} /> : null}
+      {menuPortalReady ? <HeaderLoginShellPortal cdnBase={cdn} variant="header" /> : null}
     </>
   );
 };

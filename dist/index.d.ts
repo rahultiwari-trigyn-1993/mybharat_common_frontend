@@ -79,8 +79,9 @@ declare function installHeaderLoginFlow(): () => void;
 type HeaderLoginShellPortalProps = {
     cdnBase: string;
     enabled?: boolean;
+    variant?: 'header' | 'header2';
 };
-declare function HeaderLoginShellPortal({ cdnBase, enabled }: HeaderLoginShellPortalProps): react_jsx_runtime.JSX.Element | null;
+declare function HeaderLoginShellPortal({ cdnBase, enabled, variant, }: HeaderLoginShellPortalProps): react_jsx_runtime.JSX.Element | null;
 
 type DesktopMainNavProps = {
     items: readonly NavTreeItem[];

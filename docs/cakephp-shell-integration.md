@@ -32,8 +32,8 @@ After `npm run build`:
 Or publish a **git tag** and use jsDelivr ([`rahultiwari-trigyn-1993/mybharat_common_frontend`](https://github.com/rahultiwari-trigyn-1993)):
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/mybharat-shell.css" />
-<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/shell.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/mybharat-shell.css" />
+<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/shell.js" defer></script>
 ```
 
 > Do **not** use `raw.githubusercontent.com` in `<link>` / `<script>` — Chrome blocks with `net::ERR_BLOCKED_BY_ORB` (wrong MIME type).
@@ -61,8 +61,9 @@ In your layout (replacing or alongside `header.ctp` / `footer_external.ctp` frag
 <?php
 // Controller should set $cdnPath, $headerNavJson, $isLoggedIn, $recaptchaKey
 $cdnPath = Configure::read('cdn_path'); // e.g. https://cdn-prod.mybharats.in/mybharat — no trailing slash
-$shellCss = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/mybharat-shell.css';
-$shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.165/dist/shell/shell.js';
+$shellCss = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/mybharat-shell.css';
+$shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.195/dist/shell/shell.js';
+// Header2: use .../header2.css instead of mybharat-shell.css and variant => 'header2'
 // production: upload dist/shell/* to S3 + CloudFront and set $shellCss / $shellJs accordingly
 ?>
 <link rel="stylesheet" href="<?= h($shellCss) ?>" />
@@ -70,11 +71,14 @@ $shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_
   window.MYBHARAT_SHELL = {
     header: {
       cdnBase: <?= json_encode(rtrim($cdnPath, '/')) ?>,
-      variant: 'header'
+      variant: 'header' // or 'header2'
     },
     footer: {
       isLoggedIn: <?= !empty($ufdl_id) ? 'true' : 'false' ?>,
       recaptchaSiteKey: <?= json_encode(Configure::read('GOOGLE_CAPTCHA_SITE_KEY') ?? '') ?>
+    },
+    login: {
+      baseUrl: <?= json_encode(Configure::read('base_url') ?? '/') ?>
     }
   };
 </script>
@@ -104,21 +108,35 @@ $this->set(compact('headerNavJson', 'ufdl_id'));
 
 ## 4. What stays in CakePHP (do not remove)
 
-Per `docs/header-ctp-reference.md` and `docs/footer-ctp-reference.md`:
-
 | Still in host app | Why |
 |-------------------|-----|
-| Login / OTP modals (`#signInModal`, `#loginWithOtpModal`, …) | Shell only renders `#signInLink`; jQuery opens host modals |
-| jQuery handlers for `#btnGroupDrop1`, `#signInLink` | Sign In / Register desktop + mobile |
-| PHP session (`$ufdl_id`, user type, language) | Logged-in mobile drawer not in shell yet |
-| Feedback form **submit** AJAX | Shell renders modals; host posts to API |
+| PHP session (`$ufdl_id`, user type, language) | Logged-in header / drawer not in shell yet |
+| Feedback form **submit** AJAX | Shell renders footer modals; host posts to API |
 | Bhashini / page-specific scripts | As today |
+| `manipuri_text_v1.css`, Choices.js | Not bundled in shell |
 
-Listen for shell events if you prefer over jQuery:
+**Remove from `header.ctp` when using shell v1.0.195+:**
+
+- Login / OTP modal HTML (`#signInModal`, `#loginWithOtpModal`, …)
+- jQuery login handlers for `#btnGroupDrop1`, `#signInLink` — shell includes these
+
+Sign In triggers (in header or anywhere on page):
+
+| Selector | Action |
+|----------|--------|
+| `#btnGroupDrop1` | Open OTP login |
+| `#signInLink` | Open OTP login |
+| `#home-login-link`, `#register-login-link` | Open OTP login |
 
 ```javascript
+window.MyBharatShell.openLoginModal();           // OTP
+window.MyBharatShell.openLoginModal('password'); // password
+
+document.addEventListener('mb:open-login', function (e) {
+  console.info('Login opened', e.detail.mode);
+});
 document.addEventListener('mb:registered-user-click', function () {
-  // open #loginWithOtpModal
+  // footer feedback → registered user → shell opens login
 });
 document.addEventListener('mb:ready', function (e) {
   console.info('Shell ready', e.detail);

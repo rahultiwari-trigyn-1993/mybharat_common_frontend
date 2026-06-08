@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.194 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.195 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 
 // #style-inject:#style-inject
@@ -710,19 +710,21 @@ import { useEffect as useEffect2, useState as useState2 } from "react";
 import { createPortal } from "react-dom";
 
 // src/components/header/login/HeaderLogin.css
-styleInject(".mb-common-header-login .uniform-modal-height .modal-dialog {\n  position: relative !important;\n}\n.mb-common-header-login .uniform-modal-height .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n.mb-common-header-login .form-check {\n  padding-right: 1.5em !important;\n}\n.mb-common-header-login .mr-button {\n  margin-right: 1.5rem;\n}\n.mb-common-header-login #forgot_password,\n.mb-common-header-login #login_with_pwd {\n  font-size: 14px;\n  color: #0b6bbe;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login #login_with_otp {\n  font-size: 14px;\n  color: #f15f22;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login .pipe {\n  color: #bbbbbb;\n}\n.mb-common-header-login hr {\n  margin: 20px 0 !important;\n}\n.mb-common-header-login #register_now {\n  color: #f15f22;\n  cursor: pointer;\n  font-weight: 500;\n}\n.mb-common-header-login .go-back {\n  cursor: pointer;\n  width: 350px;\n  color: rgba(80, 80, 80, 1);\n}\n.mb-common-header-login .input-error {\n  color: red;\n}\n.mb-common-header-login .login_otp_header:hover,\n.mb-common-header-login #signInButton:hover,\n.mb-common-header-login .generate_otp_header:hover,\n.mb-common-header-login #btn-verify-otp-header:hover,\n.mb-common-header-login #updatePwdButton:hover,\n.mb-common-header-login #loginNowButton:hover,\n.mb-common-header-login #btn-otp-verify-header:hover {\n  color: #f15b43;\n  background-color: #fff;\n  border-color: #f15b43;\n}\n.mb-common-header-login #otp_login_header:focus,\n.mb-common-header-login #signInButton:focus,\n.mb-common-header-login .generate_otp_header:focus,\n.mb-common-header-login #btn-verify-otp-header:focus,\n.mb-common-header-login #updatePwdButton:focus,\n.mb-common-header-login #loginNowButton:focus,\n.mb-common-header-login #btn-otp-verify-header:focus {\n  box-shadow: none !important;\n}\n.mb-common-header-login .form-check-input:focus {\n  box-shadow: none !important;\n}\n#mb-common-header-loader {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.3);\n  display: none;\n  justify-content: center;\n  align-items: center;\n  z-index: 3000;\n}\n#mb-common-header-loader .spinner {\n  border: 8px solid #f3f3f3;\n  border-top: 8px solid #3498db;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  animation: mb-common-header-spin 1s linear infinite;\n}\n@keyframes mb-common-header-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n");
+styleInject(".mb-common-header-login .uniform-modal-height .modal-dialog {\n  position: relative !important;\n}\n.mb-common-header-login .uniform-modal-height .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n.mb-common-header-login .form-check {\n  padding-right: 1.5em !important;\n}\n.mb-common-header-login .mr-button {\n  margin-right: 1.5rem;\n}\n.mb-common-header-login #forgot_password,\n.mb-common-header-login #login_with_pwd {\n  font-size: 14px;\n  color: #0b6bbe;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login #login_with_otp {\n  font-size: 14px;\n  color: #f15f22;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login .pipe {\n  color: #bbbbbb;\n}\n.mb-common-header-login hr {\n  margin: 20px 0 !important;\n}\n.mb-common-header-login #register_now {\n  color: #f15f22;\n  cursor: pointer;\n  font-weight: 500;\n}\n.mb-common-header-login .go-back {\n  cursor: pointer;\n  width: 350px;\n  color: rgba(80, 80, 80, 1);\n}\n.mb-common-header-login .input-error {\n  color: red;\n}\n.mb-common-header-login .mb-common-header-login__btn {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  box-shadow: none !important;\n  font-weight: 600;\n  line-height: 1.25;\n}\n.mb-common-header-login .mb-common-header-login__btn:hover,\n.mb-common-header-login .mb-common-header-login__btn:focus-visible {\n  color: #f15b43 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f15b43 !important;\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:focus {\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:disabled,\n.mb-common-header-login .mb-common-header-login__btn.disabled {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  opacity: 0.65;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  background-color: #bc4717 !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:hover,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:disabled,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn.disabled {\n  background-color: #bc4717 !important;\n  border: none !important;\n}\n.mb-common-header-login .form-check-input:focus {\n  box-shadow: none !important;\n}\n#mb-common-header-loader {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.3);\n  display: none;\n  justify-content: center;\n  align-items: center;\n  z-index: 3000;\n}\n#mb-common-header-loader .spinner {\n  border: 8px solid #f3f3f3;\n  border-top: 8px solid #3498db;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  animation: mb-common-header-spin 1s linear infinite;\n}\n@keyframes mb-common-header-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n");
 
 // src/components/header/login/HeaderLoginModals.tsx
 import { jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+var LOGIN_BTN = "btn mb-common-header-login__btn";
 function quizRegisterHref() {
   if (typeof window !== "undefined" && window.location.href.includes("/quiz")) {
     return "javascript:void(0)";
   }
   return "/yuva_register";
 }
-function HeaderLoginModals({ cdnBase }) {
+function HeaderLoginModals({ cdnBase, variant = "header" }) {
   const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
-  const content = /* @__PURE__ */ jsxs6("div", { className: "mb-common-header-login", "aria-hidden": false, children: [
+  const rootClass = variant === "header2" ? "mb-common-header-login mb-common-header-login--header2" : "mb-common-header-login";
+  const content = /* @__PURE__ */ jsxs6("div", { className: rootClass, "aria-hidden": false, children: [
     /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "signInModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
       /* @__PURE__ */ jsxs6("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
         /* @__PURE__ */ jsx6("div", { className: "text-center w-100", children: /* @__PURE__ */ jsx6("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
@@ -770,7 +772,7 @@ function HeaderLoginModals({ cdnBase }) {
             /* @__PURE__ */ jsx6("p", { className: "mx-2 pipe", children: "|" }),
             /* @__PURE__ */ jsx6("p", { id: "login_with_otp", children: "Login with OTP" })
           ] }),
-          /* @__PURE__ */ jsx6("div", { className: "col-md-4", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "signInButton", className: "btn btn-outline-primary rounded-pill float-end w-100 firebase-user-login-btn", disabled: true, children: "Login" }) })
+          /* @__PURE__ */ jsx6("div", { className: "col-md-4", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "signInButton", className: `${LOGIN_BTN} float-end w-100 firebase-user-login-btn`, disabled: true, children: "Login" }) })
         ] }),
         /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
           /* @__PURE__ */ jsx6("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
@@ -800,7 +802,7 @@ function HeaderLoginModals({ cdnBase }) {
           ] }),
           /* @__PURE__ */ jsx6("small", { id: "user_mobile_header_error", className: "input-error" })
         ] }) }),
-        /* @__PURE__ */ jsx6("button", { type: "button", className: "btn btn-outline-primary rounded-pill float-end w-25 mr-button generate_otp_header mb-3", disabled: true, children: "Get OTP" })
+        /* @__PURE__ */ jsx6("button", { type: "button", className: `${LOGIN_BTN} float-end w-25 mr-button generate_otp_header mb-3`, disabled: true, children: "Get OTP" })
       ] })
     ] }) }) }),
     /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "otpVerifyForgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
@@ -831,7 +833,7 @@ function HeaderLoginModals({ cdnBase }) {
             /* @__PURE__ */ jsx6("input", { type: "hidden", id: "verified_otp_header", defaultValue: "0" })
           ] })
         ] }) }),
-        /* @__PURE__ */ jsx6("button", { type: "button", id: "btn-verify-otp-header", className: "btn btn-outline-primary rounded-pill float-end w-25 mr-button mb-3", children: "Verify OTP" })
+        /* @__PURE__ */ jsx6("button", { type: "button", id: "btn-verify-otp-header", className: `${LOGIN_BTN} float-end w-25 mr-button mb-3`, children: "Verify OTP" })
       ] })
     ] }) }) }),
     /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "newPasswordModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
@@ -866,7 +868,7 @@ function HeaderLoginModals({ cdnBase }) {
         ] }),
         /* @__PURE__ */ jsxs6("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
           /* @__PURE__ */ jsx6("div", { className: "col-md-6" }),
-          /* @__PURE__ */ jsx6("div", { className: "col-md-6", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "updatePwdButton", className: "btn btn-outline-primary rounded-pill float-end w-100 mb-20 firebase-user-password-update-btn", children: "Update Password" }) })
+          /* @__PURE__ */ jsx6("div", { className: "col-md-6", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "updatePwdButton", className: `${LOGIN_BTN} float-end w-100 mb-20 firebase-user-password-update-btn`, children: "Update Password" }) })
         ] })
       ] }) })
     ] }) }) }),
@@ -879,7 +881,7 @@ function HeaderLoginModals({ cdnBase }) {
       /* @__PURE__ */ jsx6("div", { className: "modal-body", children: /* @__PURE__ */ jsxs6("div", { className: "form-check mb-1", children: [
         /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsx6("div", { style: { textAlign: "center", padding: 20 }, children: /* @__PURE__ */ jsx6("i", { className: "bi bi-check-circle-fill", style: { fontSize: 60, color: "#279A33" }, "aria-hidden": "true" }) }) }),
         /* @__PURE__ */ jsx6("div", { style: { fontSize: 17, fontWeight: 500, color: "#000", textAlign: "center", paddingBottom: 20 }, children: "You have successfully changed your password." }),
-        /* @__PURE__ */ jsx6("div", { style: { textAlign: "center", marginTop: 15 }, children: /* @__PURE__ */ jsx6("button", { type: "button", id: "loginNowButton", className: "btn btn-outline-primary rounded-pill mb-20", children: "Login Now" }) })
+        /* @__PURE__ */ jsx6("div", { style: { textAlign: "center", marginTop: 15 }, children: /* @__PURE__ */ jsx6("button", { type: "button", id: "loginNowButton", className: `${LOGIN_BTN} mb-20`, children: "Login Now" }) })
       ] }) })
     ] }) }) }),
     /* @__PURE__ */ jsx6("div", { className: "modal fade uniform-modal-height", id: "loginWithOtpModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ jsx6("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ jsxs6("div", { className: "modal-content", children: [
@@ -907,7 +909,7 @@ function HeaderLoginModals({ cdnBase }) {
         ] }) }),
         /* @__PURE__ */ jsxs6("div", { className: "row", style: { marginTop: 20, marginBottom: 64 }, children: [
           /* @__PURE__ */ jsx6("div", { className: "col-md-8", style: { paddingTop: 6 }, children: /* @__PURE__ */ jsx6("p", { id: "login_with_pwd", children: "Login with Password" }) }),
-          /* @__PURE__ */ jsx6("div", { className: "col-md-4", children: /* @__PURE__ */ jsx6("button", { type: "button", className: "btn btn-outline-primary rounded-pill float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3", disabled: true, children: "Login" }) }),
+          /* @__PURE__ */ jsx6("div", { className: "col-md-4", children: /* @__PURE__ */ jsx6("button", { type: "button", className: `${LOGIN_BTN} float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3`, disabled: true, children: "Login" }) }),
           /* @__PURE__ */ jsx6("p", { children: /* @__PURE__ */ jsx6("b", { children: "International users, please sign in using your registered Email ID only" }) })
         ] }),
         /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsxs6("div", { className: "col-md-12", children: [
@@ -948,7 +950,7 @@ function HeaderLoginModals({ cdnBase }) {
             /* @__PURE__ */ jsx6("input", { type: "hidden", id: "verify_otp_header", defaultValue: "0" })
           ] })
         ] }),
-        /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "btn-otp-verify-header", className: "btn btn-outline-primary rounded-pill float-end mb-3 firebase-user-otplogin-btn", children: "Verify OTP" }) }) }),
+        /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsx6("button", { type: "button", id: "btn-otp-verify-header", className: `${LOGIN_BTN} float-end mb-3 firebase-user-otplogin-btn`, children: "Verify OTP" }) }) }),
         /* @__PURE__ */ jsx6("div", { className: "row", children: /* @__PURE__ */ jsx6("div", { className: "col-md-12", children: /* @__PURE__ */ jsxs6("div", { style: { fontSize: 16, textAlign: "center", borderTop: "1px solid #ccc", paddingTop: 10 }, children: [
           "New User?",
           " ",
@@ -1708,10 +1710,14 @@ function useHeaderLoginShell(enabled = true) {
   }, [enabled]);
   return enabled && showModals;
 }
-function HeaderLoginShellPortal({ cdnBase, enabled = true }) {
+function HeaderLoginShellPortal({
+  cdnBase,
+  enabled = true,
+  variant = "header"
+}) {
   const showModals = useHeaderLoginShell(enabled);
   if (!showModals) return null;
-  return /* @__PURE__ */ jsx7(HeaderLoginModals, { cdnBase });
+  return /* @__PURE__ */ jsx7(HeaderLoginModals, { cdnBase, variant });
 }
 
 // src/components/Header.tsx
@@ -1748,7 +1754,7 @@ var Header = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
       ] }) }) })
     ] }),
     menuPortalReady ? createPortal2(/* @__PURE__ */ jsx8(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
-    menuPortalReady ? /* @__PURE__ */ jsx8(HeaderLoginShellPortal, { cdnBase: cdn }) : null
+    menuPortalReady ? /* @__PURE__ */ jsx8(HeaderLoginShellPortal, { cdnBase: cdn, variant: "header" }) : null
   ] });
 };
 var Header_default = Header;
@@ -1934,7 +1940,7 @@ var Header2 = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
       }
     ),
     menuPortalReady ? createPortal3(/* @__PURE__ */ jsx9(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
-    menuPortalReady ? /* @__PURE__ */ jsx9(HeaderLoginShellPortal, { cdnBase: cdn }) : null
+    menuPortalReady ? /* @__PURE__ */ jsx9(HeaderLoginShellPortal, { cdnBase: cdn, variant: "header2" }) : null
   ] });
 };
 var Header2_default = Header2;
@@ -2389,7 +2395,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.194";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.195";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   DEFAULT_HEADER2_MAIN_NAV,

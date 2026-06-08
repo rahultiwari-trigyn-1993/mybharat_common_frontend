@@ -19,12 +19,17 @@ export function useHeaderLoginShell(enabled = true): boolean {
 export type HeaderLoginShellPortalProps = {
   cdnBase: string;
   enabled?: boolean;
+  variant?: 'header' | 'header2';
 };
 
-export function HeaderLoginShellPortal({ cdnBase, enabled = true }: HeaderLoginShellPortalProps) {
+export function HeaderLoginShellPortal({
+  cdnBase,
+  enabled = true,
+  variant = 'header',
+}: HeaderLoginShellPortalProps) {
   const showModals = useHeaderLoginShell(enabled);
   if (!showModals) return null;
-  return <HeaderLoginModals cdnBase={cdnBase} />;
+  return <HeaderLoginModals cdnBase={cdnBase} variant={variant} />;
 }
 
 export default HeaderLoginShellPortal;
