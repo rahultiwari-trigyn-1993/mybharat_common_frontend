@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.202 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.203 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -21906,9 +21906,65 @@ var MyBharatShell = (() => {
       setup(event, encode(userId));
     }
   }
+  function isLoopbackHost(hostname) {
+    return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
+  }
+  function readRawLoginApiBaseUrl() {
+    const fromWindow = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
+    if (fromWindow) return fromWindow;
+    const fromMeta = document.querySelector('meta[name="mybharat-api-base-url"]')?.getAttribute("content")?.trim();
+    if (fromMeta) return fromMeta;
+    const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
+    return fromHeader ?? "";
+  }
+  function normalizeLoginApiBaseUrl(raw) {
+    if (!raw) return "";
+    const base = raw.replace(/\/$/, "");
+    if (base.startsWith("/")) return base;
+    if (!/^https?:\/\//i.test(base)) return base;
+    try {
+      const api = new URL(base);
+      const page = window.location;
+      const pagePort = page.port || (page.protocol === "https:" ? "443" : "80");
+      const apiPort = api.port || (api.protocol === "https:" ? "443" : "80");
+      const pathname = api.pathname.replace(/\/$/, "") || "/api";
+      if (pagePort !== apiPort || !pathname.startsWith("/")) {
+        return base;
+      }
+      const sameHost = api.hostname === page.hostname;
+      const loopbackPair = isLoopbackHost(page.hostname) && isLoopbackHost(api.hostname) && page.hostname !== api.hostname;
+      if (sameHost || loopbackPair) {
+        return pathname;
+      }
+    } catch {
+    }
+    return base;
+  }
+  function syncLoginApiConfigFromDom() {
+    const headerEl = document.querySelector("mybharat-header");
+    const apiBaseUrl = headerEl?.getAttribute("api-base-url")?.trim() ?? document.querySelector('meta[name="mybharat-api-base-url"]')?.getAttribute("content")?.trim();
+    const baseUrl = headerEl?.getAttribute("login-base-url")?.trim();
+    if (!apiBaseUrl && !baseUrl) return;
+    window.MYBHARAT_SHELL = {
+      ...window.MYBHARAT_SHELL,
+      login: {
+        ...window.MYBHARAT_SHELL?.login,
+        ...baseUrl ? { baseUrl } : {},
+        ...apiBaseUrl ? { apiBaseUrl } : {}
+      }
+    };
+  }
   function getLoginApiBaseUrl() {
-    const raw = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-    return raw ? raw.replace(/\/$/, "") : "";
+    syncLoginApiConfigFromDom();
+    return normalizeLoginApiBaseUrl(readRawLoginApiBaseUrl());
+  }
+  function buildLoginApiUrl(path) {
+    const base = getLoginApiBaseUrl();
+    const suffix = path.startsWith("/") ? path : `/${path}`;
+    if (base.startsWith("/")) {
+      return `${base}${suffix}`;
+    }
+    return `${base}${suffix}`;
   }
   function isSuccessStatus(statusCode) {
     if (statusCode == null || statusCode === "") return false;
@@ -21945,12 +22001,12 @@ var MyBharatShell = (() => {
     return token;
   }
   function buildLoginApiHeaders(bearerAccessToken) {
-    const headers = {
-      "Content-Type": LOGIN_API_CONTENT_TYPE
-    };
+    const headers = new Headers();
+    headers.set("Content-Type", LOGIN_API_CONTENT_TYPE);
+    headers.set("Accept", LOGIN_API_CONTENT_TYPE);
     const token = normalizeBearerAccessToken(bearerAccessToken);
     if (token) {
-      headers.Authorization = `Bearer ${token}`;
+      headers.set("Authorization", `Bearer ${token}`);
     }
     return headers;
   }
@@ -22002,6 +22058,7 @@ var MyBharatShell = (() => {
     return /401|unauthorized/i.test(err);
   }
   async function fetchLoginApiJson(path, options) {
+    syncLoginApiConfigFromDom();
     const base = getLoginApiBaseUrl();
     if (!base) {
       throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
@@ -22011,11 +22068,11 @@ var MyBharatShell = (() => {
       throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
     }
     const headers = buildLoginApiHeaders(normalizedToken);
-    if (options?.requireAuth && !headers.Authorization) {
+    if (options?.requireAuth && !headers.has("Authorization")) {
       throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
     }
     const method = options?.method ?? (options?.body ? "POST" : "POST");
-    const url = `${base}${path.startsWith("/") ? path : `/${path}`}`;
+    const url = buildLoginApiUrl(path);
     let res;
     try {
       res = await fetch(url, {
@@ -22681,6 +22738,8 @@ var MyBharatShell = (() => {
   function installHeaderLoginFlow() {
     if (installed) return () => void 0;
     installed = true;
+    syncLoginApiConfigFromDom();
+    cachedKeycloakAccessToken = null;
     document.addEventListener("click", onDocumentClick, true);
     document.addEventListener("input", onDocumentInput, true);
     document.addEventListener("change", onDocumentInput, true);
@@ -24705,7 +24764,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.202" }
+          detail: { component: "header", version: "1.0.203" }
         })
       );
     }
@@ -24757,7 +24816,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.202" }
+          detail: { component: "footer", version: "1.0.203" }
         })
       );
     }
@@ -24801,7 +24860,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.202";
+  var MYBHARAT_SHELL_VERSION = "1.0.203";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

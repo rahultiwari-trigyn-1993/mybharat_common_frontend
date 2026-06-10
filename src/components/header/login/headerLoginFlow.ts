@@ -147,9 +147,97 @@ type SignInResponse = {
   data?: { access_token?: string; accessToken?: string; [key: string]: unknown };
 };
 
+function isLoopbackHost(hostname: string): boolean {
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+}
+
+/** Read apiBaseUrl from shell config, meta tag, or `<mybharat-header api-base-url>`. */
+function readRawLoginApiBaseUrl(): string {
+  const fromWindow = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
+  if (fromWindow) return fromWindow;
+
+  const fromMeta = document
+    .querySelector('meta[name="mybharat-api-base-url"]')
+    ?.getAttribute('content')
+    ?.trim();
+  if (fromMeta) return fromMeta;
+
+  const fromHeader = document
+    .querySelector('mybharat-header')
+    ?.getAttribute('api-base-url')
+    ?.trim();
+  return fromHeader ?? '';
+}
+
+/**
+ * Prefer same-origin relative `/api` when the API is on the same port as the page.
+ * Cross-origin absolute URLs (e.g. localhost page + 127.0.0.1 API) drop Authorization in browsers.
+ */
+function normalizeLoginApiBaseUrl(raw: string): string {
+  if (!raw) return '';
+  const base = raw.replace(/\/$/, '');
+  if (base.startsWith('/')) return base;
+  if (!/^https?:\/\//i.test(base)) return base;
+
+  try {
+    const api = new URL(base);
+    const page = window.location;
+    const pagePort = page.port || (page.protocol === 'https:' ? '443' : '80');
+    const apiPort = api.port || (api.protocol === 'https:' ? '443' : '80');
+    const pathname = (api.pathname.replace(/\/$/, '') || '/api');
+
+    if (pagePort !== apiPort || !pathname.startsWith('/')) {
+      return base;
+    }
+
+    const sameHost = api.hostname === page.hostname;
+    const loopbackPair =
+      isLoopbackHost(page.hostname) &&
+      isLoopbackHost(api.hostname) &&
+      page.hostname !== api.hostname;
+
+    if (sameHost || loopbackPair) {
+      return pathname;
+    }
+  } catch {
+    /* keep absolute URL */
+  }
+
+  return base;
+}
+
+/** Sync login API config from DOM into `window.MYBHARAT_SHELL.login` before fetch. */
+function syncLoginApiConfigFromDom(): void {
+  const headerEl = document.querySelector('mybharat-header');
+  const apiBaseUrl =
+    headerEl?.getAttribute('api-base-url')?.trim() ??
+    document.querySelector('meta[name="mybharat-api-base-url"]')?.getAttribute('content')?.trim();
+  const baseUrl = headerEl?.getAttribute('login-base-url')?.trim();
+
+  if (!apiBaseUrl && !baseUrl) return;
+
+  window.MYBHARAT_SHELL = {
+    ...window.MYBHARAT_SHELL,
+    login: {
+      ...window.MYBHARAT_SHELL?.login,
+      ...(baseUrl ? { baseUrl } : {}),
+      ...(apiBaseUrl ? { apiBaseUrl } : {}),
+    },
+  };
+}
+
 function getLoginApiBaseUrl(): string {
-  const raw = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-  return raw ? raw.replace(/\/$/, '') : '';
+  syncLoginApiConfigFromDom();
+  return normalizeLoginApiBaseUrl(readRawLoginApiBaseUrl());
+}
+
+function buildLoginApiUrl(path: string): string {
+  const base = getLoginApiBaseUrl();
+  const suffix = path.startsWith('/') ? path : `/${path}`;
+  if (base.startsWith('/')) {
+    return `${base}${suffix}`;
+  }
+  return `${base}${suffix}`;
 }
 
 function isSuccessStatus(statusCode?: number | string): boolean {
@@ -201,13 +289,13 @@ function normalizeBearerAccessToken(raw?: string): string {
   return token;
 }
 
-function buildLoginApiHeaders(bearerAccessToken?: string): Record<string, string> {
-  const headers: Record<string, string> = {
-    'Content-Type': LOGIN_API_CONTENT_TYPE,
-  };
+function buildLoginApiHeaders(bearerAccessToken?: string): Headers {
+  const headers = new Headers();
+  headers.set('Content-Type', LOGIN_API_CONTENT_TYPE);
+  headers.set('Accept', LOGIN_API_CONTENT_TYPE);
   const token = normalizeBearerAccessToken(bearerAccessToken);
   if (token) {
-    headers.Authorization = `Bearer ${token}`;
+    headers.set('Authorization', `Bearer ${token}`);
   }
   return headers;
 }
@@ -289,6 +377,7 @@ async function fetchLoginApiJson<T extends SignInResponse>(
     omitCredentials?: boolean;
   }
 ): Promise<T> {
+  syncLoginApiConfigFromDom();
   const base = getLoginApiBaseUrl();
   if (!base) {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
@@ -300,12 +389,12 @@ async function fetchLoginApiJson<T extends SignInResponse>(
   }
 
   const headers = buildLoginApiHeaders(normalizedToken);
-  if (options?.requireAuth && !headers.Authorization) {
+  if (options?.requireAuth && !headers.has('Authorization')) {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
   }
 
   const method = options?.method ?? (options?.body ? 'POST' : 'POST');
-  const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
+  const url = buildLoginApiUrl(path);
 
   let res: Response;
   try {
@@ -1045,6 +1134,9 @@ function onDocumentKeyPress(e: KeyboardEvent): void {
 export function installHeaderLoginFlow(): () => void {
   if (installed) return () => undefined;
   installed = true;
+
+  syncLoginApiConfigFromDom();
+  cachedKeycloakAccessToken = null;
 
   document.addEventListener('click', onDocumentClick, true);
   document.addEventListener('input', onDocumentInput, true);

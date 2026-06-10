@@ -79,7 +79,7 @@ $shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_
     },
     login: {
       baseUrl: <?= json_encode(Configure::read('base_url') ?? '/') ?>,
-      apiBaseUrl: <?= json_encode(Configure::read('API_BASE_URL') ?? '') ?>
+      apiBaseUrl: <?= json_encode(Configure::read('API_BASE_URL') ?? '/api') ?>
     }
   };
 </script>
