@@ -5,11 +5,20 @@ export const HEADER_LOGIN_SIGN_IN_SELECTORS =
   '#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link';
 
 const LOGIN_DATA_KEY = 'loginData';
+const DEFAULT_LOGIN_API_ERROR = 'Something went wrong!!! Plz try again later.';
 
 let installed = false;
 let timeRemainingHeader = 45;
 let responseCount = 0;
 let countdownHeader: ReturnType<typeof setInterval> | null = null;
+let cachedKeycloakAccessToken: string | null = null;
+
+class LoginApiError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'LoginApiError';
+  }
+}
 
 function $(id: string): HTMLElement | null {
   return document.getElementById(id);
@@ -123,15 +132,114 @@ function tryFirebaseEvent(event: string): void {
 }
 
 type SignInResponse = {
-  status_code?: number;
-  message?: string;
+  status_code?: number | string;
+  message?: string | { given_data?: string; [key: string]: unknown };
   redirect_url?: string;
   controller?: string;
   action?: string;
   token?: string;
   domain?: string;
   encryptId?: string;
+  access_token?: string;
+  data?: { access_token?: string; [key: string]: unknown };
 };
+
+function getLoginApiBaseUrl(): string {
+  const raw = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
+  return raw ? raw.replace(/\/$/, '') : '';
+}
+
+function isSuccessStatus(statusCode?: number | string): boolean {
+  if (statusCode == null || statusCode === '') return false;
+  const code = typeof statusCode === 'string' ? Number(statusCode) : statusCode;
+  return code === 200 || code === 201;
+}
+
+function resolveLoginApiError(
+  res?: Pick<SignInResponse, 'message'> | null,
+  fallback = DEFAULT_LOGIN_API_ERROR
+): string {
+  const message = res?.message;
+  if (typeof message === 'string' && message.trim()) return message.trim();
+  if (message && typeof message === 'object') {
+    const obj = message as Record<string, unknown>;
+    for (const key of ['message', 'error', 'detail', 'description']) {
+      const v = obj[key];
+      if (typeof v === 'string' && v.trim()) return v.trim();
+    }
+  }
+  return fallback;
+}
+
+async function fetchLoginApiJson<T extends SignInResponse>(
+  path: string,
+  options?: { method?: string; body?: Record<string, unknown>; token?: string }
+): Promise<T> {
+  const base = getLoginApiBaseUrl();
+  if (!base) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  if (options?.token) {
+    headers.Authorization = `Bearer ${options.token}`;
+  }
+
+  const method = options?.method ?? (options?.body ? 'POST' : 'POST');
+  const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
+
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method,
+      credentials: 'include',
+      headers,
+      body: options?.body != null ? JSON.stringify(options.body) : undefined,
+    });
+  } catch {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const text = await res.text();
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+    return { status_code: res.status, message: text } as T;
+  }
+}
+
+/** Client access token — cached for subsequent login API calls. */
+export async function getKeycloakClientAccessToken(forceRefresh = false): Promise<string> {
+  if (!forceRefresh && cachedKeycloakAccessToken) {
+    return cachedKeycloakAccessToken;
+  }
+
+  const data = await fetchLoginApiJson<SignInResponse>('/getKeycloakClientAccessToken', {
+    method: 'POST',
+  });
+
+  const token = data.access_token ?? data.data?.access_token;
+  if (!isSuccessStatus(data.status_code) && !token) {
+    throw new LoginApiError(resolveLoginApiError(data));
+  }
+  if (!token || typeof token !== 'string') {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  cachedKeycloakAccessToken = token;
+  return token;
+}
+
+async function fetchCheckUserExists(identifier: string, accessToken: string): Promise<KeycloakCheckResponse> {
+  return fetchLoginApiJson<KeycloakCheckResponse>('/checkUserExists', {
+    method: 'POST',
+    body: { identifier },
+    token: accessToken,
+  });
+}
 
 async function postJson(path: string, data: Record<string, string>): Promise<SignInResponse> {
   const body = new URLSearchParams(data);
@@ -338,7 +446,21 @@ function readKeycloakGivenData(message: KeycloakCheckResponse['message']): strin
 }
 
 async function checkUserInKeycloak(identifier: string): Promise<KeycloakCheckResponse> {
-  return postJson('/pages/checkUserDataInKeyClock', { identifier }) as Promise<KeycloakCheckResponse>;
+  try {
+    const accessToken = await getKeycloakClientAccessToken();
+    const check = await fetchCheckUserExists(identifier, accessToken);
+    if (!isSuccessStatus(check.status_code)) {
+      return {
+        ...check,
+        status_code: check.status_code ?? 500,
+        message: resolveLoginApiError(check),
+      };
+    }
+    return check;
+  } catch (err) {
+    const message = err instanceof LoginApiError ? err.message : DEFAULT_LOGIN_API_ERROR;
+    return { status_code: 500, message };
+  }
 }
 
 function buildOtpPayload(identifier: string, givenData?: string): Record<string, string> {
@@ -360,8 +482,8 @@ async function handleForgotPasswordGetOtp(): Promise<void> {
   setText('user_mobile_header_error', '');
   try {
     const check = await checkUserInKeycloak(identifier);
-    if (check.status_code !== 200) {
-      setText('user_mobile_header_error', String(check.message ?? 'Unable to verify user'));
+    if (!isSuccessStatus(check.status_code)) {
+      setText('user_mobile_header_error', resolveLoginApiError(check));
       return;
     }
     const given = readKeycloakGivenData(check.message);
@@ -394,8 +516,8 @@ async function handleOtpLoginSend(): Promise<void> {
   });
   try {
     const check = await checkUserInKeycloak(identifier);
-    if (check.status_code !== 200) {
-      setText('otp_login_header_error', String(check.message ?? 'Unable to verify user'));
+    if (!isSuccessStatus(check.status_code)) {
+      setText('otp_login_header_error', resolveLoginApiError(check));
       return;
     }
     const given = readKeycloakGivenData(check.message);
@@ -823,4 +945,11 @@ export function hostHasLoginModals(): boolean {
   return !!el && !el.closest('.mb-common-header-login');
 }
 
-export { readLoginIdentifier, storeLoginIdentifier, validateEmail, validatePhone, validatePassword };
+export {
+  readLoginIdentifier,
+  storeLoginIdentifier,
+  validateEmail,
+  validatePhone,
+  validatePassword,
+  DEFAULT_LOGIN_API_ERROR,
+};

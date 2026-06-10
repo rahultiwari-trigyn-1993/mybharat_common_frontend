@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.197 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.198 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -21805,10 +21805,18 @@ var MyBharatShell = (() => {
   // src/components/header/login/headerLoginFlow.ts
   var HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
   var LOGIN_DATA_KEY = "loginData";
+  var DEFAULT_LOGIN_API_ERROR = "Something went wrong!!! Plz try again later.";
   var installed = false;
   var timeRemainingHeader = 45;
   var responseCount = 0;
   var countdownHeader = null;
+  var cachedKeycloakAccessToken = null;
+  var LoginApiError = class extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "LoginApiError";
+    }
+  };
   function $(id) {
     return document.getElementById(id);
   }
@@ -21897,6 +21905,83 @@ var MyBharatShell = (() => {
     if (typeof setup === "function" && typeof encode === "function" && userId) {
       setup(event, encode(userId));
     }
+  }
+  function getLoginApiBaseUrl() {
+    const raw = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
+    return raw ? raw.replace(/\/$/, "") : "";
+  }
+  function isSuccessStatus(statusCode) {
+    if (statusCode == null || statusCode === "") return false;
+    const code = typeof statusCode === "string" ? Number(statusCode) : statusCode;
+    return code === 200 || code === 201;
+  }
+  function resolveLoginApiError(res, fallback = DEFAULT_LOGIN_API_ERROR) {
+    const message = res?.message;
+    if (typeof message === "string" && message.trim()) return message.trim();
+    if (message && typeof message === "object") {
+      const obj = message;
+      for (const key of ["message", "error", "detail", "description"]) {
+        const v = obj[key];
+        if (typeof v === "string" && v.trim()) return v.trim();
+      }
+    }
+    return fallback;
+  }
+  async function fetchLoginApiJson(path, options) {
+    const base = getLoginApiBaseUrl();
+    if (!base) {
+      throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+    }
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    if (options?.token) {
+      headers.Authorization = `Bearer ${options.token}`;
+    }
+    const method = options?.method ?? (options?.body ? "POST" : "POST");
+    const url = `${base}${path.startsWith("/") ? path : `/${path}`}`;
+    let res;
+    try {
+      res = await fetch(url, {
+        method,
+        credentials: "include",
+        headers,
+        body: options?.body != null ? JSON.stringify(options.body) : void 0
+      });
+    } catch {
+      throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+    }
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch {
+      if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+      return { status_code: res.status, message: text };
+    }
+  }
+  async function getKeycloakClientAccessToken(forceRefresh = false) {
+    if (!forceRefresh && cachedKeycloakAccessToken) {
+      return cachedKeycloakAccessToken;
+    }
+    const data = await fetchLoginApiJson("/getKeycloakClientAccessToken", {
+      method: "POST"
+    });
+    const token = data.access_token ?? data.data?.access_token;
+    if (!isSuccessStatus(data.status_code) && !token) {
+      throw new LoginApiError(resolveLoginApiError(data));
+    }
+    if (!token || typeof token !== "string") {
+      throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+    }
+    cachedKeycloakAccessToken = token;
+    return token;
+  }
+  async function fetchCheckUserExists(identifier, accessToken) {
+    return fetchLoginApiJson("/checkUserExists", {
+      method: "POST",
+      body: { identifier },
+      token: accessToken
+    });
   }
   async function postJson(path, data) {
     const body = new URLSearchParams(data);
@@ -22084,7 +22169,21 @@ var MyBharatShell = (() => {
     return void 0;
   }
   async function checkUserInKeycloak(identifier) {
-    return postJson("/pages/checkUserDataInKeyClock", { identifier });
+    try {
+      const accessToken = await getKeycloakClientAccessToken();
+      const check = await fetchCheckUserExists(identifier, accessToken);
+      if (!isSuccessStatus(check.status_code)) {
+        return {
+          ...check,
+          status_code: check.status_code ?? 500,
+          message: resolveLoginApiError(check)
+        };
+      }
+      return check;
+    } catch (err) {
+      const message = err instanceof LoginApiError ? err.message : DEFAULT_LOGIN_API_ERROR;
+      return { status_code: 500, message };
+    }
   }
   function buildOtpPayload(identifier, givenData) {
     if (givenData === "Mobile" || validatePhone(identifier)) {
@@ -22104,8 +22203,8 @@ var MyBharatShell = (() => {
     setText("user_mobile_header_error", "");
     try {
       const check = await checkUserInKeycloak(identifier);
-      if (check.status_code !== 200) {
-        setText("user_mobile_header_error", String(check.message ?? "Unable to verify user"));
+      if (!isSuccessStatus(check.status_code)) {
+        setText("user_mobile_header_error", resolveLoginApiError(check));
         return;
       }
       const given = readKeycloakGivenData(check.message);
@@ -22137,8 +22236,8 @@ var MyBharatShell = (() => {
     });
     try {
       const check = await checkUserInKeycloak(identifier);
-      if (check.status_code !== 200) {
-        setText("otp_login_header_error", String(check.message ?? "Unable to verify user"));
+      if (!isSuccessStatus(check.status_code)) {
+        setText("otp_login_header_error", resolveLoginApiError(check));
         return;
       }
       const given = readKeycloakGivenData(check.message);
@@ -24475,7 +24574,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.197" }
+          detail: { component: "header", version: "1.0.198" }
         })
       );
     }
@@ -24525,7 +24624,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.197" }
+          detail: { component: "footer", version: "1.0.198" }
         })
       );
     }
@@ -24569,7 +24668,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.197";
+  var MYBHARAT_SHELL_VERSION = "1.0.198";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

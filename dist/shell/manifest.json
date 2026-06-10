@@ -1,6 +1,6 @@
 {
   "name": "mybharat-shell",
-  "version": "1.0.197",
+  "version": "1.0.198",
   "files": {
     "shell.js": "shell.js",
     "shell.css": "shell.css (local / npm)",
@@ -15,10 +15,10 @@
   "cdn": {
     "recommended": "jsdelivr",
     "jsdelivr": {
-      "tag": "v1.0.197",
-      "base": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.197/dist/shell",
-      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.197/dist/shell/shell.js",
-      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.197/dist/shell/mybharat-shell.css"
+      "tag": "v1.0.198",
+      "base": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.198/dist/shell",
+      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.198/dist/shell/shell.js",
+      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.198/dist/shell/mybharat-shell.css"
     },
     "note": "Do not use raw.githubusercontent.com in <link>/<script> — Content-Type text/plain causes net::ERR_BLOCKED_BY_ORB in Chrome."
   },

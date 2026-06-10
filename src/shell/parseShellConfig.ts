@@ -23,6 +23,8 @@ export type ShellFooterConfig = {
 export type ShellLoginConfig = {
   /** Post-login redirect prefix, e.g. `https://mybharat.gov.in/` */
   baseUrl?: string;
+  /** Keycloak / user-check API root, e.g. `https://api.mybharat.gov.in` (no trailing slash). */
+  apiBaseUrl?: string;
 };
 
 declare global {

@@ -20,6 +20,7 @@ interface Window {
     };
     login?: {
       baseUrl?: string;
+      apiBaseUrl?: string;
     };
   };
   MyBharatShell?: {

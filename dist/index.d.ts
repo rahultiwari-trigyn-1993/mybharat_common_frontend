@@ -138,6 +138,9 @@ declare const Header: React__default.FC<HeaderProps>;
 
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
 declare const HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
+declare const DEFAULT_LOGIN_API_ERROR = "Something went wrong!!! Plz try again later.";
+/** Client access token — cached for subsequent login API calls. */
+declare function getKeycloakClientAccessToken(forceRefresh?: boolean): Promise<string>;
 /** Primary entry — matches header.ctp (`#loginWithOtpModal` first). */
 declare function openLoginWithOtpModal(): void;
 declare function openSignInPasswordModal(): void;
@@ -271,4 +274,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, buildHeaderProfileMenuItems, _default as default, filterUnsafeNavTree, installHeaderLoginFlow, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, buildHeaderProfileMenuItems, _default as default, filterUnsafeNavTree, getKeycloakClientAccessToken, installHeaderLoginFlow, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };
