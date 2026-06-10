@@ -16,6 +16,9 @@ import { MobileMenuModal } from './MobileMenuModal';
 import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 import './Header2.css';
 
+import { HeaderAuthControls, isHeaderUserLoggedIn } from './header/HeaderAuthControls';
+import type { HeaderUserSessionInput } from './header/headerUserSession';
+
 export type Header2Props = {
   /** Landmark label for the root `<header>` (`aria-label`). Does not change visible UI. */
   title?: string;
@@ -23,12 +26,23 @@ export type Header2Props = {
   cdnBase?: string;
   /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER2_MAIN_NAV}. */
   mainNavItems?: readonly NavTreeItem[];
+  /** Logged-in user (`data` object or full API envelope). Guest header when omitted. */
+  userSession?: HeaderUserSessionInput;
+  /** Cake webroot for profile / logout URLs (default `/`). */
+  webroot?: string;
 };
 
-export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase, mainNavItems }) => {
+export const Header2: React.FC<Header2Props> = ({
+  title = 'MyBharat',
+  cdnBase,
+  mainNavItems,
+  userSession,
+  webroot,
+}) => {
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, '');
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
+  const loggedIn = isHeaderUserLoggedIn(userSession);
 
   return (
     <>
@@ -58,25 +72,7 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase, m
                   <nav className="navbar navbar-expand-lg navbar-light" id="mb-nav-desktop-main" aria-label="Main navigation">
                     <DesktopMainNav items={navItems} />
 
-                    <button id="btnGroupDrop1" type="button" className="btn mb-common-header__auth-btn">
-                      <span className="lang_yuva_register_login_link fontchange">Sign In</span>
-                    </button>
-
-                    <a href="/yuva_register" className="mb-common-header__register-link text-decoration-none">
-                      <button id="btnGroupDrop2" type="button" className="btn mb-common-header__auth-btn">
-                        <span className="fontchange">Register Now</span>
-                      </button>
-                    </a>
-                    &nbsp;&nbsp;
-                    <div className="btn-group" role="group">
-                      <div className="dropdown-menu dropdown-menu-header" aria-labelledby="btnGroupDrop1">
-                        <a className="dropdown-item border-bottom" href="/yuva_register">
-                          <img src={`${cdn}/assets/img/yuva_landing/youth_icon1.png`} alt="" />{' '}
-                          <span className="lang_yuva">Youth</span>
-                          <br /> <span className="f-12-dropdown lang_applicants_volunteer">Applicants/Volunteers/Participants</span>
-                        </a>
-                      </div>
-                    </div>
+                    <HeaderAuthControls cdn={cdn} userSession={userSession} webroot={webroot} />
                   </nav>
                 </div>
 
@@ -91,8 +87,15 @@ export const Header2: React.FC<Header2Props> = ({ title = 'MyBharat', cdnBase, m
         </div>
       </header>
       {/* Portal to document.body so .modal-backdrop (sibling to #root) stacks below the modal — inside fixed header it sat under the dimmer and blocked all clicks */}
-      {menuPortalReady ? createPortal(<MobileMenuModal cdnBase={cdn} items={navItems} />, document.body) : null}
-      {menuPortalReady ? <HeaderLoginShellPortal cdnBase={cdn} variant="header2" /> : null}
+      {menuPortalReady
+        ? createPortal(
+            <MobileMenuModal cdnBase={cdn} items={navItems} userSession={userSession} webroot={webroot} />,
+            document.body
+          )
+        : null}
+      {menuPortalReady && !loggedIn ? (
+        <HeaderLoginShellPortal cdnBase={cdn} variant="header2" />
+      ) : null}
     </>
   );
 };

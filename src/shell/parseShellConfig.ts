@@ -2,12 +2,16 @@ import { DEFAULT_HEADER2_MAIN_NAV } from '../navigation/header2MainNav.defaults'
 import { DEFAULT_HEADER_MAIN_NAV } from '../navigation/headerMainNav.defaults';
 import { prepareMainNavItems } from '../navigation/prepareMainNavItems';
 import type { NavTreeItem } from '../navigation/types';
+import type { HeaderUserSessionInput } from '../components/header/headerUserSession';
 
 export type ShellHeaderConfig = {
   cdnBase?: string;
   title?: string;
   variant?: 'header' | 'header2';
   navItems?: unknown;
+  /** Logged-in user payload (`data` or full API envelope). */
+  userSession?: unknown;
+  webroot?: string;
 };
 
 export type ShellFooterConfig = {
@@ -83,11 +87,32 @@ export function resolveHeaderNavItems(
   return fallback;
 }
 
+export function resolveHeaderUserSession(el: HTMLElement): HeaderUserSessionInput {
+  const jsonId = el.getAttribute('user-json-id');
+  if (jsonId) {
+    const fromScript = readJsonFromScriptId(jsonId);
+    if (fromScript !== undefined) return fromScript as HeaderUserSessionInput;
+  }
+
+  const userAttr = el.getAttribute('user-session');
+  if (userAttr) {
+    try {
+      return JSON.parse(userAttr) as HeaderUserSessionInput;
+    } catch {
+      return null;
+    }
+  }
+
+  return (window.MYBHARAT_SHELL?.header?.userSession ?? null) as HeaderUserSessionInput;
+}
+
 export function resolveHeaderProps(el: HTMLElement): {
   cdnBase?: string;
   title?: string;
   variant: 'header' | 'header2';
   mainNavItems: readonly NavTreeItem[];
+  userSession: HeaderUserSessionInput;
+  webroot?: string;
 } {
   const global = window.MYBHARAT_SHELL?.header;
   const variantAttr = el.getAttribute('variant');
@@ -99,6 +124,8 @@ export function resolveHeaderProps(el: HTMLElement): {
     title: el.getAttribute('title') ?? global?.title,
     variant,
     mainNavItems: resolveHeaderNavItems(el, variant),
+    userSession: resolveHeaderUserSession(el),
+    webroot: el.getAttribute('webroot') ?? global?.webroot,
   };
 }
 

@@ -43,6 +43,66 @@ type NavGroupItem = {
 };
 type NavTreeItem = NavLinkItem | NavGroupItem;
 
+/** Raw user object from MY Bharat profile / session API (`data` field). */
+type HeaderUserApiData = {
+    id?: number;
+    dl_id?: string;
+    screen_name?: string | null;
+    username?: string | null;
+    first_name?: string | null;
+    middle_name?: string | null;
+    last_name?: string | null;
+    user_email?: string | null;
+    profile_pic?: string | null;
+    profile_pic_path?: string | null;
+    public_profile?: string | null;
+    my_bharat_id?: string | null;
+    /** CakePHP session `User.UserType` when provided by host. */
+    user_type?: number | null;
+    userType?: number | null;
+    org_type?: string | null;
+    orgType?: string | null;
+    yuva_type?: string | null;
+    admin_id?: number | null;
+    [key: string]: unknown;
+};
+/** Full API envelope the host may pass through. */
+type HeaderUserApiEnvelope = {
+    message?: string;
+    status_code?: string | number;
+    data?: HeaderUserApiData | null;
+};
+type HeaderUserSessionInput = HeaderUserSession | HeaderUserApiEnvelope | HeaderUserApiData | null | undefined;
+/** Host sends `{ data: { id, ... } }` when logged in, or `{ data: {} }` for guest. */
+declare function isGuestHeaderUserPayload(input: HeaderUserSessionInput): boolean;
+/** Normalized session consumed by header profile UI. */
+type HeaderUserSession = {
+    id: number;
+    dlId?: string;
+    displayName: string;
+    username?: string;
+    email?: string;
+    profilePic?: string | null;
+    publicProfileUrl?: string;
+    myBharatId?: string;
+    userType?: number;
+    orgType?: string;
+};
+type HeaderProfileMenuItem = {
+    href: string;
+    label: string;
+    iconClass: string;
+    className?: string;
+    external?: boolean;
+};
+/** Returns normalized session or `null` when guest / invalid payload. */
+declare function parseHeaderUserSession(input: HeaderUserSessionInput): HeaderUserSession | null;
+declare function isHeaderUserLoggedIn(input: HeaderUserSessionInput): boolean;
+/** Profile dropdown items — aligned to legacy `header.ctp` (youth + partner branches). */
+declare function buildHeaderProfileMenuItems(user: HeaderUserSession, options?: {
+    webroot?: string;
+}): HeaderProfileMenuItem[];
+
 /**
  * Alternate header (nav + auth styling). Exported as `Header2` from the package entry.
  * Avoid mounting `Header` and `Header2` on one page — shared DOM ids / modal hooks.
@@ -55,6 +115,10 @@ type Header2Props = {
     cdnBase?: string;
     /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER2_MAIN_NAV}. */
     mainNavItems?: readonly NavTreeItem[];
+    /** Logged-in user (`data` object or full API envelope). Guest header when omitted. */
+    userSession?: HeaderUserSessionInput;
+    /** Cake webroot for profile / logout URLs (default `/`). */
+    webroot?: string;
 };
 declare const Header2: React__default.FC<Header2Props>;
 
@@ -65,6 +129,10 @@ type HeaderProps = {
     cdnBase?: string;
     /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER_MAIN_NAV}. */
     mainNavItems?: readonly NavTreeItem[];
+    /** Logged-in user (`data` object or full API envelope). Guest header when omitted. */
+    userSession?: HeaderUserSessionInput;
+    /** Cake webroot for profile / logout URLs (default `/`). */
+    webroot?: string;
 };
 declare const Header: React__default.FC<HeaderProps>;
 
@@ -75,6 +143,26 @@ declare function openLoginWithOtpModal(): void;
 declare function openSignInPasswordModal(): void;
 /** Wire global Sign In triggers + modal interactions (idempotent). */
 declare function installHeaderLoginFlow(): () => void;
+
+type HeaderAuthControlsProps = {
+    cdn: string;
+    userSession?: HeaderUserSessionInput;
+    webroot?: string;
+};
+/**
+ * Desktop auth area — guest Sign In / Register or logged-in profile dropdown.
+ */
+declare function HeaderAuthControls({ cdn, userSession, webroot }: HeaderAuthControlsProps): react_jsx_runtime.JSX.Element;
+
+type HeaderProfileMenuProps = {
+    user: HeaderUserSession;
+    /** Cake webroot prefix for partner / logout URLs (default `/`). */
+    webroot?: string;
+    /** `desktop` — navbar dropdown; `mobile` — drawer link list */
+    variant?: 'desktop' | 'mobile';
+};
+/** Desktop profile chip + Bootstrap dropdown (legacy `header.ctp` `.chat-toggler`). */
+declare function HeaderProfileMenu({ user, webroot, variant }: HeaderProfileMenuProps): react_jsx_runtime.JSX.Element;
 
 type HeaderLoginShellPortalProps = {
     cdnBase: string;
@@ -183,4 +271,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderLoginShellPortal, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, _default as default, filterUnsafeNavTree, installHeaderLoginFlow, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, buildHeaderProfileMenuItems, _default as default, filterUnsafeNavTree, installHeaderLoginFlow, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };

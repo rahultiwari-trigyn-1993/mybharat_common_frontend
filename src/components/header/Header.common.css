@@ -59,6 +59,13 @@ header.mb-common-header a:active {
     vertical-align: middle;
   }
 
+  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__profile,
+  header.mb-common-header #mb-nav-desktop-main > .chat-toggler.mb-common-header__profile {
+    flex: 0 0 auto;
+    align-self: center;
+    margin-left: 12px;
+  }
+
   header.mb-common-header #mb-nav-desktop-main > .btn-group {
     flex: 0 0 auto;
     align-self: center;
@@ -172,4 +179,82 @@ header.mb-common-header a:active {
 #mobileMenuNew a:active,
 #mobileMenuNew a * {
   text-decoration: none !important;
+}
+
+.chat-toggler .username {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1.2;
+  color: #003d52;
+}
+
+/* Logged-in desktop profile chip — match header.ctp / prod alignment */
+header.mb-common-header .chat-toggler.mb-common-header__profile {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  float: none;
+  margin-left: 12px;
+}
+
+header.mb-common-header .chat-toggler.mb-common-header__profile .mb-common-header__profile-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  float: none !important;
+  margin: 0 !important;
+  color: inherit;
+}
+
+header.mb-common-header .chat-toggler .user-info-wrapper {
+  float: none;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+header.mb-common-header .chat-toggler .user-details {
+  float: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+  color: #003d52;
+  min-width: 0;
+}
+
+header.mb-common-header .chat-toggler .mb-common-header__welcome-label {
+  font-size: 11px;
+  font-weight: 400;
+  color: #1789d2;
+  text-align: left;
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+
+header.mb-common-header .chat-toggler .profile-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d9d9d9;
+}
+
+header.mb-common-header .chat-toggler .mb-common-header__profile-initial {
+  font-size: 28px;
+  font-weight: 400;
+  color: #1789d2;
+  line-height: 1;
+  font-family: Inter, sans-serif;
+}
+
+header.mb-common-header .chat-toggler .profile-wrapper .profileimage {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.mb-common-header__mobile-profile a {
+  color: #333333;
+  font-weight: 500;
 }

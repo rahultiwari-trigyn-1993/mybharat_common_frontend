@@ -8,7 +8,16 @@ import { resolveFooterProps, resolveHeaderProps } from './parseShellConfig';
 const HEADER_TAG = 'mybharat-header';
 const FOOTER_TAG = 'mybharat-footer';
 
-const HEADER_OBSERVED = ['cdn-base', 'variant', 'nav-items', 'nav-json-id', 'title'] as const;
+const HEADER_OBSERVED = [
+  'cdn-base',
+  'variant',
+  'nav-items',
+  'nav-json-id',
+  'title',
+  'user-session',
+  'user-json-id',
+  'webroot',
+] as const;
 const FOOTER_OBSERVED = ['cdn-base', 'is-logged-in', 'recaptcha-site-key'] as const;
 
 class MyBharatHeaderElement extends HTMLElement {
@@ -48,11 +57,17 @@ class MyBharatHeaderElement extends HTMLElement {
   private render(): void {
     if (!this.root) return;
 
-    const { cdnBase, title, variant, mainNavItems } = resolveHeaderProps(this);
+    const { cdnBase, title, variant, mainNavItems, userSession, webroot } = resolveHeaderProps(this);
     const Comp = variant === 'header2' ? Header2 : Header;
 
     this.root.render(
-      <Comp cdnBase={cdnBase} title={title} mainNavItems={mainNavItems} />
+      <Comp
+        cdnBase={cdnBase}
+        title={title}
+        mainNavItems={mainNavItems}
+        userSession={userSession}
+        webroot={webroot}
+      />
     );
   }
 }

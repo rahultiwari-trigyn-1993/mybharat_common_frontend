@@ -10,6 +10,8 @@ interface Window {
       title?: string;
       variant?: 'header' | 'header2';
       navItems?: unknown;
+      userSession?: unknown;
+      webroot?: string;
     };
     footer?: {
       cdnBase?: string;

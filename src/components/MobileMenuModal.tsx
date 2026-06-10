@@ -3,11 +3,16 @@ import type { NavLinkItem, NavTreeItem } from '../navigation/types';
 import { getNavLinkAttrs } from '../navigation/navLinkAttrs';
 import { isNavGroupItem, normalizeNavTree } from '../navigation/navTree';
 import { navTreeItemKey } from '../navigation/navTreeKeys';
+import { HeaderProfileMenu } from './header/HeaderProfileMenu';
+import { parseHeaderUserSession, type HeaderUserSessionInput } from './header/headerUserSession';
 
 export type MobileMenuModalProps = {
   cdnBase: string;
   /** Same tree as desktop main nav (`DesktopMainNav`) — single source of truth. */
   items: readonly NavTreeItem[];
+  /** Logged-in user payload; guest drawer when omitted. */
+  userSession?: HeaderUserSessionInput;
+  webroot?: string;
 };
 
 function collapseDomId(path: string): string {
@@ -76,8 +81,14 @@ function MobileNavNode({ item, segments }: { item: NavTreeItem; segments: readon
  * + `m-menu` links + `#signInLink` + Get Started accordion.
  * Main links are driven by `items` (same as desktop). Login modals / jQuery live in the host app — see `docs/header-ctp-reference.md`.
  */
-export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({ cdnBase, items }) => {
+export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
+  cdnBase,
+  items,
+  userSession,
+  webroot,
+}) => {
   const tree = React.useMemo(() => normalizeNavTree(items), [items]);
+  const user = parseHeaderUserSession(userSession);
 
   return (
     <div
@@ -113,87 +124,95 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({ cdnBase, items
               </ul>
             </div>
 
-            <div className="m-menu border-top mt-2 pt-2">
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a
-                    className="mbv_yuva_drop border-bottom text-decoration-none text-reset d-block"
-                    href="#"
-                    id="signInLink"
-                    style={{ borderBottom: '1px solid #D7D7D7' }}
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span className="lang_yuva_register_login_link d-block py-2" style={{ marginLeft: 0 }}>
-                      Sign In
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="mbv_yuva_drop border-bottom text-decoration-none text-reset d-block"
-                    href="/yuva_register"
-                    data-bs-dismiss="modal"
-                    style={{ borderBottom: '1px solid #D7D7D7' }}
-                  >
-                    <span className="lang_register d-block py-2" style={{ marginLeft: 0 }}>
-                      Register Now
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {!user ? (
+              <>
+                <div className="m-menu border-top mt-2 pt-2">
+                  <ul className="list-unstyled mb-0">
+                    <li>
+                      <a
+                        className="mbv_yuva_drop border-bottom text-decoration-none text-reset d-block"
+                        href="#"
+                        id="signInLink"
+                        style={{ borderBottom: '1px solid #D7D7D7' }}
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        <span className="lang_yuva_register_login_link d-block py-2" style={{ marginLeft: 0 }}>
+                          Sign In
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="mbv_yuva_drop border-bottom text-decoration-none text-reset d-block"
+                        href="/yuva_register"
+                        data-bs-dismiss="modal"
+                        style={{ borderBottom: '1px solid #D7D7D7' }}
+                      >
+                        <span className="lang_register d-block py-2" style={{ marginLeft: 0 }}>
+                          Register Now
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
 
-            <div className="accordion mt-2" id="accordionExamples">
-              <div className="accordion-item border-0">
-                <h2 className="accordion-header" id="headingTwos">
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseTwos"
-                    aria-expanded="false"
-                    aria-controls="collapseTwos"
-                  >
-                    <span className="lang_register">Get Started</span>
-                  </button>
-                </h2>
-                <div
-                  id="collapseTwos"
-                  className="accordion-collapse collapse"
-                  aria-labelledby="headingTwos"
-                  data-bs-parent="#accordionExamples"
-                >
-                  <div className="accordion-body">
-                    <a
-                      className="mbv_yuva_drop border-bottom text-decoration-none d-block py-2"
-                      href="/yuva_register"
-                      data-bs-dismiss="modal"
-                      style={{ borderBottom: '1px solid #D7D7D7' }}
+                <div className="accordion mt-2" id="accordionExamples">
+                  <div className="accordion-item border-0">
+                    <h2 className="accordion-header" id="headingTwos">
+                      <button
+                        className="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwos"
+                        aria-expanded="false"
+                        aria-controls="collapseTwos"
+                      >
+                        <span className="lang_register">Get Started</span>
+                      </button>
+                    </h2>
+                    <div
+                      id="collapseTwos"
+                      className="accordion-collapse collapse"
+                      aria-labelledby="headingTwos"
+                      data-bs-parent="#accordionExamples"
                     >
-                      <span className="lang_yuva">Youth</span>
-                      <br />
-                      <span className="f-10-dropdown lang_applicants_volunteer">Applicants/Volunteers/Participants</span>
-                    </a>
-                    <a
-                      className="mbv_partner text-decoration-none d-block py-2"
-                      href="/partner_register"
-                      data-bs-dismiss="modal"
-                      style={{ borderBottom: '1px solid #D7D7D7', padding: '8px 1px 3px 1px' }}
-                    >
-                      <span className="lang_partner">Partner</span>
-                      <br />
-                      <span className="f-10-dropdown lang_BYCN">
-                        Knowledge Institution/ Businesses/Government/NGOs/Youth Club/Academia/
-                      </span>
-                      <br />
-                      <span className="f-10-dropdown lang_dyo_nss_register">
-                        DYOs/NSS Program Officers/Placement Officers
-                      </span>
-                    </a>
+                      <div className="accordion-body">
+                        <a
+                          className="mbv_yuva_drop border-bottom text-decoration-none d-block py-2"
+                          href="/yuva_register"
+                          data-bs-dismiss="modal"
+                          style={{ borderBottom: '1px solid #D7D7D7' }}
+                        >
+                          <span className="lang_yuva">Youth</span>
+                          <br />
+                          <span className="f-10-dropdown lang_applicants_volunteer">
+                            Applicants/Volunteers/Participants
+                          </span>
+                        </a>
+                        <a
+                          className="mbv_partner text-decoration-none d-block py-2"
+                          href="/partner_register"
+                          data-bs-dismiss="modal"
+                          style={{ borderBottom: '1px solid #D7D7D7', padding: '8px 1px 3px 1px' }}
+                        >
+                          <span className="lang_partner">Partner</span>
+                          <br />
+                          <span className="f-10-dropdown lang_BYCN">
+                            Knowledge Institution/ Businesses/Government/NGOs/Youth Club/Academia/
+                          </span>
+                          <br />
+                          <span className="f-10-dropdown lang_dyo_nss_register">
+                            DYOs/NSS Program Officers/Placement Officers
+                          </span>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </>
+            ) : (
+              <HeaderProfileMenu user={user} webroot={webroot} variant="mobile" />
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.196 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.197 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -21762,7 +21762,7 @@ var MyBharatShell = (() => {
   }
 
   // src/components/header/Header.common.css
-  styleInject("header.mb-common-header .f-hd-left {\n  float: left;\n}\nheader.mb-common-header .f-hd-right {\n  float: right;\n}\nheader.mb-common-header a,\nheader.mb-common-header a:hover,\nheader.mb-common-header a:focus,\nheader.mb-common-header a:focus-visible,\nheader.mb-common-header a:visited,\nheader.mb-common-header a:active {\n  text-decoration: none !important;\n}\n#mb-nav-desktop-main {\n  padding: 0;\n}\n@media (min-width: 992px) {\n  header.mb-common-header #mb-nav-desktop-main.navbar {\n    display: flex;\n    flex-wrap: nowrap;\n    align-items: center;\n    justify-content: flex-end;\n    gap: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main .menu_nav1 {\n    display: inline-flex;\n    flex: 0 1 auto;\n    flex-wrap: nowrap;\n    align-items: center;\n    list-style: none;\n    margin: 0;\n    padding: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__auth-btn,\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__register-link {\n    flex: 0 0 auto;\n    align-self: center;\n    margin-left: 12px;\n    vertical-align: middle;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .btn-group {\n    flex: 0 0 auto;\n    align-self: center;\n  }\n}\n.header-top {\n  background: #081854;\n  position: relative;\n}\n.header-top .skip01 {\n  color: #ffffff;\n  line-height: 28px;\n  font-size: 13px;\n  font-weight: 600;\n  padding-right: 15px;\n}\n.header-top .partition {\n  color: #ffffff;\n}\n.header-top .goi {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: nowrap;\n  line-height: 1.2;\n  padding-top: 2px;\n  color: #ffffff;\n  font-size: 12px;\n  font-style: normal;\n  font-weight: 500;\n  text-decoration: none;\n}\n.header-top .goi img {\n  flex-shrink: 0;\n  margin-right: 15px;\n  width: 25px;\n  height: 15px;\n  vertical-align: middle;\n}\n.header-top .font01 {\n  border: none;\n  outline: none;\n  background: no-repeat;\n  width: 40px;\n  height: auto;\n  color: #ffffff;\n  font-size: 13px;\n  font-weight: 600;\n}\n.header-top .language01 {\n  height: auto;\n  padding: 2px 0 2px 14px;\n}\n.header-top .active01 {\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 6px;\n}\n.header-top .gov_india {\n  font-size: 13px;\n  font-weight: 600;\n  line-height: 1.2;\n}\n.bhashini-plugin-container {\n  display: inline;\n  float: right;\n  margin-right: 80px !important;\n  margin-top: 2px;\n}\n.bhashini-plugin-container svg {\n  width: 24px;\n  height: 24px;\n}\n.bhashini-dropdown-content {\n  bottom: auto !important;\n  right: -75px;\n  scrollbar-width: thin;\n}\n.bhashini-dropdown-content .language-option {\n  text-align: left !important;\n}\n.mb-common-header__modal-nav a {\n  color: #000000;\n  font-weight: 600;\n}\n.mb-common-header__modal-nav a:hover {\n  color: #f15b43;\n}\n#mobileMenuNew a,\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n");
+  styleInject("header.mb-common-header .f-hd-left {\n  float: left;\n}\nheader.mb-common-header .f-hd-right {\n  float: right;\n}\nheader.mb-common-header a,\nheader.mb-common-header a:hover,\nheader.mb-common-header a:focus,\nheader.mb-common-header a:focus-visible,\nheader.mb-common-header a:visited,\nheader.mb-common-header a:active {\n  text-decoration: none !important;\n}\n#mb-nav-desktop-main {\n  padding: 0;\n}\n@media (min-width: 992px) {\n  header.mb-common-header #mb-nav-desktop-main.navbar {\n    display: flex;\n    flex-wrap: nowrap;\n    align-items: center;\n    justify-content: flex-end;\n    gap: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main .menu_nav1 {\n    display: inline-flex;\n    flex: 0 1 auto;\n    flex-wrap: nowrap;\n    align-items: center;\n    list-style: none;\n    margin: 0;\n    padding: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__auth-btn,\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__register-link {\n    flex: 0 0 auto;\n    align-self: center;\n    margin-left: 12px;\n    vertical-align: middle;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__profile,\n  header.mb-common-header #mb-nav-desktop-main > .chat-toggler.mb-common-header__profile {\n    flex: 0 0 auto;\n    align-self: center;\n    margin-left: 12px;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .btn-group {\n    flex: 0 0 auto;\n    align-self: center;\n  }\n}\n.header-top {\n  background: #081854;\n  position: relative;\n}\n.header-top .skip01 {\n  color: #ffffff;\n  line-height: 28px;\n  font-size: 13px;\n  font-weight: 600;\n  padding-right: 15px;\n}\n.header-top .partition {\n  color: #ffffff;\n}\n.header-top .goi {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: nowrap;\n  line-height: 1.2;\n  padding-top: 2px;\n  color: #ffffff;\n  font-size: 12px;\n  font-style: normal;\n  font-weight: 500;\n  text-decoration: none;\n}\n.header-top .goi img {\n  flex-shrink: 0;\n  margin-right: 15px;\n  width: 25px;\n  height: 15px;\n  vertical-align: middle;\n}\n.header-top .font01 {\n  border: none;\n  outline: none;\n  background: no-repeat;\n  width: 40px;\n  height: auto;\n  color: #ffffff;\n  font-size: 13px;\n  font-weight: 600;\n}\n.header-top .language01 {\n  height: auto;\n  padding: 2px 0 2px 14px;\n}\n.header-top .active01 {\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 6px;\n}\n.header-top .gov_india {\n  font-size: 13px;\n  font-weight: 600;\n  line-height: 1.2;\n}\n.bhashini-plugin-container {\n  display: inline;\n  float: right;\n  margin-right: 80px !important;\n  margin-top: 2px;\n}\n.bhashini-plugin-container svg {\n  width: 24px;\n  height: 24px;\n}\n.bhashini-dropdown-content {\n  bottom: auto !important;\n  right: -75px;\n  scrollbar-width: thin;\n}\n.bhashini-dropdown-content .language-option {\n  text-align: left !important;\n}\n.mb-common-header__modal-nav a {\n  color: #000000;\n  font-weight: 600;\n}\n.mb-common-header__modal-nav a:hover {\n  color: #f15b43;\n}\n#mobileMenuNew a,\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n.chat-toggler .username {\n  font-size: 15px;\n  font-weight: 700;\n  text-align: left;\n  line-height: 1.2;\n  color: #003d52;\n}\nheader.mb-common-header .chat-toggler.mb-common-header__profile {\n  display: inline-flex;\n  align-items: center;\n  align-self: center;\n  float: none;\n  margin-left: 12px;\n}\nheader.mb-common-header .chat-toggler.mb-common-header__profile .mb-common-header__profile-toggle {\n  display: inline-flex;\n  align-items: center;\n  gap: 7px;\n  float: none !important;\n  margin: 0 !important;\n  color: inherit;\n}\nheader.mb-common-header .chat-toggler .user-info-wrapper {\n  float: none;\n  flex-shrink: 0;\n  margin: 0;\n}\nheader.mb-common-header .chat-toggler .user-details {\n  float: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  line-height: 1.2;\n  color: #003d52;\n  min-width: 0;\n}\nheader.mb-common-header .chat-toggler .mb-common-header__welcome-label {\n  font-size: 11px;\n  font-weight: 400;\n  color: #1789d2;\n  text-align: left;\n  margin: 0 0 2px;\n  line-height: 1.2;\n}\nheader.mb-common-header .chat-toggler .profile-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #d9d9d9;\n}\nheader.mb-common-header .chat-toggler .mb-common-header__profile-initial {\n  font-size: 28px;\n  font-weight: 400;\n  color: #1789d2;\n  line-height: 1;\n  font-family: Inter, sans-serif;\n}\nheader.mb-common-header .chat-toggler .profile-wrapper .profileimage {\n  display: block;\n  width: 40px;\n  height: 40px;\n  object-fit: cover;\n}\n.mb-common-header__mobile-profile a {\n  color: #333333;\n  font-weight: 500;\n}\n");
 
   // src/components/Header.css
   styleInject('.main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  text-decoration: none !important;\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-row {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-logos {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header .mb-common-header__mobile-logos--split {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header .mb-common-header__mobile-actions--split {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header .mb-common-header__mobile-actions--split #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar #toll_mb.skip01 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: #1937b2;\n  text-decoration: none;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: #1937b2;\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\n@media (max-width: 575.98px) {\n  .mb-common-header__mobile-bar #mb_menus.btn-light {\n    padding: 0.28rem 0.5rem;\n    font-size: 1rem;\n    line-height: 1;\n  }\n  header.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar #toll_mb,\n  .mb-common-header__mobile-bar #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar #mb_menus.btn-light {\n  flex: 0 0 auto;\n  border: 1px solid #dee2e6;\n}\n@media (max-width: 575.98px) {\n  .mb-common-header__mobile-bar #mb_menus.btn-light {\n    padding: 0.28rem 0.5rem;\n    font-size: 1rem;\n    line-height: 1;\n  }\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:focus-visible {\n  color: #f15b43 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f15b43 !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md {\n  width: 80px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .new_head2 {\n  width: 74px;\n  margin-top: 5px;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n#mobileMenuNew img.logo-w-sm-md-sec {\n  width: 98px !important;\n  transform: scale(1.12);\n}\n#mobileMenuNew img.logo-w-sm-md1 {\n  width: 90px !important;\n  max-width: none !important;\n  height: auto !important;\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n  transition: transform 0.3s ease-in-out;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(0deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(0deg);\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 991.98px) {\n  #mobileMenuNew img.logo-w-sm-md1 {\n    width: clamp(118px, 32vw, 148px) !important;\n  }\n  #mobileMenuNew img.logo-w-sm-md-sec {\n    width: clamp(126px, 34vw, 156px) !important;\n    transform: scale(1.08) !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-row--split {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    bottom: 12px !important;\n    right: 42px !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    display: inline-block !important;\n    visibility: visible !important;\n    pointer-events: auto !important;\n    position: absolute !important;\n    float: none !important;\n    right: 46px !important;\n    top: auto !important;\n    bottom: 14px !important;\n    margin: 0 !important;\n    z-index: 1001 !important;\n    line-height: 1;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root svg {\n    width: 24px;\n    height: 24px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-row--split {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-logos--split {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__bhashini-slot {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-actions--split {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: #1937b2;\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #mb_menus {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    padding: 6px !important;\n    border: 1px solid #dee2e6;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1000px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    position: static !important;\n    float: right !important;\n    right: auto !important;\n    bottom: auto !important;\n    margin-right: 80px !important;\n    margin-top: 2px !important;\n    z-index: auto !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #f15b43;\n    color: #fff;\n  }\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) {\n  font-family: "Noto Sans Meetei Mayek", sans-serif;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .single-login-pad {\n  margin-right: 15px;\n  padding: 0.375rem 1.75rem;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .rounded-pill {\n  border-radius: 5px !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:active,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.disabled,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:disabled,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.dropdown-toggle.show {\n  color: #ffffff;\n  border-color: #f15b4300;\n  background-color: #f15b43;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-item.active,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-item:active {\n  background-color: #f15b43;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn {\n  background-color: #ffff !important;\n  border: 1px solid #f15b43 !important;\n  color: #f15b43 !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn:hover {\n  color: #ffffff !important;\n  border-color: #f15b4300 !important;\n  background-color: #f15b43 !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn::after,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn1::after {\n  display: none !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .primary,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:focus {\n  box-shadow: 0 0 0 0.25rem #f15b4300;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.dropdown-toggle.show:focus,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:active:focus {\n  box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 0%);\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu[data-bs-popper] {\n  top: 109%;\n  left: -275px;\n  margin-top: 0.125rem;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_yuva,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_youth_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_login_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_other,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_nyf,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_partner {\n  color: #f15b43;\n  font-weight: 500;\n  font-size: 15px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_yuva,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_youth_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_login_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_other,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_nyf,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .f-12-dropdown {\n  color: #ffff;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(1) {\n  color: #f39620;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(2) {\n  color: #0473b7;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(3) {\n  color: #04a651;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .home_ico .fa {\n  color: #313033;\n  font-size: 24px;\n  padding: 7px 10px;\n  cursor: pointer !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .home_ico {\n  cursor: pointer !important;\n  position: relative;\n  z-index: 999;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #unity-btn {\n  background:\n    linear-gradient(\n      95deg,\n      #faad17 -3.76%,\n      #e4860e 101.62%);\n  color: #fff !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #beta_txt {\n  position: absolute;\n  top: 61px;\n  background-color: #f15b43;\n  padding: 9px;\n  border-radius: 10px;\n  color: #fff;\n  font-size: 12px;\n  font-weight: 700;\n  bottom: 7px;\n  cursor: pointer;\n  display: none;\n  height: 20px;\n  margin-left: 113px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu {\n  position: relative;\n  list-style: none;\n  display: inline-block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu-link {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: #000;\n  text-decoration: none;\n  white-space: nowrap;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu-link:hover {\n  color: #bc4717;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown {\n  display: none;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  min-width: 220px;\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  background: #fff;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);\n  z-index: 999;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu:hover > .resource-dropdown {\n  display: block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown > li {\n  display: block;\n  width: 100%;\n  border-bottom: 1px solid #dcdcdc;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown > li:last-child {\n  border-bottom: none;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu-link,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown li a,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  width: 100%;\n  padding: 12px 16px;\n  font-size: 13px;\n  font-weight: 600;\n  color: #000;\n  text-decoration: none;\n  background: #fff;\n  white-space: nowrap;\n  line-height: 2 !important;\n  cursor: pointer;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu-link:hover,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown li a:hover,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a:hover {\n  background: #f8f8f8;\n  color: #bc4717;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu {\n  display: none;\n  width: 100%;\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  background: #fff;\n  border-top: 1px solid #e5e5e5;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .has-submenu.open > .resource-submenu {\n  display: block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li {\n  display: block;\n  width: 100%;\n  border-bottom: 1px solid #ededed;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li:last-child {\n  border-bottom: none;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a {\n  padding-left: 32px;\n  font-weight: 500;\n}\n@media (max-width: 767px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #beta_txt {\n    position: relative !important;\n    height: 17px !important;\n    top: 19px !important;\n    margin-left: 3px !important;\n    font-size: 10px !important;\n    padding: 7px !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md-sec,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: scale(1) !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {\n    height: 60px;\n  }\n  #mobileMenuNew .lang_mobile {\n    font-size: 1rem;\n    padding: 6px 11px 7px 32px;\n    color: #515151;\n    line-height: 19px;\n    width: 90%;\n    font-weight: 600;\n    border: none;\n  }\n  #mobileMenuNew .modal-title .logo a img {\n    height: auto !important;\n  }\n}\n');
@@ -23333,7 +23333,229 @@ var MyBharatShell = (() => {
 
   // src/components/MobileMenuModal.tsx
   var import_react4 = __toESM(require_react());
+
+  // src/components/header/headerUserSession.ts
+  function ucfirst(value) {
+    if (!value) return value;
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+  var EXCLUDED_PROFILE_MENU_TYPES = /* @__PURE__ */ new Set([11, 12, 13, 14, 50]);
+  function isRecord(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+  function readUserType(data) {
+    const raw = data.user_type ?? data.userType;
+    return typeof raw === "number" && Number.isFinite(raw) ? raw : void 0;
+  }
+  function buildDisplayName(data) {
+    const parts = [data.first_name, data.middle_name, data.last_name].map((p) => typeof p === "string" ? p.trim() : "").filter(Boolean);
+    if (parts.length) return ucfirst(parts.join(" "));
+    const screen = typeof data.screen_name === "string" ? data.screen_name.trim() : "";
+    if (screen) return ucfirst(screen);
+    const username = typeof data.username === "string" ? data.username.trim() : "";
+    if (username) return username;
+    return "User";
+  }
+  function resolveUserType(data) {
+    const explicit = readUserType(data);
+    if (explicit != null) return explicit;
+    if (typeof data.yuva_type === "string" && data.yuva_type.trim()) return 6;
+    return void 0;
+  }
+  function parseUserId(data) {
+    const raw = data.id;
+    if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) return raw;
+    if (typeof raw === "string" && raw.trim() !== "") {
+      const parsed = Number(raw);
+      if (Number.isFinite(parsed) && parsed > 0) return parsed;
+    }
+    return null;
+  }
+  function isEmptyUserData(data) {
+    if (data == null) return true;
+    if (!isRecord(data)) return true;
+    if (Object.keys(data).length === 0) return true;
+    return parseUserId(data) == null;
+  }
+  function unwrapUserData(input) {
+    if (input == null) return null;
+    if (isRecord(input) && "displayName" in input && typeof input.id === "number") {
+      return null;
+    }
+    if (isRecord(input) && "data" in input) {
+      if (isEmptyUserData(input.data)) return null;
+      return input.data;
+    }
+    if (isRecord(input)) {
+      if (isEmptyUserData(input)) return null;
+      return input;
+    }
+    return null;
+  }
+  function normalizeSession(data) {
+    if (isEmptyUserData(data)) return null;
+    const id = parseUserId(data);
+    if (id == null) return null;
+    const displayName = buildDisplayName(data);
+    if (!displayName.trim()) return null;
+    const profilePic = typeof data.profile_pic === "string" && data.profile_pic.trim() || typeof data.profile_pic_path === "string" && data.profile_pic_path.trim() || null;
+    return {
+      id,
+      dlId: typeof data.dl_id === "string" ? data.dl_id : void 0,
+      displayName,
+      username: typeof data.username === "string" ? data.username : void 0,
+      email: typeof data.user_email === "string" ? data.user_email : void 0,
+      profilePic,
+      publicProfileUrl: typeof data.public_profile === "string" ? data.public_profile : void 0,
+      myBharatId: typeof data.my_bharat_id === "string" ? data.my_bharat_id : void 0,
+      userType: resolveUserType(data),
+      orgType: typeof data.org_type === "string" && data.org_type || typeof data.orgType === "string" && data.orgType || void 0
+    };
+  }
+  function parseHeaderUserSession(input) {
+    if (input == null) return null;
+    if (isRecord(input) && "displayName" in input && typeof input.id === "number") {
+      return input;
+    }
+    const data = unwrapUserData(input);
+    if (!data) return null;
+    return normalizeSession(data);
+  }
+  function isHeaderUserLoggedIn(input) {
+    return parseHeaderUserSession(input) != null;
+  }
+  function headerUserInitial(user) {
+    const ch = user.displayName.trim().charAt(0);
+    return ch ? ch.toUpperCase() : "U";
+  }
+  function headerUserDisplayName(user, maxLength = 20) {
+    const name = user.displayName.trim();
+    if (name.length <= maxLength) return name;
+    return `${name.slice(0, maxLength)}...`;
+  }
+  function buildHeaderProfileMenuItems(user, options) {
+    const webroot = (options?.webroot ?? "/").replace(/\/?$/, "/");
+    const items = [];
+    const userType = user.userType;
+    if (userType == null || !EXCLUDED_PROFILE_MENU_TYPES.has(userType)) {
+      if (userType === 6) {
+        items.push({
+          href: user.publicProfileUrl ?? "/youth-profile",
+          label: "MY Bharat Profile",
+          iconClass: "fa fa-th-large",
+          external: Boolean(user.publicProfileUrl?.startsWith("http"))
+        });
+      } else {
+        items.push({
+          href: "/dashboard",
+          label: "Dashboard",
+          iconClass: "fa fa-th-large"
+        });
+      }
+      if (userType != null && userType !== 6) {
+        items.push(
+          {
+            href: `${webroot}users/editpartnerprofile`,
+            label: "My Account",
+            iconClass: "fa fa-user"
+          },
+          {
+            href: `${webroot}reports/partner_profile`,
+            label: "View Profile",
+            iconClass: "fa fa-user"
+          }
+        );
+      }
+    }
+    items.push({
+      href: `${webroot}users/check_user_logout`,
+      label: "Log Out",
+      iconClass: "fa fa-power-off",
+      className: "firebase-profile-logout-btn"
+    });
+    return items;
+  }
+  function encodeHeaderUserIdForLogout(userId) {
+    if (typeof window !== "undefined" && typeof window.encodeIdentifier === "function") {
+      try {
+        return window.encodeIdentifier(String(userId));
+      } catch {
+      }
+    }
+    return String(userId);
+  }
+
+  // src/components/header/HeaderProfileMenu.tsx
   var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+  function ProfileAvatar({ user }) {
+    const initial = headerUserInitial(user);
+    const pic = user.profilePic?.trim();
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "user-info-wrapper", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "profile-wrapper", id: "profileMenuUserNameContatiner", children: pic ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("img", { src: pic, className: "profileimage", width: 40, height: 40, alt: "" }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "mb-common-header__profile-initial", "aria-hidden": "true", children: initial }) }) });
+  }
+  function MenuLink({
+    item,
+    userId,
+    dismissModal,
+    className
+  }) {
+    const isLogout = item.className?.includes("firebase-profile-logout-btn");
+    const linkClass = [className, item.className].filter(Boolean).join(" ");
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+      "a",
+      {
+        href: item.href,
+        className: linkClass || void 0,
+        "data-bs-dismiss": dismissModal ? "modal" : void 0,
+        "data-userid": isLogout ? encodeHeaderUserIdForLogout(userId) : void 0,
+        ...item.external ? { target: "_blank", rel: "noopener noreferrer" } : {},
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("i", { className: item.iconClass, "aria-hidden": "true" }),
+          "\xA0\xA0",
+          item.label
+        ]
+      }
+    );
+  }
+  function HeaderProfileMenu({ user, webroot, variant = "desktop" }) {
+    const items = buildHeaderProfileMenuItems(user, { webroot });
+    const displayName = headerUserDisplayName(user);
+    if (variant === "mobile") {
+      return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "m-menu border-top mt-2 pt-2 mb-common-header__mobile-profile", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ul", { className: "list-unstyled mb-0", children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("li", { className: "border-bottom", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+        MenuLink,
+        {
+          item,
+          userId: user.id,
+          dismissModal: true,
+          className: "mbv_yuva_drop text-decoration-none text-reset d-block py-2"
+        }
+      ) }, item.href + item.label)) }) });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "dropdown chat-toggler header_img mb-common-header__profile", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+        "a",
+        {
+          href: "#",
+          className: "mb-common-header__profile-toggle text-decoration-none",
+          id: "user-options",
+          role: "button",
+          "data-bs-toggle": "dropdown",
+          "aria-expanded": "false",
+          onClick: (e) => e.preventDefault(),
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(ProfileAvatar, { user }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "user-details", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "mb-common-header__welcome-label", children: "Welcome" }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "username", children: displayName })
+            ] })
+          ]
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ul", { className: "dropdown-menu dropdown-menu-end pull-right", role: "menu", "aria-labelledby": "user-options", children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MenuLink, { item, userId: user.id }) }, item.href + item.label)) })
+    ] });
+  }
+
+  // src/components/MobileMenuModal.tsx
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
   function collapseDomId(path) {
     return `mb-mnav-${path.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
   }
@@ -23341,7 +23563,7 @@ var MyBharatShell = (() => {
     const { href, external } = getNavLinkAttrs(item, "MobileMenuModal");
     const aClass = ["fontchange14", "text-decoration-none", "text-reset", item.linkClassName].filter(Boolean).join(" ");
     const spanClass = ["d-block", "py-2", item.spanClassName].filter(Boolean).join(" ");
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
       "a",
       {
         href,
@@ -23349,18 +23571,18 @@ var MyBharatShell = (() => {
         "data-bs-dismiss": "modal",
         style: { marginLeft: 0 },
         ...external ? { target: "_blank", rel: "noopener noreferrer" } : {},
-        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: spanClass, style: { marginLeft: 0 }, children: item.label })
+        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: spanClass, style: { marginLeft: 0 }, children: item.label })
       }
     );
   }
   function MobileNavNode({ item, segments }) {
     if (!isNavGroupItem(item)) {
-      return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MobileNavLinkRow, { item }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(MobileNavLinkRow, { item }) });
     }
     const path = navTreeItemKey(item, segments);
     const collapseId = collapseDomId(path);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("li", { className: "border-0", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("li", { className: "border-0", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
         "button",
         {
           type: "button",
@@ -23370,20 +23592,26 @@ var MyBharatShell = (() => {
           "aria-expanded": "false",
           "aria-controls": collapseId,
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: item.label }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("i", { className: "fa fa-chevron-down small", "aria-hidden": "true" })
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: item.label }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "fa fa-chevron-down small", "aria-hidden": "true" })
           ]
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { id: collapseId, className: "collapse", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ul", { className: "list-unstyled mb-0 ps-3 pb-1 border-start ms-1", children: item.children.map((child, j) => {
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { id: collapseId, className: "collapse", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("ul", { className: "list-unstyled mb-0 ps-3 pb-1 border-start ms-1", children: item.children.map((child, j) => {
         const childSegments = [...segments, j];
-        return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MobileNavNode, { item: child, segments: childSegments }, navTreeItemKey(child, childSegments));
+        return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(MobileNavNode, { item: child, segments: childSegments }, navTreeItemKey(child, childSegments));
       }) }) })
     ] });
   }
-  var MobileMenuModal = ({ cdnBase, items }) => {
+  var MobileMenuModal = ({
+    cdnBase,
+    items,
+    userSession,
+    webroot
+  }) => {
     const tree = import_react4.default.useMemo(() => normalizeNavTree(items), [items]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+    const user = parseHeaderUserSession(userSession);
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
       "div",
       {
         className: "modal left fade",
@@ -23391,9 +23619,9 @@ var MyBharatShell = (() => {
         tabIndex: -1,
         "aria-labelledby": "mobileMenuNewLabel",
         "aria-hidden": "true",
-        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "modal-dialog", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "modal-content", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "modal-header align-items-center border-0 pb-0", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h5", { className: "modal-title flex-grow-1 mb-0", id: "mobileMenuNewLabel", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "logo", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("a", { href: "/", "data-bs-dismiss": "modal", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header align-items-center border-0 pb-0", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title flex-grow-1 mb-0", id: "mobileMenuNewLabel", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "logo", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "/", "data-bs-dismiss": "modal", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
               "img",
               {
                 src: `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
@@ -23401,91 +23629,93 @@ var MyBharatShell = (() => {
                 alt: "MY Bharat"
               }
             ) }) }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "modal-body pt-2", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "m-menu", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ul", { className: "list-unstyled mb-0", children: tree.map((item, i) => {
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-body pt-2", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "m-menu", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("ul", { className: "list-unstyled mb-0", children: tree.map((item, i) => {
               const segments = [i];
-              return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MobileNavNode, { item, segments }, navTreeItemKey(item, segments));
+              return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(MobileNavNode, { item, segments }, navTreeItemKey(item, segments));
             }) }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "m-menu border-top mt-2 pt-2", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("ul", { className: "list-unstyled mb-0", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-                "a",
-                {
-                  className: "mbv_yuva_drop border-bottom text-decoration-none text-reset d-block",
-                  href: "#",
-                  id: "signInLink",
-                  style: { borderBottom: "1px solid #D7D7D7" },
-                  onClick: (e) => e.preventDefault(),
-                  children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "lang_yuva_register_login_link d-block py-2", style: { marginLeft: 0 }, children: "Sign In" })
-                }
-              ) }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-                "a",
-                {
-                  className: "mbv_yuva_drop border-bottom text-decoration-none text-reset d-block",
-                  href: "/yuva_register",
-                  "data-bs-dismiss": "modal",
-                  style: { borderBottom: "1px solid #D7D7D7" },
-                  children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "lang_register d-block py-2", style: { marginLeft: 0 }, children: "Register Now" })
-                }
-              ) })
-            ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "accordion mt-2", id: "accordionExamples", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "accordion-item border-0", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h2", { className: "accordion-header", id: "headingTwos", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-                "button",
-                {
-                  className: "accordion-button collapsed",
-                  type: "button",
-                  "data-bs-toggle": "collapse",
-                  "data-bs-target": "#collapseTwos",
-                  "aria-expanded": "false",
-                  "aria-controls": "collapseTwos",
-                  children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "lang_register", children: "Get Started" })
-                }
-              ) }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-                "div",
-                {
-                  id: "collapseTwos",
-                  className: "accordion-collapse collapse",
-                  "aria-labelledby": "headingTwos",
-                  "data-bs-parent": "#accordionExamples",
-                  children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "accordion-body", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
-                      "a",
-                      {
-                        className: "mbv_yuva_drop border-bottom text-decoration-none d-block py-2",
-                        href: "/yuva_register",
-                        "data-bs-dismiss": "modal",
-                        style: { borderBottom: "1px solid #D7D7D7" },
-                        children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "lang_yuva", children: "Youth" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("br", {}),
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "f-10-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
-                        ]
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
-                      "a",
-                      {
-                        className: "mbv_partner text-decoration-none d-block py-2",
-                        href: "/partner_register",
-                        "data-bs-dismiss": "modal",
-                        style: { borderBottom: "1px solid #D7D7D7", padding: "8px 1px 3px 1px" },
-                        children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "lang_partner", children: "Partner" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("br", {}),
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "f-10-dropdown lang_BYCN", children: "Knowledge Institution/ Businesses/Government/NGOs/Youth Club/Academia/" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("br", {}),
-                          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "f-10-dropdown lang_dyo_nss_register", children: "DYOs/NSS Program Officers/Placement Officers" })
-                        ]
-                      }
-                    )
-                  ] })
-                }
-              )
-            ] }) })
+            !user ? /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "m-menu border-top mt-2 pt-2", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("ul", { className: "list-unstyled mb-0", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+                  "a",
+                  {
+                    className: "mbv_yuva_drop border-bottom text-decoration-none text-reset d-block",
+                    href: "#",
+                    id: "signInLink",
+                    style: { borderBottom: "1px solid #D7D7D7" },
+                    onClick: (e) => e.preventDefault(),
+                    children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "lang_yuva_register_login_link d-block py-2", style: { marginLeft: 0 }, children: "Sign In" })
+                  }
+                ) }),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+                  "a",
+                  {
+                    className: "mbv_yuva_drop border-bottom text-decoration-none text-reset d-block",
+                    href: "/yuva_register",
+                    "data-bs-dismiss": "modal",
+                    style: { borderBottom: "1px solid #D7D7D7" },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "lang_register d-block py-2", style: { marginLeft: 0 }, children: "Register Now" })
+                  }
+                ) })
+              ] }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "accordion mt-2", id: "accordionExamples", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "accordion-item border-0", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { className: "accordion-header", id: "headingTwos", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+                  "button",
+                  {
+                    className: "accordion-button collapsed",
+                    type: "button",
+                    "data-bs-toggle": "collapse",
+                    "data-bs-target": "#collapseTwos",
+                    "aria-expanded": "false",
+                    "aria-controls": "collapseTwos",
+                    children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "lang_register", children: "Get Started" })
+                  }
+                ) }),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+                  "div",
+                  {
+                    id: "collapseTwos",
+                    className: "accordion-collapse collapse",
+                    "aria-labelledby": "headingTwos",
+                    "data-bs-parent": "#accordionExamples",
+                    children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "accordion-body", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+                        "a",
+                        {
+                          className: "mbv_yuva_drop border-bottom text-decoration-none d-block py-2",
+                          href: "/yuva_register",
+                          "data-bs-dismiss": "modal",
+                          style: { borderBottom: "1px solid #D7D7D7" },
+                          children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "lang_yuva", children: "Youth" }),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("br", {}),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "f-10-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+                        "a",
+                        {
+                          className: "mbv_partner text-decoration-none d-block py-2",
+                          href: "/partner_register",
+                          "data-bs-dismiss": "modal",
+                          style: { borderBottom: "1px solid #D7D7D7", padding: "8px 1px 3px 1px" },
+                          children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "lang_partner", children: "Partner" }),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("br", {}),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "f-10-dropdown lang_BYCN", children: "Knowledge Institution/ Businesses/Government/NGOs/Youth Club/Academia/" }),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("br", {}),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "f-10-dropdown lang_dyo_nss_register", children: "DYOs/NSS Program Officers/Placement Officers" })
+                          ]
+                        }
+                      )
+                    ] })
+                  }
+                )
+              ] }) })
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(HeaderProfileMenu, { user, webroot, variant: "mobile" })
           ] })
         ] }) })
       }
@@ -23502,7 +23732,7 @@ var MyBharatShell = (() => {
   styleInject(".mb-common-header-login .uniform-modal-height .modal-dialog {\n  position: relative !important;\n}\n.mb-common-header-login .uniform-modal-height .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n.mb-common-header-login .form-check {\n  padding-right: 1.5em !important;\n}\n.mb-common-header-login .mr-button {\n  margin-right: 1.5rem;\n}\n.mb-common-header-login #forgot_password,\n.mb-common-header-login #login_with_pwd {\n  font-size: 14px;\n  color: #0b6bbe;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login #login_with_otp {\n  font-size: 14px;\n  color: #f15f22;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login .pipe {\n  color: #bbbbbb;\n}\n.mb-common-header-login hr {\n  margin: 20px 0 !important;\n}\n.mb-common-header-login #register_now {\n  color: #f15f22;\n  cursor: pointer;\n  font-weight: 500;\n}\n.mb-common-header-login a,\n.mb-common-header-login a:hover,\n.mb-common-header-login a:focus,\n.mb-common-header-login a:visited,\n.mb-common-header-login a:active {\n  text-decoration: none !important;\n}\n.mb-common-header-login .go-back {\n  cursor: pointer;\n  width: 350px;\n  color: rgba(80, 80, 80, 1);\n}\n.mb-common-header-login .input-error {\n  color: red;\n}\n.mb-common-header-login .mb-common-header-login__btn {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  box-shadow: none !important;\n  font-weight: 600;\n  line-height: 1.25;\n}\n.mb-common-header-login .mb-common-header-login__btn:hover,\n.mb-common-header-login .mb-common-header-login__btn:focus-visible {\n  color: #f15b43 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f15b43 !important;\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:focus {\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:disabled,\n.mb-common-header-login .mb-common-header-login__btn.disabled {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  opacity: 0.65;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  background-color: #bc4717 !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:hover,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:disabled,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn.disabled {\n  background-color: #bc4717 !important;\n  border: none !important;\n}\n.mb-common-header-login .form-check-input:focus {\n  box-shadow: none !important;\n}\n#mb-common-header-loader {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.3);\n  display: none;\n  justify-content: center;\n  align-items: center;\n  z-index: 3000;\n}\n#mb-common-header-loader .spinner {\n  border: 8px solid #f3f3f3;\n  border-top: 8px solid #3498db;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  animation: mb-common-header-spin 1s linear infinite;\n}\n@keyframes mb-common-header-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n");
 
   // src/components/header/login/HeaderLoginModals.tsx
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
   var LOGIN_BTN = "btn mb-common-header-login__btn";
   function quizRegisterHref() {
     if (typeof window !== "undefined" && window.location.href.includes("/quiz")) {
@@ -23513,23 +23743,23 @@ var MyBharatShell = (() => {
   function HeaderLoginModals({ cdnBase, variant = "header" }) {
     const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
     const rootClass = variant === "header2" ? "mb-common-header-login mb-common-header-login--header2" : "mb-common-header-login";
-    const content = /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: rootClass, "aria-hidden": false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "signInModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-center w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", id: "close-signIn", "data-bs-dismiss": "modal", "aria-label": "Close" })
+    const content = /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: rootClass, "aria-hidden": false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "signInModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-center w-100", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn-close", id: "close-signIn", "data-bs-dismiss": "modal", "aria-label": "Close" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-1", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "signInModalLabel", children: "Login" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12 mb-3", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "username", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "text", className: "form-control", id: "username", name: "username", placeholder: "Enter here" })
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "form-check mb-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h5", { className: "modal-title mb-3", id: "signInModalLabel", children: "Login" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12 mb-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "username", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "text", className: "form-control", id: "username", name: "username", placeholder: "Enter here" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "password", className: "form-label", children: "Password*" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "input-group mb-3", id: "emailGroup", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "password", className: "form-label", children: "Password*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "input-group mb-3", id: "emailGroup", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
                   "input",
                   {
                     type: "password",
@@ -23541,219 +23771,219 @@ var MyBharatShell = (() => {
                     maxLength: 15
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "#", className: "form-control-icon", id: "togglePassword", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: "#", className: "form-control-icon", id: "togglePassword", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { id: "user_mobile_header_error_login", className: "input-error" })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { id: "user_mobile_header_error_login", className: "input-error" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "alert alert-success", id: "alertDivHeader", role: "alert", style: { fontSize: 13, padding: "0.5rem 0.7rem" }, children: "To create a new password or reset your existing one, click 'Forgot Password'" }) }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row mt-2", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { marginLeft: 23 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { className: "form-check-input", type: "checkbox", id: "consentCheck2" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { className: "form-check-label", htmlFor: "consentCheck2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "alert alert-success", id: "alertDivHeader", role: "alert", style: { fontSize: 13, padding: "0.5rem 0.7rem" }, children: "To create a new password or reset your existing one, click 'Forgot Password'" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row mt-2", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { style: { marginLeft: 23 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: "form-check-input", type: "checkbox", id: "consentCheck2" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { className: "form-check-label", htmlFor: "consentCheck2", children: [
               "I consent to",
               " ",
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
             ] })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-8 d-flex align-items-center", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "forgot_password", title: "To create a new password or reset your existing one, click 'Forgot Password'", children: "Forgot Password" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "mx-2 pipe", children: "|" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "login_with_otp", children: "Login with OTP" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-8 d-flex align-items-center", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "forgot_password", title: "To create a new password or reset your existing one, click 'Forgot Password'", children: "Forgot Password" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "mx-2 pipe", children: "|" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "login_with_otp", children: "Login with OTP" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-4", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "signInButton", className: `${LOGIN_BTN} float-end w-100 firebase-user-login-btn`, disabled: true, children: "Login" }) })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-4", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", id: "signInButton", className: `${LOGIN_BTN} float-end w-100 firebase-user-login-btn`, disabled: true, children: "Login" }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { fontSize: 16, textAlign: "center" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { style: { fontSize: 16, textAlign: "center" }, children: [
               "New User?",
               " ",
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "register_now", children: "Register Now" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { id: "register_now", children: "Register Now" }) })
             ] })
           ] }) })
         ] }) })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "forgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backToSignInModal", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "forgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("span", { className: "go-back", id: "backToSignInModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
             " Go back"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-body", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "form-check mb-4", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "forgotPwdModalLabel", children: "Forgot Password" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "user_mobile_header", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "text", className: "form-control", id: "user_mobile_header", name: "user_mobile_header", placeholder: "Enter here..." })
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-body", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "form-check mb-4", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h5", { className: "modal-title mb-3", id: "forgotPwdModalLabel", children: "Forgot Password" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "user_mobile_header", className: "form-label", children: "Mobile / Email / Username / MY Bharat ID*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "text", className: "form-control", id: "user_mobile_header", name: "user_mobile_header", placeholder: "Enter here..." })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { id: "user_mobile_header_error", className: "input-error" })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { id: "user_mobile_header_error", className: "input-error" })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: `${LOGIN_BTN} float-end w-25 mr-button generate_otp_header mb-3`, disabled: true, children: "Get OTP" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: `${LOGIN_BTN} float-end w-25 mr-button generate_otp_header mb-3`, disabled: true, children: "Get OTP" })
         ] })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "otpVerifyForgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backToForgotPwdModal", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "otpVerifyForgotPwdModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("span", { className: "go-back", id: "backToForgotPwdModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
             " Go back"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-body", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "form-check", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "otpVerifyForgotPwdModalLabel", children: "Verify Your Account" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "mb-3", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "otp-field-2", className: "form-label", children: "Enter OTP" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "input-group mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { id: "otp-field-2", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "alert alert-success", role: "alert", style: { fontSize: 14, padding: "0.7rem 1rem" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-body", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "form-check", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h5", { className: "modal-title mb-3", id: "otpVerifyForgotPwdModalLabel", children: "Verify Your Account" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "mb-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "otp-field-2", className: "form-label", children: "Enter OTP" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "input-group mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { id: "otp-field-2", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "alert alert-success", role: "alert", style: { fontSize: 14, padding: "0.7rem 1rem" }, children: [
                 "OTP has been sent to your ",
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "mobEmailHeader" }),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { id: "mobEmailHeader" }),
                 " . OTP is valid for 2 minutes"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "forgot float-end", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "timerHeader", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "resendOTPHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "forgot float-end", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "timerHeader", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "resendOTPHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "otp-field-2_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "hidden", id: "verified_otp_header", defaultValue: "0" })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "otp-field-2_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "hidden", id: "verified_otp_header", defaultValue: "0" })
             ] })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "btn-verify-otp-header", className: `${LOGIN_BTN} float-end w-25 mr-button mb-3`, children: "Verify OTP" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", id: "btn-verify-otp-header", className: `${LOGIN_BTN} float-end w-25 mr-button mb-3`, children: "Verify OTP" })
         ] })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "newPasswordModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backToOtpVerifyForgotPwdModal", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "newPasswordModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("span", { className: "go-back", id: "backToOtpVerifyForgotPwdModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
             " Go back"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-1", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "newPasswordModalLabel", children: "Set a New Password" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "mb-3", style: { fontSize: 15 }, children: "Create a new password. Ensure it differs from previous ones for security" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12 mb-3", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "newPwd", className: "form-label", children: "Password*" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "input-group", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "password", className: "form-control", id: "newPwd", name: "newPwd", minLength: 8, maxLength: 15 }),
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "#", className: "form-control-icon", id: "toggleNewPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "form-check mb-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h5", { className: "modal-title mb-3", id: "newPasswordModalLabel", children: "Set a New Password" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "mb-3", style: { fontSize: 15 }, children: "Create a new password. Ensure it differs from previous ones for security" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12 mb-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "newPwd", className: "form-label", children: "Password*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "input-group", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", className: "form-control", id: "newPwd", name: "newPwd", minLength: 8, maxLength: 15 }),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: "#", className: "form-control-icon", id: "toggleNewPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "confirmPwd", className: "form-label", children: "Confirm Password*" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "input-group mb-3", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "password", className: "form-control", id: "confirmPwd", name: "confirmPwd", minLength: 8, maxLength: 15 }),
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "#", className: "form-control-icon", id: "toggleConfirmPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "confirmPwd", className: "form-label", children: "Confirm Password*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "input-group mb-3", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", className: "form-control", id: "confirmPwd", name: "confirmPwd", minLength: 8, maxLength: 15 }),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "input-group-text", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: "#", className: "form-control-icon", id: "toggleConfirmPwd", onClick: (e) => e.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-eye-slash", "aria-hidden": "true" }) }) })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { id: "confirmPwdHelpBlock", className: "form-text", style: { display: "none", color: "red" }, children: "Passwords do not match!" })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { id: "confirmPwdHelpBlock", className: "form-text", style: { display: "none", color: "red" }, children: "Passwords do not match!" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "new_pwd_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "new_pwd_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-6" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "updatePwdButton", className: `${LOGIN_BTN} float-end w-100 mb-20 firebase-user-password-update-btn`, children: "Update Password" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row mt-2", style: { paddingTop: "0.4rem" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-6" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-6", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", id: "updatePwdButton", className: `${LOGIN_BTN} float-end w-100 mb-20 firebase-user-password-update-btn`, children: "Update Password" }) })
           ] })
         ] }) })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "successModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "go-back", id: "backToNewPwdModal" }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "successModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "go-back", id: "backToNewPwdModal" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-1", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { textAlign: "center", padding: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-check-circle-fill", style: { fontSize: 60, color: "#279A33" }, "aria-hidden": "true" }) }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { fontSize: 17, fontWeight: 500, color: "#000", textAlign: "center", paddingBottom: 20 }, children: "You have successfully changed your password." }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { textAlign: "center", marginTop: 15 }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "loginNowButton", className: `${LOGIN_BTN} mb-20`, children: "Login Now" }) })
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "form-check mb-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { style: { textAlign: "center", padding: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-check-circle-fill", style: { fontSize: 60, color: "#279A33" }, "aria-hidden": "true" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { style: { fontSize: 17, fontWeight: 500, color: "#000", textAlign: "center", paddingBottom: 20 }, children: "You have successfully changed your password." }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { style: { textAlign: "center", marginTop: 15 }, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", id: "loginNowButton", className: `${LOGIN_BTN} mb-20`, children: "Login Now" }) })
         ] }) })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "loginWithOtpModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "go-back", id: "backToSignInModal2", children: "\xA0" }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", id: "close-otpLogin", "data-bs-dismiss": "modal", "aria-label": "Close" })
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "loginWithOtpModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "go-back", id: "backToSignInModal2", children: "\xA0" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn-close", id: "close-otpLogin", "data-bs-dismiss": "modal", "aria-label": "Close" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check mb-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "loginWithOtpModalLabel", children: "Login" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "otp_login_header", id: "otp_login_header_label", className: "form-label", children: "Mobile / Email*" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "text", className: "form-control", id: "otp_login_header", name: "otp_login_header", placeholder: "Enter here..." })
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "form-check mb-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h5", { className: "modal-title mb-3", id: "loginWithOtpModalLabel", children: "Login" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "otp_login_header", id: "otp_login_header_label", className: "form-label", children: "Mobile / Email*" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "text", className: "form-control", id: "otp_login_header", name: "otp_login_header", placeholder: "Enter here..." })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { id: "otp_login_header_error", className: "input-error", style: { paddingTop: 16 } })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { id: "otp_login_header_error", className: "input-error", style: { paddingTop: 16 } })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row mt-2", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { marginLeft: 23, paddingTop: 16 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { className: "form-check-input", type: "checkbox", id: "consentCheck1" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { className: "form-check-label", htmlFor: "consentCheck1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row mt-2", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { style: { marginLeft: 23, paddingTop: 16 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: "form-check-input", type: "checkbox", id: "consentCheck1" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { className: "form-check-label", htmlFor: "consentCheck1", children: [
               "I consent to",
               " ",
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: "/pages/terms_of_use", style: { color: "#0B6BBE" }, children: "terms of use" })
             ] })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", style: { marginTop: 20, marginBottom: 64 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-8", style: { paddingTop: 6 }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "login_with_pwd", children: "Login with Password" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-4", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: `${LOGIN_BTN} float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3`, disabled: true, children: "Login" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("b", { children: "International users, please sign in using your registered Email ID only" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row", style: { marginTop: 20, marginBottom: 64 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-8", style: { paddingTop: 6 }, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "login_with_pwd", children: "Login with Password" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-4", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: `${LOGIN_BTN} float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3`, disabled: true, children: "Login" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("b", { children: "International users, please sign in using your registered Email ID only" }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "col-md-12", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { fontSize: 16, textAlign: "center" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "col-md-12", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("hr", { style: { height: 1, borderBottom: "1px solid #666", margin: "20px 0" } }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { style: { fontSize: 16, textAlign: "center" }, children: [
               "New User?",
               " ",
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "register_now", children: "Register Now" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { id: "register_now", children: "Register Now" }) })
             ] })
           ] }) })
         ] }) })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal fade uniform-modal-height", id: "loginWIthOtpVerifyModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { className: "go-back", id: "backTologinWithOtpModal", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "loginWIthOtpVerifyModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-header d-flex justify-content-between align-items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("span", { className: "go-back", id: "backTologinWithOtpModal", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("i", { className: "bi bi-arrow-left", "aria-hidden": "true" }),
             " Go back"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-start w-100", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: logo, className: "logo-w-sm-md-sec", alt: "MY Bharat" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "form-check", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title mb-3", id: "loginWIthOtpVerifyModalLabel", children: "Verify Your Account" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { htmlFor: "otp-field-3", className: "form-label", children: "Enter OTP" }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "input-group mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { id: "otp-field-3", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "alert alert-success", id: "alertVerifyHeader", role: "alert", style: { fontSize: 14, padding: "0.7rem 0.8rem" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-body", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "form-check", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h5", { className: "modal-title mb-3", id: "loginWIthOtpVerifyModalLabel", children: "Verify Your Account" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("label", { htmlFor: "otp-field-3", className: "form-label", children: "Enter OTP" }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "input-group mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { id: "otp-field-3", type: "text", className: "form-control otp-field", maxLength: 6, autoComplete: "off" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "alert alert-success", id: "alertVerifyHeader", role: "alert", style: { fontSize: 14, padding: "0.7rem 0.8rem" }, children: [
                 "OTP has been sent to your ",
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "mobEmailConfirm" }),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { id: "mobEmailConfirm" }),
                 " . OTP is valid for 2 minutes"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "forgot float-end", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "timerHeaderOtp", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "resendOTPVerifyHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "forgot float-end", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "otp_timer_header mb-3", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "timerHeaderOtp", style: { color: "#0B6BBE", fontSize: "0.8rem" } }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "resend_otp_header mb-3", style: { display: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "resendOTPVerifyHeader", style: { color: "#0B6BBE", cursor: "pointer", fontSize: "0.8rem" }, children: "Resend OTP" }) })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: "otp-field-3_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "hidden", id: "verify_otp_header", defaultValue: "0" })
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: "otp-field-3_error", className: "text-danger", style: { color: "#dc3545", fontSize: "0.8rem" } }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "hidden", id: "verify_otp_header", defaultValue: "0" })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", id: "btn-otp-verify-header", className: `${LOGIN_BTN} float-end mb-3 firebase-user-otplogin-btn`, children: "Verify OTP" }) }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { style: { fontSize: 16, textAlign: "center", borderTop: "1px solid #ccc", paddingTop: 10 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", id: "btn-otp-verify-header", className: `${LOGIN_BTN} float-end mb-3 firebase-user-otplogin-btn`, children: "Verify OTP" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "col-md-12", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { style: { fontSize: 16, textAlign: "center", borderTop: "1px solid #ccc", paddingTop: 10 }, children: [
             "New User?",
             " ",
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { id: "register_now", children: "Register Now" }) })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: quizRegisterHref(), children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { id: "register_now", children: "Register Now" }) })
           ] }) }) })
         ] }) })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { id: "mb-common-header-loader", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "spinner" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { id: "mb-common-header-loader", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "spinner" }) })
     ] });
     return (0, import_react_dom2.createPortal)(content, document.body);
   }
 
   // src/components/header/login/useHeaderLoginShell.tsx
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
   function useHeaderLoginShell(enabled = true) {
     const [showModals] = (0, import_react5.useState)(() => !hostHasLoginModals());
     (0, import_react5.useEffect)(() => {
@@ -23769,44 +23999,66 @@ var MyBharatShell = (() => {
   }) {
     const showModals = useHeaderLoginShell(enabled);
     if (!showModals) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(HeaderLoginModals, { cdnBase, variant });
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderLoginModals, { cdnBase, variant });
+  }
+
+  // src/components/header/HeaderAuthControls.tsx
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime());
+  function HeaderAuthControls({ cdn, userSession, webroot }) {
+    const user = parseHeaderUserSession(userSession);
+    if (user) {
+      return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderProfileMenu, { user, webroot, variant: "desktop" });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "fontchange", children: "Register Now" }) }) }),
+      "\xA0\xA0",
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "lang_yuva", children: "Youth" }),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("br", {}),
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
+      ] }) }) })
+    ] });
   }
 
   // src/components/Header.tsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
-  var Header = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime());
+  var Header = ({
+    title = "MyBharat",
+    cdnBase,
+    mainNavItems,
+    userSession,
+    webroot
+  }) => {
     const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderGovernmentStrip, { cdn }),
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "row align-items-center gx-2", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderMobileStrip, { cdn, variant: "split" }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(DesktopMainNav, { items: navItems }),
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: "Sign In" }),
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: "Register Now" }) }),
-              "\xA0\xA0",
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
-                " ",
-                "Youth",
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("br", {}),
-                " ",
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
-              ] }) }) })
+    const loggedIn = isHeaderUserLoggedIn(userSession);
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(HeaderGovernmentStrip, { cdn }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "row align-items-center gx-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(HeaderMobileStrip, { cdn, variant: "split" }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(DesktopMainNav, { items: navItems }),
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(HeaderAuthControls, { cdn, userSession, webroot })
             ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
           ] })
         ] }) }) })
       ] }),
-      menuPortalReady ? (0, import_react_dom3.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
-      menuPortalReady ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderLoginShellPortal, { cdnBase: cdn, variant: "header" }) : null
+      menuPortalReady ? (0, import_react_dom3.createPortal)(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems, userSession, webroot }),
+        document.body
+      ) : null,
+      menuPortalReady && !loggedIn ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(HeaderLoginShellPortal, { cdnBase: cdn, variant: "header" }) : null
     ] });
   };
   var Header_default = Header;
@@ -23951,48 +24203,48 @@ var MyBharatShell = (() => {
   styleInject(".main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  position: relative;\n  transition: all 0.3s ease-in-out;\n  text-decoration: none !important;\n}\n.dropevent i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n  margin-left: 4px;\n}\n.dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #toll_mb.skip01,\n.mb-common-header__mobile-bar--h2 #toll_mb.mb-common-header__toll-link--h2 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: rgb(13 110 253);\n  text-decoration: none !important;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: rgb(13 110 253);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(180deg);\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar--h2 #toll_mb,\n  .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  width: auto !important;\n  height: auto !important;\n  min-width: 0 !important;\n  padding: 6px !important;\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  background-color: #bc4717 !important;\n  border: none !important;\n  color: #ffffff !important;\n  border-radius: 10px !important;\n  box-shadow: none !important;\n  line-height: 1 !important;\n  flex: 0 0 auto !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n  outline: 2px solid rgb(13 110 253);\n  outline-offset: 2px;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n  color: #ffffff !important;\n  font-size: 1rem;\n  line-height: 1;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    padding: 0.28rem 0.5rem !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    font-size: 1rem !important;\n  }\n}\nheader.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  border: none !important;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  color: #ffffff !important;\n  background-color: #bc4717 !important;\n  border: none !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n  box-shadow: none !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n@media only screen and (max-width: 991.98px) {\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    max-width: none !important;\n    height: auto !important;\n    transform: scale(1.12) !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n    width: 70px !important;\n    max-width: 70px !important;\n    min-width: 0 !important;\n    height: auto !important;\n    max-height: 48px !important;\n    object-fit: contain !important;\n    transform: none !important;\n    margin-left: 0 !important;\n    margin-top: 0 !important;\n    flex-shrink: 0 !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: none !important;\n  }\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n  z-index: 2;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    bottom: 14px !important;\n    right: 46px !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    display: inline-block !important;\n    visibility: visible !important;\n    pointer-events: auto !important;\n    position: absolute !important;\n    float: none !important;\n    right: 46px !important;\n    top: auto !important;\n    bottom: 14px !important;\n    margin: 0 !important;\n    z-index: 1001 !important;\n    line-height: 1;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root svg {\n    width: 24px;\n    height: 24px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__bhashini-slot {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n    margin-right: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: rgb(13 110 253);\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n    color: rgb(13 110 253);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    width: auto !important;\n    height: auto !important;\n    min-width: 0 !important;\n    padding: 6px !important;\n    background-color: #bc4717 !important;\n    border: none !important;\n    color: #ffffff !important;\n    border-radius: 10px !important;\n    box-shadow: none !important;\n    margin-left: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    color: #ffffff !important;\n    font-size: 1rem !important;\n    line-height: 1 !important;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1000px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    position: static !important;\n    float: right !important;\n    right: auto !important;\n    bottom: auto !important;\n    margin-right: 80px !important;\n    margin-top: 2px !important;\n    z-index: auto !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #bc4717 !important;\n    color: #fff !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button::after {\n    transform: rotate(0deg);\n    transition: transform 0.3s ease-in-out;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed)::after {\n    transform: rotate(-90deg);\n    transition: transform 0.3s ease-in-out;\n  }\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse] i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse][aria-expanded=true] i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {\n  color: #bc4717 !important;\n}\n");
 
   // src/components/Header2.tsx
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var Header2 = ({ title = "MyBharat", cdnBase, mainNavItems }) => {
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime());
+  var Header2 = ({
+    title = "MyBharat",
+    cdnBase,
+    mainNavItems,
+    userSession,
+    webroot
+  }) => {
     const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
+    const loggedIn = isHeaderUserLoggedIn(userSession);
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(import_jsx_runtime13.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
         "header",
         {
           id: "mb-common-header-root",
           className: "fixed-top shadow mb-common-header mb-common-header--header2",
           "aria-label": title,
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderGovernmentStrip, { cdn }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "row align-items-center gx-2", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderMobileStrip, { cdn, variant: "h2" }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DesktopMainNav, { items: navItems }),
-                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { id: "btnGroupDrop1", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "lang_yuva_register_login_link fontchange", children: "Sign In" }) }),
-                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "fontchange", children: "Register Now" }) }) }),
-                  "\xA0\xA0",
-                  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
-                    " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "lang_yuva", children: "Youth" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("br", {}),
-                    " ",
-                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "f-12-dropdown lang_applicants_volunteer", children: "Applicants/Volunteers/Participants" })
-                  ] }) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(HeaderGovernmentStrip, { cdn }),
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "row align-items-center gx-2", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(HeaderMobileStrip, { cdn, variant: "h2" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("nav", { className: "d-none", id: "mb-nav-mobile-quick", "aria-hidden": "true" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "col-xl-2 col-lg-2 d-none d-lg-flex min-w-0 justify-content-start mb_new1", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(HeaderBrandLogos, { cdn, layout: "desktop" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "col-xl-10 col-lg-10 d-none d-lg-block", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "main-menu f-hd-right d-none d-md-block", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("nav", { className: "navbar navbar-expand-lg navbar-light", id: "mb-nav-desktop-main", "aria-label": "Main navigation", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(DesktopMainNav, { items: navItems }),
+                  /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(HeaderAuthControls, { cdn, userSession, webroot })
                 ] }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
+                /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "f-hd-right d-sm-none1 mt-10", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", className: "btn btn-light", "data-bs-toggle": "modal", "data-bs-target": "#mobileMenuNew", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("i", { className: "fa fa-bars fa-fw ", "aria-hidden": "true" }) }) })
               ] })
             ] }) }) })
           ]
         }
       ),
-      menuPortalReady ? (0, import_react_dom4.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime11.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems }), document.body) : null,
-      menuPortalReady ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(HeaderLoginShellPortal, { cdnBase: cdn, variant: "header2" }) : null
+      menuPortalReady ? (0, import_react_dom4.createPortal)(
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(MobileMenuModal, { cdnBase: cdn, items: navItems, userSession, webroot }),
+        document.body
+      ) : null,
+      menuPortalReady && !loggedIn ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(HeaderLoginShellPortal, { cdnBase: cdn, variant: "header2" }) : null
     ] });
   };
   var Header2_default = Header2;
@@ -24150,6 +24402,22 @@ var MyBharatShell = (() => {
     }
     return fallback;
   }
+  function resolveHeaderUserSession(el) {
+    const jsonId = el.getAttribute("user-json-id");
+    if (jsonId) {
+      const fromScript = readJsonFromScriptId(jsonId);
+      if (fromScript !== void 0) return fromScript;
+    }
+    const userAttr = el.getAttribute("user-session");
+    if (userAttr) {
+      try {
+        return JSON.parse(userAttr);
+      } catch {
+        return null;
+      }
+    }
+    return window.MYBHARAT_SHELL?.header?.userSession ?? null;
+  }
   function resolveHeaderProps(el) {
     const global = window.MYBHARAT_SHELL?.header;
     const variantAttr = el.getAttribute("variant");
@@ -24158,7 +24426,9 @@ var MyBharatShell = (() => {
       cdnBase: el.getAttribute("cdn-base") ?? global?.cdnBase,
       title: el.getAttribute("title") ?? global?.title,
       variant,
-      mainNavItems: resolveHeaderNavItems(el, variant)
+      mainNavItems: resolveHeaderNavItems(el, variant),
+      userSession: resolveHeaderUserSession(el),
+      webroot: el.getAttribute("webroot") ?? global?.webroot
     };
   }
   function resolveFooterProps(el) {
@@ -24172,10 +24442,19 @@ var MyBharatShell = (() => {
   }
 
   // src/shell/registerWebComponents.tsx
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime());
   var HEADER_TAG = "mybharat-header";
   var FOOTER_TAG = "mybharat-footer";
-  var HEADER_OBSERVED = ["cdn-base", "variant", "nav-items", "nav-json-id", "title"];
+  var HEADER_OBSERVED = [
+    "cdn-base",
+    "variant",
+    "nav-items",
+    "nav-json-id",
+    "title",
+    "user-session",
+    "user-json-id",
+    "webroot"
+  ];
   var FOOTER_OBSERVED = ["cdn-base", "is-logged-in", "recaptcha-site-key"];
   var MyBharatHeaderElement = class extends HTMLElement {
     constructor() {
@@ -24196,7 +24475,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.196" }
+          detail: { component: "header", version: "1.0.197" }
         })
       );
     }
@@ -24211,10 +24490,19 @@ var MyBharatShell = (() => {
     }
     render() {
       if (!this.root) return;
-      const { cdnBase, title, variant, mainNavItems } = resolveHeaderProps(this);
+      const { cdnBase, title, variant, mainNavItems, userSession, webroot } = resolveHeaderProps(this);
       const Comp = variant === "header2" ? Header2_default : Header_default;
       this.root.render(
-        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Comp, { cdnBase, title, mainNavItems })
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+          Comp,
+          {
+            cdnBase,
+            title,
+            mainNavItems,
+            userSession,
+            webroot
+          }
+        )
       );
     }
   };
@@ -24237,7 +24525,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.196" }
+          detail: { component: "footer", version: "1.0.197" }
         })
       );
     }
@@ -24254,7 +24542,7 @@ var MyBharatShell = (() => {
       if (!this.root) return;
       const { cdnBase, isLoggedIn, recaptchaSiteKey } = resolveFooterProps(this);
       this.root.render(
-        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
           Footer_default,
           {
             cdnBase,
@@ -24281,7 +24569,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.196";
+  var MYBHARAT_SHELL_VERSION = "1.0.197";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

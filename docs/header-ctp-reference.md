@@ -9,7 +9,7 @@ Bootstrap appends `.modal-backdrop` to `body`. If the modal lived inside `header
 ## What stays in the host (Cake) app
 
 - PHP session: `$userType`, `$session_user`, `$language`, `$authDistrict`, partner OAuth URLs, etc.
-- Logged-in header UI (profile dropdown, dashboard drawer branch) — extend with session props when wiring auth
+- Pass logged-in profile JSON to the shell as `userSession` (see below). When omitted, guest Sign In / Register is shown.
 - **Optional:** remove login modal markup from `header.ctp` when using shell `Header` / `Header2` — the package portaled modals replace `#signInModal`, `#loginWithOtpModal`, etc.
 - **jQuery** on host pages that still use legacy scripts outside the shell (not required for shell login flow — uses `fetch`)
 - **Choices.js**, **manipuri_text_v1.css**, and other page-specific assets not bundled in this npm package
@@ -55,7 +55,22 @@ Hash deep-link: `#login` opens OTP modal on load.
 - Then guest block: Sign In (`#signInLink`, `href="#"` or `javascript:void(0)`), Register
 - **Accordion** `#accordionExamples`: “Get Started” → Youth (`yuva_register`) + Partner (`partner_register`) with `f-10-dropdown` helper lines
 
-Logged-in drawer branch (Dashboard, profile, switch district, logout, etc.) is **not** duplicated in the library; render that from the host or extend `MobileMenuModal` with props when you wire session.
+Logged-in drawer branch (Dashboard / MY Bharat Profile, Log Out) renders when `userSession` is passed to `Header` / `Header2` / `<mybharat-header>`.
+
+### Logged-in user payload (`userSession`)
+
+Pass the profile API response. **Logged in:** `{ data: { id, first_name, ... } }`. **Guest:** `{ data: {} }` (or omit `userSession`).
+
+```html
+<script type="application/json" id="mb-header-user-json">
+  <?= json_encode($userProfileApiResponse) ?>
+</script>
+<mybharat-header variant="header2" user-json-id="mb-header-user-json"></mybharat-header>
+```
+
+Or via `window.MYBHARAT_SHELL.header.userSession` before `shell.js` loads.
+
+Key fields: `id`, `first_name` / `screen_name`, `profile_pic`, `public_profile`, optional `user_type` (youth = `6`), `yuva_type` (infers youth when `user_type` omitted).
 
 ## Inline CSS themes (`.ctp` → `Header.css`)
 

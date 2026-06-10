@@ -13,6 +13,20 @@ export {
   installHeaderLoginFlow,
   HEADER_LOGIN_SIGN_IN_SELECTORS,
 } from './components/header/login/headerLoginFlow';
+export {
+  parseHeaderUserSession,
+  isHeaderUserLoggedIn,
+  isGuestHeaderUserPayload,
+  buildHeaderProfileMenuItems,
+} from './components/header/headerUserSession';
+export type {
+  HeaderUserSession,
+  HeaderUserSessionInput,
+  HeaderUserApiEnvelope,
+  HeaderUserApiData,
+} from './components/header/headerUserSession';
+export { HeaderAuthControls } from './components/header/HeaderAuthControls';
+export { HeaderProfileMenu } from './components/header/HeaderProfileMenu';
 export { HeaderLoginShellPortal } from './components/header/login/useHeaderLoginShell';
 export { DesktopMainNav } from './components/DesktopMainNav';
 export { MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN } from './constants/cdn';
