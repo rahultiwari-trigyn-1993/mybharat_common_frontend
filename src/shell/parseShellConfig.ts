@@ -108,6 +108,14 @@ export function resolveHeaderUserSession(el: HTMLElement): HeaderUserSessionInpu
   return (window.MYBHARAT_SHELL?.header?.userSession ?? null) as HeaderUserSessionInput;
 }
 
+export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
+  const global = window.MYBHARAT_SHELL?.login;
+  return {
+    baseUrl: el.getAttribute('login-base-url') ?? global?.baseUrl,
+    apiBaseUrl: el.getAttribute('api-base-url') ?? global?.apiBaseUrl,
+  };
+}
+
 export function resolveHeaderProps(el: HTMLElement): {
   cdnBase?: string;
   title?: string;
@@ -115,11 +123,14 @@ export function resolveHeaderProps(el: HTMLElement): {
   mainNavItems: readonly NavTreeItem[];
   userSession: HeaderUserSessionInput;
   webroot?: string;
+  baseUrl?: string;
+  apiBaseUrl?: string;
 } {
   const global = window.MYBHARAT_SHELL?.header;
   const variantAttr = el.getAttribute('variant');
   const variant =
     variantAttr === 'header2' || global?.variant === 'header2' ? 'header2' : 'header';
+  const login = resolveHeaderLoginConfig(el);
 
   return {
     cdnBase: el.getAttribute('cdn-base') ?? global?.cdnBase,
@@ -128,6 +139,8 @@ export function resolveHeaderProps(el: HTMLElement): {
     mainNavItems: resolveHeaderNavItems(el, variant),
     userSession: resolveHeaderUserSession(el),
     webroot: el.getAttribute('webroot') ?? global?.webroot,
+    baseUrl: login.baseUrl,
+    apiBaseUrl: login.apiBaseUrl,
   };
 }
 

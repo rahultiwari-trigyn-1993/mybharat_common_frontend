@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.199 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.200 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -1399,11 +1399,19 @@ function isSuccessStatus(statusCode) {
   return code === 200 || code === 201;
 }
 function resolveLoginApiError(res, fallback = DEFAULT_LOGIN_API_ERROR) {
+  if (res && typeof res === "object") {
+    if (typeof res.error_description === "string" && res.error_description.trim()) {
+      return res.error_description.trim();
+    }
+    if (typeof res.error === "string" && res.error.trim()) {
+      return res.error.trim();
+    }
+  }
   const message = res?.message;
   if (typeof message === "string" && message.trim()) return message.trim();
   if (message && typeof message === "object") {
     const obj = message;
-    for (const key of ["message", "error", "detail", "description"]) {
+    for (const key of ["message", "error", "error_description", "detail", "description"]) {
       const v = obj[key];
       if (typeof v === "string" && v.trim()) return v.trim();
     }
@@ -1411,33 +1419,82 @@ function resolveLoginApiError(res, fallback = DEFAULT_LOGIN_API_ERROR) {
   return fallback;
 }
 var LOGIN_API_CONTENT_TYPE = "Application/json";
+function normalizeBearerAccessToken(raw) {
+  if (!raw) return "";
+  let token = raw.trim();
+  if (/^bearer\s+/i.test(token)) {
+    token = token.replace(/^bearer\s+/i, "").trim();
+  }
+  return token;
+}
 function buildLoginApiHeaders(bearerAccessToken) {
   const headers = {
     "Content-Type": LOGIN_API_CONTENT_TYPE
   };
-  const token = bearerAccessToken?.trim();
+  const token = normalizeBearerAccessToken(bearerAccessToken);
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
   return headers;
 }
-function readAccessTokenFromResponse(data) {
-  const candidates = [
-    data.access_token,
-    data.data?.access_token,
-    typeof data.data === "object" && data.data && "token" in data.data ? data.data.token : void 0
-  ];
-  for (const value of candidates) {
-    if (typeof value === "string" && value.trim()) return value.trim();
+function readAccessTokenField(value) {
+  if (typeof value !== "string") return void 0;
+  const token = normalizeBearerAccessToken(value);
+  return token || void 0;
+}
+function readAccessTokenFromNode(node, depth = 0) {
+  if (node == null || depth > 5) return void 0;
+  if (typeof node === "string") {
+    const trimmed = node.trim();
+    if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) return void 0;
+    try {
+      return readAccessTokenFromNode(JSON.parse(trimmed), depth + 1);
+    } catch {
+      return void 0;
+    }
+  }
+  if (typeof node !== "object") return void 0;
+  const obj = node;
+  const direct = readAccessTokenField(obj.access_token) ?? readAccessTokenField(obj.accessToken);
+  if (direct) return direct;
+  for (const key of ["data", "message", "response", "result"]) {
+    const nested = readAccessTokenFromNode(obj[key], depth + 1);
+    if (nested) return nested;
+  }
+  for (const value of Object.values(obj)) {
+    if (value && typeof value === "object") {
+      const nested = readAccessTokenFromNode(value, depth + 1);
+      if (nested) return nested;
+    }
   }
   return void 0;
+}
+function readAccessTokenFromResponse(data) {
+  if (typeof data.error === "string" && data.error.trim() && !data.access_token) {
+    return void 0;
+  }
+  return readAccessTokenFromNode(data.data) ?? readAccessTokenFromNode(data.message) ?? readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken) ?? readAccessTokenFromNode(data);
+}
+function isKeycloakUnauthorizedResponse(data) {
+  if (!data || typeof data !== "object") return false;
+  const obj = data;
+  if (obj.status_code === 401 || obj.status_code === "401") return true;
+  const err = typeof obj.error === "string" ? obj.error : "";
+  return /401|unauthorized/i.test(err);
 }
 async function fetchLoginApiJson(path, options) {
   const base = getLoginApiBaseUrl();
   if (!base) {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
   }
-  const headers = buildLoginApiHeaders(options?.token);
+  const normalizedToken = normalizeBearerAccessToken(options?.token);
+  if (options?.requireAuth && !normalizedToken) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+  const headers = buildLoginApiHeaders(normalizedToken);
+  if (options?.requireAuth && !headers.Authorization) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
   const method = options?.method ?? (options?.body ? "POST" : "POST");
   const url = `${base}${path.startsWith("/") ? path : `/${path}`}`;
   let res;
@@ -1453,7 +1510,11 @@ async function fetchLoginApiJson(path, options) {
   }
   const text = await res.text();
   try {
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    if (parsed.status_code == null && !res.ok) {
+      parsed.status_code = res.status;
+    }
+    return parsed;
   } catch {
     if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
     return { status_code: res.status, message: text };
@@ -1480,7 +1541,8 @@ async function fetchCheckUserExists(identifier, accessToken) {
   return fetchLoginApiJson("/checkUserExists", {
     method: "POST",
     body: { identifier },
-    token: accessToken
+    token: accessToken,
+    requireAuth: true
   });
 }
 async function postJson(path, data) {
@@ -1670,8 +1732,13 @@ function readKeycloakGivenData(message) {
 }
 async function checkUserInKeycloak(identifier) {
   try {
-    const accessToken = await getKeycloakClientAccessToken();
-    const check = await fetchCheckUserExists(identifier, accessToken);
+    let accessToken = await getKeycloakClientAccessToken();
+    let check = await fetchCheckUserExists(identifier, accessToken);
+    if (isKeycloakUnauthorizedResponse(check)) {
+      cachedKeycloakAccessToken = null;
+      accessToken = await getKeycloakClientAccessToken(true);
+      check = await fetchCheckUserExists(identifier, accessToken);
+    }
     if (!isSuccessStatus(check.status_code)) {
       return {
         ...check,
@@ -2140,19 +2207,25 @@ function HeaderLoginShellPortal({
 
 // src/components/header/login/useHeaderLoginConfig.ts
 var import_react5 = require("react");
+function applyHeaderLoginConfig(config) {
+  const baseUrl = config?.baseUrl?.trim();
+  const apiBaseUrl = config?.apiBaseUrl?.trim();
+  if (!baseUrl && !apiBaseUrl) return;
+  window.MYBHARAT_SHELL = {
+    ...window.MYBHARAT_SHELL,
+    login: {
+      ...window.MYBHARAT_SHELL?.login,
+      ...baseUrl ? { baseUrl } : {},
+      ...apiBaseUrl ? { apiBaseUrl } : {}
+    }
+  };
+}
 function useHeaderLoginConfig(config) {
+  applyHeaderLoginConfig(config);
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
   (0, import_react5.useEffect)(() => {
-    if (!baseUrl && !apiBaseUrl) return;
-    window.MYBHARAT_SHELL = {
-      ...window.MYBHARAT_SHELL,
-      login: {
-        ...window.MYBHARAT_SHELL?.login,
-        ...baseUrl ? { baseUrl } : {},
-        ...apiBaseUrl ? { apiBaseUrl } : {}
-      }
-    };
+    applyHeaderLoginConfig({ baseUrl, apiBaseUrl });
   }, [baseUrl, apiBaseUrl]);
 }
 
@@ -2859,7 +2932,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.199";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.200";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

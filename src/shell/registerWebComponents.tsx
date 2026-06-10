@@ -17,6 +17,8 @@ const HEADER_OBSERVED = [
   'user-session',
   'user-json-id',
   'webroot',
+  'login-base-url',
+  'api-base-url',
 ] as const;
 const FOOTER_OBSERVED = ['cdn-base', 'is-logged-in', 'recaptcha-site-key'] as const;
 
@@ -57,7 +59,8 @@ class MyBharatHeaderElement extends HTMLElement {
   private render(): void {
     if (!this.root) return;
 
-    const { cdnBase, title, variant, mainNavItems, userSession, webroot } = resolveHeaderProps(this);
+    const { cdnBase, title, variant, mainNavItems, userSession, webroot, baseUrl, apiBaseUrl } =
+      resolveHeaderProps(this);
     const Comp = variant === 'header2' ? Header2 : Header;
 
     this.root.render(
@@ -67,6 +70,8 @@ class MyBharatHeaderElement extends HTMLElement {
         mainNavItems={mainNavItems}
         userSession={userSession}
         webroot={webroot}
+        baseUrl={baseUrl}
+        apiBaseUrl={apiBaseUrl}
       />
     );
   }

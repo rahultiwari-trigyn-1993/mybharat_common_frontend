@@ -141,7 +141,10 @@ type SignInResponse = {
   domain?: string;
   encryptId?: string;
   access_token?: string;
-  data?: { access_token?: string; [key: string]: unknown };
+  accessToken?: string;
+  error?: string;
+  error_description?: string;
+  data?: { access_token?: string; accessToken?: string; [key: string]: unknown };
 };
 
 function getLoginApiBaseUrl(): string {
@@ -155,15 +158,30 @@ function isSuccessStatus(statusCode?: number | string): boolean {
   return code === 200 || code === 201;
 }
 
+type LoginApiErrorPayload = {
+  message?: SignInResponse['message'];
+  error?: string;
+  error_description?: string;
+};
+
 function resolveLoginApiError(
-  res?: Pick<SignInResponse, 'message'> | null,
+  res?: LoginApiErrorPayload | null,
   fallback = DEFAULT_LOGIN_API_ERROR
 ): string {
+  if (res && typeof res === 'object') {
+    if (typeof res.error_description === 'string' && res.error_description.trim()) {
+      return res.error_description.trim();
+    }
+    if (typeof res.error === 'string' && res.error.trim()) {
+      return res.error.trim();
+    }
+  }
+
   const message = res?.message;
   if (typeof message === 'string' && message.trim()) return message.trim();
   if (message && typeof message === 'object') {
     const obj = message as Record<string, unknown>;
-    for (const key of ['message', 'error', 'detail', 'description']) {
+    for (const key of ['message', 'error', 'error_description', 'detail', 'description']) {
       const v = obj[key];
       if (typeof v === 'string' && v.trim()) return v.trim();
     }
@@ -174,41 +192,113 @@ function resolveLoginApiError(
 /** Headers for login API calls — matches host Keycloak integration spec. */
 const LOGIN_API_CONTENT_TYPE = 'Application/json';
 
+function normalizeBearerAccessToken(raw?: string): string {
+  if (!raw) return '';
+  let token = raw.trim();
+  if (/^bearer\s+/i.test(token)) {
+    token = token.replace(/^bearer\s+/i, '').trim();
+  }
+  return token;
+}
+
 function buildLoginApiHeaders(bearerAccessToken?: string): Record<string, string> {
   const headers: Record<string, string> = {
     'Content-Type': LOGIN_API_CONTENT_TYPE,
   };
-  const token = bearerAccessToken?.trim();
+  const token = normalizeBearerAccessToken(bearerAccessToken);
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
   return headers;
 }
 
-function readAccessTokenFromResponse(data: SignInResponse): string | undefined {
-  const candidates = [
-    data.access_token,
-    data.data?.access_token,
-    typeof data.data === 'object' && data.data && 'token' in data.data
-      ? (data.data as { token?: string }).token
-      : undefined,
-  ];
-  for (const value of candidates) {
-    if (typeof value === 'string' && value.trim()) return value.trim();
+function readAccessTokenField(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const token = normalizeBearerAccessToken(value);
+  return token || undefined;
+}
+
+function readAccessTokenFromNode(node: unknown, depth = 0): string | undefined {
+  if (node == null || depth > 5) return undefined;
+
+  if (typeof node === 'string') {
+    const trimmed = node.trim();
+    if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) return undefined;
+    try {
+      return readAccessTokenFromNode(JSON.parse(trimmed) as unknown, depth + 1);
+    } catch {
+      return undefined;
+    }
   }
+
+  if (typeof node !== 'object') return undefined;
+
+  const obj = node as Record<string, unknown>;
+  const direct =
+    readAccessTokenField(obj.access_token) ?? readAccessTokenField(obj.accessToken);
+  if (direct) return direct;
+
+  for (const key of ['data', 'message', 'response', 'result']) {
+    const nested = readAccessTokenFromNode(obj[key], depth + 1);
+    if (nested) return nested;
+  }
+
+  for (const value of Object.values(obj)) {
+    if (value && typeof value === 'object') {
+      const nested = readAccessTokenFromNode(value, depth + 1);
+      if (nested) return nested;
+    }
+  }
+
   return undefined;
+}
+
+function readAccessTokenFromResponse(data: SignInResponse): string | undefined {
+  if (typeof data.error === 'string' && data.error.trim() && !data.access_token) {
+    return undefined;
+  }
+
+  return (
+    readAccessTokenFromNode(data.data) ??
+    readAccessTokenFromNode(data.message) ??
+    readAccessTokenField(data.access_token) ??
+    readAccessTokenField(data.accessToken) ??
+    readAccessTokenFromNode(data)
+  );
+}
+
+function isKeycloakUnauthorizedResponse(data: unknown): boolean {
+  if (!data || typeof data !== 'object') return false;
+  const obj = data as Record<string, unknown>;
+  if (obj.status_code === 401 || obj.status_code === '401') return true;
+  const err = typeof obj.error === 'string' ? obj.error : '';
+  return /401|unauthorized/i.test(err);
 }
 
 async function fetchLoginApiJson<T extends SignInResponse>(
   path: string,
-  options?: { method?: string; body?: Record<string, unknown>; token?: string }
+  options?: {
+    method?: string;
+    body?: Record<string, unknown>;
+    token?: string;
+    requireAuth?: boolean;
+  }
 ): Promise<T> {
   const base = getLoginApiBaseUrl();
   if (!base) {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
   }
 
-  const headers = buildLoginApiHeaders(options?.token);
+  const normalizedToken = normalizeBearerAccessToken(options?.token);
+  if (options?.requireAuth && !normalizedToken) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const headers = buildLoginApiHeaders(normalizedToken);
+  if (options?.requireAuth && !headers.Authorization) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
   const method = options?.method ?? (options?.body ? 'POST' : 'POST');
   const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
 
@@ -226,7 +316,11 @@ async function fetchLoginApiJson<T extends SignInResponse>(
 
   const text = await res.text();
   try {
-    return JSON.parse(text) as T;
+    const parsed = JSON.parse(text) as T;
+    if (parsed.status_code == null && !res.ok) {
+      parsed.status_code = res.status;
+    }
+    return parsed;
   } catch {
     if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
     return { status_code: res.status, message: text } as T;
@@ -261,6 +355,7 @@ async function fetchCheckUserExists(identifier: string, accessToken: string): Pr
     method: 'POST',
     body: { identifier },
     token: accessToken,
+    requireAuth: true,
   });
 }
 
@@ -470,8 +565,15 @@ function readKeycloakGivenData(message: KeycloakCheckResponse['message']): strin
 
 async function checkUserInKeycloak(identifier: string): Promise<KeycloakCheckResponse> {
   try {
-    const accessToken = await getKeycloakClientAccessToken();
-    const check = await fetchCheckUserExists(identifier, accessToken);
+    let accessToken = await getKeycloakClientAccessToken();
+    let check = await fetchCheckUserExists(identifier, accessToken);
+
+    if (isKeycloakUnauthorizedResponse(check)) {
+      cachedKeycloakAccessToken = null;
+      accessToken = await getKeycloakClientAccessToken(true);
+      check = await fetchCheckUserExists(identifier, accessToken);
+    }
+
     if (!isSuccessStatus(check.status_code)) {
       return {
         ...check,

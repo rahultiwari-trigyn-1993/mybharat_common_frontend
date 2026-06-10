@@ -7,21 +7,29 @@ export type HeaderLoginConfig = {
   apiBaseUrl?: string;
 };
 
+function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
+  const baseUrl = config?.baseUrl?.trim();
+  const apiBaseUrl = config?.apiBaseUrl?.trim();
+  if (!baseUrl && !apiBaseUrl) return;
+
+  window.MYBHARAT_SHELL = {
+    ...window.MYBHARAT_SHELL,
+    login: {
+      ...window.MYBHARAT_SHELL?.login,
+      ...(baseUrl ? { baseUrl } : {}),
+      ...(apiBaseUrl ? { apiBaseUrl } : {}),
+    },
+  };
+}
+
 /** Syncs React `Header` props into `window.MYBHARAT_SHELL.login` for login modals. */
 export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
+  applyHeaderLoginConfig(config);
+
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
 
   useEffect(() => {
-    if (!baseUrl && !apiBaseUrl) return;
-
-    window.MYBHARAT_SHELL = {
-      ...window.MYBHARAT_SHELL,
-      login: {
-        ...window.MYBHARAT_SHELL?.login,
-        ...(baseUrl ? { baseUrl } : {}),
-        ...(apiBaseUrl ? { apiBaseUrl } : {}),
-      },
-    };
+    applyHeaderLoginConfig({ baseUrl, apiBaseUrl });
   }, [baseUrl, apiBaseUrl]);
 }
