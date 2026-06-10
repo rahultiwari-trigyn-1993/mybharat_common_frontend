@@ -258,11 +258,14 @@ function readAccessTokenFromResponse(data: SignInResponse): string | undefined {
     return undefined;
   }
 
+  // Raw Keycloak OAuth response: { access_token, expires_in, token_type, ... }
+  const rootToken =
+    readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken);
+  if (rootToken) return rootToken;
+
   return (
     readAccessTokenFromNode(data.data) ??
     readAccessTokenFromNode(data.message) ??
-    readAccessTokenField(data.access_token) ??
-    readAccessTokenField(data.accessToken) ??
     readAccessTokenFromNode(data)
   );
 }
@@ -282,6 +285,8 @@ async function fetchLoginApiJson<T extends SignInResponse>(
     body?: Record<string, unknown>;
     token?: string;
     requireAuth?: boolean;
+    /** Bearer-only API calls — do not send host session cookies (avoids 401 from cookie auth). */
+    omitCredentials?: boolean;
   }
 ): Promise<T> {
   const base = getLoginApiBaseUrl();
@@ -306,7 +311,7 @@ async function fetchLoginApiJson<T extends SignInResponse>(
   try {
     res = await fetch(url, {
       method,
-      credentials: 'include',
+      credentials: options?.omitCredentials === false ? 'include' : 'omit',
       headers,
       body: options?.body != null ? JSON.stringify(options.body) : undefined,
     });
@@ -335,6 +340,7 @@ export async function getKeycloakClientAccessToken(forceRefresh = false): Promis
 
   const data = await fetchLoginApiJson<SignInResponse>('/getKeycloakClientAccessToken', {
     method: 'POST',
+    omitCredentials: true,
   });
 
   const token = readAccessTokenFromResponse(data);
@@ -351,11 +357,13 @@ export async function getKeycloakClientAccessToken(forceRefresh = false): Promis
 
 /** POST /checkUserExists — Authorization: Bearer {access_token from getKeycloakClientAccessToken}. */
 async function fetchCheckUserExists(identifier: string, accessToken: string): Promise<KeycloakCheckResponse> {
+  const token = normalizeBearerAccessToken(accessToken);
   return fetchLoginApiJson<KeycloakCheckResponse>('/checkUserExists', {
     method: 'POST',
-    body: { identifier },
-    token: accessToken,
+    body: { identifier, access_token: token },
+    token,
     requireAuth: true,
+    omitCredentials: true,
   });
 }
 

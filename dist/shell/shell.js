@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.200 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.201 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -21990,7 +21990,9 @@ var MyBharatShell = (() => {
     if (typeof data.error === "string" && data.error.trim() && !data.access_token) {
       return void 0;
     }
-    return readAccessTokenFromNode(data.data) ?? readAccessTokenFromNode(data.message) ?? readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken) ?? readAccessTokenFromNode(data);
+    const rootToken = readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken);
+    if (rootToken) return rootToken;
+    return readAccessTokenFromNode(data.data) ?? readAccessTokenFromNode(data.message) ?? readAccessTokenFromNode(data);
   }
   function isKeycloakUnauthorizedResponse(data) {
     if (!data || typeof data !== "object") return false;
@@ -22018,7 +22020,7 @@ var MyBharatShell = (() => {
     try {
       res = await fetch(url, {
         method,
-        credentials: "include",
+        credentials: options?.omitCredentials === false ? "include" : "omit",
         headers,
         body: options?.body != null ? JSON.stringify(options.body) : void 0
       });
@@ -22042,7 +22044,8 @@ var MyBharatShell = (() => {
       return cachedKeycloakAccessToken;
     }
     const data = await fetchLoginApiJson("/getKeycloakClientAccessToken", {
-      method: "POST"
+      method: "POST",
+      omitCredentials: true
     });
     const token = readAccessTokenFromResponse(data);
     if (!isSuccessStatus(data.status_code) && !token) {
@@ -22055,11 +22058,13 @@ var MyBharatShell = (() => {
     return token;
   }
   async function fetchCheckUserExists(identifier, accessToken) {
+    const token = normalizeBearerAccessToken(accessToken);
     return fetchLoginApiJson("/checkUserExists", {
       method: "POST",
-      body: { identifier },
-      token: accessToken,
-      requireAuth: true
+      body: { identifier, access_token: token },
+      token,
+      requireAuth: true,
+      omitCredentials: true
     });
   }
   async function postJson(path, data) {
@@ -24700,7 +24705,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.200" }
+          detail: { component: "header", version: "1.0.201" }
         })
       );
     }
@@ -24752,7 +24757,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.200" }
+          detail: { component: "footer", version: "1.0.201" }
         })
       );
     }
@@ -24796,7 +24801,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.200";
+  var MYBHARAT_SHELL_VERSION = "1.0.201";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

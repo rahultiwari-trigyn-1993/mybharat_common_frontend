@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.200 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.201 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -1473,7 +1473,9 @@ function readAccessTokenFromResponse(data) {
   if (typeof data.error === "string" && data.error.trim() && !data.access_token) {
     return void 0;
   }
-  return readAccessTokenFromNode(data.data) ?? readAccessTokenFromNode(data.message) ?? readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken) ?? readAccessTokenFromNode(data);
+  const rootToken = readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken);
+  if (rootToken) return rootToken;
+  return readAccessTokenFromNode(data.data) ?? readAccessTokenFromNode(data.message) ?? readAccessTokenFromNode(data);
 }
 function isKeycloakUnauthorizedResponse(data) {
   if (!data || typeof data !== "object") return false;
@@ -1501,7 +1503,7 @@ async function fetchLoginApiJson(path, options) {
   try {
     res = await fetch(url, {
       method,
-      credentials: "include",
+      credentials: options?.omitCredentials === false ? "include" : "omit",
       headers,
       body: options?.body != null ? JSON.stringify(options.body) : void 0
     });
@@ -1525,7 +1527,8 @@ async function getKeycloakClientAccessToken(forceRefresh = false) {
     return cachedKeycloakAccessToken;
   }
   const data = await fetchLoginApiJson("/getKeycloakClientAccessToken", {
-    method: "POST"
+    method: "POST",
+    omitCredentials: true
   });
   const token = readAccessTokenFromResponse(data);
   if (!isSuccessStatus(data.status_code) && !token) {
@@ -1538,11 +1541,13 @@ async function getKeycloakClientAccessToken(forceRefresh = false) {
   return token;
 }
 async function fetchCheckUserExists(identifier, accessToken) {
+  const token = normalizeBearerAccessToken(accessToken);
   return fetchLoginApiJson("/checkUserExists", {
     method: "POST",
-    body: { identifier },
-    token: accessToken,
-    requireAuth: true
+    body: { identifier, access_token: token },
+    token,
+    requireAuth: true,
+    omitCredentials: true
   });
 }
 async function postJson(path, data) {
@@ -2932,7 +2937,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.200";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.201";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

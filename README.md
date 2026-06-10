@@ -2,7 +2,7 @@
 
 Reusable Header and Footer components — use as an **npm package** (React) or a **CDN plugin** (Web Components for CakePHP / plain HTML).
 
-**Current shell tag:** `v1.0.200` · jsDelivr base: `https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.200/dist/shell`
+**Current shell tag:** `v1.0.201` · jsDelivr base: `https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.201/dist/shell`
 
 ---
 
@@ -139,7 +139,7 @@ For non-React hosts. Registers custom elements **`<mybharat-header>`** and **`<m
 ```html
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.200/dist/shell/mybharat-shell.css"
+  href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.201/dist/shell/mybharat-shell.css"
 />
 <script>
   window.MYBHARAT_SHELL = {
@@ -159,7 +159,7 @@ For non-React hosts. Registers custom elements **`<mybharat-header>`** and **`<m
 <mybharat-footer></mybharat-footer>
 
 <script
-  src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.200/dist/shell/shell.js"
+  src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.201/dist/shell/shell.js"
   defer
 ></script>
 ```
@@ -171,7 +171,7 @@ Load **`header2.css`** instead of `mybharat-shell.css`, set `variant: "header2"`
 ```html
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.200/dist/shell/header2.css"
+  href="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.201/dist/shell/header2.css"
 />
 <script>
   window.MYBHARAT_SHELL = {
@@ -180,10 +180,10 @@ Load **`header2.css`** instead of `mybharat-shell.css`, set `variant: "header2"`
   };
 </script>
 <mybharat-header variant="header2" nav-json-id="mybharat-header-nav"></mybharat-header>
-<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.200/dist/shell/shell.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.201/dist/shell/shell.js" defer></script>
 ```
 
-If `@v1.0.200` is slow to appear on jsDelivr, pin **`@beta`** temporarily (same branch).
+If `@v1.0.201` is slow to appear on jsDelivr, pin **`@beta`** temporarily (same branch).
 
 ### Sign In — plugin
 
