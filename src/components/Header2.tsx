@@ -14,6 +14,7 @@ import { HeaderMobileStrip } from './header/HeaderMobileStrip';
 import { useMbHeaderBootstrapAndPortal } from './header/useMbHeaderBootstrapAndPortal';
 import { MobileMenuModal } from './MobileMenuModal';
 import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
+import { useHeaderLoginConfig } from './header/login/useHeaderLoginConfig';
 import './Header2.css';
 
 import { HeaderAuthControls, isHeaderUserLoggedIn } from './header/HeaderAuthControls';
@@ -30,6 +31,10 @@ export type Header2Props = {
   userSession?: HeaderUserSessionInput;
   /** Cake webroot for profile / logout URLs (default `/`). */
   webroot?: string;
+  /** Portal origin for header login redirects (`VITE_BASE_URL`). */
+  baseUrl?: string;
+  /** API origin for header login calls (`VITE_API_BASE_URL` / dev `/api`). */
+  apiBaseUrl?: string;
 };
 
 export const Header2: React.FC<Header2Props> = ({
@@ -38,7 +43,10 @@ export const Header2: React.FC<Header2Props> = ({
   mainNavItems,
   userSession,
   webroot,
+  baseUrl,
+  apiBaseUrl,
 }) => {
+  useHeaderLoginConfig({ baseUrl, apiBaseUrl });
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, '');
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;

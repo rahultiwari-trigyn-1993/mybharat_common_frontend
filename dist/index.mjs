@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.198 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.199 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 
 // #style-inject:#style-inject
@@ -1341,17 +1341,34 @@ function resolveLoginApiError(res, fallback = DEFAULT_LOGIN_API_ERROR) {
   }
   return fallback;
 }
+var LOGIN_API_CONTENT_TYPE = "Application/json";
+function buildLoginApiHeaders(bearerAccessToken) {
+  const headers = {
+    "Content-Type": LOGIN_API_CONTENT_TYPE
+  };
+  const token = bearerAccessToken?.trim();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+}
+function readAccessTokenFromResponse(data) {
+  const candidates = [
+    data.access_token,
+    data.data?.access_token,
+    typeof data.data === "object" && data.data && "token" in data.data ? data.data.token : void 0
+  ];
+  for (const value of candidates) {
+    if (typeof value === "string" && value.trim()) return value.trim();
+  }
+  return void 0;
+}
 async function fetchLoginApiJson(path, options) {
   const base = getLoginApiBaseUrl();
   if (!base) {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
   }
-  const headers = {
-    "Content-Type": "application/json"
-  };
-  if (options?.token) {
-    headers.Authorization = `Bearer ${options.token}`;
-  }
+  const headers = buildLoginApiHeaders(options?.token);
   const method = options?.method ?? (options?.body ? "POST" : "POST");
   const url = `${base}${path.startsWith("/") ? path : `/${path}`}`;
   let res;
@@ -1380,11 +1397,11 @@ async function getKeycloakClientAccessToken(forceRefresh = false) {
   const data = await fetchLoginApiJson("/getKeycloakClientAccessToken", {
     method: "POST"
   });
-  const token = data.access_token ?? data.data?.access_token;
+  const token = readAccessTokenFromResponse(data);
   if (!isSuccessStatus(data.status_code) && !token) {
     throw new LoginApiError(resolveLoginApiError(data));
   }
-  if (!token || typeof token !== "string") {
+  if (!token) {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
   }
   cachedKeycloakAccessToken = token;
@@ -2052,6 +2069,24 @@ function HeaderLoginShellPortal({
   return /* @__PURE__ */ jsx8(HeaderLoginModals, { cdnBase, variant });
 }
 
+// src/components/header/login/useHeaderLoginConfig.ts
+import { useEffect as useEffect3 } from "react";
+function useHeaderLoginConfig(config) {
+  const baseUrl = config?.baseUrl?.trim();
+  const apiBaseUrl = config?.apiBaseUrl?.trim();
+  useEffect3(() => {
+    if (!baseUrl && !apiBaseUrl) return;
+    window.MYBHARAT_SHELL = {
+      ...window.MYBHARAT_SHELL,
+      login: {
+        ...window.MYBHARAT_SHELL?.login,
+        ...baseUrl ? { baseUrl } : {},
+        ...apiBaseUrl ? { apiBaseUrl } : {}
+      }
+    };
+  }, [baseUrl, apiBaseUrl]);
+}
+
 // src/components/header/HeaderAuthControls.tsx
 import { Fragment as Fragment3, jsx as jsx9, jsxs as jsxs8 } from "react/jsx-runtime";
 function HeaderAuthControls({ cdn, userSession, webroot }) {
@@ -2081,8 +2116,11 @@ var Header = ({
   cdnBase,
   mainNavItems,
   userSession,
-  webroot
+  webroot,
+  baseUrl,
+  apiBaseUrl
 }) => {
+  useHeaderLoginConfig({ baseUrl, apiBaseUrl });
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
@@ -2259,8 +2297,11 @@ var Header2 = ({
   cdnBase,
   mainNavItems,
   userSession,
-  webroot
+  webroot,
+  baseUrl,
+  apiBaseUrl
 }) => {
+  useHeaderLoginConfig({ baseUrl, apiBaseUrl });
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
@@ -2300,7 +2341,7 @@ var Header2 = ({
 var Header2_default = Header2;
 
 // src/components/FooterModals.tsx
-import { useEffect as useEffect3, useState as useState3 } from "react";
+import { useEffect as useEffect4, useState as useState3 } from "react";
 import { createPortal as createPortal4 } from "react-dom";
 import { Fragment as Fragment6, jsx as jsx12, jsxs as jsxs11 } from "react/jsx-runtime";
 function getBootstrapModal2() {
@@ -2313,7 +2354,7 @@ var FooterModals = ({
   onRegisteredUserClick
 }) => {
   const [portalReady, setPortalReady] = useState3(false);
-  useEffect3(() => {
+  useEffect4(() => {
     setPortalReady(true);
     const scriptId = "mb-google-recaptcha-script";
     let created = false;
@@ -2725,11 +2766,11 @@ function prepareMainNavItems(raw, options) {
 }
 
 // src/navigation/useMainNavItems.ts
-import { useEffect as useEffect4, useState as useState4 } from "react";
+import { useEffect as useEffect5, useState as useState4 } from "react";
 function useMainNavItems(options) {
   const { load, select, fallback = DEFAULT_HEADER_MAIN_NAV, maxDepth } = options;
   const [nav, setNav] = useState4(fallback);
-  useEffect4(() => {
+  useEffect5(() => {
     let cancelled = false;
     (async () => {
       try {
@@ -2749,7 +2790,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.198";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.199";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   DEFAULT_HEADER2_MAIN_NAV,

@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.198 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.199 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -21927,17 +21927,34 @@ var MyBharatShell = (() => {
     }
     return fallback;
   }
+  var LOGIN_API_CONTENT_TYPE = "Application/json";
+  function buildLoginApiHeaders(bearerAccessToken) {
+    const headers = {
+      "Content-Type": LOGIN_API_CONTENT_TYPE
+    };
+    const token = bearerAccessToken?.trim();
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+    return headers;
+  }
+  function readAccessTokenFromResponse(data) {
+    const candidates = [
+      data.access_token,
+      data.data?.access_token,
+      typeof data.data === "object" && data.data && "token" in data.data ? data.data.token : void 0
+    ];
+    for (const value of candidates) {
+      if (typeof value === "string" && value.trim()) return value.trim();
+    }
+    return void 0;
+  }
   async function fetchLoginApiJson(path, options) {
     const base = getLoginApiBaseUrl();
     if (!base) {
       throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
     }
-    const headers = {
-      "Content-Type": "application/json"
-    };
-    if (options?.token) {
-      headers.Authorization = `Bearer ${options.token}`;
-    }
+    const headers = buildLoginApiHeaders(options?.token);
     const method = options?.method ?? (options?.body ? "POST" : "POST");
     const url = `${base}${path.startsWith("/") ? path : `/${path}`}`;
     let res;
@@ -21966,11 +21983,11 @@ var MyBharatShell = (() => {
     const data = await fetchLoginApiJson("/getKeycloakClientAccessToken", {
       method: "POST"
     });
-    const token = data.access_token ?? data.data?.access_token;
+    const token = readAccessTokenFromResponse(data);
     if (!isSuccessStatus(data.status_code) && !token) {
       throw new LoginApiError(resolveLoginApiError(data));
     }
-    if (!token || typeof token !== "string") {
+    if (!token) {
       throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
     }
     cachedKeycloakAccessToken = token;
@@ -24101,6 +24118,24 @@ var MyBharatShell = (() => {
     return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HeaderLoginModals, { cdnBase, variant });
   }
 
+  // src/components/header/login/useHeaderLoginConfig.ts
+  var import_react6 = __toESM(require_react());
+  function useHeaderLoginConfig(config) {
+    const baseUrl = config?.baseUrl?.trim();
+    const apiBaseUrl = config?.apiBaseUrl?.trim();
+    (0, import_react6.useEffect)(() => {
+      if (!baseUrl && !apiBaseUrl) return;
+      window.MYBHARAT_SHELL = {
+        ...window.MYBHARAT_SHELL,
+        login: {
+          ...window.MYBHARAT_SHELL?.login,
+          ...baseUrl ? { baseUrl } : {},
+          ...apiBaseUrl ? { apiBaseUrl } : {}
+        }
+      };
+    }, [baseUrl, apiBaseUrl]);
+  }
+
   // src/components/header/HeaderAuthControls.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
   function HeaderAuthControls({ cdn, userSession, webroot }) {
@@ -24130,8 +24165,11 @@ var MyBharatShell = (() => {
     cdnBase,
     mainNavItems,
     userSession,
-    webroot
+    webroot,
+    baseUrl,
+    apiBaseUrl
   }) => {
+    useHeaderLoginConfig({ baseUrl, apiBaseUrl });
     const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
@@ -24308,8 +24346,11 @@ var MyBharatShell = (() => {
     cdnBase,
     mainNavItems,
     userSession,
-    webroot
+    webroot,
+    baseUrl,
+    apiBaseUrl
   }) => {
+    useHeaderLoginConfig({ baseUrl, apiBaseUrl });
     const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
@@ -24574,7 +24615,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.198" }
+          detail: { component: "header", version: "1.0.199" }
         })
       );
     }
@@ -24624,7 +24665,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.198" }
+          detail: { component: "footer", version: "1.0.199" }
         })
       );
     }
@@ -24668,7 +24709,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.198";
+  var MYBHARAT_SHELL_VERSION = "1.0.199";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

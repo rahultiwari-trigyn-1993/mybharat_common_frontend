@@ -119,6 +119,10 @@ type Header2Props = {
     userSession?: HeaderUserSessionInput;
     /** Cake webroot for profile / logout URLs (default `/`). */
     webroot?: string;
+    /** Portal origin for header login redirects (`VITE_BASE_URL`). */
+    baseUrl?: string;
+    /** API origin for header login calls (`VITE_API_BASE_URL` / dev `/api`). */
+    apiBaseUrl?: string;
 };
 declare const Header2: React__default.FC<Header2Props>;
 
@@ -133,6 +137,10 @@ type HeaderProps = {
     userSession?: HeaderUserSessionInput;
     /** Cake webroot for profile / logout URLs (default `/`). */
     webroot?: string;
+    /** Portal origin for header login redirects (`VITE_BASE_URL`). */
+    baseUrl?: string;
+    /** API origin for header login calls (`VITE_API_BASE_URL` / dev `/api`). */
+    apiBaseUrl?: string;
 };
 declare const Header: React__default.FC<HeaderProps>;
 
