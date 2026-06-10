@@ -1,9 +1,13 @@
 import { useEffect } from 'react';
+import { applyShellLoginApiConfig } from './headerLoginFlow';
 
 export type HeaderLoginConfig = {
   /** Portal origin for post-login redirects (trailing slash recommended). */
   baseUrl?: string;
-  /** API origin for header login OTP flows (e.g. `/api` in dev, full URL in prod). */
+  /**
+   * MY Bharat login API root (absolute URL, no trailing slash).
+   * Example: `http://127.0.0.1:8000/api` — required when shell runs on another app (e.g. registration on localhost:3000).
+   */
   apiBaseUrl?: string;
 };
 
@@ -11,6 +15,8 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
   if (!baseUrl && !apiBaseUrl) return;
+
+  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
 
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -22,7 +28,7 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
   };
 }
 
-/** Syncs React `Header` props into `window.MYBHARAT_SHELL.login` for login modals. */
+/** Syncs React `Header` props into shell login config (isolated from host page `/api`). */
 export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
   applyHeaderLoginConfig(config);
 

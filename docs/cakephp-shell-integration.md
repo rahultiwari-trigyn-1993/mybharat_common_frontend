@@ -79,7 +79,7 @@ $shellJs = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_
     },
     login: {
       baseUrl: <?= json_encode(Configure::read('base_url') ?? '/') ?>,
-      apiBaseUrl: <?= json_encode(Configure::read('API_BASE_URL') ?? '/api') ?>
+      apiBaseUrl: <?= json_encode(Configure::read('API_BASE_URL') ?? '') ?>
     }
   };
 </script>
@@ -104,6 +104,32 @@ Example controller sketch:
 $headerNavJson = json_encode($navItemsArray);
 $this->set(compact('headerNavJson', 'ufdl_id'));
 ```
+
+---
+
+## Login API (`apiBaseUrl`) — do not use host page `/api`
+
+Header login calls **`getKeycloakClientAccessToken`** and **`checkUserExists`** on the URL you set in `login.apiBaseUrl` only. It does **not** use the host page’s `/api` proxy (e.g. registration on `localhost:3000`).
+
+Set an **absolute** MY Bharat API root (no trailing slash):
+
+```javascript
+window.MYBHARAT_SHELL = {
+  login: {
+    // Local API
+    apiBaseUrl: 'http://127.0.0.1:8000/api',
+    // Production (from CakePHP Configure::read('API_BASE_URL'))
+  }
+};
+```
+
+Or on the custom element:
+
+```html
+<mybharat-header api-base-url="http://127.0.0.1:8000/api" nav-json-id="..."></mybharat-header>
+```
+
+When the shell runs inside another app (registration on `localhost:3000`), **never** use relative `/api` — that hits the registration backend and returns 401.
 
 ---
 
@@ -157,6 +183,8 @@ document.addEventListener('mb:ready', function (e) {
 | `nav-json-id` | `mybharat-header-nav` | Points to `<script type="application/json">` — **recommended for CakePHP** |
 | `nav-items` | `'[{"type":"link",...}]'` | Inline JSON (escape carefully in PHP) |
 | `title` | `MyBharat` | `aria-label` on header |
+| `api-base-url` | `http://127.0.0.1:8000/api` | MY Bharat login API root (absolute; not host `/api`) |
+| `login-base-url` | `https://mybharat.gov.in/` | Post-login redirect prefix |
 
 For **Header2**: use `variant="header2"`, load `header2.css` + `footer.css` instead of `shell.css`.
 

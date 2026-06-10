@@ -20,6 +20,7 @@ interface Window {
     };
     login?: {
       baseUrl?: string;
+      /** Absolute MY Bharat API root — not the host page `/api` (see shell login docs). */
       apiBaseUrl?: string;
     };
   };

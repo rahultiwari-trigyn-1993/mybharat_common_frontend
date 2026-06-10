@@ -121,7 +121,7 @@ type Header2Props = {
     webroot?: string;
     /** Portal origin for header login redirects (`VITE_BASE_URL`). */
     baseUrl?: string;
-    /** API origin for header login calls (`VITE_API_BASE_URL` / dev `/api`). */
+    /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
     apiBaseUrl?: string;
 };
 declare const Header2: React__default.FC<Header2Props>;
@@ -139,7 +139,7 @@ type HeaderProps = {
     webroot?: string;
     /** Portal origin for header login redirects (`VITE_BASE_URL`). */
     baseUrl?: string;
-    /** API origin for header login calls (`VITE_API_BASE_URL` / dev `/api`). */
+    /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
     apiBaseUrl?: string;
 };
 declare const Header: React__default.FC<HeaderProps>;
@@ -147,6 +147,8 @@ declare const Header: React__default.FC<HeaderProps>;
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
 declare const HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
 declare const DEFAULT_LOGIN_API_ERROR = "Something went wrong!!! Plz try again later.";
+/** Pin header login API root (absolute URL recommended, e.g. `http://127.0.0.1:8000/api`). */
+declare function applyShellLoginApiConfig(apiBaseUrl?: string): void;
 /** Client access token — cached for subsequent login API calls. */
 declare function getKeycloakClientAccessToken(forceRefresh?: boolean): Promise<string>;
 /** Primary entry — matches header.ctp (`#loginWithOtpModal` first). */
@@ -282,4 +284,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, buildHeaderProfileMenuItems, _default as default, filterUnsafeNavTree, getKeycloakClientAccessToken, installHeaderLoginFlow, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, type UseMainNavItemsOptions, applyShellLoginApiConfig, buildHeaderProfileMenuItems, _default as default, filterUnsafeNavTree, getKeycloakClientAccessToken, installHeaderLoginFlow, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, unwrapMenuListFromPayload, useMainNavItems };

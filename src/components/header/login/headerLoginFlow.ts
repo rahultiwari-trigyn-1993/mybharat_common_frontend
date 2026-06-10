@@ -7,6 +7,15 @@ export const HEADER_LOGIN_SIGN_IN_SELECTORS =
 const LOGIN_DATA_KEY = 'loginData';
 const DEFAULT_LOGIN_API_ERROR = 'Something went wrong!!! Plz try again later.';
 
+/** Shell-scoped API base — never derived from `window.location` (avoids localhost:3000 registration `/api` collision). */
+let shellLoginApiBaseUrl: string | undefined;
+
+/** Pin header login API root (absolute URL recommended, e.g. `http://127.0.0.1:8000/api`). */
+export function applyShellLoginApiConfig(apiBaseUrl?: string): void {
+  const url = apiBaseUrl?.trim();
+  if (url) shellLoginApiBaseUrl = url.replace(/\/$/, '');
+}
+
 let installed = false;
 let timeRemainingHeader = 45;
 let responseCount = 0;
@@ -147,74 +156,35 @@ type SignInResponse = {
   data?: { access_token?: string; accessToken?: string; [key: string]: unknown };
 };
 
-function isLoopbackHost(hostname: string): boolean {
-  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
-}
+/** Read shell login API base — pinned config only, not the host page's `/api` proxy. */
+function readShellLoginApiBaseUrl(): string {
+  if (shellLoginApiBaseUrl) return shellLoginApiBaseUrl;
 
-/** Read apiBaseUrl from shell config, meta tag, or `<mybharat-header api-base-url>`. */
-function readRawLoginApiBaseUrl(): string {
-  const fromWindow = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-  if (fromWindow) return fromWindow;
-
-  const fromMeta = document
-    .querySelector('meta[name="mybharat-api-base-url"]')
-    ?.getAttribute('content')
-    ?.trim();
-  if (fromMeta) return fromMeta;
+  const fromShellLogin = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
+  if (fromShellLogin) return fromShellLogin.replace(/\/$/, '');
 
   const fromHeader = document
     .querySelector('mybharat-header')
     ?.getAttribute('api-base-url')
     ?.trim();
-  return fromHeader ?? '';
+  if (fromHeader) return fromHeader.replace(/\/$/, '');
+
+  const fromMeta = document
+    .querySelector('meta[name="mybharat-shell-api-base-url"]')
+    ?.getAttribute('content')
+    ?.trim();
+  return fromMeta ? fromMeta.replace(/\/$/, '') : '';
 }
 
-/**
- * Prefer same-origin relative `/api` when the API is on the same port as the page.
- * Cross-origin absolute URLs (e.g. localhost page + 127.0.0.1 API) drop Authorization in browsers.
- */
-function normalizeLoginApiBaseUrl(raw: string): string {
-  if (!raw) return '';
-  const base = raw.replace(/\/$/, '');
-  if (base.startsWith('/')) return base;
-  if (!/^https?:\/\//i.test(base)) return base;
-
-  try {
-    const api = new URL(base);
-    const page = window.location;
-    const pagePort = page.port || (page.protocol === 'https:' ? '443' : '80');
-    const apiPort = api.port || (api.protocol === 'https:' ? '443' : '80');
-    const pathname = (api.pathname.replace(/\/$/, '') || '/api');
-
-    if (pagePort !== apiPort || !pathname.startsWith('/')) {
-      return base;
-    }
-
-    const sameHost = api.hostname === page.hostname;
-    const loopbackPair =
-      isLoopbackHost(page.hostname) &&
-      isLoopbackHost(api.hostname) &&
-      page.hostname !== api.hostname;
-
-    if (sameHost || loopbackPair) {
-      return pathname;
-    }
-  } catch {
-    /* keep absolute URL */
-  }
-
-  return base;
-}
-
-/** Sync login API config from DOM into `window.MYBHARAT_SHELL.login` before fetch. */
-function syncLoginApiConfigFromDom(): void {
+/** Sync `<mybharat-header api-base-url>` into shell login config before fetch. */
+function syncShellLoginApiConfigFromDom(): void {
   const headerEl = document.querySelector('mybharat-header');
-  const apiBaseUrl =
-    headerEl?.getAttribute('api-base-url')?.trim() ??
-    document.querySelector('meta[name="mybharat-api-base-url"]')?.getAttribute('content')?.trim();
+  const apiBaseUrl = headerEl?.getAttribute('api-base-url')?.trim();
   const baseUrl = headerEl?.getAttribute('login-base-url')?.trim();
 
-  if (!apiBaseUrl && !baseUrl) return;
+  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+
+  if (!baseUrl && !apiBaseUrl) return;
 
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -227,16 +197,13 @@ function syncLoginApiConfigFromDom(): void {
 }
 
 function getLoginApiBaseUrl(): string {
-  syncLoginApiConfigFromDom();
-  return normalizeLoginApiBaseUrl(readRawLoginApiBaseUrl());
+  syncShellLoginApiConfigFromDom();
+  return readShellLoginApiBaseUrl();
 }
 
 function buildLoginApiUrl(path: string): string {
   const base = getLoginApiBaseUrl();
   const suffix = path.startsWith('/') ? path : `/${path}`;
-  if (base.startsWith('/')) {
-    return `${base}${suffix}`;
-  }
   return `${base}${suffix}`;
 }
 
@@ -377,7 +344,7 @@ async function fetchLoginApiJson<T extends SignInResponse>(
     omitCredentials?: boolean;
   }
 ): Promise<T> {
-  syncLoginApiConfigFromDom();
+  syncShellLoginApiConfigFromDom();
   const base = getLoginApiBaseUrl();
   if (!base) {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
@@ -1135,7 +1102,8 @@ export function installHeaderLoginFlow(): () => void {
   if (installed) return () => undefined;
   installed = true;
 
-  syncLoginApiConfigFromDom();
+  syncShellLoginApiConfigFromDom();
+  applyShellLoginApiConfig(window.MYBHARAT_SHELL?.login?.apiBaseUrl);
   cachedKeycloakAccessToken = null;
 
   document.addEventListener('click', onDocumentClick, true);

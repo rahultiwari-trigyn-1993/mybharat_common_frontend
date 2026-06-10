@@ -13,6 +13,7 @@ export {
   installHeaderLoginFlow,
   HEADER_LOGIN_SIGN_IN_SELECTORS,
   getKeycloakClientAccessToken,
+  applyShellLoginApiConfig,
   DEFAULT_LOGIN_API_ERROR,
 } from './components/header/login/headerLoginFlow';
 export {

@@ -28,7 +28,7 @@ export type HeaderProps = {
   webroot?: string;
   /** Portal origin for header login redirects (`VITE_BASE_URL`). */
   baseUrl?: string;
-  /** API origin for header login calls (`VITE_API_BASE_URL` / dev `/api`). */
+  /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
   apiBaseUrl?: string;
 };
 
