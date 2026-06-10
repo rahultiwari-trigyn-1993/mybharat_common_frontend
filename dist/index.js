@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.201 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.202 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -1513,7 +1513,7 @@ async function fetchLoginApiJson(path, options) {
   const text = await res.text();
   try {
     const parsed = JSON.parse(text);
-    if (parsed.status_code == null && !res.ok) {
+    if (parsed.status_code == null || parsed.status_code === "") {
       parsed.status_code = res.status;
     }
     return parsed;
@@ -1544,7 +1544,7 @@ async function fetchCheckUserExists(identifier, accessToken) {
   const token = normalizeBearerAccessToken(accessToken);
   return fetchLoginApiJson("/checkUserExists", {
     method: "POST",
-    body: { identifier, access_token: token },
+    body: { identifier },
     token,
     requireAuth: true,
     omitCredentials: true
@@ -2937,7 +2937,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.201";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.202";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

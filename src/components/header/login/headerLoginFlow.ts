@@ -322,7 +322,8 @@ async function fetchLoginApiJson<T extends SignInResponse>(
   const text = await res.text();
   try {
     const parsed = JSON.parse(text) as T;
-    if (parsed.status_code == null && !res.ok) {
+    // API often omits status_code on success (e.g. checkUserExists → HTTP 200 + message only).
+    if (parsed.status_code == null || parsed.status_code === '') {
       parsed.status_code = res.status;
     }
     return parsed;
@@ -360,7 +361,7 @@ async function fetchCheckUserExists(identifier: string, accessToken: string): Pr
   const token = normalizeBearerAccessToken(accessToken);
   return fetchLoginApiJson<KeycloakCheckResponse>('/checkUserExists', {
     method: 'POST',
-    body: { identifier, access_token: token },
+    body: { identifier },
     token,
     requireAuth: true,
     omitCredentials: true,

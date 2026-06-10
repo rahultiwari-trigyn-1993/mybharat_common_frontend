@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.201 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.202 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -22030,7 +22030,7 @@ var MyBharatShell = (() => {
     const text = await res.text();
     try {
       const parsed = JSON.parse(text);
-      if (parsed.status_code == null && !res.ok) {
+      if (parsed.status_code == null || parsed.status_code === "") {
         parsed.status_code = res.status;
       }
       return parsed;
@@ -22061,7 +22061,7 @@ var MyBharatShell = (() => {
     const token = normalizeBearerAccessToken(accessToken);
     return fetchLoginApiJson("/checkUserExists", {
       method: "POST",
-      body: { identifier, access_token: token },
+      body: { identifier },
       token,
       requireAuth: true,
       omitCredentials: true
@@ -24705,7 +24705,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.201" }
+          detail: { component: "header", version: "1.0.202" }
         })
       );
     }
@@ -24757,7 +24757,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.201" }
+          detail: { component: "footer", version: "1.0.202" }
         })
       );
     }
@@ -24801,7 +24801,7 @@ var MyBharatShell = (() => {
 
   // src/shell/index.ts
   registerMyBharatWebComponents();
-  var MYBHARAT_SHELL_VERSION = "1.0.201";
+  var MYBHARAT_SHELL_VERSION = "1.0.202";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:
