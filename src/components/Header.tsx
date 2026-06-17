@@ -30,6 +30,16 @@ export type HeaderProps = {
   baseUrl?: string;
   /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
   apiBaseUrl?: string;
+  /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
+  apiProxyBaseUrl?: string;
+  /** RSA public key PEM (optional). Browser encrypts password/OTP — never pass private key as a prop. */
+  loginPayloadPublicKey?: string;
+  /** Optional client IP for OTP send when host cannot infer IP server-side. */
+  ipAddress?: string;
+  /** Public profile API base for post-login `getUserId`. */
+  publicProfileApiBaseUrl?: string;
+  /** Cookie domain for post-login token cookies. */
+  cookieDomain?: string;
 };
 
 export const Header: React.FC<HeaderProps> = ({
@@ -40,8 +50,21 @@ export const Header: React.FC<HeaderProps> = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  apiProxyBaseUrl,
+  loginPayloadPublicKey,
+  ipAddress,
+  publicProfileApiBaseUrl,
+  cookieDomain,
 }) => {
-  useHeaderLoginConfig({ baseUrl, apiBaseUrl });
+  useHeaderLoginConfig({
+    baseUrl,
+    apiBaseUrl,
+    apiProxyBaseUrl,
+    loginPayloadPublicKey,
+    ipAddress,
+    publicProfileApiBaseUrl,
+    cookieDomain,
+  });
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, '');
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
@@ -92,9 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
             document.body
           )
         : null}
-      {menuPortalReady && !loggedIn ? (
-        <HeaderLoginShellPortal cdnBase={cdn} variant="header" />
-      ) : null}
+      {!loggedIn ? <HeaderLoginShellPortal cdnBase={cdn} variant="header" /> : null}
     </>
   );
 };

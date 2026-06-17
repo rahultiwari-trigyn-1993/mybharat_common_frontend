@@ -75,6 +75,7 @@
         },
         footer: {
           isLoggedIn: false,
+          recaptchaSiteKey: "",
         },
       };
     </script>
@@ -105,7 +106,7 @@
       <p>Shell version: <code id="shell-version">…</code></p>
     </main>
 
-    <mybharat-footer></mybharat-footer>
+    <mybharat-footer is-logged-in="false" recaptcha-site-key=""></mybharat-footer>
 
     <script>
       document.getElementById("cdn-css").textContent = window.__MYBHARAT_SHELL_CSS || "(unknown)";

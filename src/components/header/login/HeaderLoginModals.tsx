@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { memo, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { submitOtpLoginFromModal, validateOtpLoginForm } from './headerLoginFlow';
 import './HeaderLogin.css';
 
 export type HeaderLoginModalsProps = {
@@ -21,7 +22,19 @@ function quizRegisterHref(): string {
  * Login / OTP modals ported from `header.ctp`.
  * Portaled to `document.body` alongside `#mobileMenuNew`.
  */
-export function HeaderLoginModals({ cdnBase, variant = 'header' }: HeaderLoginModalsProps) {
+function disableShellLoginSubmitButtons(): void {
+  document.querySelectorAll('.mb-common-header-login .login_otp_header, .mb-common-header-login .generate_otp_header').forEach((el) => {
+    (el as HTMLButtonElement).disabled = true;
+  });
+  const signIn = document.querySelector('.mb-common-header-login #signInButton') as HTMLButtonElement | null;
+  if (signIn) signIn.disabled = true;
+}
+
+function HeaderLoginModalsInner({ cdnBase, variant = 'header' }: HeaderLoginModalsProps) {
+  useLayoutEffect(() => {
+    disableShellLoginSubmitButtons();
+  }, []);
+
   const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
   const rootClass =
     variant === 'header2' ? 'mb-common-header-login mb-common-header-login--header2' : 'mb-common-header-login';
@@ -99,7 +112,7 @@ export function HeaderLoginModals({ cdnBase, variant = 'header' }: HeaderLoginMo
                     <p id="login_with_otp">Login with OTP</p>
                   </div>
                   <div className="col-md-4">
-                    <button type="button" id="signInButton" className={`${LOGIN_BTN} float-end w-100 firebase-user-login-btn`} disabled>
+                    <button type="button" id="signInButton" className={`${LOGIN_BTN} float-end w-100 firebase-user-login-btn`}>
                       Login
                     </button>
                   </div>
@@ -148,7 +161,7 @@ export function HeaderLoginModals({ cdnBase, variant = 'header' }: HeaderLoginMo
                   <small id="user_mobile_header_error" className="input-error" />
                 </div>
               </div>
-              <button type="button" className={`${LOGIN_BTN} float-end w-25 mr-button generate_otp_header mb-3`} disabled>
+              <button type="button" className={`${LOGIN_BTN} float-end w-25 mr-button generate_otp_header mb-3`}>
                 Get OTP
               </button>
             </div>
@@ -330,13 +343,20 @@ export function HeaderLoginModals({ cdnBase, variant = 'header' }: HeaderLoginMo
                     <label htmlFor="otp_login_header" id="otp_login_header_label" className="form-label">
                       Mobile / Email*
                     </label>
-                    <input type="text" className="form-control" id="otp_login_header" name="otp_login_header" placeholder="Enter here..." />
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="otp_login_header"
+                      name="otp_login_header"
+                      placeholder="Enter here..."
+                      onInput={() => validateOtpLoginForm()}
+                    />
                   </div>
                   <small id="otp_login_header_error" className="input-error" style={{ paddingTop: 16 }} />
                 </div>
                 <div className="row mt-2">
                   <div style={{ marginLeft: 23, paddingTop: 16 }}>
-                    <input className="form-check-input" type="checkbox" id="consentCheck1" />
+                    <input className="form-check-input" type="checkbox" id="consentCheck1" onChange={() => validateOtpLoginForm()} />
                     <label className="form-check-label" htmlFor="consentCheck1">
                       I consent to{' '}
                       <a href="/pages/terms_of_use" style={{ color: '#0B6BBE' }}>
@@ -350,7 +370,14 @@ export function HeaderLoginModals({ cdnBase, variant = 'header' }: HeaderLoginMo
                     <p id="login_with_pwd">Login with Password</p>
                   </div>
                   <div className="col-md-4">
-                    <button type="button" className={`${LOGIN_BTN} float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3`} disabled>
+                    <button
+                      type="button"
+                      className={`${LOGIN_BTN} float-end w-100 login_otp_header firebase-user-sentOtp-btn mb-3`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        submitOtpLoginFromModal();
+                      }}
+                    >
                       Login
                     </button>
                   </div>
@@ -450,5 +477,7 @@ export function HeaderLoginModals({ cdnBase, variant = 'header' }: HeaderLoginMo
 
   return createPortal(content, document.body);
 }
+
+export const HeaderLoginModals = memo(HeaderLoginModalsInner);
 
 export default HeaderLoginModals;

@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Header2 from '../components/Header2';
 import { resolveFooterProps, resolveHeaderProps } from './parseShellConfig';
+import type { HeaderUserSessionInput } from '../components/header/headerUserSession';
 
 const HEADER_TAG = 'mybharat-header';
 const FOOTER_TAG = 'mybharat-footer';
@@ -19,8 +20,18 @@ const HEADER_OBSERVED = [
   'webroot',
   'login-base-url',
   'api-base-url',
+  'api-proxy-base-url',
+  'login-payload-public-key',
+  'ip-address',
 ] as const;
-const FOOTER_OBSERVED = ['cdn-base', 'is-logged-in', 'recaptcha-site-key'] as const;
+const FOOTER_OBSERVED = [
+  'cdn-base',
+  'is-logged-in',
+  'recaptcha-site-key',
+  'webroot',
+  'feedback-api-base-url',
+  'feedback-submit-url',
+] as const;
 
 class MyBharatHeaderElement extends HTMLElement {
   private mountEl: HTMLDivElement | null = null;
@@ -59,8 +70,19 @@ class MyBharatHeaderElement extends HTMLElement {
   private render(): void {
     if (!this.root) return;
 
-    const { cdnBase, title, variant, mainNavItems, userSession, webroot, baseUrl, apiBaseUrl } =
-      resolveHeaderProps(this);
+    const {
+      cdnBase,
+      title,
+      variant,
+      mainNavItems,
+      userSession,
+      webroot,
+      baseUrl,
+      apiBaseUrl,
+      apiProxyBaseUrl,
+      loginPayloadPublicKey,
+      ipAddress,
+    } = resolveHeaderProps(this);
     const Comp = variant === 'header2' ? Header2 : Header;
 
     this.root.render(
@@ -72,6 +94,9 @@ class MyBharatHeaderElement extends HTMLElement {
         webroot={webroot}
         baseUrl={baseUrl}
         apiBaseUrl={apiBaseUrl}
+        apiProxyBaseUrl={apiProxyBaseUrl}
+        loginPayloadPublicKey={loginPayloadPublicKey}
+        ipAddress={ipAddress}
       />
     );
   }
@@ -114,13 +139,25 @@ class MyBharatFooterElement extends HTMLElement {
   private render(): void {
     if (!this.root) return;
 
-    const { cdnBase, isLoggedIn, recaptchaSiteKey } = resolveFooterProps(this);
+    const {
+      cdnBase,
+      isLoggedIn,
+      recaptchaSiteKey,
+      webroot,
+      feedbackApiBaseUrl,
+      feedbackSubmitUrl,
+      userSession,
+    } = resolveFooterProps(this);
 
     this.root.render(
       <Footer
         cdnBase={cdnBase}
         isLoggedIn={isLoggedIn}
         recaptchaSiteKey={recaptchaSiteKey}
+        webroot={webroot}
+        feedbackApiBaseUrl={feedbackApiBaseUrl}
+        feedbackSubmitUrl={feedbackSubmitUrl}
+        userSession={userSession as HeaderUserSessionInput}
         onRegisteredUserClick={() => {
           this.dispatchEvent(
             new CustomEvent('mb:registered-user-click', { bubbles: true })

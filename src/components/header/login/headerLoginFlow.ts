@@ -1,4 +1,21 @@
 import { hideBootstrapModal, showBootstrapModal, switchBootstrapModal } from './bootstrapModal';
+import {
+  completeForgotPasswordUpdate,
+  completeLoginWithOtp,
+  completePasswordSignIn,
+  isLoginOtpRedirectResult,
+  storeRegCodeFromVerifyResponse,
+} from './loginWithOtpFlow';
+import {
+  clearShellInternalAuthCache,
+  clearShellInternalKcAuthCache,
+  fetchInternalGuestOauthAccessToken,
+  fetchInternalKeycloakClientAccessToken,
+  postInternalAuthJson,
+  ShellInternalAuthError,
+  SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH,
+} from './shellLoginInternalAuth';
+import { encryptLoginSecret } from './shellLoginSecretPayload';
 
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
 export const HEADER_LOGIN_SIGN_IN_SELECTORS =
@@ -9,18 +26,28 @@ const DEFAULT_LOGIN_API_ERROR = 'Something went wrong!!! Plz try again later.';
 
 /** Shell-scoped API base — never derived from `window.location` (avoids localhost:3000 registration `/api` collision). */
 let shellLoginApiBaseUrl: string | undefined;
+/** Same-origin proxy base for fetch (avoids cross-origin CORS OPTIONS preflight). */
+let shellLoginApiProxyBaseUrl: string | undefined;
 
-/** Pin header login API root (absolute URL recommended, e.g. `http://127.0.0.1:8000/api`). */
-export function applyShellLoginApiConfig(apiBaseUrl?: string): void {
+/** Default same-origin proxy prefix when apiBaseUrl is on another host/port. */
+export const SHELL_LOGIN_API_PROXY_DEFAULT = '/mybharat-shell-api';
+
+let warnedAutoLoginProxy = false;
+
+/** Pin header login API root and optional same-origin proxy for browser fetch. */
+export function applyShellLoginApiConfig(apiBaseUrl?: string, apiProxyBaseUrl?: string): void {
   const url = apiBaseUrl?.trim();
   if (url) shellLoginApiBaseUrl = url.replace(/\/$/, '');
+  const proxy = apiProxyBaseUrl?.trim();
+  if (proxy) shellLoginApiProxyBaseUrl = proxy.replace(/\/$/, '');
+  clearShellInternalAuthCache();
 }
 
 let installed = false;
 let timeRemainingHeader = 45;
 let responseCount = 0;
 let countdownHeader: ReturnType<typeof setInterval> | null = null;
-let cachedKeycloakAccessToken: string | null = null;
+let otpLoginSendInFlight = false;
 
 class LoginApiError extends Error {
   constructor(message: string) {
@@ -29,8 +56,16 @@ class LoginApiError extends Error {
   }
 }
 
+/** Prefer in-package login modals when present (avoids duplicate ids on host pages). */
+function loginModalRoot(): ParentNode {
+  return document.querySelector('.mb-common-header-login') ?? document;
+}
+
 function $(id: string): HTMLElement | null {
-  return document.getElementById(id);
+  const root = loginModalRoot();
+  if (root === document) return document.getElementById(id);
+  const escaped = typeof CSS !== 'undefined' && typeof CSS.escape === 'function' ? CSS.escape(id) : id;
+  return root.querySelector(`#${escaped}`);
 }
 
 function val(id: string): string {
@@ -130,14 +165,33 @@ function setAuthCookies(token: string, domain: string, encryptId?: string): void
   }
 }
 
-function tryFirebaseEvent(event: string): void {
-  const setup = (window as unknown as { setupFirebaseUserAjaxEvents?: (e: string, id: string) => void })
-    .setupFirebaseUserAjaxEvents;
-  const encode = (window as unknown as { encodeIdentifier?: (id: string) => string }).encodeIdentifier;
-  const userId = (window as unknown as { __MYBHARAT_LOGIN_USER_ID__?: string }).__MYBHARAT_LOGIN_USER_ID__;
-  if (typeof setup === 'function' && typeof encode === 'function' && userId) {
-    setup(event, encode(userId));
+function resolveFirebaseTrackingUserId(loginRes?: SignInResponse): string {
+  const data = loginRes?.data;
+  if (data && typeof data === 'object') {
+    for (const key of ['user_id', 'userId', 'ID', 'id']) {
+      const value = (data as Record<string, unknown>)[key];
+      if (value != null && String(value).trim()) return String(value);
+    }
   }
+
+  const userData = (window as Window & { USER_DATA?: { ID?: string | number } }).USER_DATA?.ID;
+  if (userData != null && String(userData).trim()) return String(userData);
+
+  const fromShell = window.__MYBHARAT_LOGIN_USER_ID__?.trim();
+  if (fromShell) return fromShell;
+
+  return 'unknown';
+}
+
+/** Mirrors legacy `setupFirebaseUserAjaxEvents(event, encodeIdentifier(userId))` after login AJAX. */
+function tryFirebaseEvent(event: string, loginRes?: SignInResponse): void {
+  const setup = window.setupFirebaseUserAjaxEvents;
+  if (typeof setup !== 'function') return;
+
+  const rawId = resolveFirebaseTrackingUserId(loginRes);
+  const encode = window.encodeIdentifier;
+  const trackingId = typeof encode === 'function' ? encode(rawId) : rawId;
+  setup(event, trackingId);
 }
 
 type SignInResponse = {
@@ -153,7 +207,9 @@ type SignInResponse = {
   accessToken?: string;
   error?: string;
   error_description?: string;
-  data?: { access_token?: string; accessToken?: string; [key: string]: unknown };
+  reg_code?: string;
+  mb_token?: string;
+  data?: string | Record<string, unknown> | { access_token?: string; accessToken?: string; [key: string]: unknown };
 };
 
 /** Read shell login API base — pinned config only, not the host page's `/api` proxy. */
@@ -176,15 +232,75 @@ function readShellLoginApiBaseUrl(): string {
   return fromMeta ? fromMeta.replace(/\/$/, '') : '';
 }
 
+function readShellLoginApiProxyBaseUrl(): string {
+  if (shellLoginApiProxyBaseUrl) return shellLoginApiProxyBaseUrl;
+
+  const fromShell = window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim();
+  if (fromShell) return fromShell.replace(/\/$/, '');
+
+  const fromHeader = document
+    .querySelector('mybharat-header')
+    ?.getAttribute('api-proxy-base-url')
+    ?.trim();
+  if (fromHeader) return fromHeader.replace(/\/$/, '');
+
+  const fromMeta = document
+    .querySelector('meta[name="mybharat-shell-api-proxy-base"]')
+    ?.getAttribute('content')
+    ?.trim();
+  return fromMeta ? fromMeta.replace(/\/$/, '') : '';
+}
+
+function resolveApiBaseOrigin(base: string): string | undefined {
+  if (typeof window === 'undefined') return undefined;
+  try {
+    const resolved = base.includes('://')
+      ? base
+      : `${window.location.origin}${base.startsWith('/') ? base : `/${base}`}`;
+    return new URL(resolved).origin;
+  } catch {
+    return undefined;
+  }
+}
+
+function isCrossOriginApiBase(base: string): boolean {
+  if (typeof window === 'undefined' || !base) return false;
+  const apiOrigin = resolveApiBaseOrigin(base);
+  return !!apiOrigin && apiOrigin !== window.location.origin;
+}
+
+/**
+ * URL base used for browser fetch — same-origin proxy when apiBaseUrl is cross-origin
+ * (keeps Authorization: Bearer POST without CORS OPTIONS preflight).
+ */
+function readShellLoginFetchBaseUrl(): string {
+  const proxy = readShellLoginApiProxyBaseUrl();
+  if (proxy) return proxy;
+
+  const direct = readShellLoginApiBaseUrl();
+  if (!direct) return '';
+
+  if (!isCrossOriginApiBase(direct)) return direct;
+
+  if (!warnedAutoLoginProxy && typeof console !== 'undefined') {
+    warnedAutoLoginProxy = true;
+    console.warn(
+      `[mybharat header] apiBaseUrl (${direct}) is cross-origin; login fetch uses same-origin proxy ${SHELL_LOGIN_API_PROXY_DEFAULT}. Forward that path to the API on your dev server (see docs).`
+    );
+  }
+  return SHELL_LOGIN_API_PROXY_DEFAULT;
+}
+
 /** Sync `<mybharat-header api-base-url>` into shell login config before fetch. */
 function syncShellLoginApiConfigFromDom(): void {
   const headerEl = document.querySelector('mybharat-header');
   const apiBaseUrl = headerEl?.getAttribute('api-base-url')?.trim();
+  const apiProxyBaseUrl = headerEl?.getAttribute('api-proxy-base-url')?.trim();
   const baseUrl = headerEl?.getAttribute('login-base-url')?.trim();
 
-  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl);
 
-  if (!baseUrl && !apiBaseUrl) return;
+  if (!baseUrl && !apiBaseUrl && !apiProxyBaseUrl) return;
 
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -192,6 +308,7 @@ function syncShellLoginApiConfigFromDom(): void {
       ...window.MYBHARAT_SHELL?.login,
       ...(baseUrl ? { baseUrl } : {}),
       ...(apiBaseUrl ? { apiBaseUrl } : {}),
+      ...(apiProxyBaseUrl ? { apiProxyBaseUrl } : {}),
     },
   };
 }
@@ -202,9 +319,21 @@ function getLoginApiBaseUrl(): string {
 }
 
 function buildLoginApiUrl(path: string): string {
-  const base = getLoginApiBaseUrl();
+  const base = readShellLoginFetchBaseUrl();
   const suffix = path.startsWith('/') ? path : `/${path}`;
   return `${base}${suffix}`;
+}
+
+/** Same-origin or proxy base used for APIGateway fetch from the shell. */
+export function getShellApiFetchBaseUrl(): string {
+  syncShellLoginApiConfigFromDom();
+  return readShellLoginFetchBaseUrl();
+}
+
+/** Build APIGateway URL under the shell login/feedback proxy base. */
+export function buildShellApiUrl(path: string): string {
+  syncShellLoginApiConfigFromDom();
+  return buildLoginApiUrl(path);
 }
 
 function isSuccessStatus(statusCode?: number | string): boolean {
@@ -244,8 +373,67 @@ function resolveLoginApiError(
   return fallback;
 }
 
-/** Headers for login API calls — matches host Keycloak integration spec. */
-const LOGIN_API_CONTENT_TYPE = 'Application/json';
+/** Cake portal origin for legacy `/pages/*` endpoints (e.g. `VITE_BASE_URL`). */
+function readShellLoginBaseUrl(): string {
+  syncShellLoginApiConfigFromDom();
+  const fromShell = window.MYBHARAT_SHELL?.login?.baseUrl?.trim();
+  if (fromShell) return fromShell.replace(/\/$/, '');
+
+  const fromHeader = document
+    .querySelector('mybharat-header')
+    ?.getAttribute('login-base-url')
+    ?.trim();
+  return fromHeader ? fromHeader.replace(/\/$/, '') : '';
+}
+
+function buildPagesUrl(path: string): string {
+  const base = readShellLoginBaseUrl();
+  const segment = path.startsWith('/') ? path.slice(1) : path;
+  if (base) return `${base}/${segment}`;
+  return `/${segment}`;
+}
+
+function resolveVerifyOtpError(
+  res?: SignInResponse | null,
+  fallback = 'Please enter valid OTP.'
+): string {
+  const data = res?.data;
+  if (typeof data === 'string' && data.trim()) return data.trim();
+  if (data && typeof data === 'object') {
+    const parts: string[] = [];
+    for (const value of Object.values(data)) {
+      if (typeof value === 'string' && value.trim()) parts.push(value.trim());
+      else if (Array.isArray(value)) {
+        for (const item of value) {
+          if (typeof item === 'string' && item.trim()) parts.push(item.trim());
+        }
+      }
+    }
+    if (parts.length) return parts.join(' ');
+  }
+  return resolveLoginApiError(res, fallback);
+}
+
+function markLoginOtpVerified(): void {
+  setText('otp-field-3_error', '');
+  setVal('verify_otp_header', '1');
+  timeRemainingHeader = 0;
+  if (countdownHeader) clearInterval(countdownHeader);
+  document.querySelectorAll('.resend_otp_header').forEach((el) => {
+    (el as HTMLElement).style.display = 'none';
+  });
+  document.querySelectorAll('.otp_timer_header').forEach((el) => {
+    (el as HTMLElement).style.display = 'none';
+  });
+  setDisabled('otp-field-3', true);
+  setDisabled('btn-otp-verify-header', true);
+}
+
+/** JSON + Bearer — used for /checkUserExists per Keycloak integration spec. */
+const LOGIN_API_JSON_CONTENT_TYPE = 'Application/json';
+
+/** Form POST — host internal route (server calls getKeycloakClientAccessToken). */
+const LOGIN_API_FORM_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 function normalizeBearerAccessToken(raw?: string): string {
   if (!raw) return '';
@@ -256,15 +444,148 @@ function normalizeBearerAccessToken(raw?: string): string {
   return token;
 }
 
-function buildLoginApiHeaders(bearerAccessToken?: string): Headers {
+function parseLoginApiResponse<T extends SignInResponse>(res: Response, text: string): T {
+  try {
+    const parsed = JSON.parse(text) as T;
+    if (parsed.status_code == null || parsed.status_code === '') {
+      parsed.status_code = res.status;
+    }
+    return parsed;
+  } catch {
+    if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+    return { status_code: res.status, message: text } as T;
+  }
+}
+
+/**
+ * Simple shell login POST/GET (non-sensitive routes only — use internal auth for KC client / oauth).
+ */
+async function fetchLoginApi<T extends SignInResponse>(
+  path: string,
+  options?: {
+    method?: 'POST' | 'GET';
+    form?: Record<string, string>;
+  }
+): Promise<T> {
+  syncShellLoginApiConfigFromDom();
+  const base = readShellLoginFetchBaseUrl();
+  if (!base) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const method = options?.method ?? 'POST';
+  const url = buildLoginApiUrl(path);
+  const form = options?.form;
+
+  let res: Response;
+  try {
+    if (method === 'GET') {
+      const qs = form ? `?${new URLSearchParams(form).toString()}` : '';
+      res = await fetch(`${url}${qs}`, { method: 'GET', credentials: 'omit' });
+    } else if (form && Object.keys(form).length > 0) {
+      res = await fetch(url, {
+        method: 'POST',
+        credentials: 'omit',
+        headers: { 'Content-Type': LOGIN_API_FORM_CONTENT_TYPE },
+        body: new URLSearchParams(form),
+      });
+    } else {
+      res = await fetch(url, { method: 'POST', credentials: 'omit' });
+    }
+  } catch {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const text = await res.text();
+  return parseLoginApiResponse<T>(res, text);
+}
+
+/** POST form-urlencoded with Authorization: Bearer — e.g. /sendMobileGuestUserOtp. */
+async function fetchLoginApiFormPost<T extends SignInResponse>(
+  path: string,
+  form: Record<string, string>,
+  bearerAccessToken: string
+): Promise<T> {
+  syncShellLoginApiConfigFromDom();
+  const base = readShellLoginFetchBaseUrl();
+  if (!base) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const token = normalizeBearerAccessToken(bearerAccessToken);
+  if (!token) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const url = buildLoginApiUrl(path);
   const headers = new Headers();
-  headers.set('Content-Type', LOGIN_API_CONTENT_TYPE);
-  headers.set('Accept', LOGIN_API_CONTENT_TYPE);
+  headers.set('Content-Type', LOGIN_API_FORM_CONTENT_TYPE);
+  headers.set('Authorization', `Bearer ${token}`);
+
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      credentials: 'omit',
+      headers,
+      body: new URLSearchParams(form),
+    });
+  } catch {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const text = await res.text();
+  return parseLoginApiResponse<T>(res, text);
+}
+
+function buildBearerJsonHeaders(bearerAccessToken: string): Headers {
+  const headers = new Headers();
+  headers.set('Content-Type', LOGIN_API_JSON_CONTENT_TYPE);
+  headers.set('Accept', LOGIN_API_JSON_CONTENT_TYPE);
   const token = normalizeBearerAccessToken(bearerAccessToken);
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);
   }
   return headers;
+}
+
+/** POST JSON with Authorization: Bearer — body must not include access_token. */
+async function fetchLoginApiJsonPost<T extends SignInResponse>(
+  path: string,
+  body: Record<string, unknown>,
+  bearerAccessToken: string
+): Promise<T> {
+  syncShellLoginApiConfigFromDom();
+  const base = readShellLoginFetchBaseUrl();
+  if (!base) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const token = normalizeBearerAccessToken(bearerAccessToken);
+  if (!token) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const headers = buildBearerJsonHeaders(token);
+  if (!headers.has('Authorization')) {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const url = buildLoginApiUrl(path);
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      credentials: 'omit',
+      headers,
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  }
+
+  const text = await res.text();
+  return parseLoginApiResponse<T>(res, text);
 }
 
 function readAccessTokenField(value: unknown): string | undefined {
@@ -333,108 +654,167 @@ function isKeycloakUnauthorizedResponse(data: unknown): boolean {
   return /401|unauthorized/i.test(err);
 }
 
-async function fetchLoginApiJson<T extends SignInResponse>(
-  path: string,
-  options?: {
-    method?: string;
-    body?: Record<string, unknown>;
-    token?: string;
-    requireAuth?: boolean;
-    /** Bearer-only API calls — do not send host session cookies (avoids 401 from cookie auth). */
-    omitCredentials?: boolean;
+/** Client access token — server-side internal route only (not exposed in Network tab). */
+export async function getKeycloakClientAccessToken(forceRefresh = false): Promise<string> {
+  try {
+    return await fetchInternalKeycloakClientAccessToken(forceRefresh);
+  } catch (err) {
+    if (err instanceof ShellInternalAuthError) {
+      throw new LoginApiError(err.message);
+    }
+    throw err;
   }
-): Promise<T> {
-  syncShellLoginApiConfigFromDom();
-  const base = getLoginApiBaseUrl();
-  if (!base) {
-    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+}
+
+/** Guest OTP OAuth token — server-side internal route only (credentials never in browser). */
+async function getOauthAccessToken(forceRefresh = false): Promise<string> {
+  try {
+    return await fetchInternalGuestOauthAccessToken(forceRefresh);
+  } catch (err) {
+    if (err instanceof ShellInternalAuthError) {
+      throw new LoginApiError(err.message);
+    }
+    throw err;
+  }
+}
+
+function readShellClientIpAddress(): string {
+  return window.MYBHARAT_SHELL?.login?.ipAddress?.trim() ?? '';
+}
+
+function readClientUserAgent(): string {
+  return typeof navigator !== 'undefined' ? navigator.userAgent : '';
+}
+
+const CLIENT_IP_SESSION_KEY = 'mybharat_client_ip_address';
+let cachedClientIpAddress: string | null = null;
+let clientIpFetchPromise: Promise<string> | null = null;
+
+function readCachedClientIpFromSession(): string {
+  try {
+    return sessionStorage.getItem(CLIENT_IP_SESSION_KEY)?.trim() ?? '';
+  } catch {
+    return '';
+  }
+}
+
+function storeClientIpCache(ip: string): void {
+  cachedClientIpAddress = ip;
+  try {
+    sessionStorage.setItem(CLIENT_IP_SESSION_KEY, ip);
+  } catch {
+    // sessionStorage unavailable (private mode, etc.)
+  }
+}
+
+function parseIpFromJsonResponse(data: unknown): string | undefined {
+  if (!data || typeof data !== 'object') return undefined;
+  const obj = data as Record<string, unknown>;
+  for (const key of ['ip', 'ipAddress', 'query', 'ip_address']) {
+    const value = obj[key];
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+  return undefined;
+}
+
+function parseIpFromCloudflareTrace(text: string): string | undefined {
+  for (const line of text.split('\n')) {
+    if (line.startsWith('ip=')) {
+      const ip = line.slice(3).trim();
+      if (ip) return ip;
+    }
+  }
+  return undefined;
+}
+
+async function fetchClientIpFromPublicApi(): Promise<string> {
+  const jsonEndpoints = [
+    'https://api.ipify.org?format=json',
+    'https://api64.ipify.org?format=json',
+  ];
+
+  for (const url of jsonEndpoints) {
+    try {
+      const res = await fetch(url, { method: 'GET', credentials: 'omit' });
+      if (!res.ok) continue;
+      const data = (await res.json()) as unknown;
+      const ip = parseIpFromJsonResponse(data);
+      if (ip) return ip;
+    } catch {
+      // try next endpoint
+    }
   }
 
-  const normalizedToken = normalizeBearerAccessToken(options?.token);
-  if (options?.requireAuth && !normalizedToken) {
-    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  try {
+    const res = await fetch('https://www.cloudflare.com/cdn-cgi/trace', {
+      method: 'GET',
+      credentials: 'omit',
+    });
+    if (res.ok) {
+      const ip = parseIpFromCloudflareTrace(await res.text());
+      if (ip) return ip;
+    }
+  } catch {
+    // fall through
   }
 
-  const headers = buildLoginApiHeaders(normalizedToken);
-  if (options?.requireAuth && !headers.has('Authorization')) {
-    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+  return '';
+}
+
+/** Shell config → memory cache → sessionStorage → public IP lookup. */
+async function resolveClientIpAddress(): Promise<string> {
+  const fromShell = readShellClientIpAddress();
+  if (fromShell) return fromShell;
+
+  if (cachedClientIpAddress) return cachedClientIpAddress;
+
+  const fromSession = readCachedClientIpFromSession();
+  if (fromSession) {
+    cachedClientIpAddress = fromSession;
+    return fromSession;
   }
 
-  const method = options?.method ?? (options?.body ? 'POST' : 'POST');
-  const url = buildLoginApiUrl(path);
+  if (!clientIpFetchPromise) {
+    clientIpFetchPromise = fetchClientIpFromPublicApi().finally(() => {
+      clientIpFetchPromise = null;
+    });
+  }
 
+  const ip = await clientIpFetchPromise;
+  if (ip) storeClientIpCache(ip);
+  return ip;
+}
+
+function prefetchClientIpAddress(): void {
+  void resolveClientIpAddress();
+}
+
+/** POST /checkUserExists — Authorization: Bearer {token}; body `{ identifier }` only. */
+async function fetchCheckUserExists(identifier: string, accessToken: string): Promise<KeycloakCheckResponse> {
+  return fetchLoginApiJsonPost<KeycloakCheckResponse>('/checkUserExists', { identifier }, accessToken);
+}
+
+async function postJson(path: string, data: Record<string, string>): Promise<SignInResponse> {
+  const url = buildPagesUrl(path);
+  const body = new URLSearchParams(data);
   let res: Response;
   try {
     res = await fetch(url, {
-      method,
-      credentials: options?.omitCredentials === false ? 'include' : 'omit',
-      headers,
-      body: options?.body != null ? JSON.stringify(options.body) : undefined,
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
     });
   } catch {
-    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
+    return { status_code: 500, message: DEFAULT_LOGIN_API_ERROR };
   }
-
   const text = await res.text();
   try {
-    const parsed = JSON.parse(text) as T;
-    // API often omits status_code on success (e.g. checkUserExists → HTTP 200 + message only).
+    const parsed = JSON.parse(text) as SignInResponse;
     if (parsed.status_code == null || parsed.status_code === '') {
       parsed.status_code = res.status;
     }
     return parsed;
-  } catch {
-    if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
-    return { status_code: res.status, message: text } as T;
-  }
-}
-
-/** Client access token — cached for subsequent login API calls. */
-export async function getKeycloakClientAccessToken(forceRefresh = false): Promise<string> {
-  if (!forceRefresh && cachedKeycloakAccessToken) {
-    return cachedKeycloakAccessToken;
-  }
-
-  const data = await fetchLoginApiJson<SignInResponse>('/getKeycloakClientAccessToken', {
-    method: 'POST',
-    omitCredentials: true,
-  });
-
-  const token = readAccessTokenFromResponse(data);
-  if (!isSuccessStatus(data.status_code) && !token) {
-    throw new LoginApiError(resolveLoginApiError(data));
-  }
-  if (!token) {
-    throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
-  }
-
-  cachedKeycloakAccessToken = token;
-  return token;
-}
-
-/** POST /checkUserExists — Authorization: Bearer {access_token from getKeycloakClientAccessToken}. */
-async function fetchCheckUserExists(identifier: string, accessToken: string): Promise<KeycloakCheckResponse> {
-  const token = normalizeBearerAccessToken(accessToken);
-  return fetchLoginApiJson<KeycloakCheckResponse>('/checkUserExists', {
-    method: 'POST',
-    body: { identifier },
-    token,
-    requireAuth: true,
-    omitCredentials: true,
-  });
-}
-
-async function postJson(path: string, data: Record<string, string>): Promise<SignInResponse> {
-  const body = new URLSearchParams(data);
-  const res = await fetch(path, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body,
-  });
-  const text = await res.text();
-  try {
-    return JSON.parse(text) as SignInResponse;
   } catch {
     return { status_code: res.ok ? 200 : 500, message: text };
   }
@@ -488,7 +868,9 @@ function handleLoginRedirect(signInJsonObj: SignInResponse): void {
   }
   if (signInJsonObj.controller && signInJsonObj.action) {
     window.location.href = `${baseUrl}${signInJsonObj.controller}/${signInJsonObj.action}`;
+    return;
   }
+  window.location.href = baseUrl;
 }
 
 function startTimerHeader(): void {
@@ -532,19 +914,37 @@ function resetOtpLoginForm(): void {
   setVal('otp_login_header', '');
   setText('otp_login_header_error', '');
   setChecked('consentCheck1', false);
-  setDisabled('login_otp_header', true);
-  document.querySelectorAll('.login_otp_header').forEach((el) => {
+  loginModalQueryAll('.login_otp_header').forEach((el) => {
     (el as HTMLButtonElement).disabled = true;
   });
 }
 
-/** Primary entry — matches header.ctp (`#loginWithOtpModal` first). */
-export function openLoginWithOtpModal(): void {
+function openLoginWithOtpModalNow(): void {
   if (!document.getElementById('loginWithOtpModal')) return;
   resetOtpLoginForm();
   hideBootstrapModal('mobileMenuNew');
   showBootstrapModal('loginWithOtpModal');
   window.dispatchEvent(new CustomEvent('mb:open-login', { bubbles: true, detail: { mode: 'otp' } }));
+}
+
+/** Primary entry — matches header.ctp (`#loginWithOtpModal` first). */
+export function openLoginWithOtpModal(): void {
+  if (document.getElementById('loginWithOtpModal')) {
+    openLoginWithOtpModalNow();
+    return;
+  }
+
+  const started = Date.now();
+  const timer = window.setInterval(() => {
+    if (document.getElementById('loginWithOtpModal')) {
+      window.clearInterval(timer);
+      openLoginWithOtpModalNow();
+      return;
+    }
+    if (Date.now() - started >= 8000) {
+      window.clearInterval(timer);
+    }
+  }, 50);
 }
 
 export function openSignInPasswordModal(): void {
@@ -568,13 +968,19 @@ function togglePasswordField(inputId: string, toggleId: string): void {
   }
 }
 
+function loginModalQueryAll(selector: string): NodeListOf<Element> {
+  const root = loginModalRoot();
+  if (root === document) return document.querySelectorAll(selector);
+  return root.querySelectorAll(selector);
+}
+
 function validateOtpLoginInput(): void {
   const input = val('otp_login_header');
   const isEmail = validateEmail(input);
   const isMobile = validatePhone(input);
   const consent = isChecked('consentCheck1');
   const err = $('otp_login_header_error');
-  const buttons = document.querySelectorAll('.login_otp_header');
+  const buttons = loginModalQueryAll('.login_otp_header');
 
   if ((isEmail || isMobile) && consent) {
     if (err) err.style.display = 'none';
@@ -613,8 +1019,91 @@ function validatePasswordLoginForm(): void {
   }
 }
 
+function buildSendMobileGuestUserOtpForm(
+  data: Record<string, string>,
+  ipAddress: string
+): Record<string, string> {
+  const form: Record<string, string> = {
+    ip_address: ipAddress,
+    user_agent: readClientUserAgent(),
+  };
+
+  const phone = data.user_phone?.trim();
+  const email = data.user_email?.trim();
+
+  if (phone) {
+    form.user_phone = phone;
+  } else if (email) {
+    form.user_email = email;
+  }
+
+  return form;
+}
+
 async function sendGuestOtp(data: Record<string, string>): Promise<SignInResponse> {
-  return postJson('/pages/sendGuestUserOtp', data);
+  const ipAddress = await resolveClientIpAddress();
+  if (!ipAddress) {
+    return {
+      status_code: 400,
+      message: 'Unable to detect your IP address. Please try again.',
+    };
+  }
+
+  const form = buildSendMobileGuestUserOtpForm(data, ipAddress);
+  if (!form.user_phone && !form.user_email) {
+    return {
+      status_code: 400,
+      message: 'Please enter valid Mobile / Email',
+    };
+  }
+
+  try {
+    let accessToken = await getOauthAccessToken();
+    let res = await fetchLoginApiFormPost<SignInResponse>(
+      '/sendMobileGuestUserOtp',
+      form,
+      accessToken
+    );
+
+    if (isKeycloakUnauthorizedResponse(res)) {
+      accessToken = await getOauthAccessToken(true);
+      res = await fetchLoginApiFormPost<SignInResponse>(
+        '/sendMobileGuestUserOtp',
+        form,
+        accessToken
+      );
+    }
+
+    return res;
+  } catch (err) {
+    const message = err instanceof LoginApiError ? err.message : DEFAULT_LOGIN_API_ERROR;
+    return { status_code: 500, message };
+  }
+}
+
+/** POST verifyGuestUserOtp via encrypted internal route (OTP never in plain network payload). */
+async function verifyGuestUserOtp(identifier: string, otp: string): Promise<SignInResponse> {
+  try {
+    const otpSecret = await encryptLoginSecret(otp);
+    const body: Record<string, unknown> = {
+      otp_secret: otpSecret,
+    };
+    if (validateEmail(identifier)) {
+      body.user_email = identifier;
+      body.user_phone = '';
+    } else if (validatePhone(identifier)) {
+      body.user_phone = identifier;
+      body.user_email = '';
+    } else {
+      body.user_email = identifier;
+      body.user_phone = '';
+    }
+
+    return await postInternalAuthJson<SignInResponse>(SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, body);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : DEFAULT_LOGIN_API_ERROR;
+    return { status_code: 500, message };
+  }
 }
 
 type KeycloakCheckResponse = SignInResponse & {
@@ -634,7 +1123,7 @@ async function checkUserInKeycloak(identifier: string): Promise<KeycloakCheckRes
     let check = await fetchCheckUserExists(identifier, accessToken);
 
     if (isKeycloakUnauthorizedResponse(check)) {
-      cachedKeycloakAccessToken = null;
+      clearShellInternalKcAuthCache();
       accessToken = await getKeycloakClientAccessToken(true);
       check = await fetchCheckUserExists(identifier, accessToken);
     }
@@ -679,7 +1168,7 @@ async function handleForgotPasswordGetOtp(): Promise<void> {
     const given = readKeycloakGivenData(check.message);
     const payload = buildOtpPayload(identifier, given);
     const otpRes = await sendGuestOtp(payload);
-    if (otpRes.status_code === 200) {
+    if (isSuccessStatus(otpRes.status_code)) {
       timeRemainingHeader = 45;
       startTimerHeader();
       setDisabled('user_mobile_header', true);
@@ -697,11 +1186,27 @@ async function handleForgotPasswordGetOtp(): Promise<void> {
   }
 }
 
+/** Sync OTP login submit button enabled/disabled state (safe to call from React handlers). */
+export function validateOtpLoginForm(): void {
+  validateOtpLoginInput();
+}
+
+/** Submit OTP login — validates form first; wired from React and document click handlers. */
+export function submitOtpLoginFromModal(): void {
+  validateOtpLoginInput();
+  const btn = loginModalQueryAll('.login_otp_header')[0] as HTMLButtonElement | undefined;
+  if (btn?.disabled) return;
+  void handleOtpLoginSend();
+}
+
 async function handleOtpLoginSend(): Promise<void> {
+  if (otpLoginSendInFlight) return;
   const identifier = val('otp_login_header');
+  if (!identifier) return;
+  otpLoginSendInFlight = true;
   storeLoginIdentifier(identifier);
   showLoader();
-  document.querySelectorAll('.login_otp_header').forEach((el) => {
+  loginModalQueryAll('.login_otp_header').forEach((el) => {
     (el as HTMLButtonElement).disabled = true;
   });
   try {
@@ -713,7 +1218,7 @@ async function handleOtpLoginSend(): Promise<void> {
     const given = readKeycloakGivenData(check.message);
     const payload = buildOtpPayload(identifier, given);
     const otpRes = await sendGuestOtp(payload);
-    if (otpRes.status_code === 200) {
+    if (isSuccessStatus(otpRes.status_code)) {
       timeRemainingHeader = 45;
       startTimerHeader();
       switchBootstrapModal('loginWithOtpModal', 'loginWIthOtpVerifyModal', 200);
@@ -723,10 +1228,9 @@ async function handleOtpLoginSend(): Promise<void> {
       setText('otp_login_header_error', String(otpRes.message ?? 'Please check Mobile / Email you entered!'));
     }
   } finally {
+    otpLoginSendInFlight = false;
     hideLoader();
-    document.querySelectorAll('.login_otp_header').forEach((el) => {
-      (el as HTMLButtonElement).disabled = false;
-    });
+    validateOtpLoginInput();
   }
 }
 
@@ -734,7 +1238,7 @@ function otpPayloadForStoredIdentifier(): Record<string, string> {
   const identifier = readLoginIdentifier();
   if (validatePhone(identifier)) return { user_phone: identifier };
   if (validateEmail(identifier)) return { user_email: identifier };
-  return { identifier };
+  return { user_email: identifier };
 }
 
 async function handleResendOtp(): Promise<void> {
@@ -742,7 +1246,7 @@ async function handleResendOtp(): Promise<void> {
   timeRemainingHeader = 45;
   const payload = otpPayloadForStoredIdentifier();
   const res = await sendGuestOtp(payload);
-  if (res.status_code === 200) {
+  if (isSuccessStatus(res.status_code)) {
     startTimerHeader();
     setText('otp-field-2_error', '');
     setText('otp-field-3_error', '');
@@ -760,12 +1264,9 @@ async function handleVerifyForgotOtp(): Promise<void> {
     setText('otp-field-2_error', 'Please enter 6 digit OTP');
     return;
   }
-  const data: Record<string, string> = { otp };
-  if (validateEmail(identifier)) data.user_email = identifier;
-  else if (validatePhone(identifier)) data.user_phone = identifier;
-
-  const verify = await postJson('/pages/verifyGuestUserOtpNew', data);
-  if (verify.status_code === 200) {
+  const verify = await verifyGuestUserOtp(identifier, otp);
+  if (isSuccessStatus(verify.status_code)) {
+    storeRegCodeFromVerifyResponse(verify);
     setText('otp-field-2_error', '');
     setVal('verified_otp_header', '1');
     timeRemainingHeader = 0;
@@ -801,35 +1302,54 @@ async function handleVerifyLoginOtp(): Promise<void> {
     return;
   }
 
-  const data: Record<string, string> = { otp };
-  if (validateEmail(userMobile)) data.user_email = userMobile;
-  else if (validatePhone(userMobile)) data.user_phone = userMobile;
-
   showLoader();
   try {
-    const verify = await postJson('/pages/verifyGuestUserOtpNew', data);
-    if (verify.status_code !== 200) {
+    const verify = await verifyGuestUserOtp(userMobile, otp);
+    if (!isSuccessStatus(verify.status_code)) {
       responseCount += 1;
       if (responseCount >= 5) {
-        setHtml('otp-field-3_error', 'You have reached maximum limit to verify OTP. Please try again after sometime.');
+        document.querySelectorAll('.otp_timer_header').forEach((el) => {
+          (el as HTMLElement).style.display = 'none';
+        });
+        document.querySelectorAll('.resend_otp_header').forEach((el) => {
+          (el as HTMLElement).style.display = 'none';
+        });
+        loginModalQueryAll('.generate_otp_header').forEach((el) => {
+          (el as HTMLButtonElement).disabled = true;
+        });
+        setHtml(
+          'otp-field-3_error',
+          'You have reached maximum limit to verify OTP. Please try again after sometime.'
+        );
         setDisabled('btn-otp-verify-header', true);
       } else {
-        setText('otp-field-3_error', 'Please enter valid OTP.');
+        setText('otp-field-3_error', resolveVerifyOtpError(verify));
         setDisabled('btn-otp-verify-header', false);
       }
       return;
     }
 
-    const loginRes = await postJson('/pages/loginWithOtp', { username: userMobile });
+    markLoginOtpVerified();
+
+    storeRegCodeFromVerifyResponse(verify);
+    const loginRes = await completeLoginWithOtp(userMobile);
     clearLoginStorage();
-    if (loginRes.status_code === 200) {
+
+    if (isLoginOtpRedirectResult(loginRes)) {
       tryFirebaseEvent('user_login_success');
-      handleLoginRedirect(loginRes);
-    } else {
-      tryFirebaseEvent('user_login_failure');
-      setText('otp-field-3_error', String(loginRes.message ?? 'Login failed'));
-      setDisabled('btn-otp-verify-header', false);
+      return;
     }
+
+    if (isSuccessStatus(loginRes.status_code)) {
+      const redirectPayload = loginRes as SignInResponse;
+      tryFirebaseEvent('user_login_success', redirectPayload);
+      handleLoginRedirect(redirectPayload);
+      return;
+    }
+
+    tryFirebaseEvent('user_login_failure');
+    setText('otp-field-3_error', String(loginRes.message ?? 'Login failed'));
+    setDisabled('btn-otp-verify-header', false);
   } finally {
     hideLoader();
   }
@@ -847,11 +1367,23 @@ async function handleUpdatePassword(): Promise<void> {
     setText('new_pwd_error', 'Passwords do not match!');
     return;
   }
-  const res = await postJson('/pages/keycloakForgotPassword', { identifier, password });
-  if (res.status_code === 200) {
-    switchBootstrapModal('newPasswordModal', 'successModal', 200);
-  } else {
-    setText('new_pwd_error', String(res.message ?? 'Unable to update password'));
+
+  showLoader();
+  setText('new_pwd_error', '');
+  try {
+    const res = await completeForgotPasswordUpdate(identifier, password);
+    if (isSuccessStatus(res.status_code)) {
+      switchBootstrapModal('newPasswordModal', 'successModal', 200);
+      return;
+    }
+    setText(
+      'new_pwd_error',
+      typeof res.message === 'string' && res.message.trim()
+        ? res.message.trim()
+        : DEFAULT_LOGIN_API_ERROR
+    );
+  } finally {
+    hideLoader();
   }
 }
 
@@ -864,15 +1396,22 @@ async function handlePasswordSignIn(): Promise<void> {
 
   showLoader();
   try {
-    const res = await postJson('/pages/signIn', { username, password });
+    const res = await completePasswordSignIn(username, password);
     clearLoginStorage();
-    if (res.status_code === 200) {
+
+    if (isLoginOtpRedirectResult(res)) {
       tryFirebaseEvent('user_login_success');
-      handleLoginRedirect(res);
-    } else if (res.status_code === 401) {
+      return;
+    }
+
+    if (res.status_code === 401 || res.status_code === '401') {
       tryFirebaseEvent('user_login_failure');
       setText('user_mobile_header_error_login', String(res.message ?? 'Login failed'));
+      return;
     }
+
+    tryFirebaseEvent('user_login_failure');
+    setText('user_mobile_header_error_login', DEFAULT_LOGIN_API_ERROR);
   } finally {
     hideLoader();
   }
@@ -976,7 +1515,9 @@ function onDocumentClick(e: Event): void {
 
   if (target.closest('.login_otp_header')) {
     e.preventDefault();
-    void handleOtpLoginSend();
+    // React portaled modals attach onClick; skip capture listener to avoid double submit.
+    if (target.closest('.mb-common-header-login')) return;
+    submitOtpLoginFromModal();
     return;
   }
 
@@ -1051,7 +1592,7 @@ function onDocumentClick(e: Event): void {
     localStorage.removeItem('loginData');
     localStorage.removeItem('design_for_bharat');
     localStorage.removeItem('hack_for_social_cause');
-    document.querySelectorAll('.login_otp_header').forEach((el) => {
+    loginModalQueryAll('.login_otp_header').forEach((el) => {
       (el as HTMLButtonElement).disabled = true;
     });
   }
@@ -1103,8 +1644,11 @@ export function installHeaderLoginFlow(): () => void {
   installed = true;
 
   syncShellLoginApiConfigFromDom();
-  applyShellLoginApiConfig(window.MYBHARAT_SHELL?.login?.apiBaseUrl);
-  cachedKeycloakAccessToken = null;
+  applyShellLoginApiConfig(
+    window.MYBHARAT_SHELL?.login?.apiBaseUrl,
+    window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl
+  );
+  prefetchClientIpAddress();
 
   document.addEventListener('click', onDocumentClick, true);
   document.addEventListener('input', onDocumentInput, true);

@@ -18,6 +18,13 @@ export type ShellFooterConfig = {
   cdnBase?: string;
   isLoggedIn?: boolean;
   recaptchaSiteKey?: string;
+  webroot?: string;
+  /** APIGateway root for feedback (e.g. `/api` or `http://127.0.0.1:8000/api`). Falls back to `login.apiBaseUrl`. */
+  feedbackApiBaseUrl?: string;
+  /** Optional full URL override for save feedback POST (default `{feedbackApiBaseUrl}/saveFeedbackData`). */
+  feedbackSubmitUrl?: string;
+  /** Logged-in user payload for registered feedback submit. */
+  userSession?: unknown;
 };
 
 export type ShellLoginConfig = {
@@ -28,6 +35,20 @@ export type ShellLoginConfig = {
    * Use full URL when shell is embedded on another origin (e.g. registration on localhost:3000).
    */
   apiBaseUrl?: string;
+  /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin. */
+  apiProxyBaseUrl?: string;
+  /** @deprecated Server-side only — configure host `/_internal/guest-oauth` proxy route. */
+  oauthUsername?: string;
+  /** @deprecated Server-side only — configure host `/_internal/guest-oauth` proxy route. */
+  oauthPassword?: string;
+  /** Optional RSA public key PEM — browser encrypts password/OTP before internal routes. */
+  loginPayloadPublicKey?: string;
+  /** Optional client IP for sendMobileGuestUserOtp. */
+  ipAddress?: string;
+  sessionEstablishPath?: string;
+  cookieDomain?: string;
+  youthProfileUrl?: string;
+  publicProfileApiBaseUrl?: string;
 };
 
 declare global {
@@ -116,6 +137,10 @@ export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
   return {
     baseUrl: el.getAttribute('login-base-url') ?? global?.baseUrl,
     apiBaseUrl: el.getAttribute('api-base-url') ?? global?.apiBaseUrl,
+    apiProxyBaseUrl: el.getAttribute('api-proxy-base-url') ?? global?.apiProxyBaseUrl,
+    loginPayloadPublicKey:
+      el.getAttribute('login-payload-public-key') ?? global?.loginPayloadPublicKey,
+    ipAddress: el.getAttribute('ip-address') ?? global?.ipAddress,
   };
 }
 
@@ -128,6 +153,9 @@ export function resolveHeaderProps(el: HTMLElement): {
   webroot?: string;
   baseUrl?: string;
   apiBaseUrl?: string;
+  apiProxyBaseUrl?: string;
+  loginPayloadPublicKey?: string;
+  ipAddress?: string;
 } {
   const global = window.MYBHARAT_SHELL?.header;
   const variantAttr = el.getAttribute('variant');
@@ -144,6 +172,9 @@ export function resolveHeaderProps(el: HTMLElement): {
     webroot: el.getAttribute('webroot') ?? global?.webroot,
     baseUrl: login.baseUrl,
     apiBaseUrl: login.apiBaseUrl,
+    apiProxyBaseUrl: login.apiProxyBaseUrl,
+    loginPayloadPublicKey: login.loginPayloadPublicKey,
+    ipAddress: login.ipAddress,
   };
 }
 
@@ -151,6 +182,10 @@ export function resolveFooterProps(el: HTMLElement): {
   cdnBase?: string;
   isLoggedIn?: boolean;
   recaptchaSiteKey?: string;
+  webroot?: string;
+  feedbackApiBaseUrl?: string;
+  feedbackSubmitUrl?: string;
+  userSession?: unknown;
 } {
   const global = window.MYBHARAT_SHELL?.footer;
   const isLoggedIn =
@@ -160,5 +195,13 @@ export function resolveFooterProps(el: HTMLElement): {
     cdnBase: el.getAttribute('cdn-base') ?? global?.cdnBase,
     isLoggedIn,
     recaptchaSiteKey: el.getAttribute('recaptcha-site-key') ?? global?.recaptchaSiteKey,
+    webroot: el.getAttribute('webroot') ?? global?.webroot ?? window.MYBHARAT_SHELL?.header?.webroot,
+    feedbackApiBaseUrl:
+      el.getAttribute('feedback-api-base-url') ??
+      global?.feedbackApiBaseUrl ??
+      window.MYBHARAT_SHELL?.login?.apiBaseUrl,
+    feedbackSubmitUrl: el.getAttribute('feedback-submit-url') ?? global?.feedbackSubmitUrl,
+    userSession:
+      global?.userSession ?? window.MYBHARAT_SHELL?.header?.userSession,
   };
 }

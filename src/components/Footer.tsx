@@ -1,5 +1,7 @@
 import React from 'react';
 import { MYBHARAT_CDN_BASE } from '../constants/cdn';
+import type { HeaderUserSessionInput } from './header/headerUserSession';
+import { useFooterFeedbackShell } from './footer/useFooterFeedbackShell';
 import FooterModals from './FooterModals';
 
 export type FooterProps = {
@@ -9,6 +11,14 @@ export type FooterProps = {
   isLoggedIn?: boolean;
   /** When set and user is not logged in, renders reCAPTCHA widget inside `#feed_back` */
   recaptchaSiteKey?: string;
+  /** APIGateway root for feedback submit (e.g. `/api` dev proxy or `login.apiBaseUrl`). */
+  feedbackApiBaseUrl?: string;
+  /** Optional full URL override (default `{feedbackApiBaseUrl}/saveFeedbackData`). */
+  feedbackSubmitUrl?: string;
+  /** Logged-in user session for registered feedback payload. */
+  userSession?: HeaderUserSessionInput;
+  /** @deprecated Unused — feedback posts to APIGateway. */
+  webroot?: string;
   /** Consumer hook when Registered User is chosen in `#feed_back1` */
   onRegisteredUserClick?: () => void;
 };
@@ -28,9 +38,24 @@ function formatLastUpdated(): string {
   return `${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()}`;
 }
 
-export const Footer: React.FC<FooterProps> = ({ cdnBase, isLoggedIn, recaptchaSiteKey, onRegisteredUserClick }) => {
+export const Footer: React.FC<FooterProps> = ({
+  cdnBase,
+  isLoggedIn,
+  recaptchaSiteKey,
+  feedbackApiBaseUrl,
+  feedbackSubmitUrl,
+  userSession,
+  onRegisteredUserClick,
+}) => {
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, '');
   const feedbackModalTarget = isLoggedIn ? '#feed_back' : '#feed_back1';
+
+  useFooterFeedbackShell({
+    feedbackApiBaseUrl,
+    feedbackSubmitUrl,
+    userSession,
+    isLoggedIn,
+  });
 
   return (
     <>

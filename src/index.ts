@@ -8,14 +8,26 @@ import Footer from './components/Footer';
 
 export { Header, Header2, Footer };
 export {
+  SHELL_INTERNAL_GUEST_OAUTH_PATH,
+  SHELL_INTERNAL_KC_CLIENT_PATH,
+  SHELL_INTERNAL_LOGIN_PUBKEY_PATH,
+  SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
+  SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH,
+  SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
+} from './components/header/login/shellLoginInternalAuth';
+export {
   openLoginWithOtpModal,
   openSignInPasswordModal,
   installHeaderLoginFlow,
   HEADER_LOGIN_SIGN_IN_SELECTORS,
   getKeycloakClientAccessToken,
   applyShellLoginApiConfig,
+  SHELL_LOGIN_API_PROXY_DEFAULT,
+  validateOtpLoginForm,
+  submitOtpLoginFromModal,
   DEFAULT_LOGIN_API_ERROR,
 } from './components/header/login/headerLoginFlow';
+export { completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completeForgotPasswordUpdate, completePasswordSignIn, isLoginOtpRedirectResult } from './components/header/login/loginWithOtpFlow';
 export {
   parseHeaderUserSession,
   isHeaderUserLoggedIn,
@@ -31,6 +43,20 @@ export type {
 export { HeaderAuthControls } from './components/header/HeaderAuthControls';
 export { HeaderProfileMenu } from './components/header/HeaderProfileMenu';
 export { HeaderLoginShellPortal } from './components/header/login/useHeaderLoginShell';
+export {
+  installFooterFeedbackFlow,
+  applyFooterFeedbackConfig,
+  validateFeedbackForm,
+} from './components/footer/footerFeedbackFlow';
+export {
+  applyFooterFeedbackApiConfig,
+  saveUserFeedback,
+  triggerGeneralFeedbackReward,
+  isFeedbackSubmitSuccess,
+  SAVE_FEEDBACK_DATA_PATH,
+} from './components/footer/footerFeedbackSubmit';
+export { useFooterFeedbackShell } from './components/footer/useFooterFeedbackShell';
+export { getShellApiFetchBaseUrl, buildShellApiUrl } from './components/header/login/headerLoginFlow';
 export { DesktopMainNav } from './components/DesktopMainNav';
 export { MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN } from './constants/cdn';
 export { DEFAULT_HEADER_MAIN_NAV } from './navigation/headerMainNav.defaults';

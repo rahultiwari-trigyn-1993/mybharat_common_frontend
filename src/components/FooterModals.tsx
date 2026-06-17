@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { openLoginWithOtpModal } from './header/login/headerLoginFlow';
+import {
+  resetFeedbackRecaptchaSafely,
+} from './footer/footerRecaptchaBridge';
+import { resolveRecaptchaSiteKey } from './footer/resolveRecaptchaSiteKey';
+import { preloadRecaptchaScript } from './footer/footerRecaptchaLoader';
+import { scheduleFeedbackRecaptchaRender } from './footer/footerRecaptchaWidget';
 
 type BootstrapModal = {
   getInstance: (el: Element | null) => { hide: () => void } | undefined;
@@ -30,28 +36,51 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
   onRegisteredUserClick,
 }) => {
   const [portalReady, setPortalReady] = useState(false);
+  const captchaContainerRef = useRef<HTMLDivElement | null>(null);
+  const captchaSiteKey = resolveRecaptchaSiteKey(recaptchaSiteKey);
+  const showGuestFeedbackRow = !isLoggedIn;
+  const canRenderCaptcha = showGuestFeedbackRow && Boolean(captchaSiteKey);
+
+  const queueCaptchaRender = (): void => {
+    if (!canRenderCaptcha) return;
+    scheduleFeedbackRecaptchaRender(() => captchaContainerRef.current, captchaSiteKey, 150);
+  };
 
   useEffect(() => {
     setPortalReady(true);
-    const scriptId = 'mb-google-recaptcha-script';
-    let created = false;
+  }, []);
 
-    if (!isLoggedIn && recaptchaSiteKey && !document.getElementById(scriptId)) {
-      const s = document.createElement('script');
-      s.id = scriptId;
-      s.src = 'https://www.google.com/recaptcha/api.js';
-      s.async = true;
-      s.defer = true;
-      document.body.appendChild(s);
-      created = true;
+  useEffect(() => {
+    if (!canRenderCaptcha) return undefined;
+    preloadRecaptchaScript();
+    return undefined;
+  }, [canRenderCaptcha]);
+
+  useEffect(() => {
+    const modalEl = document.getElementById('feed_back');
+    if (!modalEl || !canRenderCaptcha) return undefined;
+
+    const onShown = () => {
+      queueCaptchaRender();
+    };
+
+    const onHidden = () => {
+      resetFeedbackRecaptchaSafely();
+    };
+
+    modalEl.addEventListener('shown.bs.modal', onShown);
+    modalEl.addEventListener('hidden.bs.modal', onHidden);
+
+    // Modal may already be open when listeners attach (e.g. fast navigation).
+    if (modalEl.classList.contains('show')) {
+      queueCaptchaRender();
     }
 
     return () => {
-      if (created) {
-        document.getElementById(scriptId)?.remove();
-      }
+      modalEl.removeEventListener('shown.bs.modal', onShown);
+      modalEl.removeEventListener('hidden.bs.modal', onHidden);
     };
-  }, [isLoggedIn, recaptchaSiteKey]);
+  }, [canRenderCaptcha, captchaSiteKey]);
 
   const hideChoiceShowForm = () => {
     const Modal = getBootstrapModal();
@@ -59,7 +88,10 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
     const elForm = document.getElementById('feed_back');
     if (!Modal || !el1 || !elForm) return;
     Modal.getInstance(el1)?.hide();
-    window.setTimeout(() => Modal.getOrCreateInstance(elForm).show(), 200);
+    window.setTimeout(() => {
+      Modal.getOrCreateInstance(elForm).show();
+      queueCaptchaRender();
+    }, 200);
   };
 
   const hideChoiceOpenRegistered = () => {
@@ -72,6 +104,15 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
       }
     }, 200);
   };
+
+  const feedbackActions = (
+    <div className="cross_ico mb-common-footer__feedback-actions">
+      <img src={`${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`} id="form_cl" data-bs-dismiss="modal" alt="" />
+      <a id="form_c2" href="#" className="d-inline-block">
+        <img src={`${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`} alt="" />
+      </a>
+    </div>
+  );
 
   const content = (
     <>
@@ -107,108 +148,125 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-body" style={{ borderRadius: 8 }}>
-              <div className="row">
-                <div className="col-sm-10">
-                  <form id="feedbackFrm">
-                    <input type="hidden" name="type" value="web" />
-                    <div className="row pb-10">
-                      <div className="col-sm-12">
-                        <div className="tt_yuvr">
-                          {Array.from({ length: 10 }, (_, i) => {
-                            const n = i + 1;
-                            return (
-                              <div className="radio-tile-group" key={n}>
-                                <div className="input-container">
-                                  <input type="radio" name="user_rating" id={`user_rating_${n}`} value={String(n)} defaultChecked={n === 10} />
-                                  <div className="radio-tile">
-                                    <label className="label-text-space" htmlFor={`user_rating_${n}`}>
-                                      {n}
-                                    </label>
-                                  </div>
-                                </div>
+              <form id="feedbackFrm">
+                <input type="hidden" name="type" value="web" />
+                <div className="row pb-10">
+                  <div className="col-sm-12">
+                    <div className="tt_yuvr">
+                      {Array.from({ length: 10 }, (_, i) => {
+                        const n = i + 1;
+                        return (
+                          <div className="radio-tile-group" key={n}>
+                            <div className="input-container">
+                              <input type="radio" name="user_rating" id={`user_rating_${n}`} value={String(n)} defaultChecked={n === 10} />
+                              <div className="radio-tile">
+                                <label className="label-text-space" htmlFor={`user_rating_${n}`}>
+                                  {n}
+                                </label>
                               </div>
-                            );
-                          })}
-                        </div>
-                        <p className="vErrormsg Ratingerr"></p>
-                      </div>
-                      <div className="col-sm-12">
-                        <div className="form-group text-left">
-                          <label htmlFor="user_feedback">Write a feedback*</label>
-                          <small id="char_left_cnt"></small>
-                          <textarea
-                            id="user_feedback"
-                            name="user_feedback"
-                            rows={4}
-                            cols={50}
-                            className="form-control"
-                            placeholder="Write here (250 characters)"
-                            maxLength={250}
-                          />
-                          <p className="vErrormsg Feedbackerr"></p>
-                        </div>
-                      </div>
-                      {!isLoggedIn ? (
-                        <>
-                          <input type="hidden" id="feedback_captcha_name" name="feedback_captcha_name" value="" />
-                          <div className="col-sm-4">
-                            <div className="form-group">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="user_name"
-                                name="user_name"
-                                placeholder="Name*"
-                                maxLength={100}
-                              />
-                              <p className="vErrormsg Nameerr"></p>
                             </div>
                           </div>
-                          <div className="col-sm-4">
-                            <div className="form-group">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="user_mobile"
-                                name="user_mobile"
-                                placeholder="Mobile*"
-                                maxLength={10}
-                              />
-                              <p className="vErrormsg Mobileerr"></p>
-                            </div>
-                          </div>
-                          <div className="col-sm-4">
-                            <div className="form-group">
-                              <input type="email" className="form-control" id="user_email" name="user_email" placeholder="Email*" maxLength={100} />
-                              <p className="vErrormsg Emailerr"></p>
-                            </div>
-                          </div>
-                          {recaptchaSiteKey ? (
-                            <div className="row">
-                              <div className="g-recaptcha" data-sitekey={recaptchaSiteKey} />
-                              <p className="vErrormsg captchaerr"></p>
-                            </div>
-                          ) : null}
-                        </>
-                      ) : null}
+                        );
+                      })}
                     </div>
-                  </form>
-                </div>
-                <div className="col-sm-2">
-                  <div className="row pb-10" style={{ position: 'relative', height: '97%' }}>
-                    <div className="col-sm-12">
-                      <div className="cross_ico">
-                        <img src={`${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`} id="form_cl" data-bs-dismiss="modal" alt="" />
-                        <a id="form_c2" href="#" className="d-inline-block" onClick={(e) => e.preventDefault()}>
-                          <img src={`${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`} alt="" />
-                        </a>
-                      </div>
+                    <p className="vErrormsg Ratingerr"></p>
+                  </div>
+                  <div className="col-sm-12">
+                    <div className="form-group text-left">
+                      <label htmlFor="user_feedback">Write a feedback*</label>
+                      <small id="char_left_cnt"></small>
+                      <textarea
+                        id="user_feedback"
+                        name="user_feedback"
+                        rows={4}
+                        cols={50}
+                        className="form-control"
+                        placeholder="Write here (250 characters)"
+                        maxLength={250}
+                      />
+                      <p className="vErrormsg Feedbackerr"></p>
                     </div>
                   </div>
+                  {!isLoggedIn ? (
+                    <>
+                      <input type="hidden" id="feedback_captcha_name" name="feedback_captcha_name" value="" />
+                      <div className="col-sm-4">
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="user_name"
+                            name="user_name"
+                            placeholder="Name*"
+                            maxLength={100}
+                          />
+                          <p className="vErrormsg Nameerr"></p>
+                        </div>
+                      </div>
+                      <div className="col-sm-4">
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="user_mobile"
+                            name="user_mobile"
+                            placeholder="Mobile*"
+                            maxLength={10}
+                          />
+                          <p className="vErrormsg Mobileerr"></p>
+                        </div>
+                      </div>
+                      <div className="col-sm-4">
+                        <div className="form-group">
+                          <input type="email" className="form-control" id="user_email" name="user_email" placeholder="Email*" maxLength={100} />
+                          <p className="vErrormsg Emailerr"></p>
+                        </div>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+
+                {showGuestFeedbackRow ? (
+                  <div className="row align-items-end mb-common-footer__feedback-footer-row">
+                    <div className="col-sm-8 col-md-9">
+                      <div
+                        ref={(node) => {
+                          captchaContainerRef.current = node;
+                          if (node && canRenderCaptcha) {
+                            const modalEl = document.getElementById('feed_back');
+                            if (modalEl?.classList.contains('show')) {
+                              scheduleFeedbackRecaptchaRender(() => node, captchaSiteKey, 0);
+                            }
+                          }
+                        }}
+                        className="mb-common-footer__recaptcha"
+                        data-sitekey={captchaSiteKey || undefined}
+                      />
+                      <p className="vErrormsg captchaerr"></p>
+                    </div>
+                    <div className="col-sm-4 col-md-3">{feedbackActions}</div>
+                  </div>
+                ) : (
+                  <div className="row mb-common-footer__feedback-footer-row">
+                    <div className="col-sm-12 d-flex justify-content-end">{feedbackActions}</div>
+                  </div>
+                )}
+              </form>
+
+              <div
+                id="mb-common-footer-feedback-loader"
+                className="mb-common-footer__feedback-loader"
+                aria-hidden="true"
+                aria-live="polite"
+              >
+                <div className="mb-common-footer__feedback-loader-inner">
+                  <div className="mb-common-footer__feedback-spinner" aria-hidden="true" />
+                  <span className="mb-common-footer__feedback-loader-text">Submitting…</span>
                 </div>
               </div>
+
               <div className="row">
-                <div className="col-sm-10">
+                <div className="col-sm-12">
                   <div id="feedback_alert" className="alert" role="alert" style={{ display: 'none' }}></div>
                 </div>
               </div>

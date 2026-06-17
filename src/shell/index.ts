@@ -15,6 +15,17 @@ export {
   installHeaderLoginFlow,
   HEADER_LOGIN_SIGN_IN_SELECTORS,
 } from '../components/header/login/headerLoginFlow';
+export {
+  installFooterFeedbackFlow,
+  applyFooterFeedbackConfig,
+  validateFeedbackForm,
+} from '../components/footer/footerFeedbackFlow';
+export {
+  saveUserFeedback,
+  isFeedbackSubmitSuccess,
+  SAVE_FEEDBACK_DATA_PATH,
+} from '../components/footer/footerFeedbackSubmit';
+export { getShellApiFetchBaseUrl, buildShellApiUrl } from '../components/header/login/headerLoginFlow';
 export type { ShellFooterConfig, ShellHeaderConfig } from './parseShellConfig';
 
 /** Published shell version — inlined at build from `package.json`. */

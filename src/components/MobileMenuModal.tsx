@@ -1,4 +1,5 @@
 import React from 'react';
+import { openLoginWithOtpModal } from './header/login/headerLoginFlow';
 import type { NavLinkItem, NavTreeItem } from '../navigation/types';
 import { getNavLinkAttrs } from '../navigation/navLinkAttrs';
 import { isNavGroupItem, normalizeNavTree } from '../navigation/navTree';
@@ -134,7 +135,10 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
                         href="#"
                         id="signInLink"
                         style={{ borderBottom: '1px solid #D7D7D7' }}
-                        onClick={(e) => e.preventDefault()}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          openLoginWithOtpModal();
+                        }}
                       >
                         <span className="lang_yuva_register_login_link d-block py-2" style={{ marginLeft: 0 }}>
                           Sign In

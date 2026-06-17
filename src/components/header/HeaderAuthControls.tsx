@@ -1,4 +1,5 @@
 import React from 'react';
+import { openLoginWithOtpModal } from './login/headerLoginFlow';
 import {
   isHeaderUserLoggedIn,
   parseHeaderUserSession,
@@ -24,7 +25,15 @@ export function HeaderAuthControls({ cdn, userSession, webroot }: HeaderAuthCont
 
   return (
     <>
-      <button id="btnGroupDrop1" type="button" className="btn mb-common-header__auth-btn">
+      <button
+        id="btnGroupDrop1"
+        type="button"
+        className="btn mb-common-header__auth-btn"
+        onClick={(e) => {
+          e.preventDefault();
+          openLoginWithOtpModal();
+        }}
+      >
         <span className="lang_yuva_register_login_link fontchange">Sign In</span>
       </button>
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { HeaderLoginModals } from './HeaderLoginModals';
 import { hostHasLoginModals, installHeaderLoginFlow } from './headerLoginFlow';
 
@@ -8,7 +8,7 @@ import { hostHasLoginModals, installHeaderLoginFlow } from './headerLoginFlow';
 export function useHeaderLoginShell(enabled = true): boolean {
   const [showModals] = useState(() => !hostHasLoginModals());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!enabled) return undefined;
     return installHeaderLoginFlow();
   }, [enabled]);
