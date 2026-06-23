@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.232 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.233 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27771,6 +27771,7 @@ var MyBharatShell = (() => {
     return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
   }
   function setLoginAuthCookies(token, domain, encryptId) {
+    console.log("setLoginAuthCookies", token, domain, encryptId);
     const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
     if (!cookieExists("token") && !cookieExists("token_essays")) {
       document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
@@ -32196,7 +32197,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.232" }
+          detail: { component: "header", version: "1.0.233" }
         })
       );
     }
@@ -32263,7 +32264,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.232" }
+          detail: { component: "footer", version: "1.0.233" }
         })
       );
     }
@@ -32324,7 +32325,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.232";
+  var MYBHARAT_SHELL_VERSION = "1.0.233";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

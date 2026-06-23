@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.232 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.233 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -6486,6 +6486,7 @@ function cookieExists(name) {
   return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
 }
 function setLoginAuthCookies(token, domain, encryptId) {
+  console.log("setLoginAuthCookies", token, domain, encryptId);
   const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
   if (!cookieExists("token") && !cookieExists("token_essays")) {
     document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
@@ -10429,7 +10430,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.232";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.233";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
