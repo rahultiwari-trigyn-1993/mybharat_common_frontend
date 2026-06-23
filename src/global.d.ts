@@ -19,6 +19,7 @@ interface Window {
       recaptchaSiteKey?: string;
       webroot?: string;
       feedbackApiBaseUrl?: string;
+      rewardsApiBaseUrl?: string;
       feedbackSubmitUrl?: string;
       userSession?: unknown;
     };

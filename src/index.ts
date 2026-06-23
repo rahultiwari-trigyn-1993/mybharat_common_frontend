@@ -1,3 +1,4 @@
+import './vendor/installShellFramework';
 import './components/header/Header.common.css';
 import './components/Header.css';
 import './components/Footer.css';
@@ -43,6 +44,8 @@ export type {
 export { HeaderAuthControls } from './components/header/HeaderAuthControls';
 export { HeaderProfileMenu } from './components/header/HeaderProfileMenu';
 export { HeaderLoginShellPortal } from './components/header/login/useHeaderLoginShell';
+export { installHeaderAccessibilityFont } from './components/header/headerAccessibilityFont';
+export { useHeaderAccessibilityFont } from './components/header/useHeaderAccessibilityFont';
 export {
   installFooterFeedbackFlow,
   applyFooterFeedbackConfig,

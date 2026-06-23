@@ -49,7 +49,7 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
         <i
           className="fa fa-phone mb-common-header__toll-phone-icon"
           aria-hidden="true"
-          style={{ transform: variant === 'h2' ? 'rotate(180deg)' : 'rotate(90deg)' }}
+          style={{ transform: variant === 'h2' ? 'rotate(180deg)' : 'rotate(0deg)' }}
         />{' '}
         14472 Or 18002122729
       </strong>

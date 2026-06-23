@@ -1,6 +1,6 @@
 {
   "name": "mybharat_common_frontend",
-  "version": "1.0.226",
+  "version": "1.0.232",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -44,7 +44,7 @@
     "docs"
   ],
   "scripts": {
-    "build": "tsup && node scripts/fix-dts-version.js",
+    "build": "tsup && node scripts/bundle-framework-css.mjs && node scripts/fix-dts-version.js",
     "watch": "tsup --watch",
     "demo": "npm run build && npx --yes serve . -p 3456",
     "prepare": "npm run build",
@@ -59,7 +59,8 @@
   },
   "sideEffects": [
     "**/*.css",
-    "*.css"
+    "*.css",
+    "src/vendor/installShellFramework.ts"
   ],
   "type": "commonjs",
   "peerDependencies": {
@@ -72,8 +73,11 @@
     }
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "bootstrap": "^5.3.6",
+    "bootstrap-icons": "^1.13.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tsup": "^8.5.1",

@@ -7,18 +7,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, "package.json"), "utf8"));
 
 function writeShellCssAndManifest() {
-  const headerCommonCss = readFileSync(
-    join(__dirname, "src/components/header/Header.common.css"),
-    "utf8"
-  );
-  const headerLoginCss = readFileSync(
-    join(__dirname, "src/components/header/login/HeaderLogin.css"),
-    "utf8"
-  );
-  const headerCss = readFileSync(join(__dirname, "src/components/Header.css"), "utf8");
-  const footerCss = readFileSync(join(__dirname, "src/components/Footer.css"), "utf8");
-  const header2Css = readFileSync(join(__dirname, "src/components/Header2.css"), "utf8");
-
   const shellDir = join(__dirname, "dist/shell");
   const globalJs = join(shellDir, "shell.global.js");
   const shellJs = join(shellDir, "shell.js");
@@ -28,12 +16,7 @@ function writeShellCssAndManifest() {
     /* first run or already renamed */
   }
 
-  const combinedCss = `${headerCommonCss}\n${headerLoginCss}\n${headerCss}\n${footerCss}`;
-  writeFileSync(join(shellDir, "shell.css"), combinedCss);
-  /* jsDelivr 404 on dist/shell/shell.css — duplicate name for CDN embeds */
-  writeFileSync(join(shellDir, "mybharat-shell.css"), combinedCss);
-  writeFileSync(join(shellDir, "header2.css"), `${headerCommonCss}\n${headerLoginCss}\n${header2Css}`);
-  writeFileSync(join(shellDir, "footer.css"), footerCss);
+  /* CSS: scripts/bundle-framework-css.mjs (Bootstrap + icons + FA + component CSS) */
 
   const githubUser = "rahultiwari-trigyn-1993";
   const githubRepo = "mybharat_common_frontend";
@@ -98,25 +81,7 @@ export default defineConfig([
     clean: true,
     external: ["react", "react-dom"],
     async onSuccess() {
-      const headerCommonCss = readFileSync(
-        join(__dirname, "src/components/header/Header.common.css"),
-        "utf8"
-      );
-      const headerLoginCss = readFileSync(
-        join(__dirname, "src/components/header/login/HeaderLogin.css"),
-        "utf8"
-      );
-      const headerCss = readFileSync(join(__dirname, "src/components/Header.css"), "utf8");
-      const footerCss = readFileSync(join(__dirname, "src/components/Footer.css"), "utf8");
-      writeFileSync(
-        join(__dirname, "dist/index.css"),
-        `${headerCommonCss}\n${headerLoginCss}\n${headerCss}\n${footerCss}`
-      );
-      const header2Css = readFileSync(join(__dirname, "src/components/Header2.css"), "utf8");
-      writeFileSync(
-        join(__dirname, "dist/header2.css"),
-        `${headerCommonCss}\n${headerLoginCss}\n${header2Css}`
-      );
+      /* CSS: scripts/bundle-framework-css.mjs */
     },
   },
   {

@@ -15,6 +15,7 @@ import { useMbHeaderBootstrapAndPortal } from './header/useMbHeaderBootstrapAndP
 import { MobileMenuModal } from './MobileMenuModal';
 import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 import { useHeaderLoginConfig } from './header/login/useHeaderLoginConfig';
+import { useHeaderAccessibilityFont } from './header/useHeaderAccessibilityFont';
 import './Header2.css';
 
 import { HeaderAuthControls, isHeaderUserLoggedIn } from './header/HeaderAuthControls';
@@ -70,6 +71,7 @@ export const Header2: React.FC<Header2Props> = ({
     publicProfileApiBaseUrl,
     cookieDomain,
   });
+  useHeaderAccessibilityFont();
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, '');
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;

@@ -30,6 +30,7 @@ const FOOTER_OBSERVED = [
   'recaptcha-site-key',
   'webroot',
   'feedback-api-base-url',
+  'rewards-api-base-url',
   'feedback-submit-url',
 ] as const;
 
@@ -145,6 +146,7 @@ class MyBharatFooterElement extends HTMLElement {
       recaptchaSiteKey,
       webroot,
       feedbackApiBaseUrl,
+      rewardsApiBaseUrl,
       feedbackSubmitUrl,
       userSession,
     } = resolveFooterProps(this);
@@ -156,6 +158,7 @@ class MyBharatFooterElement extends HTMLElement {
         recaptchaSiteKey={recaptchaSiteKey}
         webroot={webroot}
         feedbackApiBaseUrl={feedbackApiBaseUrl}
+        rewardsApiBaseUrl={rewardsApiBaseUrl}
         feedbackSubmitUrl={feedbackSubmitUrl}
         userSession={userSession as HeaderUserSessionInput}
         onRegisteredUserClick={() => {

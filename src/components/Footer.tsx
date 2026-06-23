@@ -13,6 +13,8 @@ export type FooterProps = {
   recaptchaSiteKey?: string;
   /** APIGateway root for feedback submit (e.g. `/api` dev proxy or `login.apiBaseUrl`). */
   feedbackApiBaseUrl?: string;
+  /** Rewards API root for `trigger-youth-reward-points` (e.g. `/rewards-api` or `VITE_REWARDS_API_URL`). */
+  rewardsApiBaseUrl?: string;
   /** Optional full URL override (default `{feedbackApiBaseUrl}/saveFeedbackData`). */
   feedbackSubmitUrl?: string;
   /** Logged-in user session for registered feedback payload. */
@@ -43,6 +45,7 @@ export const Footer: React.FC<FooterProps> = ({
   isLoggedIn,
   recaptchaSiteKey,
   feedbackApiBaseUrl,
+  rewardsApiBaseUrl,
   feedbackSubmitUrl,
   userSession,
   onRegisteredUserClick,
@@ -52,6 +55,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   useFooterFeedbackShell({
     feedbackApiBaseUrl,
+    rewardsApiBaseUrl,
     feedbackSubmitUrl,
     userSession,
     isLoggedIn,

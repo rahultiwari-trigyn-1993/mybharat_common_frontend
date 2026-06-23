@@ -4,6 +4,7 @@ import type { HeaderUserSessionInput } from '../header/headerUserSession';
 
 export type UseFooterFeedbackShellOptions = {
   feedbackApiBaseUrl?: string;
+  rewardsApiBaseUrl?: string;
   feedbackSubmitUrl?: string;
   userSession?: HeaderUserSessionInput;
   isLoggedIn?: boolean;
@@ -13,6 +14,7 @@ export type UseFooterFeedbackShellOptions = {
 /** Installs global feedback form handlers (validation, submit, reset). */
 export function useFooterFeedbackShell({
   feedbackApiBaseUrl,
+  rewardsApiBaseUrl,
   feedbackSubmitUrl,
   userSession,
   isLoggedIn,
@@ -23,12 +25,13 @@ export function useFooterFeedbackShell({
 
     applyFooterFeedbackConfig({
       feedbackApiBaseUrl,
+      rewardsApiBaseUrl,
       feedbackSubmitUrl,
       userSession,
       isLoggedIn,
     });
     return installFooterFeedbackFlow();
-  }, [enabled, feedbackApiBaseUrl, feedbackSubmitUrl, userSession, isLoggedIn]);
+  }, [enabled, feedbackApiBaseUrl, rewardsApiBaseUrl, feedbackSubmitUrl, userSession, isLoggedIn]);
 }
 
 export default useFooterFeedbackShell;

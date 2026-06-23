@@ -667,7 +667,7 @@ async function finalizeEstablishSession(
     clearStoredRegCode();
   }
 
-  setLoginAuthCookies(mbToken, readCookieDomain(), encryptId || undefined);
+  setLoginAuthCookies(accessToken, readCookieDomain(), encryptId || undefined);
   redirectToEstablishSession(establishPayload);
   return { redirecting: true };
 }

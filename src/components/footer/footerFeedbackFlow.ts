@@ -32,6 +32,7 @@ let submitInFlight = false;
 
 export function applyFooterFeedbackConfig(options?: {
   feedbackApiBaseUrl?: string;
+  rewardsApiBaseUrl?: string;
   /** @deprecated Use `feedbackApiBaseUrl` — full URL override for save feedback POST. */
   feedbackSubmitUrl?: string;
   /** @deprecated No longer used — feedback posts to APIGateway `/saveFeedbackData`. */
@@ -41,6 +42,7 @@ export function applyFooterFeedbackConfig(options?: {
 }): void {
   applyFooterFeedbackApiConfig({
     feedbackApiBaseUrl: options?.feedbackApiBaseUrl,
+    rewardsApiBaseUrl: options?.rewardsApiBaseUrl,
     feedbackSubmitUrl: options?.feedbackSubmitUrl,
     userSession: options?.userSession,
     isLoggedIn: options?.isLoggedIn,
@@ -354,6 +356,7 @@ function syncFooterFeedbackConfigFromDom(): void {
   const isLoggedInAttr = footerEl.getAttribute('is-logged-in');
   applyFooterFeedbackConfig({
     feedbackApiBaseUrl: footerEl.getAttribute('feedback-api-base-url') ?? undefined,
+    rewardsApiBaseUrl: footerEl.getAttribute('rewards-api-base-url') ?? undefined,
     feedbackSubmitUrl: footerEl.getAttribute('feedback-submit-url') ?? undefined,
     isLoggedIn:
       isLoggedInAttr === 'true' || isLoggedInAttr === '' ? true : isLoggedInAttr === 'false' ? false : undefined,
@@ -368,6 +371,7 @@ export function installFooterFeedbackFlow(): () => void {
   syncFooterFeedbackConfigFromDom();
   applyFooterFeedbackConfig({
     feedbackApiBaseUrl: window.MYBHARAT_SHELL?.footer?.feedbackApiBaseUrl,
+    rewardsApiBaseUrl: window.MYBHARAT_SHELL?.footer?.rewardsApiBaseUrl,
     feedbackSubmitUrl: window.MYBHARAT_SHELL?.footer?.feedbackSubmitUrl,
     userSession: (window.MYBHARAT_SHELL?.footer?.userSession ??
       window.MYBHARAT_SHELL?.header?.userSession) as HeaderUserSessionInput,

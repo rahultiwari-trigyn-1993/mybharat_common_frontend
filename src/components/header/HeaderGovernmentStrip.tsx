@@ -14,15 +14,15 @@ export function HeaderGovernmentStrip({ cdn }: { cdn: string }) {
           </div>
           <div className="col-xl-9 col-lg-9 col-sm-8 col-6 text-end">
             <span className=" d-none d-md-inline">
-              <button role="button" id="decreasetext" className="font01">
+              <button type="button" id="decreasetext" className="font01" aria-label="Decrease text size">
                 -A
               </button>
 
-              <button role="button" id="resettext" className="font01 active01">
+              <button type="button" id="resettext" className="font01 active01" aria-label="Reset text size">
                 A
               </button>
 
-              <button role="button" id="increasetext" className="font01">
+              <button type="button" id="increasetext" className="font01" aria-label="Increase text size">
                 A+
               </button>
               <span className="partition">| &nbsp;</span>

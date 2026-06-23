@@ -30,12 +30,14 @@ export type FeedbackFormValues = {
 };
 
 let feedbackApiBaseUrl: string | undefined;
+let rewardsApiBaseUrl: string | undefined;
 let feedbackSubmitUrlOverride: string | undefined;
 let feedbackUserSession: HeaderUserSessionInput | undefined;
 let feedbackIsLoggedInOverride: boolean | undefined;
 
 export function applyFooterFeedbackApiConfig(options?: {
   feedbackApiBaseUrl?: string;
+  rewardsApiBaseUrl?: string;
   /** Full URL override for the save feedback POST (default `{apiBase}/saveFeedbackData`). */
   feedbackSubmitUrl?: string;
   userSession?: HeaderUserSessionInput;
@@ -43,6 +45,9 @@ export function applyFooterFeedbackApiConfig(options?: {
 }): void {
   const apiBase = options?.feedbackApiBaseUrl?.trim();
   if (apiBase) feedbackApiBaseUrl = apiBase.replace(/\/$/, '');
+
+  const rewardsBase = options?.rewardsApiBaseUrl?.trim();
+  if (rewardsBase) rewardsApiBaseUrl = rewardsBase.replace(/\/$/, '');
 
   const submitUrl = options?.feedbackSubmitUrl?.trim();
   if (submitUrl) feedbackSubmitUrlOverride = submitUrl;
@@ -90,8 +95,21 @@ function resolveSubmitUrl(): string {
   return `${base}${SAVE_FEEDBACK_DATA_PATH}`;
 }
 
+function resolveRewardsApiFetchBase(): string {
+  if (rewardsApiBaseUrl) return rewardsApiBaseUrl;
+
+  const fromFooter = window.MYBHARAT_SHELL?.footer?.rewardsApiBaseUrl?.trim();
+  if (fromFooter) return fromFooter.replace(/\/$/, '');
+
+  return '';
+}
+
 function usesHostApiAuthProxy(base: string): boolean {
   return base === '/api';
+}
+
+function usesHostRewardsApiAuthProxy(base: string): boolean {
+  return base === '/rewards-api';
 }
 
 function unwrapRawUserRecord(input: HeaderUserSessionInput): Record<string, unknown> | null {
@@ -199,23 +217,25 @@ async function postFormToApi(
   }
 }
 
-function buildApiUrl(path: string): string {
-  const base = resolveApiFetchBase();
+function buildRewardsApiUrl(path: string): string {
+  const base = resolveRewardsApiFetchBase();
   const suffix = path.startsWith('/') ? path : `/${path}`;
   if (!base) return suffix;
   return `${base}${suffix}`;
 }
 
-async function postJsonToApi(path: string, body: unknown): Promise<void> {
-  const base = resolveApiFetchBase();
-  const url = buildApiUrl(path);
+async function postJsonToRewardsApi(path: string, body: unknown): Promise<void> {
+  const base = resolveRewardsApiFetchBase();
+  if (!base) return;
+
+  const url = buildRewardsApiUrl(path);
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
   };
 
-  if (!usesHostApiAuthProxy(base)) {
+  if (!usesHostRewardsApiAuthProxy(base)) {
     const token = await fetchInternalGuestOauthAccessToken();
     headers.Authorization = `Bearer ${token}`;
   }
@@ -224,7 +244,7 @@ async function postJsonToApi(path: string, body: unknown): Promise<void> {
     method: 'POST',
     headers,
     body: JSON.stringify(body),
-    credentials: usesHostApiAuthProxy(base) ? 'same-origin' : 'omit',
+    credentials: usesHostRewardsApiAuthProxy(base) ? 'same-origin' : 'omit',
   });
 }
 
@@ -233,7 +253,7 @@ export async function triggerGeneralFeedbackReward(userId: number): Promise<void
   if (!Number.isFinite(userId) || userId <= 0) return;
 
   try {
-    await postJsonToApi(TRIGGER_YOUTH_REWARD_PATH, {
+    await postJsonToRewardsApi(TRIGGER_YOUTH_REWARD_PATH, {
       events: [
         {
           event_key: 'general_feedback',

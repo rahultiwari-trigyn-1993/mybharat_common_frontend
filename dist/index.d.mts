@@ -1,5 +1,6 @@
 import * as React from 'react';
 import React__default from 'react';
+import * as bootstrap from 'bootstrap';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 
 /** Raw user object from MY Bharat profile / session API (`data` field). */
@@ -71,6 +72,8 @@ type FooterProps = {
     recaptchaSiteKey?: string;
     /** APIGateway root for feedback submit (e.g. `/api` dev proxy or `login.apiBaseUrl`). */
     feedbackApiBaseUrl?: string;
+    /** Rewards API root for `trigger-youth-reward-points` (e.g. `/rewards-api` or `VITE_REWARDS_API_URL`). */
+    rewardsApiBaseUrl?: string;
     /** Optional full URL override (default `{feedbackApiBaseUrl}/saveFeedbackData`). */
     feedbackSubmitUrl?: string;
     /** Logged-in user session for registered feedback payload. */
@@ -171,6 +174,17 @@ type HeaderProps = {
     cookieDomain?: string;
 };
 declare const Header: React__default.FC<HeaderProps>;
+
+/**
+ * Bootstrap 5 for modals, dropdowns, collapse — bundled instead of CDN inject (Phase 1).
+ * Exposes `window.bootstrap` for `data-bs-*` markup and `bootstrapModal.ts`.
+ */
+
+declare global {
+    interface Window {
+        bootstrap?: typeof bootstrap;
+    }
+}
 
 /**
  * Server-side auth bootstrap — browser calls opaque same-origin routes only.
@@ -294,8 +308,15 @@ type HeaderLoginShellPortalProps = {
 };
 declare function HeaderLoginShellPortal({ cdnBase, enabled, variant, }: HeaderLoginShellPortalProps): react_jsx_runtime.JSX.Element | null;
 
+/** Document-level handlers for `#increasetext`, `#decreasetext`, `#resettext`. */
+declare function installHeaderAccessibilityFont(): () => void;
+
+/** Binds gov-strip font size controls (`#increasetext`, `#decreasetext`, `#resettext`). */
+declare function useHeaderAccessibilityFont(enabled?: boolean): void;
+
 declare function applyFooterFeedbackConfig(options?: {
     feedbackApiBaseUrl?: string;
+    rewardsApiBaseUrl?: string;
     /** @deprecated Use `feedbackApiBaseUrl` — full URL override for save feedback POST. */
     feedbackSubmitUrl?: string;
     /** @deprecated No longer used — feedback posts to APIGateway `/saveFeedbackData`. */
@@ -326,6 +347,7 @@ type FeedbackFormValues = {
 };
 declare function applyFooterFeedbackApiConfig(options?: {
     feedbackApiBaseUrl?: string;
+    rewardsApiBaseUrl?: string;
     /** Full URL override for the save feedback POST (default `{apiBase}/saveFeedbackData`). */
     feedbackSubmitUrl?: string;
     userSession?: HeaderUserSessionInput;
@@ -341,13 +363,14 @@ declare function isFeedbackSubmitSuccess(res: FeedbackApiResponse): boolean;
 
 type UseFooterFeedbackShellOptions = {
     feedbackApiBaseUrl?: string;
+    rewardsApiBaseUrl?: string;
     feedbackSubmitUrl?: string;
     userSession?: HeaderUserSessionInput;
     isLoggedIn?: boolean;
     enabled?: boolean;
 };
 /** Installs global feedback form handlers (validation, submit, reset). */
-declare function useFooterFeedbackShell({ feedbackApiBaseUrl, feedbackSubmitUrl, userSession, isLoggedIn, enabled, }?: UseFooterFeedbackShellOptions): void;
+declare function useFooterFeedbackShell({ feedbackApiBaseUrl, rewardsApiBaseUrl, feedbackSubmitUrl, userSession, isLoggedIn, enabled, }?: UseFooterFeedbackShellOptions): void;
 
 type DesktopMainNavProps = {
     items: readonly NavTreeItem[];
@@ -449,4 +472,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, saveUserFeedback, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useFooterFeedbackShell, useMainNavItems, validateFeedbackForm, validateOtpLoginForm };
+export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, saveUserFeedback, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, validateFeedbackForm, validateOtpLoginForm };

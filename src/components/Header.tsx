@@ -11,6 +11,7 @@ import { useMbHeaderBootstrapAndPortal } from './header/useMbHeaderBootstrapAndP
 import { MobileMenuModal } from './MobileMenuModal';
 import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 import { useHeaderLoginConfig } from './header/login/useHeaderLoginConfig';
+import { useHeaderAccessibilityFont } from './header/useHeaderAccessibilityFont';
 
 import { HeaderAuthControls, isHeaderUserLoggedIn } from './header/HeaderAuthControls';
 import type { HeaderUserSessionInput } from './header/headerUserSession';
@@ -65,6 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
     publicProfileApiBaseUrl,
     cookieDomain,
   });
+  useHeaderAccessibilityFont();
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, '');
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;

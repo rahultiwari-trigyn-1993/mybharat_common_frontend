@@ -23,6 +23,8 @@ export type ShellFooterConfig = {
   feedbackApiBaseUrl?: string;
   /** Optional full URL override for save feedback POST (default `{feedbackApiBaseUrl}/saveFeedbackData`). */
   feedbackSubmitUrl?: string;
+  /** Rewards API root (`VITE_REWARDS_API_URL` / `/rewards-api` dev proxy). */
+  rewardsApiBaseUrl?: string;
   /** Logged-in user payload for registered feedback submit. */
   userSession?: unknown;
 };
@@ -184,6 +186,7 @@ export function resolveFooterProps(el: HTMLElement): {
   recaptchaSiteKey?: string;
   webroot?: string;
   feedbackApiBaseUrl?: string;
+  rewardsApiBaseUrl?: string;
   feedbackSubmitUrl?: string;
   userSession?: unknown;
 } {
@@ -200,6 +203,8 @@ export function resolveFooterProps(el: HTMLElement): {
       el.getAttribute('feedback-api-base-url') ??
       global?.feedbackApiBaseUrl ??
       window.MYBHARAT_SHELL?.login?.apiBaseUrl,
+    rewardsApiBaseUrl:
+      el.getAttribute('rewards-api-base-url') ?? global?.rewardsApiBaseUrl,
     feedbackSubmitUrl: el.getAttribute('feedback-submit-url') ?? global?.feedbackSubmitUrl,
     userSession:
       global?.userSession ?? window.MYBHARAT_SHELL?.header?.userSession,

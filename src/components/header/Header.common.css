@@ -138,6 +138,31 @@ header.mb-common-header a:active {
   line-height: 1.2;
 }
 
+/*
+ * Accessibility font controls (#increasetext / #resettext / #decreasetext).
+ * When zoom is unavailable, scale fixed-px shell text via --mb-font-delta.
+ */
+html.mb-accessibility-font-active:not([style*='zoom']) .header-top .font01,
+html.mb-accessibility-font-active:not([style*='zoom']) .header-top .skip01,
+html.mb-accessibility-font-active:not([style*='zoom']) .header-top .gov_india,
+html.mb-accessibility-font-active:not([style*='zoom']) .fontchange12,
+html.mb-accessibility-font-active:not([style*='zoom']) .fontchange14,
+html.mb-accessibility-font-active:not([style*='zoom']) .fontchange {
+  font-size: calc(1em + var(--mb-font-delta, 0px));
+}
+
+html.mb-accessibility-font-active:not([style*='zoom']) .header-top .font01 {
+  font-size: calc(13px + var(--mb-font-delta, 0px));
+}
+
+html.mb-accessibility-font-active:not([style*='zoom']) .fontchange12 {
+  font-size: calc(12px + var(--mb-font-delta, 0px)) !important;
+}
+
+html.mb-accessibility-font-active:not([style*='zoom']) .fontchange14 {
+  font-size: calc(14px + var(--mb-font-delta, 0px)) !important;
+}
+
 /* bhashini hooks */
 .bhashini-plugin-container {
   display: inline;
