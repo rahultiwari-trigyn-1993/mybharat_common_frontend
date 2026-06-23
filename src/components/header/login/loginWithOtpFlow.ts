@@ -484,6 +484,7 @@ function cookieExists(name: string): boolean {
 }
 
 function setLoginAuthCookies(token: string, domain: string, encryptId?: string): void {
+  console.log('setLoginAuthCookies', token, domain, encryptId);
   const expiry = new Date(Date.now() + 1440 * 60 * 1000).toUTCString();
   if (!cookieExists('token') && !cookieExists('token_essays')) {
     document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
