@@ -5,6 +5,13 @@
  */
 
 import {
+  DEFAULT_API_ERROR_MESSAGE,
+  isApiSuccessStatus,
+  isApiFailureResponse,
+  resolveUserFacingApiError,
+  type ApiErrorPayload,
+} from './loginApiErrorMessage';
+import {
   SHELL_INTERNAL_LOGIN_PUBKEY_PATH,
   postInternalAuthJson,
 } from './shellLoginInternalAuth';
@@ -37,12 +44,15 @@ function readConfiguredPublicKeyPem(): string {
 
 async function fetchPublicKeyPemFromHost(): Promise<string> {
   const res = await postInternalAuthJson<Record<string, unknown>>(SHELL_INTERNAL_LOGIN_PUBKEY_PATH, {});
+  if (isApiFailureResponse(res as ApiErrorPayload)) {
+    throw new Error(resolveUserFacingApiError(res as ApiErrorPayload));
+  }
   const pem =
     (typeof res.public_key === 'string' && res.public_key) ||
     (typeof res.publicKey === 'string' && res.publicKey) ||
     '';
   if (!pem.trim()) {
-    throw new Error('Login encryption is not configured on the host.');
+    throw new Error(DEFAULT_API_ERROR_MESSAGE);
   }
   return pem.trim();
 }

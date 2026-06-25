@@ -144,6 +144,8 @@ type Header2Props = {
     publicProfileApiBaseUrl?: string;
     /** Cookie domain for post-login token cookies. */
     cookieDomain?: string;
+    /** Load Bhashini website translation plugin (default true). Set false if the host page loads the script. */
+    bhashini?: boolean;
 };
 declare const Header2: React__default.FC<Header2Props>;
 
@@ -172,6 +174,8 @@ type HeaderProps = {
     publicProfileApiBaseUrl?: string;
     /** Cookie domain for post-login token cookies. */
     cookieDomain?: string;
+    /** Load Bhashini website translation plugin (default true). Set false if the host page loads the script. */
+    bhashini?: boolean;
 };
 declare const Header: React__default.FC<HeaderProps>;
 
@@ -186,12 +190,6 @@ declare global {
     }
 }
 
-/**
- * Server-side auth bootstrap — browser calls opaque same-origin routes only.
- * Host must map these paths to APIGateway (credentials stay on server).
- *
- * @see docs/cakephp-shell-integration.md — "Internal auth routes"
- */
 /** Opaque path — host proxies to POST /getKeycloakClientAccessToken (no body). */
 declare const SHELL_INTERNAL_KC_CLIENT_PATH = "/_internal/kc-client";
 /** Opaque path — host proxies to POST /oauth with server-stored client credentials. */
@@ -229,8 +227,7 @@ declare function submitOtpLoginFromModal(): void;
 declare function installHeaderLoginFlow(): () => void;
 
 /**
- * Post-OTP-verify login pipeline — replaces legacy `PagesController::loginWithOtp`.
- * Builds after_login JSON and browser-POSTs to CakePHP `establishSession` for PHP session hydration.
+ * Post-OTP-verify / password login — gateway auth then browser POST to PHP `establish_session`.
  */
 type LoginOtpApiResponse = {
     status_code?: number | string;
@@ -272,7 +269,7 @@ declare function isLoginOtpRedirectResult(res: LoginOtpApiResponse | LoginOtpSuc
 declare function completeLoginWithOtp(username: string): Promise<LoginOtpApiResponse | LoginOtpRedirectResult>;
 /**
  * Password sign-in — replaces legacy `pages/signIn`.
- * Flow: keycloakLogin → userOrgAccessLogin → establishSession (shared with OTP login).
+ * Flow: keycloakLogin → POST `{baseUrl}/establish_session`.
  */
 declare function completePasswordSignIn(username: string, password: string): Promise<LoginOtpApiResponse | LoginOtpRedirectResult>;
 /**
@@ -280,6 +277,27 @@ declare function completePasswordSignIn(username: string, password: string): Pro
  * Flow: keycloakForgotPassword → keycloakChangePassword (requires reg_code from OTP verify).
  */
 declare function completeForgotPasswordUpdate(identifier: string, password: string): Promise<LoginOtpApiResponse>;
+
+type EstablishSessionFlow = 'login_password' | 'login_otp' | 'registration';
+type SubmitEstablishSessionParams = {
+    /** Portal origin (`VITE_BASE_URL` / Header `baseUrl`). */
+    baseUrl: string;
+    flow: EstablishSessionFlow;
+    username: string;
+    authResponse: unknown;
+    /** Registration only — POST field `qualification`. */
+    qualification?: string;
+    /** Registration only — POST field `sports_area`. */
+    sportsArea?: string;
+    /** Registration only — POST field `is_outside_india` (`"1"` when international). */
+    isOutsideIndia?: boolean;
+    /** Registration only — POST field `country_id`. */
+    countryId?: string;
+};
+/** `{baseUrl}/establish_session` — PHP hydrates session from gateway auth response. */
+declare function resolveEstablishSessionAction(baseUrl: string): string;
+/** Full-page form POST — leaves the React SPA (not fetch/AJAX). */
+declare function submitEstablishSessionForm(params: SubmitEstablishSessionParams): void;
 
 type HeaderAuthControlsProps = {
     cdn: string;
@@ -313,6 +331,17 @@ declare function installHeaderAccessibilityFont(): () => void;
 
 /** Binds gov-strip font size controls (`#increasetext`, `#decreasetext`, `#resettext`). */
 declare function useHeaderAccessibilityFont(enabled?: boolean): void;
+
+/** v3 widget id/class (v2 used `.bhashini-translator-widget`). */
+declare const BHASHINI_WIDGET_SELECTORS: readonly ["#bhashini-translation", ".bhashini-plugin-container .bhashini-dropdown", ".bhashini-translator-widget"];
+declare function findBhashiniWidget(root?: ParentNode | null): HTMLElement | null;
+/**
+ * Load Bhashini v3 after `.bhashini-plugin-container` exists in the DOM.
+ * Re-injects the script if a host layout loaded it before the header mounted.
+ */
+declare function loadBhashiniScript(): Promise<void>;
+
+declare function useBhashiniWidgetPlacement(enabled?: boolean): void;
 
 declare function applyFooterFeedbackConfig(options?: {
     feedbackApiBaseUrl?: string;
@@ -472,4 +501,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, saveUserFeedback, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, validateFeedbackForm, validateOtpLoginForm };
+export { BHASHINI_WIDGET_SELECTORS, DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, type EstablishSessionFlow, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, resolveEstablishSessionAction, saveUserFeedback, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, validateFeedbackForm, validateOtpLoginForm };

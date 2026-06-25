@@ -163,28 +163,7 @@ html.mb-accessibility-font-active:not([style*='zoom']) .fontchange14 {
   font-size: calc(14px + var(--mb-font-delta, 0px)) !important;
 }
 
-/* bhashini hooks */
-.bhashini-plugin-container {
-  display: inline;
-  float: right;
-  margin-right: 80px !important;
-  margin-top: 2px;
-}
-
-.bhashini-plugin-container svg {
-  width: 24px;
-  height: 24px;
-}
-
-.bhashini-dropdown-content {
-  bottom: auto !important;
-  right: -75px;
-  scrollbar-width: thin;
-}
-
-.bhashini-dropdown-content .language-option {
-  text-align: left !important;
-}
+/* Bhashini widget styles: src/styles/bhashini.css (+ Header.css / Header2.css mobile slot layout) */
 
 /* mobile menu modal (Bootstrap #mobileMenuNew) */
 .mb-common-header__modal-nav a {

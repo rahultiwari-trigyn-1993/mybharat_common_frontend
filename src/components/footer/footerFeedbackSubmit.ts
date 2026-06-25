@@ -3,6 +3,13 @@ import {
 } from '../header/login/headerLoginFlow';
 import { fetchInternalGuestOauthAccessToken } from '../header/login/shellLoginInternalAuth';
 import {
+  DEFAULT_API_ERROR_MESSAGE,
+  isApiSuccessStatus,
+  normalizeApiResponse,
+  resolveUserFacingApiError,
+  type ApiErrorPayload,
+} from '../header/login/loginApiErrorMessage';
+import {
   isHeaderUserLoggedIn,
   parseHeaderUserSession,
   type HeaderUserSessionInput,
@@ -198,22 +205,32 @@ async function postFormToApi(
   };
 
   if (!usesHostApiAuthProxy(base)) {
-    const token = await fetchInternalGuestOauthAccessToken();
-    headers.Authorization = `Bearer ${token}`;
+    try {
+      const token = await fetchInternalGuestOauthAccessToken();
+      headers.Authorization = `Bearer ${token}`;
+    } catch {
+      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+    }
   }
 
-  const res = await fetch(url, {
-    method: 'POST',
-    headers,
-    body: new URLSearchParams(form),
-    credentials: usesHostApiAuthProxy(base) ? 'same-origin' : 'omit',
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: new URLSearchParams(form),
+      credentials: usesHostApiAuthProxy(base) ? 'same-origin' : 'omit',
+    });
+  } catch {
+    return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+  }
 
   const text = await res.text();
   try {
-    return JSON.parse(text) as FeedbackApiResponse;
+    const parsed = JSON.parse(text) as FeedbackApiResponse;
+    return normalizeApiResponse(parsed as ApiErrorPayload, res.status) as FeedbackApiResponse;
   } catch {
-    throw new Error('Unable to submit feedback. Please try again.');
+    return { status_code: res.ok ? 200 : res.status, message: DEFAULT_API_ERROR_MESSAGE };
   }
 }
 
@@ -285,8 +302,5 @@ export async function saveUserFeedback(form: FeedbackFormValues): Promise<Feedba
 }
 
 export function isFeedbackSubmitSuccess(res: FeedbackApiResponse): boolean {
-  const code = res.status_code;
-  if (code == null || code === '') return false;
-  const numeric = typeof code === 'string' ? Number(code) : code;
-  return numeric === 200 || numeric === 201;
+  return isApiSuccessStatus(res.status_code);
 }

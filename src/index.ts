@@ -1,5 +1,6 @@
 import './vendor/installShellFramework';
 import './components/header/Header.common.css';
+import './styles/bhashini.css';
 import './components/Header.css';
 import './components/Footer.css';
 
@@ -30,6 +31,11 @@ export {
 } from './components/header/login/headerLoginFlow';
 export { completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completeForgotPasswordUpdate, completePasswordSignIn, isLoginOtpRedirectResult } from './components/header/login/loginWithOtpFlow';
 export {
+  submitEstablishSessionForm,
+  resolveEstablishSessionAction,
+  type EstablishSessionFlow,
+} from './components/header/login/establishSessionForm';
+export {
   parseHeaderUserSession,
   isHeaderUserLoggedIn,
   isGuestHeaderUserPayload,
@@ -46,6 +52,8 @@ export { HeaderProfileMenu } from './components/header/HeaderProfileMenu';
 export { HeaderLoginShellPortal } from './components/header/login/useHeaderLoginShell';
 export { installHeaderAccessibilityFont } from './components/header/headerAccessibilityFont';
 export { useHeaderAccessibilityFont } from './components/header/useHeaderAccessibilityFont';
+export { loadBhashiniScript, findBhashiniWidget, BHASHINI_WIDGET_SELECTORS } from './utils/loadBhashiniScript';
+export { useBhashiniWidgetPlacement } from './hooks/useBhashiniWidgetPlacement';
 export {
   installFooterFeedbackFlow,
   applyFooterFeedbackConfig,

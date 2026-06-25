@@ -516,12 +516,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     padding-left: 4px !important;
     padding-right: 2px !important;
   }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    > .bhashini-plugin-container.mb-common-header__bhashini-root {
-    bottom: 12px !important;
-    right: 42px !important;
-  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -563,28 +557,6 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
   }
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    > .bhashini-plugin-container.mb-common-header__bhashini-root {
-    display: inline-block !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    position: absolute !important;
-    float: none !important;
-    right: 46px !important;
-    top: auto !important;
-    bottom: 14px !important;
-    margin: 0 !important;
-    z-index: 1001 !important;
-    line-height: 1;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    > .bhashini-plugin-container.mb-common-header__bhashini-root
-    svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
     .mb-common-header__mobile-bar--split
     .mb-common-header__mobile-row--split {
     display: flex !important;
@@ -609,7 +581,7 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
 
   header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
     .mb-common-header__mobile-bar--split
-    .mb-common-header__bhashini-slot {
+    #bhashini-mobile-header {
     flex: 0 0 28px !important;
     width: 28px;
     min-width: 28px;
@@ -693,21 +665,13 @@ header#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new
     right: -40px;
   }
 
+  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
+    #bhashini-mobile-header
+    .bhashini-translator-widget
+    svg
+    path,
   .bhashini-plugin-container svg path {
     fill: #000000 !important;
-  }
-}
-
-@media (min-width: 1000px) {
-  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2)
-    > .bhashini-plugin-container.mb-common-header__bhashini-root {
-    position: static !important;
-    float: right !important;
-    right: auto !important;
-    bottom: auto !important;
-    margin-right: 80px !important;
-    margin-top: 2px !important;
-    z-index: auto !important;
   }
 }
 

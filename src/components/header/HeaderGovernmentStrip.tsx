@@ -36,7 +36,7 @@ export function HeaderGovernmentStrip({ cdn }: { cdn: string }) {
               </a>
 
               <span className="partition">| &nbsp;</span>
-              <div id="bhashini-desktop-header" />
+              <span id="bhashini-desktop-header" />
             </span>
           </div>
         </div>

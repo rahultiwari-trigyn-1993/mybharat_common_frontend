@@ -43,7 +43,7 @@ Hash deep-link: `#login` opens OTP modal on load.
 | `#mb_menus`, `[data-bs-target="#mobileMenuNew"]` | Hamburger opens drawer |
 | `#signInLink` | Guest “Sign In” in drawer; host jQuery opens OTP login modal |
 | `#btnGroupDrop1`, `#btnGroupDrop2` | Desktop Sign In / Register (host binds login) |
-| `#bhashini-mobile-header`, `#bhashini-desktop-header` | Bhashini widget mount targets |
+| `#bhashini-mobile-header`, `#bhashini-desktop-header` | Bhashini widget mount targets (script loaded by header when `bhashini` is enabled) |
 | `#mobile-menu` | **Both** tablet quick nav and desktop `<nav>` used this id in `.ctp` (duplicate HTML id). React uses **`#mb-nav-mobile-quick`** and **`#mb-nav-desktop-main`** instead; update host scripts if they queried `#mobile-menu`. |
 | `#decreasetext`, `#resettext`, `#increasetext` | Font size controls |
 

@@ -1,17 +1,28 @@
 /**
- * Post-OTP-verify login pipeline — replaces legacy `PagesController::loginWithOtp`.
- * Builds after_login JSON and browser-POSTs to CakePHP `establishSession` for PHP session hydration.
+ * Post-OTP-verify / password login — gateway auth then browser POST to PHP `establish_session`.
  */
 
 import { encryptLoginSecret } from './shellLoginSecretPayload';
+import {
+  DEFAULT_API_ERROR_MESSAGE,
+  hasOAuthFailure,
+  inferApiStatusCode,
+  isApiSuccessStatus,
+  normalizeApiResponse,
+  resolveLoginFlowError,
+  resolveUserFacingApiError,
+  toApiErrorResponse,
+  type ApiErrorPayload,
+} from './loginApiErrorMessage';
 import {
   fetchInternalKeycloakClientAccessToken,
   postInternalAuthJson,
   SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
   SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
 } from './shellLoginInternalAuth';
+import { submitEstablishSessionForm, type EstablishSessionFlow } from './establishSessionForm';
 
-const DEFAULT_ERROR = 'Something went wrong!!! Plz try again later.';
+const DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
 const REG_CODE_STORAGE_KEY = 'mybharat_reg_code';
 
 export type LoginOtpApiResponse = {
@@ -34,31 +45,6 @@ export type LoginOtpApiResponse = {
   org_name?: string;
 };
 
-export type AfterLoginPayload = {
-  status_code: 200;
-  data: {
-    dl_id_detail: Record<string, unknown>;
-    User: Record<string, unknown>;
-  };
-};
-
-export type EstablishSessionRequest = {
-  auth_output: AfterLoginPayload;
-  loginby: 'email' | 'mobile' | '';
-  username: string;
-  org_id?: number | string;
-  org_name?: string;
-  token: string;
-  encryptId?: string;
-  after_login_route: { controller: string; action: string };
-  /** Mirrors PHP Session writes where React cannot call those helpers yet. */
-  session_hints?: {
-    cvbuilder?: boolean;
-    nyf_status?: boolean;
-    org_activity_list?: unknown[];
-  };
-};
-
 export type LoginOtpSuccessResponse = LoginOtpApiResponse & {
   status_code: 200;
   token: string;
@@ -79,9 +65,7 @@ export function isLoginOtpRedirectResult(
 }
 
 function isSuccessStatus(statusCode?: number | string): boolean {
-  if (statusCode == null || statusCode === '') return false;
-  const code = typeof statusCode === 'string' ? Number(statusCode) : statusCode;
-  return code === 200 || code === 201;
+  return isApiSuccessStatus(statusCode);
 }
 
 function readLoginFetchBase(): string {
@@ -122,50 +106,21 @@ function readPagesBaseUrl(): string {
   return fromHeader ? fromHeader.replace(/\/$/, '') : '';
 }
 
-function pagesUrl(path: string): string {
-  const base = readPagesBaseUrl();
-  const segment = path.startsWith('/') ? path.slice(1) : path;
-  if (base) return `${base}/${segment}`;
-  return `/${segment}`;
-}
-
-function readCookieDomain(): string {
-  const configured = window.MYBHARAT_SHELL?.login?.cookieDomain?.trim();
-  if (configured) return configured;
-  return window.location.hostname;
-}
-
-function readYouthProfileRedirectUrl(): string {
-  const configured = window.MYBHARAT_SHELL?.login?.youthProfileUrl?.trim();
-  if (configured) return configured;
-  const base = readPagesBaseUrl();
-  if (base) return `${base}/youth-profile`;
-  return '/youth-profile';
-}
-
-function readSessionEstablishPath(): string {
-  return (
-    window.MYBHARAT_SHELL?.login?.sessionEstablishPath?.trim() ||
-    '/reports/establishSession'
-  );
-}
-
 async function parseJsonResponse<T extends LoginOtpApiResponse>(res: Response, text: string): Promise<T> {
   try {
     const parsed = JSON.parse(text) as T | unknown[];
     if (Array.isArray(parsed)) {
-      return {
-        status_code: res.status,
-        data: parsed,
-      } as T;
+      return normalizeApiResponse(
+        { status_code: res.status, data: parsed } as ApiErrorPayload,
+        res.status
+      ) as T;
     }
-    const obj = parsed as T;
-    if (obj.status_code == null || obj.status_code === '') {
-      obj.status_code = res.status;
-    }
-    return obj;
+    return normalizeApiResponse(parsed as ApiErrorPayload, res.status) as T;
   } catch {
-    return { status_code: res.ok ? 200 : res.status, message: text } as T;
+    return {
+      status_code: res.ok ? 200 : res.status,
+      message: DEFAULT_ERROR,
+    } as T;
   }
 }
 
@@ -273,429 +228,29 @@ export function decodeJwtPayload(accessToken: string): Record<string, unknown> |
   }
 }
 
-function formatCreatedTimestamp(raw: unknown): string {
-  if (raw == null || raw === '') return '';
-  const numeric = typeof raw === 'string' ? Number(raw) : raw;
-  const date =
-    typeof numeric === 'number' && !Number.isNaN(numeric)
-      ? new Date(numeric > 1e12 ? numeric : numeric * 1000)
-      : new Date(String(raw));
-  if (Number.isNaN(date.getTime())) return '';
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-}
-
-function buildDlIdDetail(
-  profile: Record<string, unknown>,
-  mbToken: string,
-  jwt: Record<string, unknown> | null
-): Record<string, unknown> {
-  const dlId = readString(profile, 'dl_id', 'dlId') || readString(jwt, 'dl_id', 'dlId');
-  const kcId = readString(profile, 'kc_id', 'kcId') || readString(jwt, 'sub');
-  const username =
-    readString(profile, 'username', 'preferred_username') ||
-    readString(jwt, 'preferred_username', 'username');
-
-  return {
-    dl_id: dlId,
-    kc_id: kcId,
-    dlId,
-    kcId,
-    username,
-    first_name: readString(profile, 'first_name', 'firstName'),
-    middle_name: readString(profile, 'middle_name', 'middleName'),
-    last_name: readString(profile, 'last_name', 'lastName'),
-    full_name: readString(profile, 'screen_name', 'full_name', 'fullName'),
-    email: readString(profile, 'user_email', 'email'),
-    mobile: readString(profile, 'user_phone', 'mobile'),
-    dob: readString(profile, 'dob', 'date_of_birth'),
-    address: readString(profile, 'address', 'address1'),
-    gender: readString(profile, 'gender'),
-    state_id: readString(profile, 'state_id', 'stateId'),
-    district_id: readString(profile, 'city_id', 'district_id', 'districtId'),
-    country_id: readString(profile, 'country_id', 'countryId'),
-    is_outside_india: readString(profile, 'is_outside_india', 'isOutsideIndia'),
-    pincode: readString(profile, 'zip', 'pincode'),
-    access_token: mbToken,
-    demographic_status: readString(profile, 'demographic_status', 'demographicStatus'),
-    address2: readString(profile, 'address2'),
-    caste_category: readString(profile, 'caste_category', 'casteCategory'),
-    pwd_status: readString(profile, 'pwd_status', 'pwdStatus'),
-    pwd_type: readString(profile, 'pwd_type', 'pwdType'),
-    pwd_other_text: readString(profile, 'pwd_other_text', 'pwdOtherText'),
-  };
-}
-
-function buildUserRecord(
-  profile: Record<string, unknown>,
-  dlIdDetail: Record<string, unknown>,
-  mbToken: string
-): Record<string, unknown> {
-  const fullName = readString(profile, 'screen_name', 'full_name', 'FullName');
-  const orgName = readString(profile, 'org_name', 'Org_name', 'organization_name');
-
-  return {
-    ID: readString(profile, 'id', 'ID', 'user_id'),
-    Name: fullName || readString(dlIdDetail, 'full_name', 'username'),
-    User_email: readString(profile, 'user_email', 'email'),
-    Ministry: readString(profile, 'ministry', 'Ministry'),
-    UserType: readString(profile, 'user_type', 'UserType') || '6',
-    Yuva_type: readString(profile, 'yuva_type', 'Yuva_type'),
-    created: formatCreatedTimestamp(readField(profile, 'created', 'created_at')),
-    email_verification: readString(profile, 'email_verification'),
-    user_verification: readString(profile, 'user_verification'),
-    mmmd_reg_status: readString(profile, 'mmmd_reg_status'),
-    city_id: readString(profile, 'city_id', 'district_id'),
-    state_id: readString(profile, 'state_id'),
-    tmp_state_name: readString(profile, 'tmp_state_name'),
-    tmp_city_name: readString(profile, 'tmp_city_name'),
-    institution_id: readString(profile, 'institution_id'),
-    register_as: readString(profile, 'register_as'),
-    user_status: readString(profile, 'user_status'),
-    user_phone: readString(profile, 'user_phone', 'mobile'),
-    auth_mode: readString(profile, 'auth_mode') || 'otp',
-    dl_id: readString(dlIdDetail, 'dl_id'),
-    kc_id: readString(dlIdDetail, 'kc_id'),
-    dlId: readString(dlIdDetail, 'dlId'),
-    kcId: readString(dlIdDetail, 'kcId'),
-    username: readString(dlIdDetail, 'username'),
-    FullName: fullName,
-    Department: readString(profile, 'department', 'Department'),
-    ProfilePic: readString(profile, 'profile_pic', 'ProfilePic'),
-    otp_verfication: readString(profile, 'otp_verfication') || '1',
-    Gender: readString(profile, 'gender', 'Gender'),
-    DOB: readString(profile, 'dob', 'DOB'),
-    access_token: mbToken,
-    org_name: orgName,
-    Org_name: orgName,
-    Org_type: readString(profile, 'org_type', 'Org_type'),
-    demographic_status: readString(profile, 'demographic_status'),
-    isMentor: readString(profile, 'is_mentor', 'isMentor'),
-  };
-}
-
-function isTruthyFlag(value: unknown): boolean {
-  return value === 1 || value === '1' || value === true || value === 'true';
-}
-
-function readNfyStatus(profile: Record<string, unknown>, user: Record<string, unknown>): boolean {
-  const raw =
-    readField(profile, 'nyf_status', 'nyf', 'nfyStatus') ?? readField(user, 'nyf', 'nyf_status');
-  return isTruthyFlag(raw);
-}
-
-function readCvBuilderFlag(profile: Record<string, unknown>, user: Record<string, unknown>): boolean {
-  const raw =
-    readField(profile, 'cvbuilder', 'cv_builder', 'cvBuilder') ?? readField(user, 'cvbuilder');
-  return isTruthyFlag(raw);
-}
-
-/** Matches legacy `after_login` UserType redirect switch in PagesController. */
-function resolveAfterLoginRoute(
-  userType: string,
-  profile: Record<string, unknown>,
-  user: Record<string, unknown>
-): { controller: string; action: string } {
-  const type = userType.trim();
-
-  if (type === '9' || type === '14') {
-    return { controller: 'pages', action: 'organizational_dashboard' };
-  }
-  if (type === '17') {
-    return { controller: 'pages', action: 'mybharat_state_dashboard' };
-  }
-  if (type === '11') {
-    return { controller: 'pages', action: 'msmeverifier' };
-  }
-  if (type === '10') {
-    return { controller: 'pages', action: 'dyo_dashboard' };
-  }
-  if (type === '1' || type === '13' || type === '15' || type === '50' || type === '102') {
-    return { controller: 'pages', action: 'admin_dashboard' };
-  }
-  if (type === '6') {
-    if (readCvBuilderFlag(profile, user)) {
-      return { controller: 'pages', action: 'cvbuilder' };
-    }
-    return { controller: 'Reports', action: 'public_profile' };
-  }
-  if (type === '51') {
-    if (readNfyStatus(profile, user)) {
-      return { controller: 'pages', action: 'nyf_dashboard' };
-    }
-    return { controller: 'pages', action: 'organizational_dashboard' };
-  }
-  if (type === '18') {
-    return { controller: 'pages', action: 'organizational_dashboard' };
-  }
-  return { controller: 'pages', action: 'dashboard' };
-}
-
-function buildSessionHints(
-  userType: string,
-  profile: Record<string, unknown>,
-  user: Record<string, unknown>
-): EstablishSessionRequest['session_hints'] | undefined {
-  const type = userType.trim();
-  const hints: NonNullable<EstablishSessionRequest['session_hints']> = {};
-
-  if (type === '6') {
-    hints.cvbuilder = readCvBuilderFlag(profile, user);
-  }
-  if (type === '18' || type === '51') {
-    hints.nyf_status = readNfyStatus(profile, user);
-  }
-  if (type === '51') {
-    hints.org_activity_list = [];
-  }
-
-  return Object.keys(hints).length > 0 ? hints : undefined;
-}
-
 async function fetchClientAccessToken(): Promise<string> {
   return fetchInternalKeycloakClientAccessToken();
-}
-
-async function fetchGetUserId(dlId: string): Promise<string> {
-  const base = window.MYBHARAT_SHELL?.login?.publicProfileApiBaseUrl?.trim();
-  if (!base || !dlId) return '';
-
-  const url = `${base.replace(/\/$/, '')}/getUserId`;
-  let res: Response;
-  try {
-    res = await fetch(url, {
-      method: 'POST',
-      credentials: 'omit',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ dl_id: dlId }),
-    });
-  } catch {
-    return '';
-  }
-
-  const parsed = await parseJsonResponse<LoginOtpApiResponse>(res, await res.text());
-  if (!isSuccessStatus(parsed.status_code)) return '';
-  const data = unwrapDataNode(parsed);
-  return readString(data, 'id', 'ID', 'user_id');
-}
-
-function cookieExists(name: string): boolean {
-  return document.cookie.split(';').some((c) => c.trim().startsWith(`${name}=`));
-}
-
-function setLoginAuthCookies(token: string, domain: string, encryptId?: string): void {
-  console.log('setLoginAuthCookies', token, domain, encryptId);
-  const expiry = new Date(Date.now() + 1440 * 60 * 1000).toUTCString();
-  if (!cookieExists('token') && !cookieExists('token_essays')) {
-    document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
-    document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
-  }
-  if (encryptId) {
-    document.cookie = `encryptId=${encodeURIComponent(encryptId)};expires=${expiry};path=/;domain=${domain};`;
-  }
-}
-
-/** Full-page form POST navigation — not fetch/AJAX. */
-function redirectToEstablishSession(body: EstablishSessionRequest): void {
-  const url = pagesUrl(readSessionEstablishPath());
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = url;
-  form.style.display = 'none';
-  form.acceptCharset = 'UTF-8';
-
-  const payloadInput = document.createElement('input');
-  payloadInput.type = 'hidden';
-  payloadInput.name = 'payload';
-  payloadInput.value = JSON.stringify(body);
-  form.appendChild(payloadInput);
-
-  const authOutputInput = document.createElement('input');
-  authOutputInput.type = 'hidden';
-  authOutputInput.name = 'auth_output';
-  authOutputInput.value = JSON.stringify(body.auth_output);
-  form.appendChild(authOutputInput);
-
-  const scalarFields: Array<[string, string | undefined]> = [
-    ['loginby', body.loginby],
-    ['username', body.username],
-    ['token', body.token],
-    ['encryptId', body.encryptId],
-    ['org_id', body.org_id != null ? String(body.org_id) : undefined],
-    ['org_name', body.org_name],
-    ['controller', body.after_login_route.controller],
-    ['action', body.after_login_route.action],
-    ['session_hints', body.session_hints ? JSON.stringify(body.session_hints) : undefined],
-  ];
-
-  for (const [name, value] of scalarFields) {
-    if (value == null || value === '') continue;
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  }
-
-  document.body.appendChild(form);
-  form.submit();
 }
 
 function resolveGatewayError(
   res?: LoginOtpApiResponse | null,
   fallback = DEFAULT_ERROR
 ): string {
-  if (typeof res?.error_description === 'string' && res.error_description.trim()) {
-    return res.error_description.trim();
-  }
-  if (typeof res?.message === 'string' && res.message.trim()) return res.message.trim();
-  return fallback;
+  return resolveUserFacingApiError(res as ApiErrorPayload | null, fallback);
 }
 
-function readNestedRecord(obj: unknown, ...path: string[]): Record<string, unknown> {
-  let current: unknown = obj;
-  for (const key of path) {
-    if (!current || typeof current !== 'object') return {};
-    current = (current as Record<string, unknown>)[key];
-  }
-  return current && typeof current === 'object' && !Array.isArray(current)
-    ? (current as Record<string, unknown>)
-    : {};
-}
-
-/** Matches PHP `$auth_output['keycloak']` from keycloakLogin / exchange responses. */
-function readKeycloakNode(res: LoginOtpApiResponse): Record<string, unknown> {
-  const data = unwrapDataNode(res);
-  const authOutput = readField(res, 'auth_output');
-  const authOutputRecord =
-    authOutput && typeof authOutput === 'object' && !Array.isArray(authOutput)
-      ? (authOutput as Record<string, unknown>)
-      : {};
-
-  const candidates = [
-    readNestedRecord(res, 'keycloak'),
-    readNestedRecord(data, 'keycloak'),
-    readNestedRecord(authOutputRecord, 'keycloak'),
-  ];
-
-  for (const node of candidates) {
-    if (readString(node, 'access_token', 'accessToken')) return node;
-  }
-  return candidates.find((node) => Object.keys(node).length > 0) ?? {};
-}
-
-function readLoginTokens(res: LoginOtpApiResponse): { accessToken: string; mbToken: string } {
-  const data = unwrapDataNode(res);
-  const keycloak = readKeycloakNode(res);
-
-  // PHP signIn: $kc_access_token = $auth_output['keycloak']['access_token']
-  const accessToken =
-    readString(keycloak, 'access_token', 'accessToken') ||
-    readString(res, 'access_token', 'accessToken') ||
-    readString(data, 'access_token', 'accessToken');
-
-  const mbToken =
-    readString(res, 'mb_token', 'mbToken', 'token') ||
-    readString(data, 'mb_token', 'mbToken', 'token') ||
-    readString(keycloak, 'mb_token', 'mbToken') ||
-    accessToken;
-
-  return { accessToken, mbToken };
-}
-
-async function finalizeEstablishSession(
+function submitPortalEstablishSession(
+  flow: Extract<EstablishSessionFlow, 'login_otp' | 'login_password'>,
   username: string,
-  mbToken: string,
-  accessToken: string,
-  orgLogin: LoginOtpApiResponse,
-  options?: { clearRegCode?: boolean }
-): Promise<LoginOtpApiResponse | LoginOtpRedirectResult> {
-  if (!isSuccessStatus(orgLogin.status_code)) {
-    return {
-      status_code: orgLogin.status_code ?? 500,
-      message:
-        typeof orgLogin.message === 'string'
-          ? orgLogin.message
-          : 'Unable to load user profile. Please try again.',
-    };
-  }
-
-  const profile = unwrapDataNode(orgLogin);
-  if (Object.keys(profile).length === 0) {
-    return { status_code: 500, message: 'User profile is empty. Please try again.' };
-  }
-
-  const jwt = decodeJwtPayload(accessToken);
-  const dlId = readString(jwt, 'dl_id', 'dlId');
-  const dlIdDetail = buildDlIdDetail(profile, mbToken, jwt);
-  const User = buildUserRecord(profile, dlIdDetail, mbToken);
-  const loginby = detectLoginBy(username);
-
-  if (!readString(User, 'ID') && dlId) {
-    const userId = await fetchGetUserId(dlId);
-    if (userId) User.ID = userId;
-  }
-
-  const userType = readString(User, 'UserType') || '6';
-  const afterLoginRoute = resolveAfterLoginRoute(userType, profile, User);
-  const sessionHints = buildSessionHints(userType, profile, User);
-  const orgName = readString(User, 'org_name', 'Org_name');
-  const orgId = readString(profile, 'org_id', 'organization_id', 'orgId');
-  const encryptId = readString(profile, 'encryptId', 'encrypt_id');
-
-  if (encryptId) {
-    User.encryptId = encryptId;
-  }
-
-  const authOutput: AfterLoginPayload = {
-    status_code: 200,
-    data: { dl_id_detail: dlIdDetail, User },
-  };
-
-  const establishPayload: EstablishSessionRequest = {
-    auth_output: authOutput,
-    loginby,
+  authResponse: LoginOtpApiResponse
+): LoginOtpRedirectResult {
+  submitEstablishSessionForm({
+    baseUrl: readPagesBaseUrl(),
+    flow,
     username,
-    org_name: orgName || undefined,
-    org_id: orgId || undefined,
-    token: mbToken,
-    encryptId: encryptId || undefined,
-    after_login_route: afterLoginRoute,
-    session_hints: sessionHints,
-  };
-
-  if (options?.clearRegCode) {
-    clearStoredRegCode();
-  }
-
-  setLoginAuthCookies(accessToken, readCookieDomain(), encryptId || undefined);
-  redirectToEstablishSession(establishPayload);
+    authResponse,
+  });
   return { redirecting: true };
-}
-
-async function runLoginAfterAccessToken(
-  username: string,
-  mbToken: string,
-  accessToken: string,
-  clientToken: string,
-  options?: { clearRegCode?: boolean }
-): Promise<LoginOtpApiResponse | LoginOtpRedirectResult> {
-  const jwt = decodeJwtPayload(accessToken);
-  const dlId = readString(jwt, 'dl_id', 'dlId');
-  if (!dlId) {
-    return { status_code: 500, message: 'Unable to resolve user profile. Please try again.' };
-  }
-
-  const resolvedUsername =
-    username.trim() || readString(jwt, 'preferred_username', 'username') || username;
-
-  const orgLogin = await postGatewayJson<LoginOtpApiResponse>(
-    '/userOrgAccessLogin',
-    { dl_id: dlId },
-    clientToken
-  );
-
-  return finalizeEstablishSession(resolvedUsername, mbToken, accessToken, orgLogin, options);
 }
 
 function resolveExchangeError(res: LoginOtpApiResponse): string {
@@ -717,8 +272,8 @@ export async function completeLoginWithOtp(
   let clientToken: string;
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
   const exchange = await postGatewayJson<LoginOtpApiResponse>(
@@ -734,19 +289,13 @@ export async function completeLoginWithOtp(
     };
   }
 
-  const { accessToken, mbToken } = readLoginTokens(exchange);
-  if (!accessToken || !mbToken) {
-    return { status_code: 500, message: DEFAULT_ERROR };
-  }
-
-  return runLoginAfterAccessToken(username, mbToken, accessToken, clientToken, {
-    clearRegCode: true,
-  });
+  clearStoredRegCode();
+  return submitPortalEstablishSession('login_otp', username, exchange);
 }
 
 /**
  * Password sign-in — replaces legacy `pages/signIn`.
- * Flow: keycloakLogin → userOrgAccessLogin → establishSession (shared with OTP login).
+ * Flow: keycloakLogin → POST `{baseUrl}/establish_session`.
  */
 export async function completePasswordSignIn(
   username: string,
@@ -755,8 +304,15 @@ export async function completePasswordSignIn(
   let clientToken: string;
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
+  }
+
+  let passwordSecret;
+  try {
+    passwordSecret = await encryptLoginSecret(password);
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
   let loginRes: LoginOtpApiResponse;
@@ -765,27 +321,21 @@ export async function completePasswordSignIn(
       SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
       {
         username,
-        password_secret: await encryptLoginSecret(password),
+        password_secret: passwordSecret,
       }
     );
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
-  const statusCode = loginRes.status_code;
-  if (statusCode === 401 || statusCode === '401') {
-    return { status_code: 401, message: resolveGatewayError(loginRes, 'Login failed') };
-  }
-
-  const { accessToken, mbToken } = readLoginTokens(loginRes);
-  if (!accessToken || !mbToken) {
+  if (!isSuccessStatus(loginRes.status_code) || hasOAuthFailure(loginRes)) {
     return {
-      status_code: statusCode ?? 500,
-      message: resolveGatewayError(loginRes, DEFAULT_ERROR),
+      status_code: inferApiStatusCode(loginRes as ApiErrorPayload) ?? loginRes.status_code ?? 401,
+      message: resolveGatewayError(loginRes),
     };
   }
 
-  return runLoginAfterAccessToken(username, mbToken, accessToken, clientToken);
+  return submitPortalEstablishSession('login_password', username, loginRes);
 }
 
 function readAttributeString(attributes: unknown, ...keys: string[]): string {
@@ -900,8 +450,8 @@ export async function completeForgotPasswordUpdate(
   let clientToken: string;
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
   const forgotRes = await postGatewayJson<LoginOtpApiResponse>(
@@ -911,7 +461,10 @@ export async function completeForgotPasswordUpdate(
   );
 
   if (!isForgotPasswordGatewaySuccess(forgotRes)) {
-    return { status_code: forgotRes.status_code ?? 500, message: DEFAULT_ERROR };
+    return {
+      status_code: forgotRes.status_code ?? 500,
+      message: resolveGatewayError(forgotRes),
+    };
   }
 
   const { userId, dlId } = readForgotPasswordIdentity(forgotRes);
@@ -921,8 +474,15 @@ export async function completeForgotPasswordUpdate(
 
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
+  }
+
+  let passwordSecret;
+  try {
+    passwordSecret = await encryptLoginSecret(password);
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
   const changeRes = await postInternalAuthJson<LoginOtpApiResponse>(
@@ -930,7 +490,7 @@ export async function completeForgotPasswordUpdate(
     {
       userId,
       dlId,
-      password_secret: await encryptLoginSecret(password),
+      password_secret: passwordSecret,
     }
   );
 

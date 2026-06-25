@@ -1,6 +1,7 @@
 /* Bundled into shell.js so host pages get styles even without a separate <link> (injectStyle: true). */
 import '../vendor/installShellFramework';
 import '../components/header/Header.common.css';
+import '../styles/bhashini.css';
 import '../components/Header.css';
 import '../components/Footer.css';
 /* Header2.css is NOT bundled — load dist/shell/header2.css separately when variant="header2". */

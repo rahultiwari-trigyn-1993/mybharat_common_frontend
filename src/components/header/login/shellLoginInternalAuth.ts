@@ -4,6 +4,12 @@
  *
  * @see docs/cakephp-shell-integration.md — "Internal auth routes"
  */
+import {
+  DEFAULT_API_ERROR_MESSAGE,
+  normalizeApiResponse,
+  resolveUserFacingApiError,
+  type ApiErrorPayload,
+} from './loginApiErrorMessage';
 
 /** Default same-origin proxy prefix when host does not set apiProxyBaseUrl explicitly. */
 const SHELL_LOGIN_API_PROXY_DEFAULT = '/mybharat-shell-api';
@@ -33,8 +39,7 @@ export class ShellInternalAuthError extends Error {
   }
 }
 
-const DEFAULT_INTERNAL_AUTH_ERROR =
-  'Login is not configured. Ask the host app to enable internal auth proxy routes.';
+const DEFAULT_INTERNAL_AUTH_ERROR = DEFAULT_API_ERROR_MESSAGE;
 
 function normalizeBearerAccessToken(raw?: string): string {
   if (!raw) return '';
@@ -143,22 +148,24 @@ async function postInternalAuth(path: string, forceRefresh = false): Promise<Rec
       headers: forceRefresh ? { 'X-Shell-Auth-Refresh': '1' } : undefined,
     });
   } catch {
-    throw new ShellInternalAuthError(DEFAULT_INTERNAL_AUTH_ERROR);
+    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
   }
 
   const text = await res.text();
   try {
     const parsed = JSON.parse(text) as Record<string, unknown> | unknown[];
     if (Array.isArray(parsed)) {
-      return { status_code: res.status, data: parsed };
+      return normalizeApiResponse(
+        { status_code: res.status, data: parsed } as ApiErrorPayload,
+        res.status
+      ) as Record<string, unknown>;
     }
-    const obj = parsed as Record<string, unknown>;
-    if (obj.status_code == null || obj.status_code === '') {
-      obj.status_code = res.status;
-    }
-    return obj;
+    return normalizeApiResponse(parsed as ApiErrorPayload, res.status) as Record<string, unknown>;
   } catch {
-    return { status_code: res.ok ? 200 : res.status, message: text };
+    return {
+      status_code: res.ok ? 200 : res.status,
+      message: DEFAULT_API_ERROR_MESSAGE,
+    };
   }
 }
 
@@ -180,14 +187,18 @@ export async function postInternalAuthJson<T extends Record<string, unknown>>(
       body: JSON.stringify(body),
     });
   } catch {
-    throw new ShellInternalAuthError(DEFAULT_INTERNAL_AUTH_ERROR);
+    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
   }
 
   const text = await res.text();
   try {
-    return JSON.parse(text) as T;
+    const parsed = JSON.parse(text) as T;
+    return normalizeApiResponse(parsed as ApiErrorPayload, res.status) as T;
   } catch {
-    return { status_code: res.ok ? 200 : res.status, message: text } as unknown as T;
+    return {
+      status_code: res.ok ? 200 : res.status,
+      message: DEFAULT_API_ERROR_MESSAGE,
+    } as unknown as T;
   }
 }
 
@@ -251,11 +262,7 @@ export async function fetchInternalKeycloakClientAccessToken(
     }
     const token = readAccessTokenFromResponse(data);
     if (!token) {
-      const message =
-        typeof data.message === 'string' && data.message.trim()
-          ? data.message.trim()
-          : DEFAULT_INTERNAL_AUTH_ERROR;
-      throw new ShellInternalAuthError(message);
+      throw new ShellInternalAuthError(resolveUserFacingApiError(data as ApiErrorPayload));
     }
     assertKeycloakClientJwt(token);
     cachedKeycloakClientToken = token;
@@ -296,11 +303,7 @@ export async function fetchInternalGuestOauthAccessToken(
   }
   const token = readAccessTokenFromResponse(data);
   if (!token) {
-    const message =
-      typeof data.message === 'string' && data.message.trim()
-        ? data.message.trim()
-        : DEFAULT_INTERNAL_AUTH_ERROR;
-    throw new ShellInternalAuthError(message);
+    throw new ShellInternalAuthError(resolveUserFacingApiError(data as ApiErrorPayload));
   }
   cachedGuestOauthToken = token;
   return token;

@@ -16,6 +16,7 @@ import { MobileMenuModal } from './MobileMenuModal';
 import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 import { useHeaderLoginConfig } from './header/login/useHeaderLoginConfig';
 import { useHeaderAccessibilityFont } from './header/useHeaderAccessibilityFont';
+import { useBhashiniWidgetPlacement } from '../hooks/useBhashiniWidgetPlacement';
 import './Header2.css';
 
 import { HeaderAuthControls, isHeaderUserLoggedIn } from './header/HeaderAuthControls';
@@ -46,6 +47,8 @@ export type Header2Props = {
   publicProfileApiBaseUrl?: string;
   /** Cookie domain for post-login token cookies. */
   cookieDomain?: string;
+  /** Load Bhashini website translation plugin (default true). Set false if the host page loads the script. */
+  bhashini?: boolean;
 };
 
 export const Header2: React.FC<Header2Props> = ({
@@ -61,6 +64,7 @@ export const Header2: React.FC<Header2Props> = ({
   ipAddress,
   publicProfileApiBaseUrl,
   cookieDomain,
+  bhashini = true,
 }) => {
   useHeaderLoginConfig({
     baseUrl,
@@ -72,6 +76,7 @@ export const Header2: React.FC<Header2Props> = ({
     cookieDomain,
   });
   useHeaderAccessibilityFont();
+  useBhashiniWidgetPlacement(bhashini);
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, '');
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
@@ -84,7 +89,11 @@ export const Header2: React.FC<Header2Props> = ({
         className="fixed-top shadow mb-common-header mb-common-header--header2"
         aria-label={title}
       >
-        <div id="bhashini-mobile-header" className="bhashini-plugin-container mb-common-header__bhashini-root" />
+        <div
+          id="bhashini-plugin-mount"
+          className="bhashini-plugin-container mb-common-header__bhashini-mount"
+          aria-hidden="true"
+        />
         <HeaderGovernmentStrip cdn={cdn} />
 
         <div className="header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area">

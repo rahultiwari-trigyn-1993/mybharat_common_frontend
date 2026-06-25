@@ -12,6 +12,7 @@ import { MobileMenuModal } from './MobileMenuModal';
 import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 import { useHeaderLoginConfig } from './header/login/useHeaderLoginConfig';
 import { useHeaderAccessibilityFont } from './header/useHeaderAccessibilityFont';
+import { useBhashiniWidgetPlacement } from '../hooks/useBhashiniWidgetPlacement';
 
 import { HeaderAuthControls, isHeaderUserLoggedIn } from './header/HeaderAuthControls';
 import type { HeaderUserSessionInput } from './header/headerUserSession';
@@ -41,6 +42,8 @@ export type HeaderProps = {
   publicProfileApiBaseUrl?: string;
   /** Cookie domain for post-login token cookies. */
   cookieDomain?: string;
+  /** Load Bhashini website translation plugin (default true). Set false if the host page loads the script. */
+  bhashini?: boolean;
 };
 
 export const Header: React.FC<HeaderProps> = ({
@@ -56,6 +59,7 @@ export const Header: React.FC<HeaderProps> = ({
   ipAddress,
   publicProfileApiBaseUrl,
   cookieDomain,
+  bhashini = true,
 }) => {
   useHeaderLoginConfig({
     baseUrl,
@@ -67,6 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
     cookieDomain,
   });
   useHeaderAccessibilityFont();
+  useBhashiniWidgetPlacement(bhashini);
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, '');
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
@@ -75,7 +80,11 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header id="mb-common-header-root" className="fixed-top shadow mb-common-header" aria-label={title}>
-        <div id="bhashini-mobile-header" className="bhashini-plugin-container mb-common-header__bhashini-root" />
+        <div
+          id="bhashini-plugin-mount"
+          className="bhashini-plugin-container mb-common-header__bhashini-mount"
+          aria-hidden="true"
+        />
         <HeaderGovernmentStrip cdn={cdn} />
 
         <div className="header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area">

@@ -7,6 +7,7 @@ import {
   saveUserFeedback,
   type FeedbackFormValues,
 } from './footerFeedbackSubmit';
+import { resolveUserFacingApiError } from '../header/login/loginApiErrorMessage';
 import type { HeaderUserSessionInput } from '../header/headerUserSession';
 
 type ValidationField = readonly [fieldKey: string, label: string];
@@ -287,16 +288,21 @@ async function onFormC2Click(e: Event): Promise<void> {
       triggerFirebaseFeedbackEvent('user_feedback_success');
     } else {
       showFeedbackAlert(
-        (typeof res.data === 'string' && res.data) ||
-          (typeof res.message === 'string' && res.message) ||
-          'Unable to submit feedback.',
+        resolveUserFacingApiError({
+          data: res.data,
+          message: res.message,
+          status_code: res.status_code,
+        }),
         'danger'
       );
       triggerFirebaseFeedbackEvent('user_feedback_failure');
       setFormC2Visible(true);
     }
   } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Unable to submit feedback.';
+    const msg =
+      err instanceof Error
+        ? resolveUserFacingApiError({ message: err.message })
+        : resolveUserFacingApiError(null);
     showFeedbackAlert(msg, 'danger');
     triggerFirebaseFeedbackEvent('user_feedback_failure');
     setFormC2Visible(true);

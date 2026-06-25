@@ -56,7 +56,7 @@ export function HeaderMobileStrip({ cdn, variant }: { cdn: string; variant: Head
     </a>
   );
 
-  const bhashiniSlot = <span className="mb-common-header__bhashini-slot" aria-hidden="true" />;
+  const bhashiniSlot = <div id="bhashini-mobile-header" />;
 
   const menuButton = (
     <button

@@ -23,6 +23,7 @@ const HEADER_OBSERVED = [
   'api-proxy-base-url',
   'login-payload-public-key',
   'ip-address',
+  'bhashini',
 ] as const;
 const FOOTER_OBSERVED = [
   'cdn-base',
@@ -83,6 +84,7 @@ class MyBharatHeaderElement extends HTMLElement {
       apiProxyBaseUrl,
       loginPayloadPublicKey,
       ipAddress,
+      bhashini,
     } = resolveHeaderProps(this);
     const Comp = variant === 'header2' ? Header2 : Header;
 
@@ -98,6 +100,7 @@ class MyBharatHeaderElement extends HTMLElement {
         apiProxyBaseUrl={apiProxyBaseUrl}
         loginPayloadPublicKey={loginPayloadPublicKey}
         ipAddress={ipAddress}
+        bhashini={bhashini}
       />
     );
   }

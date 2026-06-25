@@ -100,14 +100,15 @@ function writeCss(targetAbs, framework, componentCss) {
 }
 
 function main() {
+  const bhashiniCss = readUtf8('src/styles/bhashini.css');
   const headerCommonCss = readUtf8('src/components/header/Header.common.css');
   const headerLoginCss = readUtf8('src/components/header/login/HeaderLogin.css');
   const headerCss = readUtf8('src/components/Header.css');
   const footerCss = readUtf8('src/components/Footer.css');
   const header2Css = readUtf8('src/components/Header2.css');
 
-  const headerFooterBundle = `${headerCommonCss}\n${headerLoginCss}\n${headerCss}\n${footerCss}`;
-  const header2Bundle = `${headerCommonCss}\n${headerLoginCss}\n${header2Css}`;
+  const headerFooterBundle = `${bhashiniCss}\n${headerCommonCss}\n${headerLoginCss}\n${headerCss}\n${footerCss}`;
+  const header2Bundle = `${bhashiniCss}\n${headerCommonCss}\n${headerLoginCss}\n${header2Css}`;
 
   // npm package: dist/index.css, dist/header2.css
   copyVendorAssets({

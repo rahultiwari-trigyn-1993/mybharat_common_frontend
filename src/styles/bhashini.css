@@ -1,0 +1,72 @@
+/* Bhashini Website Translation Plugin v3 — widget placement + dropdown styling */
+
+.bhashini-plugin-container svg,
+#bhashini-translation svg,
+.bhashini-translator-widget svg {
+  width: 24px;
+  height: 24px;
+}
+
+/*
+ * Initial injection mount — keep in DOM for script init, hide only after widget moves out.
+ */
+header.mb-common-header > .mb-common-header__bhashini-mount:not(.mb-common-header__bhashini-mount--empty) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+header.mb-common-header > .mb-common-header__bhashini-mount--empty {
+  display: none !important;
+}
+
+.bhashini-dropdown-content {
+  bottom: auto !important;
+  right: -75px;
+  scrollbar-width: thin;
+}
+
+.bhashini-dropdown-content .language-option {
+  text-align: left !important;
+}
+
+/* Slot containers — inline with header items */
+#bhashini-desktop-header,
+#bhashini-mobile-header {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+#bhashini-desktop-header .bhashini-dropdown,
+#bhashini-mobile-header .bhashini-dropdown,
+#bhashini-translation {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+
+/* Desktop gov strip — white icon */
+.header-top #bhashini-desktop-header .bhashini-dropdown-btn-icon svg path {
+  fill: #ffffff;
+}
+
+/* Mobile — main header row */
+@media only screen and (max-width: 999px) {
+  .bhashini-dropdown-content {
+    top: 40px !important;
+    right: -40px;
+  }
+
+  #bhashini-mobile-header .bhashini-dropdown-btn-icon svg path,
+  #bhashini-translation .bhashini-dropdown-btn-icon svg path {
+    fill: #000000 !important;
+  }
+}

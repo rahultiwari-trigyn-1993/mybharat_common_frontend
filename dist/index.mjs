@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.233 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.237 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -5210,10 +5210,13 @@ function styleInject(css, { insertAt } = {}) {
 }
 
 // src/components/header/Header.common.css
-styleInject("header.mb-common-header .f-hd-left {\n  float: left;\n}\nheader.mb-common-header .f-hd-right {\n  float: right;\n}\nheader.mb-common-header a,\nheader.mb-common-header a:hover,\nheader.mb-common-header a:focus,\nheader.mb-common-header a:focus-visible,\nheader.mb-common-header a:visited,\nheader.mb-common-header a:active {\n  text-decoration: none !important;\n}\n#mb-nav-desktop-main {\n  padding: 0;\n}\n@media (min-width: 992px) {\n  header.mb-common-header #mb-nav-desktop-main.navbar {\n    display: flex;\n    flex-wrap: nowrap;\n    align-items: center;\n    justify-content: flex-end;\n    gap: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main .menu_nav1 {\n    display: inline-flex;\n    flex: 0 1 auto;\n    flex-wrap: nowrap;\n    align-items: center;\n    list-style: none;\n    margin: 0;\n    padding: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__auth-btn,\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__register-link {\n    flex: 0 0 auto;\n    align-self: center;\n    margin-left: 12px;\n    vertical-align: middle;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__profile,\n  header.mb-common-header #mb-nav-desktop-main > .chat-toggler.mb-common-header__profile {\n    flex: 0 0 auto;\n    align-self: center;\n    margin-left: 12px;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .btn-group {\n    flex: 0 0 auto;\n    align-self: center;\n  }\n}\n.header-top {\n  background: #081854;\n  position: relative;\n}\n.header-top .skip01 {\n  color: #ffffff;\n  line-height: 28px;\n  font-size: 13px;\n  font-weight: 600;\n  padding-right: 15px;\n}\n.header-top .partition {\n  color: #ffffff;\n}\n.header-top .goi {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: nowrap;\n  line-height: 1.2;\n  padding-top: 2px;\n  color: #ffffff;\n  font-size: 12px;\n  font-style: normal;\n  font-weight: 500;\n  text-decoration: none;\n}\n.header-top .goi img {\n  flex-shrink: 0;\n  margin-right: 15px;\n  width: 25px;\n  height: 15px;\n  vertical-align: middle;\n}\n.header-top .font01 {\n  border: none;\n  outline: none;\n  background: no-repeat;\n  width: 40px;\n  height: auto;\n  color: #ffffff;\n  font-size: 13px;\n  font-weight: 600;\n}\n.header-top .language01 {\n  height: auto;\n  padding: 2px 0 2px 14px;\n}\n.header-top .active01 {\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 6px;\n}\n.header-top .gov_india {\n  font-size: 13px;\n  font-weight: 600;\n  line-height: 1.2;\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .font01,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .skip01,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .gov_india,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange12,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange14,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange {\n  font-size: calc(1em + var(--mb-font-delta, 0px));\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .font01 {\n  font-size: calc(13px + var(--mb-font-delta, 0px));\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange12 {\n  font-size: calc(12px + var(--mb-font-delta, 0px)) !important;\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange14 {\n  font-size: calc(14px + var(--mb-font-delta, 0px)) !important;\n}\n.bhashini-plugin-container {\n  display: inline;\n  float: right;\n  margin-right: 80px !important;\n  margin-top: 2px;\n}\n.bhashini-plugin-container svg {\n  width: 24px;\n  height: 24px;\n}\n.bhashini-dropdown-content {\n  bottom: auto !important;\n  right: -75px;\n  scrollbar-width: thin;\n}\n.bhashini-dropdown-content .language-option {\n  text-align: left !important;\n}\n.mb-common-header__modal-nav a {\n  color: #000000;\n  font-weight: 600;\n}\n.mb-common-header__modal-nav a:hover {\n  color: #f15b43;\n}\n#mobileMenuNew a,\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n.chat-toggler .username {\n  font-size: 15px;\n  font-weight: 700;\n  text-align: left;\n  line-height: 1.2;\n  color: #003d52;\n}\nheader.mb-common-header .chat-toggler.mb-common-header__profile {\n  display: inline-flex;\n  align-items: center;\n  align-self: center;\n  float: none;\n  margin-left: 12px;\n}\nheader.mb-common-header .chat-toggler.mb-common-header__profile .mb-common-header__profile-toggle {\n  display: inline-flex;\n  align-items: center;\n  gap: 7px;\n  float: none !important;\n  margin: 0 !important;\n  color: inherit;\n}\nheader.mb-common-header .chat-toggler .user-info-wrapper {\n  float: none;\n  flex-shrink: 0;\n  margin: 0;\n}\nheader.mb-common-header .chat-toggler .user-details {\n  float: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  line-height: 1.2;\n  color: #003d52;\n  min-width: 0;\n}\nheader.mb-common-header .chat-toggler .mb-common-header__welcome-label {\n  font-size: 11px;\n  font-weight: 400;\n  color: #1789d2;\n  text-align: left;\n  margin: 0 0 2px;\n  line-height: 1.2;\n}\nheader.mb-common-header .chat-toggler .profile-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #d9d9d9;\n}\nheader.mb-common-header .chat-toggler .mb-common-header__profile-initial {\n  font-size: 28px;\n  font-weight: 400;\n  color: #1789d2;\n  line-height: 1;\n  font-family: Inter, sans-serif;\n}\nheader.mb-common-header .chat-toggler .profile-wrapper .profileimage {\n  display: block;\n  width: 40px;\n  height: 40px;\n  object-fit: cover;\n}\n.mb-common-header__mobile-profile a {\n  color: #333333;\n  font-weight: 500;\n}\n");
+styleInject("header.mb-common-header .f-hd-left {\n  float: left;\n}\nheader.mb-common-header .f-hd-right {\n  float: right;\n}\nheader.mb-common-header a,\nheader.mb-common-header a:hover,\nheader.mb-common-header a:focus,\nheader.mb-common-header a:focus-visible,\nheader.mb-common-header a:visited,\nheader.mb-common-header a:active {\n  text-decoration: none !important;\n}\n#mb-nav-desktop-main {\n  padding: 0;\n}\n@media (min-width: 992px) {\n  header.mb-common-header #mb-nav-desktop-main.navbar {\n    display: flex;\n    flex-wrap: nowrap;\n    align-items: center;\n    justify-content: flex-end;\n    gap: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main .menu_nav1 {\n    display: inline-flex;\n    flex: 0 1 auto;\n    flex-wrap: nowrap;\n    align-items: center;\n    list-style: none;\n    margin: 0;\n    padding: 0;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__auth-btn,\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__register-link {\n    flex: 0 0 auto;\n    align-self: center;\n    margin-left: 12px;\n    vertical-align: middle;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .mb-common-header__profile,\n  header.mb-common-header #mb-nav-desktop-main > .chat-toggler.mb-common-header__profile {\n    flex: 0 0 auto;\n    align-self: center;\n    margin-left: 12px;\n  }\n  header.mb-common-header #mb-nav-desktop-main > .btn-group {\n    flex: 0 0 auto;\n    align-self: center;\n  }\n}\n.header-top {\n  background: #081854;\n  position: relative;\n}\n.header-top .skip01 {\n  color: #ffffff;\n  line-height: 28px;\n  font-size: 13px;\n  font-weight: 600;\n  padding-right: 15px;\n}\n.header-top .partition {\n  color: #ffffff;\n}\n.header-top .goi {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: nowrap;\n  line-height: 1.2;\n  padding-top: 2px;\n  color: #ffffff;\n  font-size: 12px;\n  font-style: normal;\n  font-weight: 500;\n  text-decoration: none;\n}\n.header-top .goi img {\n  flex-shrink: 0;\n  margin-right: 15px;\n  width: 25px;\n  height: 15px;\n  vertical-align: middle;\n}\n.header-top .font01 {\n  border: none;\n  outline: none;\n  background: no-repeat;\n  width: 40px;\n  height: auto;\n  color: #ffffff;\n  font-size: 13px;\n  font-weight: 600;\n}\n.header-top .language01 {\n  height: auto;\n  padding: 2px 0 2px 14px;\n}\n.header-top .active01 {\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 6px;\n}\n.header-top .gov_india {\n  font-size: 13px;\n  font-weight: 600;\n  line-height: 1.2;\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .font01,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .skip01,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .gov_india,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange12,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange14,\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange {\n  font-size: calc(1em + var(--mb-font-delta, 0px));\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .header-top .font01 {\n  font-size: calc(13px + var(--mb-font-delta, 0px));\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange12 {\n  font-size: calc(12px + var(--mb-font-delta, 0px)) !important;\n}\nhtml.mb-accessibility-font-active:not([style*=zoom]) .fontchange14 {\n  font-size: calc(14px + var(--mb-font-delta, 0px)) !important;\n}\n.mb-common-header__modal-nav a {\n  color: #000000;\n  font-weight: 600;\n}\n.mb-common-header__modal-nav a:hover {\n  color: #f15b43;\n}\n#mobileMenuNew a,\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n.chat-toggler .username {\n  font-size: 15px;\n  font-weight: 700;\n  text-align: left;\n  line-height: 1.2;\n  color: #003d52;\n}\nheader.mb-common-header .chat-toggler.mb-common-header__profile {\n  display: inline-flex;\n  align-items: center;\n  align-self: center;\n  float: none;\n  margin-left: 12px;\n}\nheader.mb-common-header .chat-toggler.mb-common-header__profile .mb-common-header__profile-toggle {\n  display: inline-flex;\n  align-items: center;\n  gap: 7px;\n  float: none !important;\n  margin: 0 !important;\n  color: inherit;\n}\nheader.mb-common-header .chat-toggler .user-info-wrapper {\n  float: none;\n  flex-shrink: 0;\n  margin: 0;\n}\nheader.mb-common-header .chat-toggler .user-details {\n  float: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  line-height: 1.2;\n  color: #003d52;\n  min-width: 0;\n}\nheader.mb-common-header .chat-toggler .mb-common-header__welcome-label {\n  font-size: 11px;\n  font-weight: 400;\n  color: #1789d2;\n  text-align: left;\n  margin: 0 0 2px;\n  line-height: 1.2;\n}\nheader.mb-common-header .chat-toggler .profile-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #d9d9d9;\n}\nheader.mb-common-header .chat-toggler .mb-common-header__profile-initial {\n  font-size: 28px;\n  font-weight: 400;\n  color: #1789d2;\n  line-height: 1;\n  font-family: Inter, sans-serif;\n}\nheader.mb-common-header .chat-toggler .profile-wrapper .profileimage {\n  display: block;\n  width: 40px;\n  height: 40px;\n  object-fit: cover;\n}\n.mb-common-header__mobile-profile a {\n  color: #333333;\n  font-weight: 500;\n}\n");
+
+// src/styles/bhashini.css
+styleInject(".bhashini-plugin-container svg,\n#bhashini-translation svg,\n.bhashini-translator-widget svg {\n  width: 24px;\n  height: 24px;\n}\nheader.mb-common-header > .mb-common-header__bhashini-mount:not(.mb-common-header__bhashini-mount--empty) {\n  position: absolute !important;\n  width: 1px !important;\n  height: 1px !important;\n  overflow: hidden !important;\n  clip: rect(0, 0, 0, 0) !important;\n  white-space: nowrap !important;\n  border: 0 !important;\n  float: none !important;\n  margin: 0 !important;\n  padding: 0 !important;\n}\nheader.mb-common-header > .mb-common-header__bhashini-mount--empty {\n  display: none !important;\n}\n.bhashini-dropdown-content {\n  bottom: auto !important;\n  right: -75px;\n  scrollbar-width: thin;\n}\n.bhashini-dropdown-content .language-option {\n  text-align: left !important;\n}\n#bhashini-desktop-header,\n#bhashini-mobile-header {\n  display: inline-block;\n  vertical-align: middle;\n  line-height: 1;\n}\n#bhashini-desktop-header .bhashini-dropdown,\n#bhashini-mobile-header .bhashini-dropdown,\n#bhashini-translation {\n  display: inline-block;\n  vertical-align: middle;\n  position: relative;\n}\n.header-top #bhashini-desktop-header .bhashini-dropdown-btn-icon svg path {\n  fill: #ffffff;\n}\n@media only screen and (max-width: 999px) {\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  #bhashini-mobile-header .bhashini-dropdown-btn-icon svg path,\n  #bhashini-translation .bhashini-dropdown-btn-icon svg path {\n    fill: #000000 !important;\n  }\n}\n");
 
 // src/components/Header.css
-styleInject('.main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  text-decoration: none !important;\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-row {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-logos {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header .mb-common-header__mobile-logos--split {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header .mb-common-header__mobile-actions--split {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header .mb-common-header__mobile-actions--split #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar #toll_mb.skip01 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: #1937b2;\n  text-decoration: none;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: #1937b2;\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\n@media (max-width: 575.98px) {\n  .mb-common-header__mobile-bar #mb_menus.btn-light {\n    padding: 0.28rem 0.5rem;\n    font-size: 1rem;\n    line-height: 1;\n  }\n  header.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar #toll_mb,\n  .mb-common-header__mobile-bar #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar #mb_menus.btn-light {\n  flex: 0 0 auto;\n  border: 1px solid #dee2e6;\n}\n@media (max-width: 575.98px) {\n  .mb-common-header__mobile-bar #mb_menus.btn-light {\n    padding: 0.28rem 0.5rem;\n    font-size: 1rem;\n    line-height: 1;\n  }\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:focus-visible {\n  color: #f15b43 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f15b43 !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md {\n  width: 80px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .new_head2 {\n  width: 74px;\n  margin-top: 5px;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n#mobileMenuNew img.logo-w-sm-md-sec {\n  width: 98px !important;\n  transform: scale(1.12);\n}\n#mobileMenuNew img.logo-w-sm-md1 {\n  width: 90px !important;\n  max-width: none !important;\n  height: auto !important;\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n  transition: transform 0.3s ease-in-out;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(0deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(0deg);\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 991.98px) {\n  #mobileMenuNew img.logo-w-sm-md1 {\n    width: clamp(118px, 32vw, 148px) !important;\n  }\n  #mobileMenuNew img.logo-w-sm-md-sec {\n    width: clamp(126px, 34vw, 156px) !important;\n    transform: scale(1.08) !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-row--split {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    bottom: 12px !important;\n    right: 42px !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    display: inline-block !important;\n    visibility: visible !important;\n    pointer-events: auto !important;\n    position: absolute !important;\n    float: none !important;\n    right: 46px !important;\n    top: auto !important;\n    bottom: 14px !important;\n    margin: 0 !important;\n    z-index: 1001 !important;\n    line-height: 1;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root svg {\n    width: 24px;\n    height: 24px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-row--split {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-logos--split {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__bhashini-slot {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-actions--split {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: #1937b2;\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #mb_menus {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    padding: 6px !important;\n    border: 1px solid #dee2e6;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1000px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    position: static !important;\n    float: right !important;\n    right: auto !important;\n    bottom: auto !important;\n    margin-right: 80px !important;\n    margin-top: 2px !important;\n    z-index: auto !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #f15b43;\n    color: #fff;\n  }\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) {\n  font-family: "Noto Sans Meetei Mayek", sans-serif;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .single-login-pad {\n  margin-right: 15px;\n  padding: 0.375rem 1.75rem;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .rounded-pill {\n  border-radius: 5px !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:active,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.disabled,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:disabled,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.dropdown-toggle.show {\n  color: #ffffff;\n  border-color: #f15b4300;\n  background-color: #f15b43;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-item.active,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-item:active {\n  background-color: #f15b43;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn {\n  background-color: #ffff !important;\n  border: 1px solid #f15b43 !important;\n  color: #f15b43 !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn:hover {\n  color: #ffffff !important;\n  border-color: #f15b4300 !important;\n  background-color: #f15b43 !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn::after,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn1::after {\n  display: none !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .primary,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:focus {\n  box-shadow: 0 0 0 0.25rem #f15b4300;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.dropdown-toggle.show:focus,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:active:focus {\n  box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 0%);\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu[data-bs-popper] {\n  top: 109%;\n  left: -275px;\n  margin-top: 0.125rem;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_yuva,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_youth_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_login_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_other,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_nyf,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_partner {\n  color: #f15b43;\n  font-weight: 500;\n  font-size: 15px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_yuva,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_youth_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_login_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_other,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_nyf,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .f-12-dropdown {\n  color: #ffff;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(1) {\n  color: #f39620;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(2) {\n  color: #0473b7;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(3) {\n  color: #04a651;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .home_ico .fa {\n  color: #313033;\n  font-size: 24px;\n  padding: 7px 10px;\n  cursor: pointer !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .home_ico {\n  cursor: pointer !important;\n  position: relative;\n  z-index: 999;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #unity-btn {\n  background:\n    linear-gradient(\n      95deg,\n      #faad17 -3.76%,\n      #e4860e 101.62%);\n  color: #fff !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #beta_txt {\n  position: absolute;\n  top: 61px;\n  background-color: #f15b43;\n  padding: 9px;\n  border-radius: 10px;\n  color: #fff;\n  font-size: 12px;\n  font-weight: 700;\n  bottom: 7px;\n  cursor: pointer;\n  display: none;\n  height: 20px;\n  margin-left: 113px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu {\n  position: relative;\n  list-style: none;\n  display: inline-block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu-link {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: #000;\n  text-decoration: none;\n  white-space: nowrap;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu-link:hover {\n  color: #bc4717;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown {\n  display: none;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  min-width: 220px;\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  background: #fff;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);\n  z-index: 999;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu:hover > .resource-dropdown {\n  display: block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown > li {\n  display: block;\n  width: 100%;\n  border-bottom: 1px solid #dcdcdc;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown > li:last-child {\n  border-bottom: none;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu-link,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown li a,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  width: 100%;\n  padding: 12px 16px;\n  font-size: 13px;\n  font-weight: 600;\n  color: #000;\n  text-decoration: none;\n  background: #fff;\n  white-space: nowrap;\n  line-height: 2 !important;\n  cursor: pointer;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu-link:hover,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown li a:hover,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a:hover {\n  background: #f8f8f8;\n  color: #bc4717;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu {\n  display: none;\n  width: 100%;\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  background: #fff;\n  border-top: 1px solid #e5e5e5;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .has-submenu.open > .resource-submenu {\n  display: block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li {\n  display: block;\n  width: 100%;\n  border-bottom: 1px solid #ededed;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li:last-child {\n  border-bottom: none;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a {\n  padding-left: 32px;\n  font-weight: 500;\n}\n@media (max-width: 767px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #beta_txt {\n    position: relative !important;\n    height: 17px !important;\n    top: 19px !important;\n    margin-left: 3px !important;\n    font-size: 10px !important;\n    padding: 7px !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md-sec,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: scale(1) !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {\n    height: 60px;\n  }\n  #mobileMenuNew .lang_mobile {\n    font-size: 1rem;\n    padding: 6px 11px 7px 32px;\n    color: #515151;\n    line-height: 19px;\n    width: 90%;\n    font-weight: 600;\n    border: none;\n  }\n  #mobileMenuNew .modal-title .logo a img {\n    height: auto !important;\n  }\n}\n');
+styleInject('.main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  text-decoration: none !important;\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-row {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar .mb-common-header__mobile-logos {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header .mb-common-header__mobile-logos--split {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header .mb-common-header__mobile-actions--split {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header .mb-common-header__mobile-actions--split #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header .mb-common-header__mobile-row--split {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar #toll_mb.skip01 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: #1937b2;\n  text-decoration: none;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: #1937b2;\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\n@media (max-width: 575.98px) {\n  .mb-common-header__mobile-bar #mb_menus.btn-light {\n    padding: 0.28rem 0.5rem;\n    font-size: 1rem;\n    line-height: 1;\n  }\n  header.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar #toll_mb,\n  .mb-common-header__mobile-bar #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar #mb_menus.btn-light {\n  flex: 0 0 auto;\n  border: 1px solid #dee2e6;\n}\n@media (max-width: 575.98px) {\n  .mb-common-header__mobile-bar #mb_menus.btn-light {\n    padding: 0.28rem 0.5rem;\n    font-size: 1rem;\n    line-height: 1;\n  }\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header .mb-common-header__auth-btn:focus-visible {\n  color: #f15b43 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f15b43 !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md {\n  width: 80px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .new_head2 {\n  width: 74px;\n  margin-top: 5px;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header .mb-common-header__mobile-bar .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n#mobileMenuNew img.logo-w-sm-md-sec {\n  width: 98px !important;\n  transform: scale(1.12);\n}\n#mobileMenuNew img.logo-w-sm-md1 {\n  width: 90px !important;\n  max-width: none !important;\n  height: auto !important;\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n  transition: transform 0.3s ease-in-out;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(0deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(0deg);\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 991.98px) {\n  #mobileMenuNew img.logo-w-sm-md1 {\n    width: clamp(118px, 32vw, 148px) !important;\n  }\n  #mobileMenuNew img.logo-w-sm-md-sec {\n    width: clamp(126px, 34vw, 156px) !important;\n    transform: scale(1.08) !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-row--split {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-row--split {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-logos--split {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #bhashini-mobile-header {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split .mb-common-header__mobile-actions--split {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: #1937b2;\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .mb-common-header__mobile-bar--split #mb_menus {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    padding: 6px !important;\n    border: 1px solid #dee2e6;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #bhashini-mobile-header .bhashini-translator-widget svg path,\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #f15b43;\n    color: #fff;\n  }\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) {\n  font-family: "Noto Sans Meetei Mayek", sans-serif;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .single-login-pad {\n  margin-right: 15px;\n  padding: 0.375rem 1.75rem;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .rounded-pill {\n  border-radius: 5px !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:active,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.disabled,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:disabled,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.dropdown-toggle.show {\n  color: #ffffff;\n  border-color: #f15b4300;\n  background-color: #f15b43;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-item.active,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-item:active {\n  background-color: #f15b43;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn {\n  background-color: #ffff !important;\n  border: 1px solid #f15b43 !important;\n  color: #f15b43 !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn:hover {\n  color: #ffffff !important;\n  border-color: #f15b4300 !important;\n  background-color: #f15b43 !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn::after,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .carrot_dn1::after {\n  display: none !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .primary,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:focus {\n  box-shadow: 0 0 0 0.25rem #f15b4300;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary.dropdown-toggle.show:focus,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .btn-outline-primary:active:focus {\n  box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 0%);\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu[data-bs-popper] {\n  top: 109%;\n  left: -275px;\n  margin-top: 0.125rem;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_yuva,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_youth_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_login_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_other,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_nyf,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a .lang_partner {\n  color: #f15b43;\n  font-weight: 500;\n  font-size: 15px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_yuva,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_youth_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_login_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_other,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_verifier,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_nyf,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .lang_partner,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .dropdown-menu-header a:active .f-12-dropdown {\n  color: #ffff;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(1) {\n  color: #f39620;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(2) {\n  color: #0473b7;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .national_1 span:nth-child(3) {\n  color: #04a651;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .home_ico .fa {\n  color: #313033;\n  font-size: 24px;\n  padding: 7px 10px;\n  cursor: pointer !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .home_ico {\n  cursor: pointer !important;\n  position: relative;\n  z-index: 999;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #unity-btn {\n  background:\n    linear-gradient(\n      95deg,\n      #faad17 -3.76%,\n      #e4860e 101.62%);\n  color: #fff !important;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #beta_txt {\n  position: absolute;\n  top: 61px;\n  background-color: #f15b43;\n  padding: 9px;\n  border-radius: 10px;\n  color: #fff;\n  font-size: 12px;\n  font-weight: 700;\n  bottom: 7px;\n  cursor: pointer;\n  display: none;\n  height: 20px;\n  margin-left: 113px;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu {\n  position: relative;\n  list-style: none;\n  display: inline-block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu-link {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: #000;\n  text-decoration: none;\n  white-space: nowrap;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu-link:hover {\n  color: #bc4717;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown {\n  display: none;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  min-width: 220px;\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  background: #fff;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);\n  z-index: 999;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-menu:hover > .resource-dropdown {\n  display: block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown > li {\n  display: block;\n  width: 100%;\n  border-bottom: 1px solid #dcdcdc;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown > li:last-child {\n  border-bottom: none;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu-link,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown li a,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  width: 100%;\n  padding: 12px 16px;\n  font-size: 13px;\n  font-weight: 600;\n  color: #000;\n  text-decoration: none;\n  background: #fff;\n  white-space: nowrap;\n  line-height: 2 !important;\n  cursor: pointer;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu-link:hover,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-dropdown li a:hover,\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a:hover {\n  background: #f8f8f8;\n  color: #bc4717;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu {\n  display: none;\n  width: 100%;\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  background: #fff;\n  border-top: 1px solid #e5e5e5;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .has-submenu.open > .resource-submenu {\n  display: block;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li {\n  display: block;\n  width: 100%;\n  border-bottom: 1px solid #ededed;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li:last-child {\n  border-bottom: none;\n}\nheader#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .resource-submenu li a {\n  padding-left: 32px;\n  font-weight: 500;\n}\n@media (max-width: 767px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #beta_txt {\n    position: relative !important;\n    height: 17px !important;\n    top: 19px !important;\n    margin-left: 3px !important;\n    font-size: 10px !important;\n    padding: 7px !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .logo-w-sm-md-sec,\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: scale(1) !important;\n  }\n  header#mb-common-header-root.mb-common-header:not(.mb-common-header--header2) .header-area {\n    height: 60px;\n  }\n  #mobileMenuNew .lang_mobile {\n    font-size: 1rem;\n    padding: 6px 11px 7px 32px;\n    color: #515151;\n    line-height: 19px;\n    width: 90%;\n    font-weight: 600;\n    border: none;\n  }\n  #mobileMenuNew .modal-title .logo a img {\n    height: auto !important;\n  }\n}\n');
 
 // src/components/Footer.css
 styleInject("#feed_back.modal,\n#feed_back1.modal,\n#successToaster.modal {\n  z-index: 1060 !important;\n}\n.litext {\n  color: #525c66;\n  font-size: 16px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external a.litext,\n#footer_external p.litext {\n  color: #525c66 !important;\n}\n#footer_external a,\n#footer_external a:hover,\n#footer_external a:focus,\n#footer_external a:visited,\n#footer_external a:active,\n#feed_back a,\n#feed_back a:hover,\n#feed_back1 a,\n#feed_back1 a:hover,\n#successToaster a,\n#successToaster a:hover {\n  text-decoration: none !important;\n}\n#footer_external {\n  border-top: solid 1px #d6d6d6;\n}\n#footer_external .foot_p1 {\n  color: #525c66;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external .footer-top {\n  background-color: #ffffff !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {\n  text-align: left !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {\n  text-align: left !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {\n  padding-left: 0;\n}\n@media (max-width: 991.98px) {\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {\n    text-align: center !important;\n  }\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {\n    text-align: center !important;\n  }\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {\n    padding-left: 0;\n  }\n  #footer_external .mb-common-footer__follow-col {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col h6.img_link {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .social-icons {\n    justify-content: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-by {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-inner {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-wrap: wrap;\n    gap: 0.35rem 0.75rem;\n    width: 100%;\n    max-width: 100%;\n  }\n  #footer_external .mb-common-footer__follow-col .foot_p1 {\n    text-align: center;\n  }\n}\n#footer_external .foot_p2 {\n  padding-left: initial;\n}\n.pricy1_a {\n  background-color: #000627;\n}\n.pricy1_a .row .col-sm-8 {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.pricy1_a .row .col-sm-8 p {\n  margin-bottom: 0;\n  line-height: 29px;\n}\n.pricy1_a .row {\n  color: #fff;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 500;\n  line-height: 20px;\n}\n.pricy_a ul {\n  width: 100%;\n  line-height: 31px;\n  text-align: center;\n  display: inline-flex;\n  justify-content: center;\n  padding-left: 68px;\n  list-style: none;\n  margin: 0;\n  flex-wrap: wrap;\n}\n.pricy_a ul li:nth-child(1) {\n  padding-right: 27px;\n}\n.pricy_a p {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.foot1w {\n  width: fit-content;\n  color: #000;\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n  padding: 4px 10px;\n}\n.pricy1_a a {\n  color: #fff !important;\n  text-decoration: none;\n}\n@media only screen and (max-width: 600px) {\n  .foot1w {\n    margin: auto;\n  }\n  .pricy_a ul {\n    padding-left: 0;\n    display: flex;\n    justify-content: center;\n  }\n  .new_foot li .fab {\n    vertical-align: inherit !important;\n  }\n}\n.img_link {\n  color: #343f4a;\n  font-size: 16px;\n  font-weight: 500;\n  line-height: 24px;\n  letter-spacing: 0.15px;\n}\n.new_foot li {\n  line-height: 15px;\n  padding: 1px;\n}\n.new_foot li img {\n  width: 81%;\n}\n@media (max-width: 767.98px) {\n  #footer_external .footer-contact {\n    text-align: center !important;\n  }\n  #footer_external .footer-contact .d-flex.align-items-center {\n    justify-content: center !important;\n  }\n}\n@media (min-width: 601px) and (max-width: 991.98px) {\n  #footer_external .footer-contact,\n  #footer_external .footer-links {\n    padding-bottom: 1rem;\n  }\n}\n.mb-common-footer__social-row {\n  flex-wrap: wrap;\n}\n.feed_back {\n  text-align: end;\n}\n#feed_back textarea {\n  margin-top: 0 !important;\n  margin-bottom: 11px !important;\n}\n#feed_back label {\n  font-size: 15px;\n  font-weight: 500;\n  line-height: 20px;\n  color: #252525;\n}\n#feed_back .cross_ico img {\n  cursor: pointer;\n  padding: 6px 10px;\n}\n#feed_back .text-left {\n  text-align: left;\n}\n#feed_back .cross_ico {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 12px;\n  position: static;\n  bottom: auto;\n  z-index: 1;\n}\n#feed_back .mb-common-footer__feedback-footer-row {\n  margin-top: 4px;\n}\n#feed_back .mb-common-footer__feedback-actions img {\n  cursor: pointer;\n}\n#feed_back .mb-common-footer__recaptcha {\n  min-height: 78px;\n}\n#feed_back .modal-body {\n  position: relative;\n}\n#feed_back .mb-common-footer__feedback-loader {\n  position: absolute;\n  inset: 0;\n  display: none;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.72);\n  border-radius: inherit;\n  z-index: 10;\n}\n#feed_back .mb-common-footer__feedback-loader.is-visible {\n  display: flex;\n}\n#feed_back .mb-common-footer__feedback-loader-inner {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 0.75rem;\n}\n#feed_back .mb-common-footer__feedback-spinner {\n  border: 4px solid #e9ecef;\n  border-top-color: #0fbd5f;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  animation: mb-common-footer-feedback-spin 0.85s linear infinite;\n}\n#feed_back .mb-common-footer__feedback-loader-text {\n  color: #333;\n  font-size: 14px;\n  font-weight: 500;\n}\n@keyframes mb-common-footer-feedback-spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#feed_back .mb-common-footer__feedback-form--submitting {\n  pointer-events: none;\n  opacity: 0.55;\n}\n#feed_back .radio-tile-group {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: left;\n}\n#feed_back .tt_yuvr {\n  display: inline-flex;\n  padding: 10px;\n  margin-bottom: 15px;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n#feed_back .tt_yuvr .input-container {\n  position: relative;\n  width: 50px;\n  margin-right: 18px;\n  margin-top: 7px;\n}\n#feed_back .tt_yuvr .input-container input {\n  position: absolute;\n  cursor: pointer;\n  z-index: 2;\n  opacity: 0;\n  width: 50px;\n  height: 50px;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile {\n  background: #0b6bbe;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile label {\n  color: #fff;\n}\n#feed_back .tt_yuvr .input-container .radio-tile {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  background: #eee;\n  width: 50px;\n  height: 50px;\n  border-radius: 30px;\n}\n#feed_back .tt_yuvr .input-container {\n  transition: transform 0.2s;\n}\n#feed_back .tt_yuvr .input-container:hover {\n  transform: scale(1.07);\n}\n#feed_back .tt_yuvr .input-container label {\n  font-size: 18px;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 0;\n}\n.radio-tile-group:nth-child(1),\n.radio-tile-group:nth-child(2),\n.radio-tile-group:nth-child(3),\n.radio-tile-group:nth-child(4) {\n  border-top: 3px solid #f00;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(6),\n.radio-tile-group:nth-child(7),\n.radio-tile-group:nth-child(8) {\n  border-top: 3px solid #ffbe15;\n}\n.radio-tile-group:nth-child(9),\n.radio-tile-group:nth-child(10) {\n  border-top: 3px solid #04a651;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(9) {\n  margin-left: 10px;\n}\n.vError {\n  border: 1px solid #e41f12;\n}\np.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  line-height: 1.5;\n  color: #e41f12;\n  margin-bottom: 20px;\n  float: inline-start;\n}\nsmall.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  color: #e41f12;\n  float: inline-start;\n}\n#char_left_cnt {\n  color: #252525;\n  float: inline-end;\n  font-size: small;\n}\n#successToaster .modal-dialog {\n  margin: 20% auto;\n}\n@media only screen and (min-width: 601px) {\n  #feed_back .modal-dialog {\n    max-width: 876px !important;\n    margin-top: 133px;\n  }\n  #feed_back1 .modal-dialog {\n    margin-top: 133px;\n  }\n}\n@media only screen and (max-width: 600px) {\n  #feed_back .tt_yuvr {\n    display: flex !important;\n    overflow: auto !important;\n  }\n  #feed_back .form-group {\n    margin-bottom: 10px;\n  }\n  #feed_back .tt_yuvr .input-container input {\n    width: 20px !important;\n    height: 20px !important;\n  }\n  #feed_back .tt_yuvr .input-container .radio-tile {\n    width: 30px !important;\n    height: 30px !important;\n    border-radius: 30px !important;\n  }\n  #feed_back .cross_ico {\n    position: initial !important;\n  }\n  #feed_back .tt_yuvr .input-container {\n    width: 17px !important;\n    margin-right: 18px !important;\n  }\n  #feed_back .tt_yuvr .input-container label {\n    font-size: 13px !important;\n  }\n  #feed_back .modal-dialog {\n    width: 100% !important;\n    padding: 10px 15px 10px 0;\n  }\n  .social-icons {\n    justify-content: center;\n  }\n}\n#pls_select h3 {\n  color: #343434;\n  font-weight: 600;\n}\n#pls_select {\n  text-align: center;\n}\n#pls_select #guest_usr {\n  background-color: #f15b43;\n  border: none;\n  color: #fff;\n  font-size: 16px;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select #regi_usr {\n  background-color: #fff;\n  border: 1px solid #5a6370;\n  font-size: 16px;\n  color: #5a6370;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select .btn-close {\n  border: none !important;\n  background: none !important;\n  float: right;\n  width: 32px;\n  height: 32px;\n  cursor: pointer;\n}\n#pls_select .col-sm-12:nth-child(2) {\n  margin-bottom: 20px;\n}\n#feedback_captcha_value {\n  border-top-right-radius: 3px;\n  border-bottom-right-radius: 3px;\n}\n.social-icons {\n  display: flex;\n  gap: 9px;\n  flex-wrap: wrap;\n}\n.social-icons .icon {\n  display: flex;\n  align-items: center;\n  background: white;\n  border-radius: 50px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  width: 30px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.social-icons .icon img {\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n  transition: all 0.3s ease;\n}\n.social-icons .icon span {\n  margin-left: 4px;\n  white-space: nowrap;\n  opacity: 0;\n  transform: translateX(-10px);\n  transition: all 0.3s ease;\n  font-size: 13px;\n}\n.twitter-color {\n  color: #000;\n}\n.instagram-color {\n  color: #cf188a;\n}\n.facebook-color {\n  color: #4676ed;\n}\n.linkedin-color {\n  color: #4467ad;\n}\n.whatsapp-color {\n  color: #00c169;\n}\n.youtube-color {\n  color: #e52d27;\n}\n@media (hover: hover) and (pointer: fine) {\n  .social-icons .icon:hover {\n    width: 100px;\n    justify-content: flex-start;\n  }\n  .social-icons .icon:hover span {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n.mb-20 {\n  margin-bottom: 1.25rem;\n}\n.whitetext img {\n  vertical-align: middle;\n}\n#footer_external .mb-common-footer__powered-inner {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: 0.35rem 0.75rem;\n}\n#footer_external .mb-common-footer__powered-by {\n  color: #495059 !important;\n}\n#footer_external .whitetext.mb-common-footer__powered-logo {\n  color: inherit !important;\n  display: inline-flex;\n  align-items: center;\n  line-height: 1;\n}\n#footer_external .mb-common-footer__powered-logo img {\n  display: block;\n  flex-shrink: 0;\n}\n");
@@ -5621,7 +5624,7 @@ function HeaderGovernmentStrip({ cdn }) {
       /* @__PURE__ */ jsx3("span", { className: "partition", children: "| \xA0" }),
       /* @__PURE__ */ jsx3("a", { href: "/pages/support", className: "skip01", children: "support.mybharat.gov.in" }),
       /* @__PURE__ */ jsx3("span", { className: "partition", children: "| \xA0" }),
-      /* @__PURE__ */ jsx3("div", { id: "bhashini-desktop-header" })
+      /* @__PURE__ */ jsx3("span", { id: "bhashini-desktop-header" })
     ] }) })
   ] }) }) });
 }
@@ -5664,7 +5667,7 @@ function HeaderMobileStrip({ cdn, variant }) {
     " ",
     "14472 Or 18002122729"
   ] }) });
-  const bhashiniSlot = /* @__PURE__ */ jsx4("span", { className: "mb-common-header__bhashini-slot", "aria-hidden": "true" });
+  const bhashiniSlot = /* @__PURE__ */ jsx4("div", { id: "bhashini-mobile-header" });
   const menuButton = /* @__PURE__ */ jsx4(
     "button",
     {
@@ -5775,6 +5778,115 @@ function switchBootstrapModal(fromId, toId, delayMs = 0) {
   window.setTimeout(() => showBootstrapModal(toId, { backdrop: "static", keyboard: false }), delayMs);
 }
 
+// src/components/header/login/loginApiErrorMessage.ts
+var DEFAULT_API_ERROR_MESSAGE = "Something went wrong!!! Plz try again later.";
+var TECHNICAL_ERROR_PATTERNS = [
+  /fetch failed/i,
+  /ECONNREFUSED/i,
+  /ENOTFOUND/i,
+  /network error/i,
+  /Host proxy must map/i,
+  /Login is not configured/i,
+  /internal auth proxy routes/i,
+  /wrong token type/i
+];
+function isApiSuccessStatus(statusCode) {
+  if (statusCode == null || statusCode === "") return false;
+  const code = typeof statusCode === "string" ? Number(statusCode) : statusCode;
+  return code === 200 || code === 201;
+}
+function readTrimmedString(value) {
+  return typeof value === "string" && value.trim() ? value.trim() : "";
+}
+function collectErrorStrings(node, depth = 0) {
+  if (node == null || depth > 6) return [];
+  const parts = [];
+  if (typeof node === "string") {
+    const trimmed = node.trim();
+    if (trimmed && !trimmed.startsWith("{") && !trimmed.startsWith("[")) {
+      parts.push(trimmed);
+    }
+    return parts;
+  }
+  if (typeof node !== "object") return parts;
+  const obj = node;
+  for (const key of ["error_description", "error", "message", "detail", "description"]) {
+    const value = obj[key];
+    if (typeof value === "string" && value.trim()) parts.push(value.trim());
+  }
+  for (const key of ["keycloak", "data", "message", "response", "result"]) {
+    parts.push(...collectErrorStrings(obj[key], depth + 1));
+  }
+  return parts;
+}
+function resolveApiErrorMessage(res, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  if (!res || typeof res !== "object") return fallback;
+  const direct = readTrimmedString(res.error_description) || readTrimmedString(res.keycloak?.error_description) || readTrimmedString(res.error) || readTrimmedString(res.keycloak?.error);
+  if (direct && direct !== "invalid_grant") return direct;
+  const message = res.message;
+  if (typeof message === "string" && message.trim()) return message.trim();
+  const collected = collectErrorStrings(res);
+  const description = collected.find((part) => part.includes(" ") && part.length > 8);
+  if (description) return description;
+  if (collected.includes("invalid_grant")) {
+    return "Invalid user credentials";
+  }
+  if (collected.length) return collected[0];
+  return fallback;
+}
+function sanitizeUserFacingError(message, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  const trimmed = message.trim();
+  if (!trimmed) return fallback;
+  if (TECHNICAL_ERROR_PATTERNS.some((pattern) => pattern.test(trimmed))) {
+    return fallback;
+  }
+  return trimmed;
+}
+function resolveUserFacingApiError(res, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  return sanitizeUserFacingError(resolveApiErrorMessage(res, fallback), fallback);
+}
+function hasOAuthFailure(res) {
+  if (!res || typeof res !== "object") return false;
+  if (readTrimmedString(res.keycloak?.error)) return true;
+  if (readTrimmedString(res.error) && !readTrimmedString(res.access_token)) return true;
+  return false;
+}
+function inferApiStatusCode(res, httpStatus) {
+  if (res.status_code != null && res.status_code !== "" && !isApiSuccessStatus(res.status_code)) {
+    return res.status_code;
+  }
+  const oauthError = readTrimmedString(res.keycloak?.error) || readTrimmedString(res.error);
+  if (oauthError === "invalid_grant") return 401;
+  if (oauthError) return 400;
+  if (httpStatus != null && httpStatus >= 400) return httpStatus;
+  return res.status_code;
+}
+function normalizeApiResponse(parsed, httpStatus) {
+  const next = { ...parsed };
+  if (next.status_code == null || next.status_code === "") {
+    next.status_code = inferApiStatusCode(next, httpStatus) ?? (httpStatus >= 400 ? httpStatus : httpStatus);
+  }
+  if (hasOAuthFailure(next) && isApiSuccessStatus(next.status_code)) {
+    next.status_code = inferApiStatusCode(next, httpStatus) ?? 401;
+  }
+  if (!isApiSuccessStatus(next.status_code) && httpStatus >= 400) {
+    next.status_code = httpStatus;
+  }
+  return next;
+}
+function isApiFailureResponse(res) {
+  if (!res || typeof res !== "object") return true;
+  if (hasOAuthFailure(res)) return true;
+  if (res.status_code == null || res.status_code === "") return false;
+  return !isApiSuccessStatus(res.status_code);
+}
+function resolveLoginFlowError(error, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  if (error instanceof Error) {
+    return resolveUserFacingApiError({ message: error.message }, fallback);
+  }
+  return fallback;
+}
+
 // src/components/header/login/shellLoginInternalAuth.ts
 var SHELL_LOGIN_API_PROXY_DEFAULT = "/mybharat-shell-api";
 var SHELL_INTERNAL_KC_CLIENT_PATH = "/_internal/kc-client";
@@ -5789,7 +5901,7 @@ var ShellInternalAuthError = class extends Error {
     this.name = "ShellInternalAuthError";
   }
 };
-var DEFAULT_INTERNAL_AUTH_ERROR = "Login is not configured. Ask the host app to enable internal auth proxy routes.";
+var DEFAULT_INTERNAL_AUTH_ERROR = DEFAULT_API_ERROR_MESSAGE;
 function normalizeBearerAccessToken(raw) {
   if (!raw) return "";
   let token = raw.trim();
@@ -5868,21 +5980,23 @@ async function postInternalAuth(path, forceRefresh = false) {
       headers: forceRefresh ? { "X-Shell-Auth-Refresh": "1" } : void 0
     });
   } catch {
-    throw new ShellInternalAuthError(DEFAULT_INTERNAL_AUTH_ERROR);
+    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
   }
   const text = await res.text();
   try {
     const parsed = JSON.parse(text);
     if (Array.isArray(parsed)) {
-      return { status_code: res.status, data: parsed };
+      return normalizeApiResponse(
+        { status_code: res.status, data: parsed },
+        res.status
+      );
     }
-    const obj = parsed;
-    if (obj.status_code == null || obj.status_code === "") {
-      obj.status_code = res.status;
-    }
-    return obj;
+    return normalizeApiResponse(parsed, res.status);
   } catch {
-    return { status_code: res.ok ? 200 : res.status, message: text };
+    return {
+      status_code: res.ok ? 200 : res.status,
+      message: DEFAULT_API_ERROR_MESSAGE
+    };
   }
 }
 async function postInternalAuthJson(path, body) {
@@ -5899,13 +6013,17 @@ async function postInternalAuthJson(path, body) {
       body: JSON.stringify(body)
     });
   } catch {
-    throw new ShellInternalAuthError(DEFAULT_INTERNAL_AUTH_ERROR);
+    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
   }
   const text = await res.text();
   try {
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    return normalizeApiResponse(parsed, res.status);
   } catch {
-    return { status_code: res.ok ? 200 : res.status, message: text };
+    return {
+      status_code: res.ok ? 200 : res.status,
+      message: DEFAULT_API_ERROR_MESSAGE
+    };
   }
 }
 var cachedKeycloakClientToken = null;
@@ -5957,8 +6075,7 @@ async function fetchInternalKeycloakClientAccessToken(forceRefresh = false) {
     }
     const token = readAccessTokenFromResponse(data);
     if (!token) {
-      const message = typeof data.message === "string" && data.message.trim() ? data.message.trim() : DEFAULT_INTERNAL_AUTH_ERROR;
-      throw new ShellInternalAuthError(message);
+      throw new ShellInternalAuthError(resolveUserFacingApiError(data));
     }
     assertKeycloakClientJwt(token);
     cachedKeycloakClientToken = token;
@@ -5991,8 +6108,7 @@ async function fetchInternalGuestOauthAccessToken(forceRefresh = false) {
   }
   const token = readAccessTokenFromResponse(data);
   if (!token) {
-    const message = typeof data.message === "string" && data.message.trim() ? data.message.trim() : DEFAULT_INTERNAL_AUTH_ERROR;
-    throw new ShellInternalAuthError(message);
+    throw new ShellInternalAuthError(resolveUserFacingApiError(data));
   }
   cachedGuestOauthToken = token;
   return token;
@@ -6011,9 +6127,12 @@ function readConfiguredPublicKeyPem() {
 }
 async function fetchPublicKeyPemFromHost() {
   const res = await postInternalAuthJson(SHELL_INTERNAL_LOGIN_PUBKEY_PATH, {});
+  if (isApiFailureResponse(res)) {
+    throw new Error(resolveUserFacingApiError(res));
+  }
   const pem = typeof res.public_key === "string" && res.public_key || typeof res.publicKey === "string" && res.publicKey || "";
   if (!pem.trim()) {
-    throw new Error("Login encryption is not configured on the host.");
+    throw new Error(DEFAULT_API_ERROR_MESSAGE);
   }
   return pem.trim();
 }
@@ -6080,16 +6199,48 @@ async function encryptLoginSecret(plaintext) {
   };
 }
 
+// src/components/header/login/establishSessionForm.ts
+function resolveEstablishSessionAction(baseUrl) {
+  const base = baseUrl.trim().replace(/\/$/, "");
+  if (!base) return "/establish_session";
+  return `${base}/establish_session`;
+}
+function submitEstablishSessionForm(params) {
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = resolveEstablishSessionAction(params.baseUrl);
+  form.style.display = "none";
+  form.acceptCharset = "UTF-8";
+  const fields = {
+    flow: params.flow,
+    username: params.username.trim(),
+    auth_response: JSON.stringify(params.authResponse ?? {})
+  };
+  if (params.flow === "registration") {
+    fields.qualification = String(params.qualification ?? "");
+    fields.sports_area = String(params.sportsArea ?? "");
+    fields.is_outside_india = params.isOutsideIndia ? "1" : "";
+    fields.country_id = String(params.countryId ?? "");
+  }
+  for (const [name, value] of Object.entries(fields)) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+
 // src/components/header/login/loginWithOtpFlow.ts
-var DEFAULT_ERROR = "Something went wrong!!! Plz try again later.";
+var DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
 var REG_CODE_STORAGE_KEY = "mybharat_reg_code";
 function isLoginOtpRedirectResult(res) {
   return "redirecting" in res && res.redirecting === true;
 }
 function isSuccessStatus(statusCode) {
-  if (statusCode == null || statusCode === "") return false;
-  const code = typeof statusCode === "string" ? Number(statusCode) : statusCode;
-  return code === 200 || code === 201;
+  return isApiSuccessStatus(statusCode);
 }
 function readLoginFetchBase() {
   const shell = window.MYBHARAT_SHELL?.login;
@@ -6115,36 +6266,21 @@ function readPagesBaseUrl() {
   const fromHeader = document.querySelector("mybharat-header")?.getAttribute("login-base-url")?.trim();
   return fromHeader ? fromHeader.replace(/\/$/, "") : "";
 }
-function pagesUrl(path) {
-  const base = readPagesBaseUrl();
-  const segment = path.startsWith("/") ? path.slice(1) : path;
-  if (base) return `${base}/${segment}`;
-  return `/${segment}`;
-}
-function readCookieDomain() {
-  const configured = window.MYBHARAT_SHELL?.login?.cookieDomain?.trim();
-  if (configured) return configured;
-  return window.location.hostname;
-}
-function readSessionEstablishPath() {
-  return window.MYBHARAT_SHELL?.login?.sessionEstablishPath?.trim() || "/reports/establishSession";
-}
 async function parseJsonResponse(res, text) {
   try {
     const parsed = JSON.parse(text);
     if (Array.isArray(parsed)) {
-      return {
-        status_code: res.status,
-        data: parsed
-      };
+      return normalizeApiResponse(
+        { status_code: res.status, data: parsed },
+        res.status
+      );
     }
-    const obj = parsed;
-    if (obj.status_code == null || obj.status_code === "") {
-      obj.status_code = res.status;
-    }
-    return obj;
+    return normalizeApiResponse(parsed, res.status);
   } catch {
-    return { status_code: res.ok ? 200 : res.status, message: text };
+    return {
+      status_code: res.ok ? 200 : res.status,
+      message: DEFAULT_ERROR
+    };
   }
 }
 async function postGatewayJson(path, body, bearerToken) {
@@ -6208,341 +6344,20 @@ function clearStoredRegCode() {
   } catch {
   }
 }
-function detectLoginBy(identifier) {
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (emailPattern.test(identifier)) return "email";
-  if (/^[6-9]\d{9}$/.test(identifier)) return "mobile";
-  return "";
-}
-function decodeJwtPayload(accessToken) {
-  try {
-    const parts = accessToken.split(".");
-    if (parts.length < 2) return null;
-    const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
-    const padded = base64 + "=".repeat((4 - base64.length % 4) % 4);
-    return JSON.parse(atob(padded));
-  } catch {
-    return null;
-  }
-}
-function formatCreatedTimestamp(raw) {
-  if (raw == null || raw === "") return "";
-  const numeric = typeof raw === "string" ? Number(raw) : raw;
-  const date = typeof numeric === "number" && !Number.isNaN(numeric) ? new Date(numeric > 1e12 ? numeric : numeric * 1e3) : new Date(String(raw));
-  if (Number.isNaN(date.getTime())) return "";
-  const pad = (n) => String(n).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-}
-function buildDlIdDetail(profile, mbToken, jwt) {
-  const dlId = readString(profile, "dl_id", "dlId") || readString(jwt, "dl_id", "dlId");
-  const kcId = readString(profile, "kc_id", "kcId") || readString(jwt, "sub");
-  const username = readString(profile, "username", "preferred_username") || readString(jwt, "preferred_username", "username");
-  return {
-    dl_id: dlId,
-    kc_id: kcId,
-    dlId,
-    kcId,
-    username,
-    first_name: readString(profile, "first_name", "firstName"),
-    middle_name: readString(profile, "middle_name", "middleName"),
-    last_name: readString(profile, "last_name", "lastName"),
-    full_name: readString(profile, "screen_name", "full_name", "fullName"),
-    email: readString(profile, "user_email", "email"),
-    mobile: readString(profile, "user_phone", "mobile"),
-    dob: readString(profile, "dob", "date_of_birth"),
-    address: readString(profile, "address", "address1"),
-    gender: readString(profile, "gender"),
-    state_id: readString(profile, "state_id", "stateId"),
-    district_id: readString(profile, "city_id", "district_id", "districtId"),
-    country_id: readString(profile, "country_id", "countryId"),
-    is_outside_india: readString(profile, "is_outside_india", "isOutsideIndia"),
-    pincode: readString(profile, "zip", "pincode"),
-    access_token: mbToken,
-    demographic_status: readString(profile, "demographic_status", "demographicStatus"),
-    address2: readString(profile, "address2"),
-    caste_category: readString(profile, "caste_category", "casteCategory"),
-    pwd_status: readString(profile, "pwd_status", "pwdStatus"),
-    pwd_type: readString(profile, "pwd_type", "pwdType"),
-    pwd_other_text: readString(profile, "pwd_other_text", "pwdOtherText")
-  };
-}
-function buildUserRecord(profile, dlIdDetail, mbToken) {
-  const fullName = readString(profile, "screen_name", "full_name", "FullName");
-  const orgName = readString(profile, "org_name", "Org_name", "organization_name");
-  return {
-    ID: readString(profile, "id", "ID", "user_id"),
-    Name: fullName || readString(dlIdDetail, "full_name", "username"),
-    User_email: readString(profile, "user_email", "email"),
-    Ministry: readString(profile, "ministry", "Ministry"),
-    UserType: readString(profile, "user_type", "UserType") || "6",
-    Yuva_type: readString(profile, "yuva_type", "Yuva_type"),
-    created: formatCreatedTimestamp(readField(profile, "created", "created_at")),
-    email_verification: readString(profile, "email_verification"),
-    user_verification: readString(profile, "user_verification"),
-    mmmd_reg_status: readString(profile, "mmmd_reg_status"),
-    city_id: readString(profile, "city_id", "district_id"),
-    state_id: readString(profile, "state_id"),
-    tmp_state_name: readString(profile, "tmp_state_name"),
-    tmp_city_name: readString(profile, "tmp_city_name"),
-    institution_id: readString(profile, "institution_id"),
-    register_as: readString(profile, "register_as"),
-    user_status: readString(profile, "user_status"),
-    user_phone: readString(profile, "user_phone", "mobile"),
-    auth_mode: readString(profile, "auth_mode") || "otp",
-    dl_id: readString(dlIdDetail, "dl_id"),
-    kc_id: readString(dlIdDetail, "kc_id"),
-    dlId: readString(dlIdDetail, "dlId"),
-    kcId: readString(dlIdDetail, "kcId"),
-    username: readString(dlIdDetail, "username"),
-    FullName: fullName,
-    Department: readString(profile, "department", "Department"),
-    ProfilePic: readString(profile, "profile_pic", "ProfilePic"),
-    otp_verfication: readString(profile, "otp_verfication") || "1",
-    Gender: readString(profile, "gender", "Gender"),
-    DOB: readString(profile, "dob", "DOB"),
-    access_token: mbToken,
-    org_name: orgName,
-    Org_name: orgName,
-    Org_type: readString(profile, "org_type", "Org_type"),
-    demographic_status: readString(profile, "demographic_status"),
-    isMentor: readString(profile, "is_mentor", "isMentor")
-  };
-}
-function isTruthyFlag(value) {
-  return value === 1 || value === "1" || value === true || value === "true";
-}
-function readNfyStatus(profile, user) {
-  const raw = readField(profile, "nyf_status", "nyf", "nfyStatus") ?? readField(user, "nyf", "nyf_status");
-  return isTruthyFlag(raw);
-}
-function readCvBuilderFlag(profile, user) {
-  const raw = readField(profile, "cvbuilder", "cv_builder", "cvBuilder") ?? readField(user, "cvbuilder");
-  return isTruthyFlag(raw);
-}
-function resolveAfterLoginRoute(userType, profile, user) {
-  const type = userType.trim();
-  if (type === "9" || type === "14") {
-    return { controller: "pages", action: "organizational_dashboard" };
-  }
-  if (type === "17") {
-    return { controller: "pages", action: "mybharat_state_dashboard" };
-  }
-  if (type === "11") {
-    return { controller: "pages", action: "msmeverifier" };
-  }
-  if (type === "10") {
-    return { controller: "pages", action: "dyo_dashboard" };
-  }
-  if (type === "1" || type === "13" || type === "15" || type === "50" || type === "102") {
-    return { controller: "pages", action: "admin_dashboard" };
-  }
-  if (type === "6") {
-    if (readCvBuilderFlag(profile, user)) {
-      return { controller: "pages", action: "cvbuilder" };
-    }
-    return { controller: "Reports", action: "public_profile" };
-  }
-  if (type === "51") {
-    if (readNfyStatus(profile, user)) {
-      return { controller: "pages", action: "nyf_dashboard" };
-    }
-    return { controller: "pages", action: "organizational_dashboard" };
-  }
-  if (type === "18") {
-    return { controller: "pages", action: "organizational_dashboard" };
-  }
-  return { controller: "pages", action: "dashboard" };
-}
-function buildSessionHints(userType, profile, user) {
-  const type = userType.trim();
-  const hints = {};
-  if (type === "6") {
-    hints.cvbuilder = readCvBuilderFlag(profile, user);
-  }
-  if (type === "18" || type === "51") {
-    hints.nyf_status = readNfyStatus(profile, user);
-  }
-  if (type === "51") {
-    hints.org_activity_list = [];
-  }
-  return Object.keys(hints).length > 0 ? hints : void 0;
-}
 async function fetchClientAccessToken() {
   return fetchInternalKeycloakClientAccessToken();
 }
-async function fetchGetUserId(dlId) {
-  const base = window.MYBHARAT_SHELL?.login?.publicProfileApiBaseUrl?.trim();
-  if (!base || !dlId) return "";
-  const url = `${base.replace(/\/$/, "")}/getUserId`;
-  let res;
-  try {
-    res = await fetch(url, {
-      method: "POST",
-      credentials: "omit",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ dl_id: dlId })
-    });
-  } catch {
-    return "";
-  }
-  const parsed = await parseJsonResponse(res, await res.text());
-  if (!isSuccessStatus(parsed.status_code)) return "";
-  const data = unwrapDataNode(parsed);
-  return readString(data, "id", "ID", "user_id");
-}
-function cookieExists(name) {
-  return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
-}
-function setLoginAuthCookies(token, domain, encryptId) {
-  console.log("setLoginAuthCookies", token, domain, encryptId);
-  const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
-  if (!cookieExists("token") && !cookieExists("token_essays")) {
-    document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
-    document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
-  }
-  if (encryptId) {
-    document.cookie = `encryptId=${encodeURIComponent(encryptId)};expires=${expiry};path=/;domain=${domain};`;
-  }
-}
-function redirectToEstablishSession(body) {
-  const url = pagesUrl(readSessionEstablishPath());
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = url;
-  form.style.display = "none";
-  form.acceptCharset = "UTF-8";
-  const payloadInput = document.createElement("input");
-  payloadInput.type = "hidden";
-  payloadInput.name = "payload";
-  payloadInput.value = JSON.stringify(body);
-  form.appendChild(payloadInput);
-  const authOutputInput = document.createElement("input");
-  authOutputInput.type = "hidden";
-  authOutputInput.name = "auth_output";
-  authOutputInput.value = JSON.stringify(body.auth_output);
-  form.appendChild(authOutputInput);
-  const scalarFields = [
-    ["loginby", body.loginby],
-    ["username", body.username],
-    ["token", body.token],
-    ["encryptId", body.encryptId],
-    ["org_id", body.org_id != null ? String(body.org_id) : void 0],
-    ["org_name", body.org_name],
-    ["controller", body.after_login_route.controller],
-    ["action", body.after_login_route.action],
-    ["session_hints", body.session_hints ? JSON.stringify(body.session_hints) : void 0]
-  ];
-  for (const [name, value] of scalarFields) {
-    if (value == null || value === "") continue;
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  }
-  document.body.appendChild(form);
-  form.submit();
-}
 function resolveGatewayError(res, fallback = DEFAULT_ERROR) {
-  if (typeof res?.error_description === "string" && res.error_description.trim()) {
-    return res.error_description.trim();
-  }
-  if (typeof res?.message === "string" && res.message.trim()) return res.message.trim();
-  return fallback;
+  return resolveUserFacingApiError(res, fallback);
 }
-function readNestedRecord(obj, ...path) {
-  let current = obj;
-  for (const key of path) {
-    if (!current || typeof current !== "object") return {};
-    current = current[key];
-  }
-  return current && typeof current === "object" && !Array.isArray(current) ? current : {};
-}
-function readKeycloakNode(res) {
-  const data = unwrapDataNode(res);
-  const authOutput = readField(res, "auth_output");
-  const authOutputRecord = authOutput && typeof authOutput === "object" && !Array.isArray(authOutput) ? authOutput : {};
-  const candidates = [
-    readNestedRecord(res, "keycloak"),
-    readNestedRecord(data, "keycloak"),
-    readNestedRecord(authOutputRecord, "keycloak")
-  ];
-  for (const node of candidates) {
-    if (readString(node, "access_token", "accessToken")) return node;
-  }
-  return candidates.find((node) => Object.keys(node).length > 0) ?? {};
-}
-function readLoginTokens(res) {
-  const data = unwrapDataNode(res);
-  const keycloak = readKeycloakNode(res);
-  const accessToken = readString(keycloak, "access_token", "accessToken") || readString(res, "access_token", "accessToken") || readString(data, "access_token", "accessToken");
-  const mbToken = readString(res, "mb_token", "mbToken", "token") || readString(data, "mb_token", "mbToken", "token") || readString(keycloak, "mb_token", "mbToken") || accessToken;
-  return { accessToken, mbToken };
-}
-async function finalizeEstablishSession(username, mbToken, accessToken, orgLogin, options) {
-  if (!isSuccessStatus(orgLogin.status_code)) {
-    return {
-      status_code: orgLogin.status_code ?? 500,
-      message: typeof orgLogin.message === "string" ? orgLogin.message : "Unable to load user profile. Please try again."
-    };
-  }
-  const profile = unwrapDataNode(orgLogin);
-  if (Object.keys(profile).length === 0) {
-    return { status_code: 500, message: "User profile is empty. Please try again." };
-  }
-  const jwt = decodeJwtPayload(accessToken);
-  const dlId = readString(jwt, "dl_id", "dlId");
-  const dlIdDetail = buildDlIdDetail(profile, mbToken, jwt);
-  const User = buildUserRecord(profile, dlIdDetail, mbToken);
-  const loginby = detectLoginBy(username);
-  if (!readString(User, "ID") && dlId) {
-    const userId = await fetchGetUserId(dlId);
-    if (userId) User.ID = userId;
-  }
-  const userType = readString(User, "UserType") || "6";
-  const afterLoginRoute = resolveAfterLoginRoute(userType, profile, User);
-  const sessionHints = buildSessionHints(userType, profile, User);
-  const orgName = readString(User, "org_name", "Org_name");
-  const orgId = readString(profile, "org_id", "organization_id", "orgId");
-  const encryptId = readString(profile, "encryptId", "encrypt_id");
-  if (encryptId) {
-    User.encryptId = encryptId;
-  }
-  const authOutput = {
-    status_code: 200,
-    data: { dl_id_detail: dlIdDetail, User }
-  };
-  const establishPayload = {
-    auth_output: authOutput,
-    loginby,
+function submitPortalEstablishSession(flow, username, authResponse) {
+  submitEstablishSessionForm({
+    baseUrl: readPagesBaseUrl(),
+    flow,
     username,
-    org_name: orgName || void 0,
-    org_id: orgId || void 0,
-    token: mbToken,
-    encryptId: encryptId || void 0,
-    after_login_route: afterLoginRoute,
-    session_hints: sessionHints
-  };
-  if (options?.clearRegCode) {
-    clearStoredRegCode();
-  }
-  setLoginAuthCookies(accessToken, readCookieDomain(), encryptId || void 0);
-  redirectToEstablishSession(establishPayload);
+    authResponse
+  });
   return { redirecting: true };
-}
-async function runLoginAfterAccessToken(username, mbToken, accessToken, clientToken, options) {
-  const jwt = decodeJwtPayload(accessToken);
-  const dlId = readString(jwt, "dl_id", "dlId");
-  if (!dlId) {
-    return { status_code: 500, message: "Unable to resolve user profile. Please try again." };
-  }
-  const resolvedUsername = username.trim() || readString(jwt, "preferred_username", "username") || username;
-  const orgLogin = await postGatewayJson(
-    "/userOrgAccessLogin",
-    { dl_id: dlId },
-    clientToken
-  );
-  return finalizeEstablishSession(resolvedUsername, mbToken, accessToken, orgLogin, options);
 }
 function resolveExchangeError(res) {
   return resolveGatewayError(res, DEFAULT_ERROR);
@@ -6555,8 +6370,8 @@ async function completeLoginWithOtp(username) {
   let clientToken;
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
   const exchange = await postGatewayJson(
     "/keycloakGetExchangeToken",
@@ -6569,20 +6384,21 @@ async function completeLoginWithOtp(username) {
       message: resolveExchangeError(exchange)
     };
   }
-  const { accessToken, mbToken } = readLoginTokens(exchange);
-  if (!accessToken || !mbToken) {
-    return { status_code: 500, message: DEFAULT_ERROR };
-  }
-  return runLoginAfterAccessToken(username, mbToken, accessToken, clientToken, {
-    clearRegCode: true
-  });
+  clearStoredRegCode();
+  return submitPortalEstablishSession("login_otp", username, exchange);
 }
 async function completePasswordSignIn(username, password) {
   let clientToken;
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
+  }
+  let passwordSecret;
+  try {
+    passwordSecret = await encryptLoginSecret(password);
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
   let loginRes;
   try {
@@ -6590,24 +6406,19 @@ async function completePasswordSignIn(username, password) {
       SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
       {
         username,
-        password_secret: await encryptLoginSecret(password)
+        password_secret: passwordSecret
       }
     );
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
-  const statusCode = loginRes.status_code;
-  if (statusCode === 401 || statusCode === "401") {
-    return { status_code: 401, message: resolveGatewayError(loginRes, "Login failed") };
-  }
-  const { accessToken, mbToken } = readLoginTokens(loginRes);
-  if (!accessToken || !mbToken) {
+  if (!isSuccessStatus(loginRes.status_code) || hasOAuthFailure(loginRes)) {
     return {
-      status_code: statusCode ?? 500,
-      message: resolveGatewayError(loginRes, DEFAULT_ERROR)
+      status_code: inferApiStatusCode(loginRes) ?? loginRes.status_code ?? 401,
+      message: resolveGatewayError(loginRes)
     };
   }
-  return runLoginAfterAccessToken(username, mbToken, accessToken, clientToken);
+  return submitPortalEstablishSession("login_password", username, loginRes);
 }
 function readAttributeString(attributes, ...keys) {
   if (!attributes || typeof attributes !== "object") return "";
@@ -6680,8 +6491,8 @@ async function completeForgotPasswordUpdate(identifier, password) {
   let clientToken;
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
   const forgotRes = await postGatewayJson(
     "/keycloakForgotPassword",
@@ -6689,7 +6500,10 @@ async function completeForgotPasswordUpdate(identifier, password) {
     clientToken
   );
   if (!isForgotPasswordGatewaySuccess(forgotRes)) {
-    return { status_code: forgotRes.status_code ?? 500, message: DEFAULT_ERROR };
+    return {
+      status_code: forgotRes.status_code ?? 500,
+      message: resolveGatewayError(forgotRes)
+    };
   }
   const { userId, dlId } = readForgotPasswordIdentity(forgotRes);
   if (!userId || !dlId) {
@@ -6697,15 +6511,21 @@ async function completeForgotPasswordUpdate(identifier, password) {
   }
   try {
     clientToken = await fetchClientAccessToken();
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR };
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
+  }
+  let passwordSecret;
+  try {
+    passwordSecret = await encryptLoginSecret(password);
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
   const changeRes = await postInternalAuthJson(
     SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
     {
       userId,
       dlId,
-      password_secret: await encryptLoginSecret(password)
+      password_secret: passwordSecret
     }
   );
   if (!isKeycloakChangePasswordSuccess(changeRes)) {
@@ -6721,7 +6541,7 @@ async function completeForgotPasswordUpdate(identifier, password) {
 // src/components/header/login/headerLoginFlow.ts
 var HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
 var LOGIN_DATA_KEY = "loginData";
-var DEFAULT_LOGIN_API_ERROR = "Something went wrong!!! Plz try again later.";
+var DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE;
 var shellLoginApiBaseUrl;
 var shellLoginApiProxyBaseUrl;
 var SHELL_LOGIN_API_PROXY_DEFAULT2 = "/mybharat-shell-api";
@@ -6763,10 +6583,6 @@ function setVal(id, value) {
 function setText(id, text) {
   const el = $(id);
   if (el) el.textContent = text;
-}
-function setHtml(id, html) {
-  const el = $(id);
-  if (el) el.innerHTML = html;
 }
 function isChecked(id) {
   return !!$(id)?.checked;
@@ -6818,12 +6634,12 @@ function clearLoginStorage() {
   } catch {
   }
 }
-function cookieExists2(name) {
+function cookieExists(name) {
   return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
 }
 function setAuthCookies(token, domain, encryptId) {
   const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
-  if (!cookieExists2("token") && !cookieExists2("token_essays")) {
+  if (!cookieExists("token") && !cookieExists("token_essays")) {
     document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
     document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
   }
@@ -6930,29 +6746,18 @@ function buildShellApiUrl(path) {
   return buildLoginApiUrl(path);
 }
 function isSuccessStatus2(statusCode) {
-  if (statusCode == null || statusCode === "") return false;
-  const code = typeof statusCode === "string" ? Number(statusCode) : statusCode;
-  return code === 200 || code === 201;
+  return isApiSuccessStatus(statusCode);
 }
 function resolveLoginApiError(res, fallback = DEFAULT_LOGIN_API_ERROR) {
-  if (res && typeof res === "object") {
-    if (typeof res.error_description === "string" && res.error_description.trim()) {
-      return res.error_description.trim();
-    }
-    if (typeof res.error === "string" && res.error.trim()) {
-      return res.error.trim();
-    }
+  return resolveUserFacingApiError(res, fallback);
+}
+function showLoginFieldError(id, message) {
+  setText(id, message);
+  const el = $(id);
+  if (el) {
+    el.style.display = message ? "block" : "none";
+    el.setAttribute("role", "alert");
   }
-  const message = res?.message;
-  if (typeof message === "string" && message.trim()) return message.trim();
-  if (message && typeof message === "object") {
-    const obj = message;
-    for (const key of ["message", "error", "error_description", "detail", "description"]) {
-      const v = obj[key];
-      if (typeof v === "string" && v.trim()) return v.trim();
-    }
-  }
-  return fallback;
 }
 function resolveVerifyOtpError(res, fallback = "Please enter valid OTP.") {
   const data = res?.data;
@@ -6998,13 +6803,10 @@ function normalizeBearerAccessToken2(raw) {
 function parseLoginApiResponse(res, text) {
   try {
     const parsed = JSON.parse(text);
-    if (parsed.status_code == null || parsed.status_code === "") {
-      parsed.status_code = res.status;
-    }
-    return parsed;
+    return normalizeApiResponse(parsed, res.status);
   } catch {
     if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
-    return { status_code: res.status, message: text };
+    return { status_code: res.status, message: DEFAULT_LOGIN_API_ERROR };
   }
 }
 async function fetchLoginApiFormPost(path, form, bearerAccessToken) {
@@ -7086,7 +6888,7 @@ async function getKeycloakClientAccessToken(forceRefresh = false) {
     return await fetchInternalKeycloakClientAccessToken(forceRefresh);
   } catch (err) {
     if (err instanceof ShellInternalAuthError) {
-      throw new LoginApiError(err.message);
+      throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
     }
     throw err;
   }
@@ -7096,7 +6898,7 @@ async function getOauthAccessToken(forceRefresh = false) {
     return await fetchInternalGuestOauthAccessToken(forceRefresh);
   } catch (err) {
     if (err instanceof ShellInternalAuthError) {
-      throw new LoginApiError(err.message);
+      throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
     }
     throw err;
   }
@@ -7336,6 +7138,12 @@ function loginModalQueryAll(selector) {
   if (root === document) return document.querySelectorAll(selector);
   return root.querySelectorAll(selector);
 }
+function isOtpInlineValidationMessage(text) {
+  return text === "Please check the consent box" || text === "Please enter valid Mobile / Email";
+}
+function isPasswordInlineValidationMessage(text) {
+  return text === "All inputs are mandatory!";
+}
 function validateOtpLoginInput() {
   const input = val("otp_login_header");
   const isEmail = validateEmail(input);
@@ -7343,8 +7151,10 @@ function validateOtpLoginInput() {
   const consent = isChecked("consentCheck1");
   const err = $("otp_login_header_error");
   const buttons = loginModalQueryAll(".login_otp_header");
+  const errText = err?.textContent?.trim() ?? "";
+  const isApiError = errText.length > 0 && !isOtpInlineValidationMessage(errText);
   if ((isEmail || isMobile) && consent) {
-    if (err) err.style.display = "none";
+    if (err) err.style.display = isApiError ? "block" : "none";
     buttons.forEach((b) => {
       b.disabled = false;
     });
@@ -7368,9 +7178,15 @@ function validatePasswordLoginForm() {
   const consent = isChecked("consentCheck2");
   const btn = $("signInButton");
   const err = $("user_mobile_header_error_login");
+  const errText = err?.textContent?.trim() ?? "";
+  const isApiError = errText.length > 0 && !isPasswordInlineValidationMessage(errText);
   if (username && password && consent) {
-    setText("user_mobile_header_error_login", "");
-    if (err) err.style.display = "none";
+    if (!isApiError) {
+      setText("user_mobile_header_error_login", "");
+      if (err) err.style.display = "none";
+    } else if (err) {
+      err.style.display = "block";
+    }
     if (btn) btn.disabled = false;
   } else {
     setText("user_mobile_header_error_login", "All inputs are mandatory!");
@@ -7424,13 +7240,18 @@ async function sendGuestOtp(data) {
     }
     return res;
   } catch (err) {
-    const message = err instanceof LoginApiError ? err.message : DEFAULT_LOGIN_API_ERROR;
+    const message = resolveLoginFlowError(err);
     return { status_code: 500, message };
   }
 }
 async function verifyGuestUserOtp(identifier, otp) {
+  let otpSecret;
   try {
-    const otpSecret = await encryptLoginSecret(otp);
+    otpSecret = await encryptLoginSecret(otp);
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
+  }
+  try {
     const body = {
       otp_secret: otpSecret
     };
@@ -7446,8 +7267,7 @@ async function verifyGuestUserOtp(identifier, otp) {
     }
     return await postInternalAuthJson(SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, body);
   } catch (err) {
-    const message = err instanceof Error ? err.message : DEFAULT_LOGIN_API_ERROR;
-    return { status_code: 500, message };
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 }
 function readKeycloakGivenData(message) {
@@ -7474,8 +7294,7 @@ async function checkUserInKeycloak(identifier) {
     }
     return check;
   } catch (err) {
-    const message = err instanceof LoginApiError ? err.message : DEFAULT_LOGIN_API_ERROR;
-    return { status_code: 500, message };
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 }
 function buildOtpPayload(identifier, givenData) {
@@ -7497,7 +7316,7 @@ async function handleForgotPasswordGetOtp() {
   try {
     const check = await checkUserInKeycloak(identifier);
     if (!isSuccessStatus2(check.status_code)) {
-      setText("user_mobile_header_error", resolveLoginApiError(check));
+      showLoginFieldError("user_mobile_header_error", resolveLoginApiError(check));
       return;
     }
     const given = readKeycloakGivenData(check.message);
@@ -7514,8 +7333,13 @@ async function handleForgotPasswordGetOtp() {
       setVal("otp-field-2", "");
       setDisabled("btn-verify-otp-header", false);
     } else {
-      setText("user_mobile_header_error", String(otpRes.message ?? "Failed to send OTP"));
+      showLoginFieldError(
+        "user_mobile_header_error",
+        resolveLoginApiError(otpRes, "Failed to send OTP")
+      );
     }
+  } catch (err) {
+    showLoginFieldError("user_mobile_header_error", resolveLoginFlowError(err));
   } finally {
     hideLoader();
   }
@@ -7542,7 +7366,7 @@ async function handleOtpLoginSend() {
   try {
     const check = await checkUserInKeycloak(identifier);
     if (!isSuccessStatus2(check.status_code)) {
-      setText("otp_login_header_error", resolveLoginApiError(check));
+      showLoginFieldError("otp_login_header_error", resolveLoginApiError(check));
       return;
     }
     const given = readKeycloakGivenData(check.message);
@@ -7555,7 +7379,10 @@ async function handleOtpLoginSend() {
       setVal("otp-field-3", "");
       setText("otp-field-3_error", "");
     } else {
-      setText("otp_login_header_error", String(otpRes.message ?? "Please check Mobile / Email you entered!"));
+      showLoginFieldError(
+        "otp_login_header_error",
+        resolveLoginApiError(otpRes, "Please check Mobile / Email you entered!")
+      );
     }
   } finally {
     otpLoginSendInFlight = false;
@@ -7578,38 +7405,52 @@ async function handleResendOtp() {
     startTimerHeader();
     setText("otp-field-2_error", "");
     setText("otp-field-3_error", "");
+    return;
   }
+  const message = resolveLoginApiError(res);
+  showLoginFieldError("otp-field-2_error", message);
+  showLoginFieldError("otp-field-3_error", message);
 }
 async function handleVerifyForgotOtp() {
   const identifier = readLoginIdentifier() || val("user_mobile_header");
   const otp = val("otp-field-2");
   if (!otp) {
-    setText("otp-field-2_error", "Please enter OTP");
+    showLoginFieldError("otp-field-2_error", "Please enter OTP");
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    setText("otp-field-2_error", "Please enter 6 digit OTP");
+    showLoginFieldError("otp-field-2_error", "Please enter 6 digit OTP");
     return;
   }
-  const verify = await verifyGuestUserOtp(identifier, otp);
-  if (isSuccessStatus2(verify.status_code)) {
-    storeRegCodeFromVerifyResponse(verify);
-    setText("otp-field-2_error", "");
-    setVal("verified_otp_header", "1");
-    timeRemainingHeader = 0;
-    setDisabled("user_mobile_header", true);
-    setDisabled("btn-verify-otp-header", true);
-    switchBootstrapModal("otpVerifyForgotPwdModal", "newPasswordModal", 200);
-    setVal("newPwd", "");
-    setVal("confirmPwd", "");
-    return;
-  }
-  responseCount += 1;
-  if (responseCount >= 5) {
-    setHtml("otp-field-2_error", "You have reached maximum limit to verify OTP. Please try again after sometime.");
-    setDisabled("btn-verify-otp-header", true);
-  } else {
-    setText("otp-field-2_error", "Please enter valid OTP.");
+  showLoader();
+  setText("otp-field-2_error", "");
+  try {
+    const verify = await verifyGuestUserOtp(identifier, otp);
+    if (isSuccessStatus2(verify.status_code)) {
+      storeRegCodeFromVerifyResponse(verify);
+      setVal("verified_otp_header", "1");
+      timeRemainingHeader = 0;
+      setDisabled("user_mobile_header", true);
+      setDisabled("btn-verify-otp-header", true);
+      switchBootstrapModal("otpVerifyForgotPwdModal", "newPasswordModal", 200);
+      setVal("newPwd", "");
+      setVal("confirmPwd", "");
+      return;
+    }
+    responseCount += 1;
+    if (responseCount >= 5) {
+      showLoginFieldError(
+        "otp-field-2_error",
+        "You have reached maximum limit to verify OTP. Please try again after sometime."
+      );
+      setDisabled("btn-verify-otp-header", true);
+    } else {
+      showLoginFieldError("otp-field-2_error", resolveVerifyOtpError(verify));
+    }
+  } catch (err) {
+    showLoginFieldError("otp-field-2_error", resolveLoginFlowError(err));
+  } finally {
+    hideLoader();
   }
 }
 async function handleVerifyLoginOtp() {
@@ -7618,12 +7459,12 @@ async function handleVerifyLoginOtp() {
   setDisabled("btn-otp-verify-header", true);
   const otp = val("otp-field-3");
   if (!otp) {
-    setText("otp-field-3_error", "Please enter OTP");
+    showLoginFieldError("otp-field-3_error", "Please enter OTP");
     setDisabled("btn-otp-verify-header", false);
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    setText("otp-field-3_error", "Please enter 6 digit OTP");
+    showLoginFieldError("otp-field-3_error", "Please enter 6 digit OTP");
     setDisabled("btn-otp-verify-header", false);
     return;
   }
@@ -7642,13 +7483,13 @@ async function handleVerifyLoginOtp() {
         loginModalQueryAll(".generate_otp_header").forEach((el) => {
           el.disabled = true;
         });
-        setHtml(
+        showLoginFieldError(
           "otp-field-3_error",
           "You have reached maximum limit to verify OTP. Please try again after sometime."
         );
         setDisabled("btn-otp-verify-header", true);
       } else {
-        setText("otp-field-3_error", resolveVerifyOtpError(verify));
+        showLoginFieldError("otp-field-3_error", resolveVerifyOtpError(verify));
         setDisabled("btn-otp-verify-header", false);
       }
       return;
@@ -7668,7 +7509,11 @@ async function handleVerifyLoginOtp() {
       return;
     }
     tryFirebaseEvent("user_login_failure");
-    setText("otp-field-3_error", String(loginRes.message ?? "Login failed"));
+    showLoginFieldError("otp-field-3_error", resolveLoginApiError(loginRes, "Login failed"));
+    setDisabled("btn-otp-verify-header", false);
+  } catch (err) {
+    tryFirebaseEvent("user_login_failure");
+    showLoginFieldError("otp-field-3_error", resolveLoginFlowError(err));
     setDisabled("btn-otp-verify-header", false);
   } finally {
     hideLoader();
@@ -7694,10 +7539,9 @@ async function handleUpdatePassword() {
       switchBootstrapModal("newPasswordModal", "successModal", 200);
       return;
     }
-    setText(
-      "new_pwd_error",
-      typeof res.message === "string" && res.message.trim() ? res.message.trim() : DEFAULT_LOGIN_API_ERROR
-    );
+    showLoginFieldError("new_pwd_error", resolveLoginApiError(res));
+  } catch (err) {
+    showLoginFieldError("new_pwd_error", resolveLoginFlowError(err));
   } finally {
     hideLoader();
   }
@@ -7716,13 +7560,11 @@ async function handlePasswordSignIn() {
       tryFirebaseEvent("user_login_success");
       return;
     }
-    if (res.status_code === 401 || res.status_code === "401") {
-      tryFirebaseEvent("user_login_failure");
-      setText("user_mobile_header_error_login", String(res.message ?? "Login failed"));
-      return;
-    }
     tryFirebaseEvent("user_login_failure");
-    setText("user_mobile_header_error_login", DEFAULT_LOGIN_API_ERROR);
+    showLoginFieldError("user_mobile_header_error_login", resolveLoginApiError(res));
+  } catch (err) {
+    tryFirebaseEvent("user_login_failure");
+    showLoginFieldError("user_mobile_header_error_login", resolveLoginFlowError(err));
   } finally {
     hideLoader();
   }
@@ -7887,9 +7729,19 @@ function onDocumentInput(e) {
   const target = e.target;
   if (!target) return;
   if (target.id === "otp_login_header" || target.id === "consentCheck1") {
+    const err = $("otp_login_header_error");
+    const errText = err?.textContent?.trim() ?? "";
+    if (errText && !isOtpInlineValidationMessage(errText)) {
+      setText("otp_login_header_error", "");
+    }
     validateOtpLoginInput();
   }
   if (target.id === "username" || target.id === "password" || target.id === "consentCheck2") {
+    const err = $("user_mobile_header_error_login");
+    const errText = err?.textContent?.trim() ?? "";
+    if (errText && !isPasswordInlineValidationMessage(errText)) {
+      setText("user_mobile_header_error_login", "");
+    }
     validatePasswordLoginForm();
   }
   if (target.id === "user_mobile_header") {
@@ -8358,7 +8210,7 @@ import { memo, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 
 // src/components/header/login/HeaderLogin.css
-styleInject(".mb-common-header-login .uniform-modal-height .modal-dialog {\n  position: relative !important;\n}\n.mb-common-header-login .uniform-modal-height .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n.mb-common-header-login .form-check {\n  padding-right: 1.5em !important;\n}\n.mb-common-header-login .mr-button {\n  margin-right: 1.5rem;\n}\n.mb-common-header-login #forgot_password,\n.mb-common-header-login #login_with_pwd {\n  font-size: 14px;\n  color: #0b6bbe;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login #login_with_otp {\n  font-size: 14px;\n  color: #f15f22;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login .pipe {\n  color: #bbbbbb;\n}\n.mb-common-header-login hr {\n  margin: 20px 0 !important;\n}\n.mb-common-header-login #register_now {\n  color: #f15f22;\n  cursor: pointer;\n  font-weight: 500;\n}\n.mb-common-header-login a,\n.mb-common-header-login a:hover,\n.mb-common-header-login a:focus,\n.mb-common-header-login a:visited,\n.mb-common-header-login a:active {\n  text-decoration: none !important;\n}\n.mb-common-header-login .go-back {\n  cursor: pointer;\n  width: 350px;\n  color: rgba(80, 80, 80, 1);\n}\n.mb-common-header-login .input-error {\n  color: red;\n}\n.mb-common-header-login .mb-common-header-login__btn {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  box-shadow: none !important;\n  font-weight: 600;\n  line-height: 1.25;\n}\n.mb-common-header-login .mb-common-header-login__btn:hover,\n.mb-common-header-login .mb-common-header-login__btn:focus-visible {\n  color: #f15b43 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f15b43 !important;\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:focus {\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:disabled,\n.mb-common-header-login .mb-common-header-login__btn.disabled {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  opacity: 0.65;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  background-color: #bc4717 !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:hover,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:disabled,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn.disabled {\n  background-color: #bc4717 !important;\n  border: none !important;\n}\n.mb-common-header-login .form-check-input:focus {\n  box-shadow: none !important;\n}\n#mb-common-header-loader {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.3);\n  display: none;\n  justify-content: center;\n  align-items: center;\n  z-index: 3000;\n}\n#mb-common-header-loader .spinner {\n  border: 8px solid #f3f3f3;\n  border-top: 8px solid #3498db;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  animation: mb-common-header-spin 1s linear infinite;\n}\n@keyframes mb-common-header-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n");
+styleInject(".mb-common-header-login .uniform-modal-height .modal-dialog {\n  position: relative !important;\n}\n.mb-common-header-login .uniform-modal-height .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n.mb-common-header-login .form-check {\n  padding-right: 1.5em !important;\n}\n.mb-common-header-login .mr-button {\n  margin-right: 1.5rem;\n}\n.mb-common-header-login #forgot_password,\n.mb-common-header-login #login_with_pwd {\n  font-size: 14px;\n  color: #0b6bbe;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login #login_with_otp {\n  font-size: 14px;\n  color: #f15f22;\n  cursor: pointer;\n  margin-bottom: 0;\n}\n.mb-common-header-login .pipe {\n  color: #bbbbbb;\n}\n.mb-common-header-login hr {\n  margin: 20px 0 !important;\n}\n.mb-common-header-login #register_now {\n  color: #f15f22;\n  cursor: pointer;\n  font-weight: 500;\n}\n.mb-common-header-login a,\n.mb-common-header-login a:hover,\n.mb-common-header-login a:focus,\n.mb-common-header-login a:visited,\n.mb-common-header-login a:active {\n  text-decoration: none !important;\n}\n.mb-common-header-login .go-back {\n  cursor: pointer;\n  width: 350px;\n  color: rgba(80, 80, 80, 1);\n}\n.mb-common-header-login .input-error {\n  display: block;\n  color: #dc3545;\n  font-size: 0.875rem;\n  line-height: 1.3;\n}\n.mb-common-header-login .mb-common-header-login__btn {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  box-shadow: none !important;\n  font-weight: 600;\n  line-height: 1.25;\n}\n.mb-common-header-login .mb-common-header-login__btn:hover,\n.mb-common-header-login .mb-common-header-login__btn:focus-visible {\n  color: #f15b43 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #f15b43 !important;\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:focus {\n  box-shadow: none !important;\n}\n.mb-common-header-login .mb-common-header-login__btn:disabled,\n.mb-common-header-login .mb-common-header-login__btn.disabled {\n  color: #ffffff !important;\n  background-color: #f15b43 !important;\n  border: none !important;\n  opacity: 0.65;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  background-color: #bc4717 !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:hover,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n}\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn:disabled,\n.mb-common-header-login.mb-common-header-login--header2 .mb-common-header-login__btn.disabled {\n  background-color: #bc4717 !important;\n  border: none !important;\n}\n.mb-common-header-login .form-check-input:focus {\n  box-shadow: none !important;\n}\n#mb-common-header-loader {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.3);\n  display: none;\n  justify-content: center;\n  align-items: center;\n  z-index: 3000;\n}\n#mb-common-header-loader .spinner {\n  border: 8px solid #f3f3f3;\n  border-top: 8px solid #3498db;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  animation: mb-common-header-spin 1s linear infinite;\n}\n@keyframes mb-common-header-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n");
 
 // src/components/header/login/HeaderLoginModals.tsx
 import { jsx as jsx7, jsxs as jsxs7 } from "react/jsx-runtime";
@@ -8844,6 +8696,140 @@ function useHeaderAccessibilityFont(enabled = true) {
   }, [enabled]);
 }
 
+// src/hooks/useBhashiniWidgetPlacement.ts
+import { useEffect as useEffect4, useCallback } from "react";
+
+// src/utils/loadBhashiniScript.ts
+var BHASHINI_SCRIPT_URL = "https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js";
+var BHASHINI_LANGUAGE_LIST = "en,as,bn,brx,gom,gu,hi,ml,or,pa,te,ur";
+var BHASHINI_WIDGET_SELECTORS = [
+  "#bhashini-translation",
+  ".bhashini-plugin-container .bhashini-dropdown",
+  ".bhashini-translator-widget"
+];
+var loadPromise = null;
+function findBhashiniWidget(root) {
+  const scope = root ?? document;
+  for (const selector of BHASHINI_WIDGET_SELECTORS) {
+    const el = scope.querySelector(selector);
+    if (el instanceof HTMLElement) return el;
+  }
+  return null;
+}
+function appendBhashiniScriptTag() {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = BHASHINI_SCRIPT_URL;
+    script.async = false;
+    script.setAttribute("language-icon-color", "#fff");
+    script.setAttribute("translation-language-list", BHASHINI_LANGUAGE_LIST);
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Bhashini script"));
+    document.body.appendChild(script);
+  });
+}
+function loadBhashiniScript() {
+  if (findBhashiniWidget()) {
+    return Promise.resolve();
+  }
+  if (loadPromise) return loadPromise;
+  const existingScript = document.querySelector(`script[src="${BHASHINI_SCRIPT_URL}"]`);
+  if (existingScript) {
+    existingScript.remove();
+    loadPromise = null;
+  }
+  loadPromise = appendBhashiniScriptTag().catch((err) => {
+    loadPromise = null;
+    throw err;
+  });
+  return loadPromise;
+}
+
+// src/hooks/useBhashiniWidgetPlacement.ts
+var MOBILE_BREAKPOINT = 768;
+var MOUNT_ID = "bhashini-plugin-mount";
+var DESKTOP_SLOT_ID = "bhashini-desktop-header";
+var MOBILE_SLOT_ID = "bhashini-mobile-header";
+var MAX_POLL_MS = 3e4;
+function isDesktopSlotVisible() {
+  const desktopHeader = document.getElementById(DESKTOP_SLOT_ID);
+  const topStrip = desktopHeader?.closest(".header-top");
+  if (topStrip) {
+    return window.getComputedStyle(topStrip).display !== "none";
+  }
+  return window.innerWidth >= MOBILE_BREAKPOINT;
+}
+function isSlotVisible(slot) {
+  if (!slot) return false;
+  return window.getComputedStyle(slot).display !== "none" && slot.offsetParent !== null;
+}
+function useBhashiniWidgetPlacement(enabled = true) {
+  const moveBhashiniToTarget = useCallback(() => {
+    const mount = document.getElementById(MOUNT_ID);
+    const widget = findBhashiniWidget(mount ?? document);
+    const mobileHeader = document.getElementById(MOBILE_SLOT_ID);
+    const desktopHeader = document.getElementById(DESKTOP_SLOT_ID);
+    if (!widget) return false;
+    const useDesktop = isDesktopSlotVisible() && isSlotVisible(desktopHeader);
+    const target = useDesktop ? desktopHeader : mobileHeader;
+    if (target && !target.contains(widget)) {
+      target.appendChild(widget);
+    }
+    if (mount) {
+      const empty = mount.childElementCount === 0;
+      mount.classList.toggle("mb-common-header__bhashini-mount--empty", empty);
+      mount.setAttribute("aria-hidden", empty ? "true" : "false");
+    }
+    return Boolean(target?.contains(widget));
+  }, []);
+  const pollUntilWidgetReady = useCallback(() => {
+    const started = Date.now();
+    const tryMove = () => {
+      if (moveBhashiniToTarget()) return;
+      if (Date.now() - started > MAX_POLL_MS) {
+        console.warn("[Bhashini] Widget not found after 30s \u2014 check script/CSP and .bhashini-plugin-container mount");
+        return;
+      }
+      setTimeout(tryMove, 300);
+    };
+    tryMove();
+  }, [moveBhashiniToTarget]);
+  useEffect4(() => {
+    if (!enabled) return;
+    let resizeTimer;
+    let cancelled = false;
+    const init = async () => {
+      const mount = document.getElementById(MOUNT_ID);
+      if (!mount) {
+        console.warn("[Bhashini] Mount #bhashini-plugin-mount missing");
+        return;
+      }
+      try {
+        await loadBhashiniScript();
+        if (!cancelled) pollUntilWidgetReady();
+      } catch (e) {
+        console.error("[Bhashini] Script load failed", e);
+      }
+    };
+    init();
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(moveBhashiniToTarget, 150);
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("resize", onResize);
+      clearTimeout(resizeTimer);
+    };
+  }, [enabled, moveBhashiniToTarget, pollUntilWidgetReady]);
+  useEffect4(() => {
+    if (!enabled) return;
+    const id = setTimeout(moveBhashiniToTarget, 300);
+    return () => clearTimeout(id);
+  }, [enabled, moveBhashiniToTarget]);
+}
+
 // src/components/header/HeaderAuthControls.tsx
 import { Fragment as Fragment3, jsx as jsx9, jsxs as jsxs8 } from "react/jsx-runtime";
 function HeaderAuthControls({ cdn, userSession, webroot }) {
@@ -8892,7 +8878,8 @@ var Header = ({
   loginPayloadPublicKey,
   ipAddress,
   publicProfileApiBaseUrl,
-  cookieDomain
+  cookieDomain,
+  bhashini = true
 }) => {
   useHeaderLoginConfig({
     baseUrl,
@@ -8904,13 +8891,21 @@ var Header = ({
     cookieDomain
   });
   useHeaderAccessibilityFont();
+  useBhashiniWidgetPlacement(bhashini);
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
   const loggedIn = isHeaderUserLoggedIn(userSession);
   return /* @__PURE__ */ jsxs9(Fragment4, { children: [
     /* @__PURE__ */ jsxs9("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
-      /* @__PURE__ */ jsx10("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+      /* @__PURE__ */ jsx10(
+        "div",
+        {
+          id: "bhashini-plugin-mount",
+          className: "bhashini-plugin-container mb-common-header__bhashini-mount",
+          "aria-hidden": "true"
+        }
+      ),
       /* @__PURE__ */ jsx10(HeaderGovernmentStrip, { cdn }),
       /* @__PURE__ */ jsx10("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx10("div", { className: "container", children: /* @__PURE__ */ jsxs9("div", { className: "row align-items-center gx-2", children: [
         /* @__PURE__ */ jsx10(HeaderMobileStrip, { cdn, variant: "split" }),
@@ -9071,7 +9066,7 @@ var DEFAULT_HEADER2_MAIN_NAV = [
 ];
 
 // src/components/Header2.css
-styleInject(".main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  position: relative;\n  transition: all 0.3s ease-in-out;\n  text-decoration: none !important;\n}\n.dropevent i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n  margin-left: 4px;\n}\n.dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #toll_mb.skip01,\n.mb-common-header__mobile-bar--h2 #toll_mb.mb-common-header__toll-link--h2 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: rgb(13 110 253);\n  text-decoration: none !important;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: rgb(13 110 253);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(180deg);\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar--h2 #toll_mb,\n  .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  width: auto !important;\n  height: auto !important;\n  min-width: 0 !important;\n  padding: 6px !important;\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  background-color: #bc4717 !important;\n  border: none !important;\n  color: #ffffff !important;\n  border-radius: 10px !important;\n  box-shadow: none !important;\n  line-height: 1 !important;\n  flex: 0 0 auto !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n  outline: 2px solid rgb(13 110 253);\n  outline-offset: 2px;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n  color: #ffffff !important;\n  font-size: 1rem;\n  line-height: 1;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    padding: 0.28rem 0.5rem !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    font-size: 1rem !important;\n  }\n}\nheader.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  border: none !important;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  color: #ffffff !important;\n  background-color: #bc4717 !important;\n  border: none !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n  box-shadow: none !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n@media only screen and (max-width: 991.98px) {\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    max-width: none !important;\n    height: auto !important;\n    transform: scale(1.12) !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n    width: 70px !important;\n    max-width: 70px !important;\n    min-width: 0 !important;\n    height: auto !important;\n    max-height: 48px !important;\n    object-fit: contain !important;\n    transform: none !important;\n    margin-left: 0 !important;\n    margin-top: 0 !important;\n    flex-shrink: 0 !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: none !important;\n  }\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n  z-index: 2;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    bottom: 14px !important;\n    right: 46px !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    display: inline-block !important;\n    visibility: visible !important;\n    pointer-events: auto !important;\n    position: absolute !important;\n    float: none !important;\n    right: 46px !important;\n    top: auto !important;\n    bottom: 14px !important;\n    margin: 0 !important;\n    z-index: 1001 !important;\n    line-height: 1;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root svg {\n    width: 24px;\n    height: 24px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__bhashini-slot {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n    margin-right: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: rgb(13 110 253);\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n    color: rgb(13 110 253);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    width: auto !important;\n    height: auto !important;\n    min-width: 0 !important;\n    padding: 6px !important;\n    background-color: #bc4717 !important;\n    border: none !important;\n    color: #ffffff !important;\n    border-radius: 10px !important;\n    box-shadow: none !important;\n    margin-left: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    color: #ffffff !important;\n    font-size: 1rem !important;\n    line-height: 1 !important;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1000px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 > .bhashini-plugin-container.mb-common-header__bhashini-root {\n    position: static !important;\n    float: right !important;\n    right: auto !important;\n    bottom: auto !important;\n    margin-right: 80px !important;\n    margin-top: 2px !important;\n    z-index: auto !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #bc4717 !important;\n    color: #fff !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button::after {\n    transform: rotate(0deg);\n    transition: transform 0.3s ease-in-out;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed)::after {\n    transform: rotate(-90deg);\n    transition: transform 0.3s ease-in-out;\n  }\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse] i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse][aria-expanded=true] i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {\n  color: #bc4717 !important;\n}\n");
+styleInject(".main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  position: relative;\n  transition: all 0.3s ease-in-out;\n  text-decoration: none !important;\n}\n.dropevent i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n  margin-left: 4px;\n}\n.dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #toll_mb.skip01,\n.mb-common-header__mobile-bar--h2 #toll_mb.mb-common-header__toll-link--h2 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: rgb(13 110 253);\n  text-decoration: none !important;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: rgb(13 110 253);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(180deg);\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar--h2 #toll_mb,\n  .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  width: auto !important;\n  height: auto !important;\n  min-width: 0 !important;\n  padding: 6px !important;\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  background-color: #bc4717 !important;\n  border: none !important;\n  color: #ffffff !important;\n  border-radius: 10px !important;\n  box-shadow: none !important;\n  line-height: 1 !important;\n  flex: 0 0 auto !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n  outline: 2px solid rgb(13 110 253);\n  outline-offset: 2px;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n  color: #ffffff !important;\n  font-size: 1rem;\n  line-height: 1;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    padding: 0.28rem 0.5rem !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    font-size: 1rem !important;\n  }\n}\nheader.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  border: none !important;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  color: #ffffff !important;\n  background-color: #bc4717 !important;\n  border: none !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n  box-shadow: none !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n@media only screen and (max-width: 991.98px) {\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    max-width: none !important;\n    height: auto !important;\n    transform: scale(1.12) !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n    width: 70px !important;\n    max-width: 70px !important;\n    min-width: 0 !important;\n    height: auto !important;\n    max-height: 48px !important;\n    object-fit: contain !important;\n    transform: none !important;\n    margin-left: 0 !important;\n    margin-top: 0 !important;\n    flex-shrink: 0 !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: none !important;\n  }\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n  z-index: 2;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #bhashini-mobile-header {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n    margin-right: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: rgb(13 110 253);\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n    color: rgb(13 110 253);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    width: auto !important;\n    height: auto !important;\n    min-width: 0 !important;\n    padding: 6px !important;\n    background-color: #bc4717 !important;\n    border: none !important;\n    color: #ffffff !important;\n    border-radius: 10px !important;\n    box-shadow: none !important;\n    margin-left: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    color: #ffffff !important;\n    font-size: 1rem !important;\n    line-height: 1 !important;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 #bhashini-mobile-header .bhashini-translator-widget svg path,\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #bc4717 !important;\n    color: #fff !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button::after {\n    transform: rotate(0deg);\n    transition: transform 0.3s ease-in-out;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed)::after {\n    transform: rotate(-90deg);\n    transition: transform 0.3s ease-in-out;\n  }\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse] i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse][aria-expanded=true] i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {\n  color: #bc4717 !important;\n}\n");
 
 // src/components/Header2.tsx
 import { Fragment as Fragment5, jsx as jsx11, jsxs as jsxs10 } from "react/jsx-runtime";
@@ -9087,7 +9082,8 @@ var Header2 = ({
   loginPayloadPublicKey,
   ipAddress,
   publicProfileApiBaseUrl,
-  cookieDomain
+  cookieDomain,
+  bhashini = true
 }) => {
   useHeaderLoginConfig({
     baseUrl,
@@ -9099,6 +9095,7 @@ var Header2 = ({
     cookieDomain
   });
   useHeaderAccessibilityFont();
+  useBhashiniWidgetPlacement(bhashini);
   const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
@@ -9111,7 +9108,14 @@ var Header2 = ({
         className: "fixed-top shadow mb-common-header mb-common-header--header2",
         "aria-label": title,
         children: [
-          /* @__PURE__ */ jsx11("div", { id: "bhashini-mobile-header", className: "bhashini-plugin-container mb-common-header__bhashini-root" }),
+          /* @__PURE__ */ jsx11(
+            "div",
+            {
+              id: "bhashini-plugin-mount",
+              className: "bhashini-plugin-container mb-common-header__bhashini-mount",
+              "aria-hidden": "true"
+            }
+          ),
           /* @__PURE__ */ jsx11(HeaderGovernmentStrip, { cdn }),
           /* @__PURE__ */ jsx11("div", { className: "header-area header-white bg-white pt-10 pb-10 mt-sm-0 mb-common-header__header-area", children: /* @__PURE__ */ jsx11("div", { className: "container", children: /* @__PURE__ */ jsxs10("div", { className: "row align-items-center gx-2", children: [
             /* @__PURE__ */ jsx11(HeaderMobileStrip, { cdn, variant: "h2" }),
@@ -9287,20 +9291,30 @@ async function postFormToApi(url, form) {
     Accept: "application/json"
   };
   if (!usesHostApiAuthProxy(base)) {
-    const token = await fetchInternalGuestOauthAccessToken();
-    headers.Authorization = `Bearer ${token}`;
+    try {
+      const token = await fetchInternalGuestOauthAccessToken();
+      headers.Authorization = `Bearer ${token}`;
+    } catch {
+      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+    }
   }
-  const res = await fetch(url, {
-    method: "POST",
-    headers,
-    body: new URLSearchParams(form),
-    credentials: usesHostApiAuthProxy(base) ? "same-origin" : "omit"
-  });
+  let res;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: new URLSearchParams(form),
+      credentials: usesHostApiAuthProxy(base) ? "same-origin" : "omit"
+    });
+  } catch {
+    return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+  }
   const text = await res.text();
   try {
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    return normalizeApiResponse(parsed, res.status);
   } catch {
-    throw new Error("Unable to submit feedback. Please try again.");
+    return { status_code: res.ok ? 200 : res.status, message: DEFAULT_API_ERROR_MESSAGE };
   }
 }
 function buildRewardsApiUrl(path) {
@@ -9355,10 +9369,7 @@ async function saveUserFeedback(form) {
   return postFormToApi(resolveSubmitUrl(), payload);
 }
 function isFeedbackSubmitSuccess(res) {
-  const code = res.status_code;
-  if (code == null || code === "") return false;
-  const numeric = typeof code === "string" ? Number(code) : code;
-  return numeric === 200 || numeric === 201;
+  return isApiSuccessStatus(res.status_code);
 }
 
 // src/components/footer/footerFeedbackFlow.ts
@@ -9586,14 +9597,18 @@ async function onFormC2Click(e) {
       triggerFirebaseFeedbackEvent("user_feedback_success");
     } else {
       showFeedbackAlert(
-        typeof res.data === "string" && res.data || typeof res.message === "string" && res.message || "Unable to submit feedback.",
+        resolveUserFacingApiError({
+          data: res.data,
+          message: res.message,
+          status_code: res.status_code
+        }),
         "danger"
       );
       triggerFirebaseFeedbackEvent("user_feedback_failure");
       setFormC2Visible(true);
     }
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Unable to submit feedback.";
+    const msg = err instanceof Error ? resolveUserFacingApiError({ message: err.message }) : resolveUserFacingApiError(null);
     showFeedbackAlert(msg, "danger");
     triggerFirebaseFeedbackEvent("user_feedback_failure");
     setFormC2Visible(true);
@@ -9688,7 +9703,7 @@ function useFooterFeedbackShell({
 }
 
 // src/components/FooterModals.tsx
-import { useEffect as useEffect4, useRef, useState as useState3 } from "react";
+import { useEffect as useEffect5, useRef, useState as useState3 } from "react";
 import { createPortal as createPortal4 } from "react-dom";
 
 // src/components/footer/resolveRecaptchaSiteKey.ts
@@ -9846,15 +9861,15 @@ var FooterModals = ({
     if (!canRenderCaptcha) return;
     scheduleFeedbackRecaptchaRender(() => captchaContainerRef.current, captchaSiteKey, 150);
   };
-  useEffect4(() => {
+  useEffect5(() => {
     setPortalReady(true);
   }, []);
-  useEffect4(() => {
+  useEffect5(() => {
     if (!canRenderCaptcha) return void 0;
     preloadRecaptchaScript();
     return void 0;
   }, [canRenderCaptcha]);
-  useEffect4(() => {
+  useEffect5(() => {
     const modalEl = document.getElementById("feed_back");
     if (!modalEl || !canRenderCaptcha) return void 0;
     const onShown = () => {
@@ -10314,11 +10329,11 @@ function prepareMainNavItems(raw, options) {
 }
 
 // src/navigation/useMainNavItems.ts
-import { useEffect as useEffect5, useState as useState4 } from "react";
+import { useEffect as useEffect6, useState as useState4 } from "react";
 function useMainNavItems(options) {
   const { load, select, fallback = DEFAULT_HEADER_MAIN_NAV, maxDepth } = options;
   const [nav, setNav] = useState4(fallback);
-  useEffect5(() => {
+  useEffect6(() => {
     let cancelled = false;
     (async () => {
       try {
@@ -10338,9 +10353,10 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.233";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.237";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
+  BHASHINI_WIDGET_SELECTORS,
   DEFAULT_HEADER2_MAIN_NAV,
   DEFAULT_HEADER_MAIN_NAV,
   DEFAULT_LOGIN_API_ERROR,
@@ -10375,6 +10391,7 @@ export {
   completePasswordSignIn,
   index_default as default,
   filterUnsafeNavTree,
+  findBhashiniWidget,
   getKeycloakClientAccessToken,
   getShellApiFetchBaseUrl,
   installFooterFeedbackFlow,
@@ -10387,6 +10404,7 @@ export {
   isNavGroupItem,
   isNavLinkItem,
   isSafeNavHref,
+  loadBhashiniScript,
   navTreeItemKey,
   normalizeApiMenuTree,
   normalizeHrefForNav,
@@ -10395,10 +10413,13 @@ export {
   openSignInPasswordModal,
   parseHeaderUserSession,
   prepareMainNavItems,
+  resolveEstablishSessionAction,
   saveUserFeedback,
+  submitEstablishSessionForm,
   submitOtpLoginFromModal,
   triggerGeneralFeedbackReward,
   unwrapMenuListFromPayload,
+  useBhashiniWidgetPlacement,
   useFooterFeedbackShell,
   useHeaderAccessibilityFont,
   useMainNavItems,

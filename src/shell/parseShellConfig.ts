@@ -12,6 +12,8 @@ export type ShellHeaderConfig = {
   /** Logged-in user payload (`data` or full API envelope). */
   userSession?: unknown;
   webroot?: string;
+  /** Load Bhashini website translation plugin (default true). */
+  bhashini?: boolean;
 };
 
 export type ShellFooterConfig = {
@@ -158,6 +160,7 @@ export function resolveHeaderProps(el: HTMLElement): {
   apiProxyBaseUrl?: string;
   loginPayloadPublicKey?: string;
   ipAddress?: string;
+  bhashini?: boolean;
 } {
   const global = window.MYBHARAT_SHELL?.header;
   const variantAttr = el.getAttribute('variant');
@@ -177,6 +180,7 @@ export function resolveHeaderProps(el: HTMLElement): {
     apiProxyBaseUrl: login.apiProxyBaseUrl,
     loginPayloadPublicKey: login.loginPayloadPublicKey,
     ipAddress: login.ipAddress,
+    bhashini: parseBooleanAttr(el.getAttribute('bhashini')) ?? global?.bhashini,
   };
 }
 

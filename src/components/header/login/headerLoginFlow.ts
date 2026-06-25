@@ -16,13 +16,21 @@ import {
   SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH,
 } from './shellLoginInternalAuth';
 import { encryptLoginSecret } from './shellLoginSecretPayload';
+import {
+  DEFAULT_API_ERROR_MESSAGE,
+  isApiSuccessStatus,
+  normalizeApiResponse,
+  resolveLoginFlowError,
+  resolveUserFacingApiError,
+  type ApiErrorPayload,
+} from './loginApiErrorMessage';
 
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
 export const HEADER_LOGIN_SIGN_IN_SELECTORS =
   '#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link';
 
 const LOGIN_DATA_KEY = 'loginData';
-const DEFAULT_LOGIN_API_ERROR = 'Something went wrong!!! Plz try again later.';
+const DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE;
 
 /** Shell-scoped API base — never derived from `window.location` (avoids localhost:3000 registration `/api` collision). */
 let shellLoginApiBaseUrl: string | undefined;
@@ -337,40 +345,14 @@ export function buildShellApiUrl(path: string): string {
 }
 
 function isSuccessStatus(statusCode?: number | string): boolean {
-  if (statusCode == null || statusCode === '') return false;
-  const code = typeof statusCode === 'string' ? Number(statusCode) : statusCode;
-  return code === 200 || code === 201;
+  return isApiSuccessStatus(statusCode);
 }
 
-type LoginApiErrorPayload = {
-  message?: SignInResponse['message'];
-  error?: string;
-  error_description?: string;
-};
-
 function resolveLoginApiError(
-  res?: LoginApiErrorPayload | null,
+  res?: LoginApiErrorPayload | ApiErrorPayload | null,
   fallback = DEFAULT_LOGIN_API_ERROR
 ): string {
-  if (res && typeof res === 'object') {
-    if (typeof res.error_description === 'string' && res.error_description.trim()) {
-      return res.error_description.trim();
-    }
-    if (typeof res.error === 'string' && res.error.trim()) {
-      return res.error.trim();
-    }
-  }
-
-  const message = res?.message;
-  if (typeof message === 'string' && message.trim()) return message.trim();
-  if (message && typeof message === 'object') {
-    const obj = message as Record<string, unknown>;
-    for (const key of ['message', 'error', 'error_description', 'detail', 'description']) {
-      const v = obj[key];
-      if (typeof v === 'string' && v.trim()) return v.trim();
-    }
-  }
-  return fallback;
+  return resolveUserFacingApiError(res as ApiErrorPayload | null, fallback);
 }
 
 /** Cake portal origin for legacy `/pages/*` endpoints (e.g. `VITE_BASE_URL`). */
@@ -392,6 +374,22 @@ function buildPagesUrl(path: string): string {
   if (base) return `${base}/${segment}`;
   return `/${segment}`;
 }
+
+function showLoginFieldError(id: string, message: string): void {
+  setText(id, message);
+  const el = $(id);
+  if (el) {
+    el.style.display = message ? 'block' : 'none';
+    el.setAttribute('role', 'alert');
+  }
+}
+
+type LoginApiErrorPayload = {
+  message?: SignInResponse['message'];
+  error?: string;
+  error_description?: string;
+  keycloak?: { error?: string; error_description?: string };
+};
 
 function resolveVerifyOtpError(
   res?: SignInResponse | null,
@@ -447,13 +445,10 @@ function normalizeBearerAccessToken(raw?: string): string {
 function parseLoginApiResponse<T extends SignInResponse>(res: Response, text: string): T {
   try {
     const parsed = JSON.parse(text) as T;
-    if (parsed.status_code == null || parsed.status_code === '') {
-      parsed.status_code = res.status;
-    }
-    return parsed;
+    return normalizeApiResponse(parsed as ApiErrorPayload, res.status) as T;
   } catch {
     if (!res.ok) throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
-    return { status_code: res.status, message: text } as T;
+    return { status_code: res.status, message: DEFAULT_LOGIN_API_ERROR } as T;
   }
 }
 
@@ -660,7 +655,7 @@ export async function getKeycloakClientAccessToken(forceRefresh = false): Promis
     return await fetchInternalKeycloakClientAccessToken(forceRefresh);
   } catch (err) {
     if (err instanceof ShellInternalAuthError) {
-      throw new LoginApiError(err.message);
+      throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
     }
     throw err;
   }
@@ -672,7 +667,7 @@ async function getOauthAccessToken(forceRefresh = false): Promise<string> {
     return await fetchInternalGuestOauthAccessToken(forceRefresh);
   } catch (err) {
     if (err instanceof ShellInternalAuthError) {
-      throw new LoginApiError(err.message);
+      throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
     }
     throw err;
   }
@@ -974,6 +969,14 @@ function loginModalQueryAll(selector: string): NodeListOf<Element> {
   return root.querySelectorAll(selector);
 }
 
+function isOtpInlineValidationMessage(text: string): boolean {
+  return text === 'Please check the consent box' || text === 'Please enter valid Mobile / Email';
+}
+
+function isPasswordInlineValidationMessage(text: string): boolean {
+  return text === 'All inputs are mandatory!';
+}
+
 function validateOtpLoginInput(): void {
   const input = val('otp_login_header');
   const isEmail = validateEmail(input);
@@ -981,9 +984,11 @@ function validateOtpLoginInput(): void {
   const consent = isChecked('consentCheck1');
   const err = $('otp_login_header_error');
   const buttons = loginModalQueryAll('.login_otp_header');
+  const errText = err?.textContent?.trim() ?? '';
+  const isApiError = errText.length > 0 && !isOtpInlineValidationMessage(errText);
 
   if ((isEmail || isMobile) && consent) {
-    if (err) err.style.display = 'none';
+    if (err) err.style.display = isApiError ? 'block' : 'none';
     buttons.forEach((b) => {
       (b as HTMLButtonElement).disabled = false;
     });
@@ -1008,9 +1013,16 @@ function validatePasswordLoginForm(): void {
   const consent = isChecked('consentCheck2');
   const btn = $('signInButton') as HTMLButtonElement | null;
   const err = $('user_mobile_header_error_login');
+  const errText = err?.textContent?.trim() ?? '';
+  const isApiError = errText.length > 0 && !isPasswordInlineValidationMessage(errText);
+
   if (username && password && consent) {
-    setText('user_mobile_header_error_login', '');
-    if (err) err.style.display = 'none';
+    if (!isApiError) {
+      setText('user_mobile_header_error_login', '');
+      if (err) err.style.display = 'none';
+    } else if (err) {
+      err.style.display = 'block';
+    }
     if (btn) btn.disabled = false;
   } else {
     setText('user_mobile_header_error_login', 'All inputs are mandatory!');
@@ -1076,15 +1088,21 @@ async function sendGuestOtp(data: Record<string, string>): Promise<SignInRespons
 
     return res;
   } catch (err) {
-    const message = err instanceof LoginApiError ? err.message : DEFAULT_LOGIN_API_ERROR;
+    const message = resolveLoginFlowError(err);
     return { status_code: 500, message };
   }
 }
 
 /** POST verifyGuestUserOtp via encrypted internal route (OTP never in plain network payload). */
 async function verifyGuestUserOtp(identifier: string, otp: string): Promise<SignInResponse> {
+  let otpSecret;
   try {
-    const otpSecret = await encryptLoginSecret(otp);
+    otpSecret = await encryptLoginSecret(otp);
+  } catch (err) {
+    return { status_code: 500, message: resolveLoginFlowError(err) };
+  }
+
+  try {
     const body: Record<string, unknown> = {
       otp_secret: otpSecret,
     };
@@ -1101,8 +1119,7 @@ async function verifyGuestUserOtp(identifier: string, otp: string): Promise<Sign
 
     return await postInternalAuthJson<SignInResponse>(SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, body);
   } catch (err) {
-    const message = err instanceof Error ? err.message : DEFAULT_LOGIN_API_ERROR;
-    return { status_code: 500, message };
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 }
 
@@ -1137,8 +1154,7 @@ async function checkUserInKeycloak(identifier: string): Promise<KeycloakCheckRes
     }
     return check;
   } catch (err) {
-    const message = err instanceof LoginApiError ? err.message : DEFAULT_LOGIN_API_ERROR;
-    return { status_code: 500, message };
+    return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 }
 
@@ -1162,7 +1178,7 @@ async function handleForgotPasswordGetOtp(): Promise<void> {
   try {
     const check = await checkUserInKeycloak(identifier);
     if (!isSuccessStatus(check.status_code)) {
-      setText('user_mobile_header_error', resolveLoginApiError(check));
+      showLoginFieldError('user_mobile_header_error', resolveLoginApiError(check));
       return;
     }
     const given = readKeycloakGivenData(check.message);
@@ -1179,8 +1195,13 @@ async function handleForgotPasswordGetOtp(): Promise<void> {
       setVal('otp-field-2', '');
       setDisabled('btn-verify-otp-header', false);
     } else {
-      setText('user_mobile_header_error', String(otpRes.message ?? 'Failed to send OTP'));
+      showLoginFieldError(
+        'user_mobile_header_error',
+        resolveLoginApiError(otpRes, 'Failed to send OTP')
+      );
     }
+  } catch (err) {
+    showLoginFieldError('user_mobile_header_error', resolveLoginFlowError(err));
   } finally {
     hideLoader();
   }
@@ -1212,7 +1233,7 @@ async function handleOtpLoginSend(): Promise<void> {
   try {
     const check = await checkUserInKeycloak(identifier);
     if (!isSuccessStatus(check.status_code)) {
-      setText('otp_login_header_error', resolveLoginApiError(check));
+      showLoginFieldError('otp_login_header_error', resolveLoginApiError(check));
       return;
     }
     const given = readKeycloakGivenData(check.message);
@@ -1225,7 +1246,10 @@ async function handleOtpLoginSend(): Promise<void> {
       setVal('otp-field-3', '');
       setText('otp-field-3_error', '');
     } else {
-      setText('otp_login_header_error', String(otpRes.message ?? 'Please check Mobile / Email you entered!'));
+      showLoginFieldError(
+        'otp_login_header_error',
+        resolveLoginApiError(otpRes, 'Please check Mobile / Email you entered!')
+      );
     }
   } finally {
     otpLoginSendInFlight = false;
@@ -1250,39 +1274,54 @@ async function handleResendOtp(): Promise<void> {
     startTimerHeader();
     setText('otp-field-2_error', '');
     setText('otp-field-3_error', '');
+    return;
   }
+  const message = resolveLoginApiError(res);
+  showLoginFieldError('otp-field-2_error', message);
+  showLoginFieldError('otp-field-3_error', message);
 }
 
 async function handleVerifyForgotOtp(): Promise<void> {
   const identifier = readLoginIdentifier() || val('user_mobile_header');
   const otp = val('otp-field-2');
   if (!otp) {
-    setText('otp-field-2_error', 'Please enter OTP');
+    showLoginFieldError('otp-field-2_error', 'Please enter OTP');
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    setText('otp-field-2_error', 'Please enter 6 digit OTP');
+    showLoginFieldError('otp-field-2_error', 'Please enter 6 digit OTP');
     return;
   }
-  const verify = await verifyGuestUserOtp(identifier, otp);
-  if (isSuccessStatus(verify.status_code)) {
-    storeRegCodeFromVerifyResponse(verify);
-    setText('otp-field-2_error', '');
-    setVal('verified_otp_header', '1');
-    timeRemainingHeader = 0;
-    setDisabled('user_mobile_header', true);
-    setDisabled('btn-verify-otp-header', true);
-    switchBootstrapModal('otpVerifyForgotPwdModal', 'newPasswordModal', 200);
-    setVal('newPwd', '');
-    setVal('confirmPwd', '');
-    return;
-  }
-  responseCount += 1;
-  if (responseCount >= 5) {
-    setHtml('otp-field-2_error', 'You have reached maximum limit to verify OTP. Please try again after sometime.');
-    setDisabled('btn-verify-otp-header', true);
-  } else {
-    setText('otp-field-2_error', 'Please enter valid OTP.');
+
+  showLoader();
+  setText('otp-field-2_error', '');
+  try {
+    const verify = await verifyGuestUserOtp(identifier, otp);
+    if (isSuccessStatus(verify.status_code)) {
+      storeRegCodeFromVerifyResponse(verify);
+      setVal('verified_otp_header', '1');
+      timeRemainingHeader = 0;
+      setDisabled('user_mobile_header', true);
+      setDisabled('btn-verify-otp-header', true);
+      switchBootstrapModal('otpVerifyForgotPwdModal', 'newPasswordModal', 200);
+      setVal('newPwd', '');
+      setVal('confirmPwd', '');
+      return;
+    }
+    responseCount += 1;
+    if (responseCount >= 5) {
+      showLoginFieldError(
+        'otp-field-2_error',
+        'You have reached maximum limit to verify OTP. Please try again after sometime.'
+      );
+      setDisabled('btn-verify-otp-header', true);
+    } else {
+      showLoginFieldError('otp-field-2_error', resolveVerifyOtpError(verify));
+    }
+  } catch (err) {
+    showLoginFieldError('otp-field-2_error', resolveLoginFlowError(err));
+  } finally {
+    hideLoader();
   }
 }
 
@@ -1292,12 +1331,12 @@ async function handleVerifyLoginOtp(): Promise<void> {
   setDisabled('btn-otp-verify-header', true);
   const otp = val('otp-field-3');
   if (!otp) {
-    setText('otp-field-3_error', 'Please enter OTP');
+    showLoginFieldError('otp-field-3_error', 'Please enter OTP');
     setDisabled('btn-otp-verify-header', false);
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    setText('otp-field-3_error', 'Please enter 6 digit OTP');
+    showLoginFieldError('otp-field-3_error', 'Please enter 6 digit OTP');
     setDisabled('btn-otp-verify-header', false);
     return;
   }
@@ -1317,13 +1356,13 @@ async function handleVerifyLoginOtp(): Promise<void> {
         loginModalQueryAll('.generate_otp_header').forEach((el) => {
           (el as HTMLButtonElement).disabled = true;
         });
-        setHtml(
+        showLoginFieldError(
           'otp-field-3_error',
           'You have reached maximum limit to verify OTP. Please try again after sometime.'
         );
         setDisabled('btn-otp-verify-header', true);
       } else {
-        setText('otp-field-3_error', resolveVerifyOtpError(verify));
+        showLoginFieldError('otp-field-3_error', resolveVerifyOtpError(verify));
         setDisabled('btn-otp-verify-header', false);
       }
       return;
@@ -1348,7 +1387,11 @@ async function handleVerifyLoginOtp(): Promise<void> {
     }
 
     tryFirebaseEvent('user_login_failure');
-    setText('otp-field-3_error', String(loginRes.message ?? 'Login failed'));
+    showLoginFieldError('otp-field-3_error', resolveLoginApiError(loginRes, 'Login failed'));
+    setDisabled('btn-otp-verify-header', false);
+  } catch (err) {
+    tryFirebaseEvent('user_login_failure');
+    showLoginFieldError('otp-field-3_error', resolveLoginFlowError(err));
     setDisabled('btn-otp-verify-header', false);
   } finally {
     hideLoader();
@@ -1376,12 +1419,9 @@ async function handleUpdatePassword(): Promise<void> {
       switchBootstrapModal('newPasswordModal', 'successModal', 200);
       return;
     }
-    setText(
-      'new_pwd_error',
-      typeof res.message === 'string' && res.message.trim()
-        ? res.message.trim()
-        : DEFAULT_LOGIN_API_ERROR
-    );
+    showLoginFieldError('new_pwd_error', resolveLoginApiError(res));
+  } catch (err) {
+    showLoginFieldError('new_pwd_error', resolveLoginFlowError(err));
   } finally {
     hideLoader();
   }
@@ -1404,14 +1444,11 @@ async function handlePasswordSignIn(): Promise<void> {
       return;
     }
 
-    if (res.status_code === 401 || res.status_code === '401') {
-      tryFirebaseEvent('user_login_failure');
-      setText('user_mobile_header_error_login', String(res.message ?? 'Login failed'));
-      return;
-    }
-
     tryFirebaseEvent('user_login_failure');
-    setText('user_mobile_header_error_login', DEFAULT_LOGIN_API_ERROR);
+    showLoginFieldError('user_mobile_header_error_login', resolveLoginApiError(res));
+  } catch (err) {
+    tryFirebaseEvent('user_login_failure');
+    showLoginFieldError('user_mobile_header_error_login', resolveLoginFlowError(err));
   } finally {
     hideLoader();
   }
@@ -1602,9 +1639,19 @@ function onDocumentInput(e: Event): void {
   const target = e.target as HTMLElement | null;
   if (!target) return;
   if (target.id === 'otp_login_header' || target.id === 'consentCheck1') {
+    const err = $('otp_login_header_error');
+    const errText = err?.textContent?.trim() ?? '';
+    if (errText && !isOtpInlineValidationMessage(errText)) {
+      setText('otp_login_header_error', '');
+    }
     validateOtpLoginInput();
   }
   if (target.id === 'username' || target.id === 'password' || target.id === 'consentCheck2') {
+    const err = $('user_mobile_header_error_login');
+    const errText = err?.textContent?.trim() ?? '';
+    if (errText && !isPasswordInlineValidationMessage(errText)) {
+      setText('user_mobile_header_error_login', '');
+    }
     validatePasswordLoginForm();
   }
   if (target.id === 'user_mobile_header') {
