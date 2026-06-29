@@ -21,6 +21,7 @@ import {
   SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
 } from './shellLoginInternalAuth';
 import { submitEstablishSessionForm, type EstablishSessionFlow } from './establishSessionForm';
+import { readMbAppTokenFromGatewayResponse } from './authSessionCookies';
 
 const DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
 const REG_CODE_STORAGE_KEY = 'mybharat_reg_code';
@@ -239,16 +240,28 @@ function resolveGatewayError(
   return resolveUserFacingApiError(res as ApiErrorPayload | null, fallback);
 }
 
+function isGatewayAuthSuccess(res: LoginOtpApiResponse): boolean {
+  if (hasOAuthFailure(res)) return false;
+  if (isSuccessStatus(res.status_code)) return true;
+  return Boolean(readMbAppTokenFromGatewayResponse(res));
+}
+
 function submitPortalEstablishSession(
   flow: Extract<EstablishSessionFlow, 'login_otp' | 'login_password'>,
   username: string,
   authResponse: LoginOtpApiResponse
 ): LoginOtpRedirectResult {
+  const baseUrl = readPagesBaseUrl();
+  if (!baseUrl.trim()) {
+    throw new Error('Portal base URL is not configured for establish_session.');
+  }
+
   submitEstablishSessionForm({
-    baseUrl: readPagesBaseUrl(),
+    baseUrl,
     flow,
     username,
     authResponse,
+    cookieDomain: window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || undefined,
   });
   return { redirecting: true };
 }
@@ -282,7 +295,7 @@ export async function completeLoginWithOtp(
     clientToken
   );
 
-  if (!isSuccessStatus(exchange.status_code)) {
+  if (!isGatewayAuthSuccess(exchange)) {
     return {
       status_code: exchange.status_code ?? 401,
       message: resolveExchangeError(exchange),
@@ -328,7 +341,7 @@ export async function completePasswordSignIn(
     return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
-  if (!isSuccessStatus(loginRes.status_code) || hasOAuthFailure(loginRes)) {
+  if (!isGatewayAuthSuccess(loginRes)) {
     return {
       status_code: inferApiStatusCode(loginRes as ApiErrorPayload) ?? loginRes.status_code ?? 401,
       message: resolveGatewayError(loginRes),

@@ -1342,6 +1342,7 @@ async function handleVerifyLoginOtp(): Promise<void> {
   }
 
   showLoader();
+  let redirecting = false;
   try {
     const verify = await verifyGuestUserOtp(userMobile, otp);
     if (!isSuccessStatus(verify.status_code)) {
@@ -1375,6 +1376,7 @@ async function handleVerifyLoginOtp(): Promise<void> {
     clearLoginStorage();
 
     if (isLoginOtpRedirectResult(loginRes)) {
+      redirecting = true;
       tryFirebaseEvent('user_login_success');
       return;
     }
@@ -1394,7 +1396,9 @@ async function handleVerifyLoginOtp(): Promise<void> {
     showLoginFieldError('otp-field-3_error', resolveLoginFlowError(err));
     setDisabled('btn-otp-verify-header', false);
   } finally {
-    hideLoader();
+    if (!redirecting) {
+      hideLoader();
+    }
   }
 }
 
@@ -1435,22 +1439,29 @@ async function handlePasswordSignIn(): Promise<void> {
   if (!username || !password || !consent) return;
 
   showLoader();
+  setDisabled('signInButton', true);
+  let redirecting = false;
   try {
     const res = await completePasswordSignIn(username, password);
     clearLoginStorage();
 
     if (isLoginOtpRedirectResult(res)) {
+      redirecting = true;
       tryFirebaseEvent('user_login_success');
       return;
     }
 
     tryFirebaseEvent('user_login_failure');
     showLoginFieldError('user_mobile_header_error_login', resolveLoginApiError(res));
+    setDisabled('signInButton', false);
   } catch (err) {
     tryFirebaseEvent('user_login_failure');
     showLoginFieldError('user_mobile_header_error_login', resolveLoginFlowError(err));
+    setDisabled('signInButton', false);
   } finally {
-    hideLoader();
+    if (!redirecting) {
+      hideLoader();
+    }
   }
 }
 

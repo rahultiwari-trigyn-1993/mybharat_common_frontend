@@ -36,6 +36,11 @@ export {
   type EstablishSessionFlow,
 } from './components/header/login/establishSessionForm';
 export {
+  readMbAppTokenFromGatewayResponse,
+  setMbAuthSessionCookies,
+  readShellCookieDomain,
+} from './components/header/login/authSessionCookies';
+export {
   parseHeaderUserSession,
   isHeaderUserLoggedIn,
   isGuestHeaderUserPayload,

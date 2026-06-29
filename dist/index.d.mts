@@ -285,6 +285,8 @@ type SubmitEstablishSessionParams = {
     flow: EstablishSessionFlow;
     username: string;
     authResponse: unknown;
+    /** Override shell cookie domain (e.g. registration app `VITE_COOKIE_DOMAIN`). */
+    cookieDomain?: string;
     /** Registration only — POST field `qualification`. */
     qualification?: string;
     /** Registration only — POST field `sports_area`. */
@@ -298,6 +300,14 @@ type SubmitEstablishSessionParams = {
 declare function resolveEstablishSessionAction(baseUrl: string): string;
 /** Full-page form POST — leaves the React SPA (not fetch/AJAX). */
 declare function submitEstablishSessionForm(params: SubmitEstablishSessionParams): void;
+
+/** MB app token for `token` / `token_essays` cookies (keycloakLogin / exchange / registerKeycloakUser). */
+declare function readMbAppTokenFromGatewayResponse(authResponse: unknown): string;
+declare function readShellCookieDomain(): string;
+/** Sets `token` and `token_essays` before `establish_session` navigation. */
+declare function setMbAuthSessionCookies(token: string, options?: {
+    cookieDomain?: string;
+}): void;
 
 type HeaderAuthControlsProps = {
     cdn: string;
@@ -501,4 +511,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { BHASHINI_WIDGET_SELECTORS, DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, type EstablishSessionFlow, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, resolveEstablishSessionAction, saveUserFeedback, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, validateFeedbackForm, validateOtpLoginForm };
+export { BHASHINI_WIDGET_SELECTORS, DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, type EstablishSessionFlow, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, readMbAppTokenFromGatewayResponse, readShellCookieDomain, resolveEstablishSessionAction, saveUserFeedback, setMbAuthSessionCookies, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, validateFeedbackForm, validateOtpLoginForm };

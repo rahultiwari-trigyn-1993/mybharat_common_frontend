@@ -1,3 +1,8 @@
+import {
+  readMbAppTokenFromGatewayResponse,
+  setMbAuthSessionCookies,
+} from './authSessionCookies';
+
 export type EstablishSessionFlow = 'login_password' | 'login_otp' | 'registration';
 
 export type SubmitEstablishSessionParams = {
@@ -6,6 +11,8 @@ export type SubmitEstablishSessionParams = {
   flow: EstablishSessionFlow;
   username: string;
   authResponse: unknown;
+  /** Override shell cookie domain (e.g. registration app `VITE_COOKIE_DOMAIN`). */
+  cookieDomain?: string;
   /** Registration only — POST field `qualification`. */
   qualification?: string;
   /** Registration only — POST field `sports_area`. */
@@ -25,6 +32,11 @@ export function resolveEstablishSessionAction(baseUrl: string): string {
 
 /** Full-page form POST — leaves the React SPA (not fetch/AJAX). */
 export function submitEstablishSessionForm(params: SubmitEstablishSessionParams): void {
+  const mbToken = readMbAppTokenFromGatewayResponse(params.authResponse);
+  if (mbToken) {
+    setMbAuthSessionCookies(mbToken, { cookieDomain: params.cookieDomain });
+  }
+
   const form = document.createElement('form');
   form.method = 'POST';
   form.action = resolveEstablishSessionAction(params.baseUrl);

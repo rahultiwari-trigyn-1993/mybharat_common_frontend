@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.237 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.238 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -89,8 +89,11 @@ __export(index_exports, {
   openSignInPasswordModal: () => openSignInPasswordModal,
   parseHeaderUserSession: () => parseHeaderUserSession,
   prepareMainNavItems: () => prepareMainNavItems,
+  readMbAppTokenFromGatewayResponse: () => readMbAppTokenFromGatewayResponse,
+  readShellCookieDomain: () => readShellCookieDomain,
   resolveEstablishSessionAction: () => resolveEstablishSessionAction,
   saveUserFeedback: () => saveUserFeedback,
+  setMbAuthSessionCookies: () => setMbAuthSessionCookies,
   submitEstablishSessionForm: () => submitEstablishSessionForm,
   submitOtpLoginFromModal: () => submitOtpLoginFromModal,
   triggerGeneralFeedbackReward: () => triggerGeneralFeedbackReward,
@@ -6297,6 +6300,69 @@ async function encryptLoginSecret(plaintext) {
   };
 }
 
+// src/components/header/login/authSessionCookies.ts
+function readField(obj, ...keys) {
+  if (!obj || typeof obj !== "object") return void 0;
+  const record = obj;
+  for (const key of keys) {
+    if (record[key] != null && record[key] !== "") return record[key];
+  }
+  return void 0;
+}
+function readString(obj, ...keys) {
+  const value = readField(obj, ...keys);
+  return value != null ? String(value).trim() : "";
+}
+function readNestedRecord(obj, ...path) {
+  let current = obj;
+  for (const key of path) {
+    if (!current || typeof current !== "object") return {};
+    current = current[key];
+  }
+  return current && typeof current === "object" && !Array.isArray(current) ? current : {};
+}
+function readKeycloakNode(res) {
+  const data = res.data && typeof res.data === "object" && !Array.isArray(res.data) ? res.data : {};
+  const authOutputRecord = readNestedRecord(res, "auth_output");
+  const candidates = [
+    readNestedRecord(res, "keycloak"),
+    readNestedRecord(data, "keycloak"),
+    readNestedRecord(authOutputRecord, "keycloak")
+  ];
+  for (const node of candidates) {
+    if (readString(node, "access_token", "accessToken")) return node;
+  }
+  return candidates.find((node) => Object.keys(node).length > 0) ?? {};
+}
+function readMbAppTokenFromGatewayResponse(authResponse) {
+  if (!authResponse || typeof authResponse !== "object") return "";
+  const res = authResponse;
+  const data = res.data && typeof res.data === "object" && !Array.isArray(res.data) ? res.data : {};
+  const keycloak = readKeycloakNode(res);
+  const mbTokenFromField = readString(res, "mb_token", "mbToken", "token") || readString(data, "mb_token", "mbToken", "token") || readString(keycloak, "mb_token", "mbToken");
+  if (mbTokenFromField) return mbTokenFromField;
+  const keycloakAccessToken = readString(keycloak, "access_token", "accessToken");
+  const rootAccessToken = readString(res, "access_token", "accessToken") || readString(data, "access_token", "accessToken");
+  if (keycloakAccessToken && rootAccessToken && rootAccessToken !== keycloakAccessToken) {
+    return rootAccessToken;
+  }
+  return rootAccessToken || keycloakAccessToken;
+}
+function readShellCookieDomain() {
+  const configured = window.MYBHARAT_SHELL?.login?.cookieDomain?.trim();
+  if (configured) return configured;
+  return window.location.hostname;
+}
+function setMbAuthSessionCookies(token, options) {
+  const value = token.trim();
+  if (!value) return;
+  const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
+  const domain = (options?.cookieDomain ?? readShellCookieDomain()).trim();
+  const domainPart = domain ? `;domain=${domain}` : "";
+  document.cookie = `token=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
+  document.cookie = `token_essays=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
+}
+
 // src/components/header/login/establishSessionForm.ts
 function resolveEstablishSessionAction(baseUrl) {
   const base = baseUrl.trim().replace(/\/$/, "");
@@ -6304,6 +6370,10 @@ function resolveEstablishSessionAction(baseUrl) {
   return `${base}/establish_session`;
 }
 function submitEstablishSessionForm(params) {
+  const mbToken = readMbAppTokenFromGatewayResponse(params.authResponse);
+  if (mbToken) {
+    setMbAuthSessionCookies(mbToken, { cookieDomain: params.cookieDomain });
+  }
   const form = document.createElement("form");
   form.method = "POST";
   form.action = resolveEstablishSessionAction(params.baseUrl);
@@ -6402,7 +6472,7 @@ async function postGatewayJson(path, body, bearerToken) {
   }
   return parseJsonResponse(res, await res.text());
 }
-function readField(obj, ...keys) {
+function readField2(obj, ...keys) {
   if (!obj || typeof obj !== "object") return void 0;
   const record = obj;
   for (const key of keys) {
@@ -6410,8 +6480,8 @@ function readField(obj, ...keys) {
   }
   return void 0;
 }
-function readString(obj, ...keys) {
-  const value = readField(obj, ...keys);
+function readString2(obj, ...keys) {
+  const value = readField2(obj, ...keys);
   return value != null ? String(value) : "";
 }
 function unwrapDataNode(response) {
@@ -6448,12 +6518,22 @@ async function fetchClientAccessToken() {
 function resolveGatewayError(res, fallback = DEFAULT_ERROR) {
   return resolveUserFacingApiError(res, fallback);
 }
+function isGatewayAuthSuccess(res) {
+  if (hasOAuthFailure(res)) return false;
+  if (isSuccessStatus(res.status_code)) return true;
+  return Boolean(readMbAppTokenFromGatewayResponse(res));
+}
 function submitPortalEstablishSession(flow, username, authResponse) {
+  const baseUrl = readPagesBaseUrl();
+  if (!baseUrl.trim()) {
+    throw new Error("Portal base URL is not configured for establish_session.");
+  }
   submitEstablishSessionForm({
-    baseUrl: readPagesBaseUrl(),
+    baseUrl,
     flow,
     username,
-    authResponse
+    authResponse,
+    cookieDomain: window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || void 0
   });
   return { redirecting: true };
 }
@@ -6476,7 +6556,7 @@ async function completeLoginWithOtp(username) {
     { username, reg_code: regCode },
     clientToken
   );
-  if (!isSuccessStatus(exchange.status_code)) {
+  if (!isGatewayAuthSuccess(exchange)) {
     return {
       status_code: exchange.status_code ?? 401,
       message: resolveExchangeError(exchange)
@@ -6510,7 +6590,7 @@ async function completePasswordSignIn(username, password) {
   } catch (err) {
     return { status_code: 500, message: resolveLoginFlowError(err) };
   }
-  if (!isSuccessStatus(loginRes.status_code) || hasOAuthFailure(loginRes)) {
+  if (!isGatewayAuthSuccess(loginRes)) {
     return {
       status_code: inferApiStatusCode(loginRes) ?? loginRes.status_code ?? 401,
       message: resolveGatewayError(loginRes)
@@ -6573,12 +6653,12 @@ function isKeycloakChangePasswordSuccess(res) {
 function readForgotPasswordIdentity(response) {
   const user = readKeycloakForgotPasswordUser(response) ?? readKeycloakForgotPasswordUser(response?.data) ?? readKeycloakForgotPasswordUser(response?.message);
   if (user?.id) {
-    const dlId2 = readAttributeString(user.attributes, "dlId", "dl_id", "DLId") || readString(user, "dlId", "dl_id");
+    const dlId2 = readAttributeString(user.attributes, "dlId", "dl_id", "DLId") || readString2(user, "dlId", "dl_id");
     return { userId: user.id.trim(), dlId: dlId2 };
   }
   const data = unwrapDataNode(response);
-  const userId = readString(data, "userId", "user_id", "ID", "id") || readString(response, "userId", "user_id", "ID", "id");
-  const dlId = readString(data, "dlId", "dl_id") || readString(response, "dlId", "dl_id");
+  const userId = readString2(data, "userId", "user_id", "ID", "id") || readString2(response, "userId", "user_id", "ID", "id");
+  const dlId = readString2(data, "dlId", "dl_id") || readString2(response, "dlId", "dl_id");
   return { userId, dlId };
 }
 async function completeForgotPasswordUpdate(identifier, password) {
@@ -7567,6 +7647,7 @@ async function handleVerifyLoginOtp() {
     return;
   }
   showLoader();
+  let redirecting = false;
   try {
     const verify = await verifyGuestUserOtp(userMobile, otp);
     if (!isSuccessStatus2(verify.status_code)) {
@@ -7597,6 +7678,7 @@ async function handleVerifyLoginOtp() {
     const loginRes = await completeLoginWithOtp(userMobile);
     clearLoginStorage();
     if (isLoginOtpRedirectResult(loginRes)) {
+      redirecting = true;
       tryFirebaseEvent("user_login_success");
       return;
     }
@@ -7614,7 +7696,9 @@ async function handleVerifyLoginOtp() {
     showLoginFieldError("otp-field-3_error", resolveLoginFlowError(err));
     setDisabled("btn-otp-verify-header", false);
   } finally {
-    hideLoader();
+    if (!redirecting) {
+      hideLoader();
+    }
   }
 }
 async function handleUpdatePassword() {
@@ -7651,20 +7735,27 @@ async function handlePasswordSignIn() {
   const consent = isChecked("consentCheck2");
   if (!username || !password || !consent) return;
   showLoader();
+  setDisabled("signInButton", true);
+  let redirecting = false;
   try {
     const res = await completePasswordSignIn(username, password);
     clearLoginStorage();
     if (isLoginOtpRedirectResult(res)) {
+      redirecting = true;
       tryFirebaseEvent("user_login_success");
       return;
     }
     tryFirebaseEvent("user_login_failure");
     showLoginFieldError("user_mobile_header_error_login", resolveLoginApiError(res));
+    setDisabled("signInButton", false);
   } catch (err) {
     tryFirebaseEvent("user_login_failure");
     showLoginFieldError("user_mobile_header_error_login", resolveLoginFlowError(err));
+    setDisabled("signInButton", false);
   } finally {
-    hideLoader();
+    if (!redirecting) {
+      hideLoader();
+    }
   }
 }
 function onDocumentClick(e) {
@@ -10451,7 +10542,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.237";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.238";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -10511,8 +10602,11 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   openSignInPasswordModal,
   parseHeaderUserSession,
   prepareMainNavItems,
+  readMbAppTokenFromGatewayResponse,
+  readShellCookieDomain,
   resolveEstablishSessionAction,
   saveUserFeedback,
+  setMbAuthSessionCookies,
   submitEstablishSessionForm,
   submitOtpLoginFromModal,
   triggerGeneralFeedbackReward,
