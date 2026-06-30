@@ -1,3 +1,5 @@
+import { AUTH_CONFIG } from '../../../config/auth';
+
 function readField(obj: unknown, ...keys: string[]): unknown {
   if (!obj || typeof obj !== 'object') return undefined;
   const record = obj as Record<string, unknown>;
@@ -84,16 +86,19 @@ export function readShellCookieDomain(): string {
 
 /** Sets `token` and `token_essays` before `establish_session` navigation. */
 export function setMbAuthSessionCookies(
-  token: string,
+  tokenValue: string,
   options?: { cookieDomain?: string },
 ): void {
-  const value = token.trim();
+  const value = tokenValue.trim();
   if (!value) return;
 
-  const expiry = new Date(Date.now() + 1440 * 60 * 1000).toUTCString();
+  const expiry = new Date(
+    Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1000
+  ).toUTCString();
   const domain = (options?.cookieDomain ?? readShellCookieDomain()).trim();
   const domainPart = domain ? `;domain=${domain}` : '';
+  const names = AUTH_CONFIG.cookieNames;
 
-  document.cookie = `token=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
-  document.cookie = `token_essays=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
+  document.cookie = `${names.token}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
+  document.cookie = `${names.tokenEssays}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
 }

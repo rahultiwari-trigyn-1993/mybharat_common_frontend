@@ -22,9 +22,12 @@ import {
 } from './shellLoginInternalAuth';
 import { submitEstablishSessionForm, type EstablishSessionFlow } from './establishSessionForm';
 import { readMbAppTokenFromGatewayResponse } from './authSessionCookies';
+import { INTERNAL_PATHS, GATEWAY_PATHS } from '../../../config/apiPaths';
+import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
+import { AUTH_CONFIG } from '../../../config/auth';
 
 const DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
-const REG_CODE_STORAGE_KEY = 'mybharat_reg_code';
+const REG_CODE_STORAGE_KEY = AUTH_CONFIG.storageKeys.regCode;
 
 export type LoginOtpApiResponse = {
   status_code?: number | string;
@@ -84,7 +87,7 @@ function readLoginFetchBase(): string {
     const origin = direct.includes('://')
       ? new URL(direct).origin
       : window.location.origin;
-    if (origin !== window.location.origin) return '/mybharat-shell-api';
+    if (origin !== window.location.origin) return INTERNAL_PATHS.proxyDefault;
   } catch {
     /* ignore */
   }
@@ -253,6 +256,7 @@ function submitPortalEstablishSession(
 ): LoginOtpRedirectResult {
   const baseUrl = readPagesBaseUrl();
   if (!baseUrl.trim()) {
+    assertRequiredClientConfig();
     throw new Error('Portal base URL is not configured for establish_session.');
   }
 
@@ -290,7 +294,7 @@ export async function completeLoginWithOtp(
   }
 
   const exchange = await postGatewayJson<LoginOtpApiResponse>(
-    '/keycloakGetExchangeToken',
+    GATEWAY_PATHS.keycloakGetExchangeToken,
     { username, reg_code: regCode },
     clientToken
   );
@@ -468,7 +472,7 @@ export async function completeForgotPasswordUpdate(
   }
 
   const forgotRes = await postGatewayJson<LoginOtpApiResponse>(
-    '/keycloakForgotPassword',
+    GATEWAY_PATHS.keycloakForgotPassword,
     { identifier, reg_code: regCode },
     clientToken
   );

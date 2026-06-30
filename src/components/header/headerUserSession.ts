@@ -1,3 +1,6 @@
+import { AUTH_CONFIG } from '../../config/auth';
+import { APP_ROUTES } from '../../config/routes';
+
 /** Raw user object from MY Bharat profile / session API (`data` field). */
 export type HeaderUserApiData = {
   id?: number;
@@ -68,7 +71,7 @@ export type HeaderProfileMenuItem = {
   external?: boolean;
 };
 
-const EXCLUDED_PROFILE_MENU_TYPES = new Set([11, 12, 13, 14, 50]);
+const EXCLUDED_PROFILE_MENU_TYPES = AUTH_CONFIG.excludedProfileMenuUserTypes;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -201,30 +204,30 @@ export function buildHeaderProfileMenuItems(
   const userType = user.userType;
 
   if (userType == null || !EXCLUDED_PROFILE_MENU_TYPES.has(userType)) {
-    if (userType === 6) {
+    if (userType === AUTH_CONFIG.youthUserType) {
       items.push({
-        href: user.publicProfileUrl ?? '/youth-profile',
+        href: user.publicProfileUrl ?? APP_ROUTES.youthProfile,
         label: 'MY Bharat Profile',
         iconClass: 'fa fa-th-large',
         external: Boolean(user.publicProfileUrl?.startsWith('http')),
       });
     } else {
       items.push({
-        href: '/dashboard',
+        href: APP_ROUTES.dashboard,
         label: 'Dashboard',
         iconClass: 'fa fa-th-large',
       });
     }
 
-    if (userType != null && userType !== 6) {
+    if (userType != null && userType !== AUTH_CONFIG.youthUserType) {
       items.push(
         {
-          href: `${webroot}users/editpartnerprofile`,
+          href: `${webroot}${APP_ROUTES.editPartnerProfile}`,
           label: 'My Account',
           iconClass: 'fa fa-user',
         },
         {
-          href: `${webroot}reports/partner_profile`,
+          href: `${webroot}${APP_ROUTES.partnerProfile}`,
           label: 'View Profile',
           iconClass: 'fa fa-user',
         }
@@ -233,7 +236,7 @@ export function buildHeaderProfileMenuItems(
   }
 
   items.push({
-    href: `${webroot}users/check_user_logout`,
+    href: `${webroot}${APP_ROUTES.logout}`,
     label: 'Log Out',
     iconClass: 'fa fa-power-off',
     className: 'firebase-profile-logout-btn',

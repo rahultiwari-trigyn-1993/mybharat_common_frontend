@@ -13,12 +13,21 @@
     "mybharat-footer"
   ],
   "cdn": {
-    "recommended": "jsdelivr",
-    "jsdelivr": {
+    "localTestingOnly": {
+      "provider": "jsdelivr",
+      "purpose": "Local CakePHP / dev-machine testing when you have no S3 or org CDN access. Not for dev/beta/prod.",
+      "githubUser": "rahultiwari-trigyn-1993",
+      "githubRepo": "mybharat_common_frontend",
       "tag": "v1.0.238",
       "base": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.238/dist/shell",
       "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.238/dist/shell/shell.js",
       "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.238/dist/shell/mybharat-shell.css"
+    },
+    "devBetaProd": {
+      "managedBy": "Infra (OpenForge)",
+      "purpose": "Org CDN for dev, beta, and production. Host sets cdnBase (VITE_MYBHARAT_CDN_BASE / window.MYBHARAT_SHELL).",
+      "assetPath": "/mybharat",
+      "note": "Do not point dev/beta/prod at the personal GitHub jsDelivr URLs in package.json repository."
     },
     "note": "Do not use raw.githubusercontent.com in <link>/<script> — Content-Type text/plain causes net::ERR_BLOCKED_BY_ORB in Chrome."
   },

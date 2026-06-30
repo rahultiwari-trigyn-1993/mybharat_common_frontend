@@ -74,7 +74,27 @@ export {
 export { useFooterFeedbackShell } from './components/footer/useFooterFeedbackShell';
 export { getShellApiFetchBaseUrl, buildShellApiUrl } from './components/header/login/headerLoginFlow';
 export { DesktopMainNav } from './components/DesktopMainNav';
-export { MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN } from './constants/cdn';
+export {
+  GATEWAY_PATHS,
+  INTERNAL_PATHS,
+  PROXY_REWRITES,
+  PORTAL_PATHS,
+  DEV_API_PROXY_PREFIXES,
+  APP_ROUTES,
+  AUTH_CONFIG,
+  EXTERNAL_URLS,
+  DEFAULT_API_ERROR_MESSAGE,
+  OTP_MESSAGES,
+  resolveCdnBase,
+  resolveCdnAssetUrl,
+  resolveShellLoginConfig,
+  assertRequiredClientConfig,
+  mergeRequiredClientConfig,
+  readClientEnvironment,
+} from './config';
+export type { ClientEnvironment, ShellRuntimeConfig } from './config';
+export type { RequiredClientConfigInput } from './config/requireClientConfig';
+export { useRequiredClientConfig } from './hooks/useRequiredClientConfig';
 export { DEFAULT_HEADER_MAIN_NAV } from './navigation/headerMainNav.defaults';
 export { DEFAULT_HEADER2_MAIN_NAV } from './navigation/header2MainNav.defaults';
 export { isSafeNavHref } from './navigation/navHref';

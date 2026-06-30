@@ -15,9 +15,5 @@ for (const name of ["index.d.ts", "index.d.mts"]) {
     "const MYBHARAT_COMMON_FRONTEND_VERSION = __MYBHARAT_PKG_VERSION__;",
     `export declare const MYBHARAT_COMMON_FRONTEND_VERSION: "${pkg.version}";`
   );
-  d = d.replace(
-    "MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, index as default",
-    "MYBHARAT_CDN_ORIGIN, index as default"
-  );
   writeFileSync(p, d);
 }

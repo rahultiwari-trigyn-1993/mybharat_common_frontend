@@ -14,9 +14,10 @@ import {
   parseHeaderUserSession,
   type HeaderUserSessionInput,
 } from '../header/headerUserSession';
+import { DEV_API_PROXY_PREFIXES, GATEWAY_PATHS } from '../../config/apiPaths';
 
-export const SAVE_FEEDBACK_DATA_PATH = '/saveFeedbackData';
-export const TRIGGER_YOUTH_REWARD_PATH = '/trigger-youth-reward-points';
+export const SAVE_FEEDBACK_DATA_PATH = GATEWAY_PATHS.saveFeedbackData;
+export const TRIGGER_YOUTH_REWARD_PATH = GATEWAY_PATHS.triggerYouthReward;
 
 export type FeedbackApiResponse = {
   status_code?: number | string;
@@ -112,11 +113,11 @@ function resolveRewardsApiFetchBase(): string {
 }
 
 function usesHostApiAuthProxy(base: string): boolean {
-  return base === '/api';
+  return base === DEV_API_PROXY_PREFIXES.feedback;
 }
 
 function usesHostRewardsApiAuthProxy(base: string): boolean {
-  return base === '/rewards-api';
+  return base === DEV_API_PROXY_PREFIXES.rewards;
 }
 
 function unwrapRawUserRecord(input: HeaderUserSessionInput): Record<string, unknown> | null {

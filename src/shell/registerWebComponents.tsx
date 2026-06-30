@@ -20,6 +20,7 @@ const HEADER_OBSERVED = [
   'webroot',
   'login-base-url',
   'api-base-url',
+  'environment',
   'api-proxy-base-url',
   'login-payload-public-key',
   'ip-address',
@@ -81,6 +82,7 @@ class MyBharatHeaderElement extends HTMLElement {
       webroot,
       baseUrl,
       apiBaseUrl,
+      environment,
       apiProxyBaseUrl,
       loginPayloadPublicKey,
       ipAddress,
@@ -97,6 +99,7 @@ class MyBharatHeaderElement extends HTMLElement {
         webroot={webroot}
         baseUrl={baseUrl}
         apiBaseUrl={apiBaseUrl}
+        environment={environment}
         apiProxyBaseUrl={apiProxyBaseUrl}
         loginPayloadPublicKey={loginPayloadPublicKey}
         ipAddress={ipAddress}

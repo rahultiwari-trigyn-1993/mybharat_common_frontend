@@ -6,6 +6,7 @@ import { isNavGroupItem, normalizeNavTree } from '../navigation/navTree';
 import { navTreeItemKey } from '../navigation/navTreeKeys';
 import { HeaderProfileMenu } from './header/HeaderProfileMenu';
 import { parseHeaderUserSession, type HeaderUserSessionInput } from './header/headerUserSession';
+import { resolveCdnAssetUrl } from '../config/resolve';
 
 export type MobileMenuModalProps = {
   cdnBase: string;
@@ -106,7 +107,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
               <div className="logo">
                 <a href="/" data-bs-dismiss="modal">
                   <img
-                    src={`${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`}
+                    src={resolveCdnAssetUrl(cdnBase, 'assets/img/yuva_landing/mybharatlogo_opt_2x.png')}
                     className="logo-w-sm-md-sec"
                     alt="MY Bharat"
                   />

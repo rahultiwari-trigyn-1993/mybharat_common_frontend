@@ -26963,10 +26963,40 @@ var MyBharatShell = (() => {
   // src/components/Footer.css
   styleInject("#feed_back.modal,\n#feed_back1.modal,\n#successToaster.modal {\n  z-index: 1060 !important;\n}\n.litext {\n  color: #525c66;\n  font-size: 16px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external a.litext,\n#footer_external p.litext {\n  color: #525c66 !important;\n}\n#footer_external a,\n#footer_external a:hover,\n#footer_external a:focus,\n#footer_external a:visited,\n#footer_external a:active,\n#feed_back a,\n#feed_back a:hover,\n#feed_back1 a,\n#feed_back1 a:hover,\n#successToaster a,\n#successToaster a:hover {\n  text-decoration: none !important;\n}\n#footer_external {\n  border-top: solid 1px #d6d6d6;\n}\n#footer_external .foot_p1 {\n  color: #525c66;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n#footer_external .footer-top {\n  background-color: #ffffff !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {\n  text-align: left !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {\n  text-align: left !important;\n}\n#footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {\n  padding-left: 0;\n}\n@media (max-width: 991.98px) {\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col {\n    text-align: center !important;\n  }\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col h6.img_link,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col li,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col a.litext,\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col p.litext {\n    text-align: center !important;\n  }\n  #footer_external.mb-common-footer .footer-top .mb-common-footer__link-col ul {\n    padding-left: 0;\n  }\n  #footer_external .mb-common-footer__follow-col {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col h6.img_link {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .social-icons {\n    justify-content: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-by {\n    text-align: center;\n  }\n  #footer_external .mb-common-footer__follow-col .mb-common-footer__powered-inner {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-wrap: wrap;\n    gap: 0.35rem 0.75rem;\n    width: 100%;\n    max-width: 100%;\n  }\n  #footer_external .mb-common-footer__follow-col .foot_p1 {\n    text-align: center;\n  }\n}\n#footer_external .foot_p2 {\n  padding-left: initial;\n}\n.pricy1_a {\n  background-color: #000627;\n}\n.pricy1_a .row .col-sm-8 {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.pricy1_a .row .col-sm-8 p {\n  margin-bottom: 0;\n  line-height: 29px;\n}\n.pricy1_a .row {\n  color: #fff;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 500;\n  line-height: 20px;\n}\n.pricy_a ul {\n  width: 100%;\n  line-height: 31px;\n  text-align: center;\n  display: inline-flex;\n  justify-content: center;\n  padding-left: 68px;\n  list-style: none;\n  margin: 0;\n  flex-wrap: wrap;\n}\n.pricy_a ul li:nth-child(1) {\n  padding-right: 27px;\n}\n.pricy_a p {\n  margin-bottom: 0;\n  line-height: 35px;\n}\n.foot1w {\n  width: fit-content;\n  color: #000;\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n  padding: 4px 10px;\n}\n.pricy1_a a {\n  color: #fff !important;\n  text-decoration: none;\n}\n@media only screen and (max-width: 600px) {\n  .foot1w {\n    margin: auto;\n  }\n  .pricy_a ul {\n    padding-left: 0;\n    display: flex;\n    justify-content: center;\n  }\n  .new_foot li .fab {\n    vertical-align: inherit !important;\n  }\n}\n.img_link {\n  color: #343f4a;\n  font-size: 16px;\n  font-weight: 500;\n  line-height: 24px;\n  letter-spacing: 0.15px;\n}\n.new_foot li {\n  line-height: 15px;\n  padding: 1px;\n}\n.new_foot li img {\n  width: 81%;\n}\n@media (max-width: 767.98px) {\n  #footer_external .footer-contact {\n    text-align: center !important;\n  }\n  #footer_external .footer-contact .d-flex.align-items-center {\n    justify-content: center !important;\n  }\n}\n@media (min-width: 601px) and (max-width: 991.98px) {\n  #footer_external .footer-contact,\n  #footer_external .footer-links {\n    padding-bottom: 1rem;\n  }\n}\n.mb-common-footer__social-row {\n  flex-wrap: wrap;\n}\n.feed_back {\n  text-align: end;\n}\n#feed_back textarea {\n  margin-top: 0 !important;\n  margin-bottom: 11px !important;\n}\n#feed_back label {\n  font-size: 15px;\n  font-weight: 500;\n  line-height: 20px;\n  color: #252525;\n}\n#feed_back .cross_ico img {\n  cursor: pointer;\n  padding: 6px 10px;\n}\n#feed_back .text-left {\n  text-align: left;\n}\n#feed_back .cross_ico {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 12px;\n  position: static;\n  bottom: auto;\n  z-index: 1;\n}\n#feed_back .mb-common-footer__feedback-footer-row {\n  margin-top: 4px;\n}\n#feed_back .mb-common-footer__feedback-actions img {\n  cursor: pointer;\n}\n#feed_back .mb-common-footer__recaptcha {\n  min-height: 78px;\n}\n#feed_back .modal-body {\n  position: relative;\n}\n#feed_back .mb-common-footer__feedback-loader {\n  position: absolute;\n  inset: 0;\n  display: none;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.72);\n  border-radius: inherit;\n  z-index: 10;\n}\n#feed_back .mb-common-footer__feedback-loader.is-visible {\n  display: flex;\n}\n#feed_back .mb-common-footer__feedback-loader-inner {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 0.75rem;\n}\n#feed_back .mb-common-footer__feedback-spinner {\n  border: 4px solid #e9ecef;\n  border-top-color: #0fbd5f;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  animation: mb-common-footer-feedback-spin 0.85s linear infinite;\n}\n#feed_back .mb-common-footer__feedback-loader-text {\n  color: #333;\n  font-size: 14px;\n  font-weight: 500;\n}\n@keyframes mb-common-footer-feedback-spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#feed_back .mb-common-footer__feedback-form--submitting {\n  pointer-events: none;\n  opacity: 0.55;\n}\n#feed_back .radio-tile-group {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: left;\n}\n#feed_back .tt_yuvr {\n  display: inline-flex;\n  padding: 10px;\n  margin-bottom: 15px;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n#feed_back .tt_yuvr .input-container {\n  position: relative;\n  width: 50px;\n  margin-right: 18px;\n  margin-top: 7px;\n}\n#feed_back .tt_yuvr .input-container input {\n  position: absolute;\n  cursor: pointer;\n  z-index: 2;\n  opacity: 0;\n  width: 50px;\n  height: 50px;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile {\n  background: #0b6bbe;\n}\n#feed_back .tt_yuvr input:checked + .radio-tile label {\n  color: #fff;\n}\n#feed_back .tt_yuvr .input-container .radio-tile {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  background: #eee;\n  width: 50px;\n  height: 50px;\n  border-radius: 30px;\n}\n#feed_back .tt_yuvr .input-container {\n  transition: transform 0.2s;\n}\n#feed_back .tt_yuvr .input-container:hover {\n  transform: scale(1.07);\n}\n#feed_back .tt_yuvr .input-container label {\n  font-size: 18px;\n  font-weight: 600;\n  text-align: center;\n  margin-bottom: 0;\n}\n.radio-tile-group:nth-child(1),\n.radio-tile-group:nth-child(2),\n.radio-tile-group:nth-child(3),\n.radio-tile-group:nth-child(4) {\n  border-top: 3px solid #f00;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(6),\n.radio-tile-group:nth-child(7),\n.radio-tile-group:nth-child(8) {\n  border-top: 3px solid #ffbe15;\n}\n.radio-tile-group:nth-child(9),\n.radio-tile-group:nth-child(10) {\n  border-top: 3px solid #04a651;\n}\n.radio-tile-group:nth-child(5),\n.radio-tile-group:nth-child(9) {\n  margin-left: 10px;\n}\n.vError {\n  border: 1px solid #e41f12;\n}\np.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  line-height: 1.5;\n  color: #e41f12;\n  margin-bottom: 20px;\n  float: inline-start;\n}\nsmall.vErrormsg {\n  font-size: small;\n  font-weight: 400;\n  color: #e41f12;\n  float: inline-start;\n}\n#char_left_cnt {\n  color: #252525;\n  float: inline-end;\n  font-size: small;\n}\n#successToaster .modal-dialog {\n  margin: 20% auto;\n}\n@media only screen and (min-width: 601px) {\n  #feed_back .modal-dialog {\n    max-width: 876px !important;\n    margin-top: 133px;\n  }\n  #feed_back1 .modal-dialog {\n    margin-top: 133px;\n  }\n}\n@media only screen and (max-width: 600px) {\n  #feed_back .tt_yuvr {\n    display: flex !important;\n    overflow: auto !important;\n  }\n  #feed_back .form-group {\n    margin-bottom: 10px;\n  }\n  #feed_back .tt_yuvr .input-container input {\n    width: 20px !important;\n    height: 20px !important;\n  }\n  #feed_back .tt_yuvr .input-container .radio-tile {\n    width: 30px !important;\n    height: 30px !important;\n    border-radius: 30px !important;\n  }\n  #feed_back .cross_ico {\n    position: initial !important;\n  }\n  #feed_back .tt_yuvr .input-container {\n    width: 17px !important;\n    margin-right: 18px !important;\n  }\n  #feed_back .tt_yuvr .input-container label {\n    font-size: 13px !important;\n  }\n  #feed_back .modal-dialog {\n    width: 100% !important;\n    padding: 10px 15px 10px 0;\n  }\n  .social-icons {\n    justify-content: center;\n  }\n}\n#pls_select h3 {\n  color: #343434;\n  font-weight: 600;\n}\n#pls_select {\n  text-align: center;\n}\n#pls_select #guest_usr {\n  background-color: #f15b43;\n  border: none;\n  color: #fff;\n  font-size: 16px;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select #regi_usr {\n  background-color: #fff;\n  border: 1px solid #5a6370;\n  font-size: 16px;\n  color: #5a6370;\n  font-weight: 500;\n  border-radius: 4px;\n  margin: 10px;\n}\n#pls_select .btn-close {\n  border: none !important;\n  background: none !important;\n  float: right;\n  width: 32px;\n  height: 32px;\n  cursor: pointer;\n}\n#pls_select .col-sm-12:nth-child(2) {\n  margin-bottom: 20px;\n}\n#feedback_captcha_value {\n  border-top-right-radius: 3px;\n  border-bottom-right-radius: 3px;\n}\n.social-icons {\n  display: flex;\n  gap: 9px;\n  flex-wrap: wrap;\n}\n.social-icons .icon {\n  display: flex;\n  align-items: center;\n  background: white;\n  border-radius: 50px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  width: 30px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.social-icons .icon img {\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n  transition: all 0.3s ease;\n}\n.social-icons .icon span {\n  margin-left: 4px;\n  white-space: nowrap;\n  opacity: 0;\n  transform: translateX(-10px);\n  transition: all 0.3s ease;\n  font-size: 13px;\n}\n.twitter-color {\n  color: #000;\n}\n.instagram-color {\n  color: #cf188a;\n}\n.facebook-color {\n  color: #4676ed;\n}\n.linkedin-color {\n  color: #4467ad;\n}\n.whatsapp-color {\n  color: #00c169;\n}\n.youtube-color {\n  color: #e52d27;\n}\n@media (hover: hover) and (pointer: fine) {\n  .social-icons .icon:hover {\n    width: 100px;\n    justify-content: flex-start;\n  }\n  .social-icons .icon:hover span {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n.mb-20 {\n  margin-bottom: 1.25rem;\n}\n.whitetext img {\n  vertical-align: middle;\n}\n#footer_external .mb-common-footer__powered-inner {\n  display: inline-flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: 0.35rem 0.75rem;\n}\n#footer_external .mb-common-footer__powered-by {\n  color: #495059 !important;\n}\n#footer_external .whitetext.mb-common-footer__powered-logo {\n  color: inherit !important;\n  display: inline-flex;\n  align-items: center;\n  line-height: 1;\n}\n#footer_external .mb-common-footer__powered-logo img {\n  display: block;\n  flex-shrink: 0;\n}\n");
 
+  // src/config/auth.ts
+  var AUTH_CONFIG = {
+    cookieNames: {
+      token: "token",
+      tokenEssays: "token_essays",
+      encryptId: "encryptId",
+      essayRedirectUrl: "essay_redirect_url"
+    },
+    cookieExpiryMinutes: 1440,
+    cookiePath: "/",
+    otpResendSeconds: 45,
+    otpLength: 6,
+    storageKeys: {
+      loginData: "loginData",
+      regCode: "mybharat_reg_code",
+      clientIp: "mybharat_client_ip_address",
+      fromQuiz: "fromQuiz",
+      fromOrg: "fromOrg",
+      quizId: "quizId",
+      designForBharat: "design_for_bharat",
+      hackForSocial: "hack_for_social_cause",
+      fromGamification: "fromGamification",
+      userId: "user_id",
+      accessibilityFont: "mb-accessibility-font-step"
+    },
+    excludedProfileMenuUserTypes: /* @__PURE__ */ new Set([11, 12, 13, 14, 50]),
+    youthUserType: 6,
+    recaptchaLoadTimeoutMs: 15e3
+  };
+
   // src/components/header/headerAccessibilityFont.ts
   var STEP_SIZE = 2;
   var MAX_STEPS = 3;
-  var STORAGE_KEY = "mb-accessibility-font-step";
+  var STORAGE_KEY = AUTH_CONFIG.storageKeys.accessibilityFont;
   var HTML_ACTIVE_CLASS = "mb-accessibility-font-active";
   var listenerCount = 0;
   var currentStep = 0;
@@ -27078,13 +27108,117 @@ var MyBharatShell = (() => {
   // src/shell/registerWebComponents.tsx
   var import_client = __toESM(require_client());
 
-  // src/constants/cdn.ts
-  var MYBHARAT_CDN_ORIGIN = "https://cdn-prod.mybharats.in";
-  var MYBHARAT_CDN_BASE = `${MYBHARAT_CDN_ORIGIN}/mybharat`;
-  var MYBHARAT_CDN_BASE_BETA = "https://cdn-beta.mybharats.in/mybharat";
+  // src/config/apiPaths.ts
+  var GATEWAY_PATHS = {
+    checkUserExists: "/checkUserExists",
+    sendMobileGuestUserOtp: "/sendMobileGuestUserOtp",
+    keycloakGetExchangeToken: "/keycloakGetExchangeToken",
+    keycloakForgotPassword: "/keycloakForgotPassword",
+    saveFeedbackData: "/saveFeedbackData",
+    triggerYouthReward: "/trigger-youth-reward-points"
+  };
+  var INTERNAL_PATHS = {
+    proxyDefault: "/mybharat-shell-api",
+    kcClient: "/_internal/kc-client",
+    guestOauth: "/_internal/guest-oauth",
+    loginPubkey: "/_internal/login-pubkey",
+    keycloakLogin: "/_internal/keycloak-login",
+    verifyGuestOtp: "/_internal/verify-guest-otp",
+    keycloakChangePassword: "/_internal/keycloak-change-password"
+  };
+  var PORTAL_PATHS = {
+    establishSession: "/establish_session"
+  };
+  var DEV_API_PROXY_PREFIXES = {
+    feedback: "/api",
+    rewards: "/rewards-api"
+  };
+
+  // src/config/requireClientConfig.ts
+  var VALID_ENVIRONMENTS = /* @__PURE__ */ new Set(["local", "dev", "beta", "prod"]);
+  var alerted = /* @__PURE__ */ new Set();
+  function alertOnce(key, message) {
+    if (typeof window === "undefined" || alerted.has(key)) return;
+    alerted.add(key);
+    window.alert(message);
+  }
+  function readBaseUrlFromDom() {
+    return document.querySelector("mybharat-header")?.getAttribute("login-base-url")?.trim();
+  }
+  function readApiBaseUrlFromDom() {
+    return document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
+  }
+  function readEnvironmentFromDom() {
+    return document.querySelector("mybharat-header")?.getAttribute("environment")?.trim();
+  }
+  function readCdnBaseFromDom() {
+    return document.querySelector("mybharat-header")?.getAttribute("cdn-base")?.trim() || document.querySelector("mybharat-footer")?.getAttribute("cdn-base")?.trim();
+  }
+  function mergeRequiredClientConfig(props) {
+    const shellLogin = window.MYBHARAT_SHELL?.login;
+    return {
+      baseUrl: props?.baseUrl?.trim() || shellLogin?.baseUrl?.trim() || readBaseUrlFromDom(),
+      apiBaseUrl: props?.apiBaseUrl?.trim() || shellLogin?.apiBaseUrl?.trim() || readApiBaseUrlFromDom(),
+      environment: props?.environment?.trim() || shellLogin?.environment?.trim() || readEnvironmentFromDom(),
+      cdnBase: props?.cdnBase?.trim() || window.MYBHARAT_SHELL?.header?.cdnBase?.trim() || window.MYBHARAT_SHELL?.footer?.cdnBase?.trim() || readCdnBaseFromDom()
+    };
+  }
+  function isValidEnvironment(value) {
+    return !!value && VALID_ENVIRONMENTS.has(value);
+  }
+  function assertRequiredClientConfig(props) {
+    const merged = mergeRequiredClientConfig(props);
+    let ok = true;
+    if (!merged.baseUrl) {
+      alertOnce("baseUrl", "Base Url is not configured");
+      ok = false;
+    }
+    if (!merged.apiBaseUrl) {
+      alertOnce("apiBaseUrl", "Api Base Url is not configured");
+      ok = false;
+    }
+    if (!isValidEnvironment(merged.environment)) {
+      alertOnce("environment", "Environment is not configured");
+      ok = false;
+    }
+    if (!merged.cdnBase) {
+      alertOnce("cdnBase", "Cdn Base Url is not configured");
+      ok = false;
+    }
+    return ok;
+  }
+
+  // src/config/resolve.ts
+  var CDN_ASSET_SEGMENT = "mybharat";
+  function normalizeCdnOrigin(cdnBase) {
+    return cdnBase.trim().replace(/\/$/, "").replace(/\/mybharat$/i, "");
+  }
+  function resolveCdnBase(options) {
+    const merged = mergeRequiredClientConfig({ cdnBase: options?.cdnBase });
+    const raw = merged.cdnBase?.trim();
+    return raw ? normalizeCdnOrigin(raw) : "";
+  }
+  function resolveCdnAssetUrl(cdnBase, assetPath) {
+    const origin = normalizeCdnOrigin(cdnBase);
+    const path = assetPath.replace(/^\/+/, "");
+    if (!origin) return `/${CDN_ASSET_SEGMENT}/${path}`;
+    return `${origin}/${CDN_ASSET_SEGMENT}/${path}`;
+  }
+
+  // src/hooks/useRequiredClientConfig.ts
+  var import_react = __toESM(require_react());
+  function useRequiredClientConfig(config) {
+    const baseUrl = config?.baseUrl?.trim();
+    const apiBaseUrl = config?.apiBaseUrl?.trim();
+    const environment = config?.environment?.trim();
+    const cdnBase = config?.cdnBase?.trim();
+    (0, import_react.useEffect)(() => {
+      assertRequiredClientConfig({ baseUrl, apiBaseUrl, environment, cdnBase });
+    }, [baseUrl, apiBaseUrl, environment, cdnBase]);
+  }
 
   // src/components/footer/useFooterFeedbackShell.ts
-  var import_react = __toESM(require_react());
+  var import_react2 = __toESM(require_react());
 
   // src/components/header/login/bootstrapModal.ts
   function getBootstrapModal() {
@@ -27155,8 +27289,18 @@ var MyBharatShell = (() => {
     window.setTimeout(() => showBootstrapModal(toId, { backdrop: "static", keyboard: false }), delayMs);
   }
 
-  // src/components/header/login/loginApiErrorMessage.ts
+  // src/config/messages.ts
   var DEFAULT_API_ERROR_MESSAGE = "Something went wrong!!! Plz try again later.";
+  var OTP_MESSAGES = {
+    invalid: "Please enter valid OTP.",
+    required: "Please enter OTP",
+    sixDigits: "Please enter 6 digit OTP",
+    maxAttempts: "You have reached maximum limit to verify OTP. Please try again after sometime.",
+    sendFailed: "Failed to send OTP"
+  };
+
+  // src/components/header/login/loginApiErrorMessage.ts
+  var DEFAULT_API_ERROR_MESSAGE2 = DEFAULT_API_ERROR_MESSAGE;
   var TECHNICAL_ERROR_PATTERNS = [
     /fetch failed/i,
     /ECONNREFUSED/i,
@@ -27196,7 +27340,7 @@ var MyBharatShell = (() => {
     }
     return parts;
   }
-  function resolveApiErrorMessage(res, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  function resolveApiErrorMessage(res, fallback = DEFAULT_API_ERROR_MESSAGE2) {
     if (!res || typeof res !== "object") return fallback;
     const direct = readTrimmedString(res.error_description) || readTrimmedString(res.keycloak?.error_description) || readTrimmedString(res.error) || readTrimmedString(res.keycloak?.error);
     if (direct && direct !== "invalid_grant") return direct;
@@ -27211,7 +27355,7 @@ var MyBharatShell = (() => {
     if (collected.length) return collected[0];
     return fallback;
   }
-  function sanitizeUserFacingError(message, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  function sanitizeUserFacingError(message, fallback = DEFAULT_API_ERROR_MESSAGE2) {
     const trimmed = message.trim();
     if (!trimmed) return fallback;
     if (TECHNICAL_ERROR_PATTERNS.some((pattern) => pattern.test(trimmed))) {
@@ -27219,7 +27363,7 @@ var MyBharatShell = (() => {
     }
     return trimmed;
   }
-  function resolveUserFacingApiError(res, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  function resolveUserFacingApiError(res, fallback = DEFAULT_API_ERROR_MESSAGE2) {
     return sanitizeUserFacingError(resolveApiErrorMessage(res, fallback), fallback);
   }
   function hasOAuthFailure(res) {
@@ -27257,7 +27401,7 @@ var MyBharatShell = (() => {
     if (res.status_code == null || res.status_code === "") return false;
     return !isApiSuccessStatus(res.status_code);
   }
-  function resolveLoginFlowError(error, fallback = DEFAULT_API_ERROR_MESSAGE) {
+  function resolveLoginFlowError(error, fallback = DEFAULT_API_ERROR_MESSAGE2) {
     if (error instanceof Error) {
       return resolveUserFacingApiError({ message: error.message }, fallback);
     }
@@ -27265,20 +27409,20 @@ var MyBharatShell = (() => {
   }
 
   // src/components/header/login/shellLoginInternalAuth.ts
-  var SHELL_LOGIN_API_PROXY_DEFAULT = "/mybharat-shell-api";
-  var SHELL_INTERNAL_KC_CLIENT_PATH = "/_internal/kc-client";
-  var SHELL_INTERNAL_GUEST_OAUTH_PATH = "/_internal/guest-oauth";
-  var SHELL_INTERNAL_LOGIN_PUBKEY_PATH = "/_internal/login-pubkey";
-  var SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = "/_internal/keycloak-login";
-  var SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = "/_internal/verify-guest-otp";
-  var SHELL_INTERNAL_CHANGE_PASSWORD_PATH = "/_internal/keycloak-change-password";
+  var SHELL_LOGIN_API_PROXY_DEFAULT = INTERNAL_PATHS.proxyDefault;
+  var SHELL_INTERNAL_KC_CLIENT_PATH = INTERNAL_PATHS.kcClient;
+  var SHELL_INTERNAL_GUEST_OAUTH_PATH = INTERNAL_PATHS.guestOauth;
+  var SHELL_INTERNAL_LOGIN_PUBKEY_PATH = INTERNAL_PATHS.loginPubkey;
+  var SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = INTERNAL_PATHS.keycloakLogin;
+  var SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = INTERNAL_PATHS.verifyGuestOtp;
+  var SHELL_INTERNAL_CHANGE_PASSWORD_PATH = INTERNAL_PATHS.keycloakChangePassword;
   var ShellInternalAuthError = class extends Error {
     constructor(message) {
       super(message);
       this.name = "ShellInternalAuthError";
     }
   };
-  var DEFAULT_INTERNAL_AUTH_ERROR = DEFAULT_API_ERROR_MESSAGE;
+  var DEFAULT_INTERNAL_AUTH_ERROR = DEFAULT_API_ERROR_MESSAGE2;
   function normalizeBearerAccessToken(raw) {
     if (!raw) return "";
     let token = raw.trim();
@@ -27357,7 +27501,7 @@ var MyBharatShell = (() => {
         headers: forceRefresh ? { "X-Shell-Auth-Refresh": "1" } : void 0
       });
     } catch {
-      throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
+      throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE2);
     }
     const text = await res.text();
     try {
@@ -27372,7 +27516,7 @@ var MyBharatShell = (() => {
     } catch {
       return {
         status_code: res.ok ? 200 : res.status,
-        message: DEFAULT_API_ERROR_MESSAGE
+        message: DEFAULT_API_ERROR_MESSAGE2
       };
     }
   }
@@ -27390,7 +27534,7 @@ var MyBharatShell = (() => {
         body: JSON.stringify(body)
       });
     } catch {
-      throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
+      throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE2);
     }
     const text = await res.text();
     try {
@@ -27399,7 +27543,7 @@ var MyBharatShell = (() => {
     } catch {
       return {
         status_code: res.ok ? 200 : res.status,
-        message: DEFAULT_API_ERROR_MESSAGE
+        message: DEFAULT_API_ERROR_MESSAGE2
       };
     }
   }
@@ -27509,7 +27653,7 @@ var MyBharatShell = (() => {
     }
     const pem = typeof res.public_key === "string" && res.public_key || typeof res.publicKey === "string" && res.publicKey || "";
     if (!pem.trim()) {
-      throw new Error(DEFAULT_API_ERROR_MESSAGE);
+      throw new Error(DEFAULT_API_ERROR_MESSAGE2);
     }
     return pem.trim();
   }
@@ -27629,21 +27773,24 @@ var MyBharatShell = (() => {
     if (configured) return configured;
     return window.location.hostname;
   }
-  function setMbAuthSessionCookies(token, options) {
-    const value = token.trim();
+  function setMbAuthSessionCookies(tokenValue, options) {
+    const value = tokenValue.trim();
     if (!value) return;
-    const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
+    const expiry = new Date(
+      Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
+    ).toUTCString();
     const domain = (options?.cookieDomain ?? readShellCookieDomain()).trim();
     const domainPart = domain ? `;domain=${domain}` : "";
-    document.cookie = `token=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
-    document.cookie = `token_essays=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
+    const names = AUTH_CONFIG.cookieNames;
+    document.cookie = `${names.token}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
+    document.cookie = `${names.tokenEssays}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
   }
 
   // src/components/header/login/establishSessionForm.ts
   function resolveEstablishSessionAction(baseUrl) {
     const base = baseUrl.trim().replace(/\/$/, "");
-    if (!base) return "/establish_session";
-    return `${base}/establish_session`;
+    if (!base) return PORTAL_PATHS.establishSession;
+    return `${base}${PORTAL_PATHS.establishSession}`;
   }
   function submitEstablishSessionForm(params) {
     const mbToken = readMbAppTokenFromGatewayResponse(params.authResponse);
@@ -27678,8 +27825,8 @@ var MyBharatShell = (() => {
   }
 
   // src/components/header/login/loginWithOtpFlow.ts
-  var DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
-  var REG_CODE_STORAGE_KEY = "mybharat_reg_code";
+  var DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE2;
+  var REG_CODE_STORAGE_KEY = AUTH_CONFIG.storageKeys.regCode;
   function isLoginOtpRedirectResult(res) {
     return "redirecting" in res && res.redirecting === true;
   }
@@ -27694,7 +27841,7 @@ var MyBharatShell = (() => {
     if (!direct) return "";
     try {
       const origin = direct.includes("://") ? new URL(direct).origin : window.location.origin;
-      if (origin !== window.location.origin) return "/mybharat-shell-api";
+      if (origin !== window.location.origin) return INTERNAL_PATHS.proxyDefault;
     } catch {
     }
     return direct;
@@ -27802,6 +27949,7 @@ var MyBharatShell = (() => {
   function submitPortalEstablishSession(flow, username, authResponse) {
     const baseUrl = readPagesBaseUrl();
     if (!baseUrl.trim()) {
+      assertRequiredClientConfig();
       throw new Error("Portal base URL is not configured for establish_session.");
     }
     submitEstablishSessionForm({
@@ -27828,7 +27976,7 @@ var MyBharatShell = (() => {
       return { status_code: 500, message: resolveLoginFlowError(err) };
     }
     const exchange = await postGatewayJson(
-      "/keycloakGetExchangeToken",
+      GATEWAY_PATHS.keycloakGetExchangeToken,
       { username, reg_code: regCode },
       clientToken
     );
@@ -27949,7 +28097,7 @@ var MyBharatShell = (() => {
       return { status_code: 500, message: resolveLoginFlowError(err) };
     }
     const forgotRes = await postGatewayJson(
-      "/keycloakForgotPassword",
+      GATEWAY_PATHS.keycloakForgotPassword,
       { identifier, reg_code: regCode },
       clientToken
     );
@@ -27992,13 +28140,68 @@ var MyBharatShell = (() => {
     return { status_code: 200, message: "success" };
   }
 
+  // src/config/routes.ts
+  var APP_ROUTES = {
+    home: "/",
+    yuvaRegister: "/yuva_register",
+    partnerRegister: "/partner_register",
+    youthProfile: "/youth-profile",
+    dashboard: "/dashboard",
+    quiz: "/quiz",
+    support: "/pages/support",
+    terms: "/pages/terms_of_use",
+    policy: "/pages/policy",
+    sitemap: "/sitemap",
+    about: "/pages/about_mybharat",
+    megaEvents: "/mega_events",
+    experientialLearning: "/pages/experiential_learning?mode=I",
+    events: "/pages/events",
+    podcasts: "/pages/podcasts",
+    designForBharat: "/pages/design_for_bharat",
+    editPartnerProfile: "users/editpartnerprofile",
+    partnerProfile: "reports/partner_profile",
+    logout: "users/check_user_logout"
+  };
+
+  // src/config/external.ts
+  var EXTERNAL_URLS = {
+    government: {
+      indiaGov: "https://www.india.gov.in/",
+      digitalIndia: "https://digitalindia.gov.in/",
+      yas: "https://yas.gov.in/"
+    },
+    support: {
+      phones: ["14472", "18002122729"],
+      tel: "18002122729",
+      label: "support.mybharat.gov.in"
+    },
+    social: {
+      twitter: "https://x.com/MYBharatHQ",
+      instagram: "https://www.instagram.com/mybharatgov/",
+      facebook: "https://www.facebook.com/mybharathq/",
+      linkedin: "https://www.linkedin.com/company/mybharatgov/",
+      whatsapp: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h",
+      youtube: "https://www.youtube.com/@MyBharatHQ"
+    },
+    thirdParty: {
+      bhashiniScript: "https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js",
+      bhashiniLanguages: "en,as,bn,brx,gom,gu,hi,ml,or,pa,te,ur",
+      recaptchaApi: "https://www.google.com/recaptcha/api.js",
+      ipLookup: [
+        "https://api.ipify.org?format=json",
+        "https://api64.ipify.org?format=json"
+      ],
+      cloudflareTrace: "https://www.cloudflare.com/cdn-cgi/trace"
+    }
+  };
+
   // src/components/header/login/headerLoginFlow.ts
   var HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
-  var LOGIN_DATA_KEY = "loginData";
-  var DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE;
+  var LOGIN_DATA_KEY = AUTH_CONFIG.storageKeys.loginData;
+  var DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE2;
   var shellLoginApiBaseUrl;
   var shellLoginApiProxyBaseUrl;
-  var SHELL_LOGIN_API_PROXY_DEFAULT2 = "/mybharat-shell-api";
+  var SHELL_LOGIN_API_PROXY_DEFAULT2 = INTERNAL_PATHS.proxyDefault;
   var warnedAutoLoginProxy = false;
   function applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl) {
     const url = apiBaseUrl?.trim();
@@ -28008,7 +28211,7 @@ var MyBharatShell = (() => {
     clearShellInternalAuthCache();
   }
   var installed = false;
-  var timeRemainingHeader = 45;
+  var timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
   var responseCount = 0;
   var countdownHeader = null;
   var otpLoginSendInFlight = false;
@@ -28084,21 +28287,24 @@ var MyBharatShell = (() => {
   function clearLoginStorage() {
     try {
       localStorage.removeItem(LOGIN_DATA_KEY);
-      localStorage.removeItem("user_id");
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.userId);
     } catch {
     }
   }
   function cookieExists(name) {
     return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
   }
-  function setAuthCookies(token, domain, encryptId) {
-    const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
-    if (!cookieExists("token") && !cookieExists("token_essays")) {
-      document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
-      document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
+  function setAuthCookies(tokenValue, domain, encryptIdValue) {
+    const expiry = new Date(
+      Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
+    ).toUTCString();
+    const names = AUTH_CONFIG.cookieNames;
+    if (!cookieExists(names.token) && !cookieExists(names.tokenEssays)) {
+      document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
+      document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
     }
-    if (encryptId) {
-      document.cookie = `encryptId=${encodeURIComponent(encryptId)};expires=${expiry};path=/;domain=${domain};`;
+    if (encryptIdValue) {
+      document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${domain};`;
     }
   }
   function resolveFirebaseTrackingUserId(loginRes) {
@@ -28205,6 +28411,13 @@ var MyBharatShell = (() => {
   function resolveLoginApiError(res, fallback = DEFAULT_LOGIN_API_ERROR) {
     return resolveUserFacingApiError(res, fallback);
   }
+  function readShellLoginBaseUrl() {
+    syncShellLoginApiConfigFromDom();
+    const fromShell = window.MYBHARAT_SHELL?.login?.baseUrl?.trim();
+    if (fromShell) return fromShell.replace(/\/$/, "");
+    const fromHeader = document.querySelector("mybharat-header")?.getAttribute("login-base-url")?.trim();
+    return fromHeader ? fromHeader.replace(/\/$/, "") : "";
+  }
   function showLoginFieldError(id, message) {
     setText(id, message);
     const el = $(id);
@@ -28213,7 +28426,7 @@ var MyBharatShell = (() => {
       el.setAttribute("role", "alert");
     }
   }
-  function resolveVerifyOtpError(res, fallback = "Please enter valid OTP.") {
+  function resolveVerifyOtpError(res, fallback = OTP_MESSAGES.invalid) {
     const data = res?.data;
     if (typeof data === "string" && data.trim()) return data.trim();
     if (data && typeof data === "object") {
@@ -28363,7 +28576,7 @@ var MyBharatShell = (() => {
   function readClientUserAgent() {
     return typeof navigator !== "undefined" ? navigator.userAgent : "";
   }
-  var CLIENT_IP_SESSION_KEY = "mybharat_client_ip_address";
+  var CLIENT_IP_SESSION_KEY = AUTH_CONFIG.storageKeys.clientIp;
   var cachedClientIpAddress = null;
   var clientIpFetchPromise = null;
   function readCachedClientIpFromSession() {
@@ -28399,10 +28612,7 @@ var MyBharatShell = (() => {
     return void 0;
   }
   async function fetchClientIpFromPublicApi() {
-    const jsonEndpoints = [
-      "https://api.ipify.org?format=json",
-      "https://api64.ipify.org?format=json"
-    ];
+    const jsonEndpoints = [...EXTERNAL_URLS.thirdParty.ipLookup];
     for (const url of jsonEndpoints) {
       try {
         const res = await fetch(url, { method: "GET", credentials: "omit" });
@@ -28414,7 +28624,7 @@ var MyBharatShell = (() => {
       }
     }
     try {
-      const res = await fetch("https://www.cloudflare.com/cdn-cgi/trace", {
+      const res = await fetch(EXTERNAL_URLS.thirdParty.cloudflareTrace, {
         method: "GET",
         credentials: "omit"
       });
@@ -28448,23 +28658,27 @@ var MyBharatShell = (() => {
     void resolveClientIpAddress();
   }
   async function fetchCheckUserExists(identifier, accessToken) {
-    return fetchLoginApiJsonPost("/checkUserExists", { identifier }, accessToken);
+    return fetchLoginApiJsonPost(GATEWAY_PATHS.checkUserExists, { identifier }, accessToken);
   }
   function handleLoginRedirect(signInJsonObj) {
-    const fromQuiz = localStorage.getItem("fromQuiz");
-    const returnUrl = localStorage.getItem("fromOrg");
-    const quizId = localStorage.getItem("quizId");
-    const designForBharat = localStorage.getItem("design_for_bharat") === "true";
-    const hackForSocial = localStorage.getItem("hack_for_social_cause") === "true";
-    const baseUrl = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+    const fromQuiz = localStorage.getItem(AUTH_CONFIG.storageKeys.fromQuiz);
+    const returnUrl = localStorage.getItem(AUTH_CONFIG.storageKeys.fromOrg);
+    const quizId = localStorage.getItem(AUTH_CONFIG.storageKeys.quizId);
+    const designForBharat = localStorage.getItem(AUTH_CONFIG.storageKeys.designForBharat) === "true";
+    const hackForSocial = localStorage.getItem(AUTH_CONFIG.storageKeys.hackForSocial) === "true";
+    const baseUrl = readShellLoginBaseUrl();
+    if (!baseUrl) {
+      assertRequiredClientConfig();
+      return;
+    }
     if (hackForSocial) {
-      localStorage.removeItem("hack_for_social_cause");
-      window.location.href = `${baseUrl}pages/podcasts`;
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
+      window.location.href = `${baseUrl}${APP_ROUTES.podcasts.replace(/^\//, "")}`;
       return;
     }
     if (designForBharat) {
-      localStorage.removeItem("design_for_bharat");
-      window.location.href = `${baseUrl}pages/design_for_bharat`;
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+      window.location.href = `${baseUrl}${APP_ROUTES.designForBharat.replace(/^\//, "")}`;
       return;
     }
     if (returnUrl && quizId != null) {
@@ -28486,9 +28700,9 @@ var MyBharatShell = (() => {
         window.location.href = decodeURIComponent(matches[1]);
         return;
       }
-      const fromGamification = localStorage.getItem("fromGamification");
+      const fromGamification = localStorage.getItem(AUTH_CONFIG.storageKeys.fromGamification);
       if (fromGamification) {
-        localStorage.removeItem("fromGamification");
+        localStorage.removeItem(AUTH_CONFIG.storageKeys.fromGamification);
         window.location.href = fromGamification;
         return;
       }
@@ -28680,14 +28894,14 @@ var MyBharatShell = (() => {
     try {
       let accessToken = await getOauthAccessToken();
       let res = await fetchLoginApiFormPost(
-        "/sendMobileGuestUserOtp",
+        GATEWAY_PATHS.sendMobileGuestUserOtp,
         form,
         accessToken
       );
       if (isKeycloakUnauthorizedResponse(res)) {
         accessToken = await getOauthAccessToken(true);
         res = await fetchLoginApiFormPost(
-          "/sendMobileGuestUserOtp",
+          GATEWAY_PATHS.sendMobileGuestUserOtp,
           form,
           accessToken
         );
@@ -28777,7 +28991,7 @@ var MyBharatShell = (() => {
       const payload = buildOtpPayload(identifier, given);
       const otpRes = await sendGuestOtp(payload);
       if (isSuccessStatus2(otpRes.status_code)) {
-        timeRemainingHeader = 45;
+        timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
         startTimerHeader();
         setDisabled("user_mobile_header", true);
         document.querySelectorAll(".generate_otp_header").forEach((el) => {
@@ -28827,7 +29041,7 @@ var MyBharatShell = (() => {
       const payload = buildOtpPayload(identifier, given);
       const otpRes = await sendGuestOtp(payload);
       if (isSuccessStatus2(otpRes.status_code)) {
-        timeRemainingHeader = 45;
+        timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
         startTimerHeader();
         switchBootstrapModal("loginWithOtpModal", "loginWIthOtpVerifyModal", 200);
         setVal("otp-field-3", "");
@@ -28852,7 +29066,7 @@ var MyBharatShell = (() => {
   }
   async function handleResendOtp() {
     if (timeRemainingHeader > 0) return;
-    timeRemainingHeader = 45;
+    timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
     const payload = otpPayloadForStoredIdentifier();
     const res = await sendGuestOtp(payload);
     if (isSuccessStatus2(res.status_code)) {
@@ -28869,11 +29083,11 @@ var MyBharatShell = (() => {
     const identifier = readLoginIdentifier() || val("user_mobile_header");
     const otp = val("otp-field-2");
     if (!otp) {
-      showLoginFieldError("otp-field-2_error", "Please enter OTP");
+      showLoginFieldError("otp-field-2_error", OTP_MESSAGES.required);
       return;
     }
     if (!/^[0-9]{6}$/.test(otp)) {
-      showLoginFieldError("otp-field-2_error", "Please enter 6 digit OTP");
+      showLoginFieldError("otp-field-2_error", OTP_MESSAGES.sixDigits);
       return;
     }
     showLoader();
@@ -28895,7 +29109,7 @@ var MyBharatShell = (() => {
       if (responseCount >= 5) {
         showLoginFieldError(
           "otp-field-2_error",
-          "You have reached maximum limit to verify OTP. Please try again after sometime."
+          OTP_MESSAGES.maxAttempts
         );
         setDisabled("btn-verify-otp-header", true);
       } else {
@@ -28913,12 +29127,12 @@ var MyBharatShell = (() => {
     setDisabled("btn-otp-verify-header", true);
     const otp = val("otp-field-3");
     if (!otp) {
-      showLoginFieldError("otp-field-3_error", "Please enter OTP");
+      showLoginFieldError("otp-field-3_error", OTP_MESSAGES.required);
       setDisabled("btn-otp-verify-header", false);
       return;
     }
     if (!/^[0-9]{6}$/.test(otp)) {
-      showLoginFieldError("otp-field-3_error", "Please enter 6 digit OTP");
+      showLoginFieldError("otp-field-3_error", OTP_MESSAGES.sixDigits);
       setDisabled("btn-otp-verify-header", false);
       return;
     }
@@ -28940,7 +29154,7 @@ var MyBharatShell = (() => {
           });
           showLoginFieldError(
             "otp-field-3_error",
-            "You have reached maximum limit to verify OTP. Please try again after sometime."
+            OTP_MESSAGES.maxAttempts
           );
           setDisabled("btn-otp-verify-header", true);
         } else {
@@ -29167,24 +29381,29 @@ var MyBharatShell = (() => {
     if (target.closest("#loginNowButton")) {
       e.preventDefault();
       hideBootstrapModal("successModal");
-      window.location.href = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+      const baseUrl = readShellLoginBaseUrl();
+      if (!baseUrl) {
+        assertRequiredClientConfig();
+        return;
+      }
+      window.location.href = baseUrl;
       return;
     }
     if (target.closest("#close-signIn")) {
-      localStorage.removeItem("fromQuiz");
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.fromQuiz);
       localStorage.removeItem("quizId");
       localStorage.removeItem("loginData");
-      localStorage.removeItem("design_for_bharat");
-      localStorage.removeItem("hack_for_social_cause");
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
       return;
     }
     if (target.closest("#close-otpLogin")) {
       setVal("otp_login_header", "");
-      localStorage.removeItem("fromQuiz");
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.fromQuiz);
       localStorage.removeItem("quizId");
       localStorage.removeItem("loginData");
-      localStorage.removeItem("design_for_bharat");
-      localStorage.removeItem("hack_for_social_cause");
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
       loginModalQueryAll(".login_otp_header").forEach((el) => {
         el.disabled = true;
       });
@@ -29300,7 +29519,7 @@ var MyBharatShell = (() => {
     if (!value) return value;
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
-  var EXCLUDED_PROFILE_MENU_TYPES = /* @__PURE__ */ new Set([11, 12, 13, 14, 50]);
+  var EXCLUDED_PROFILE_MENU_TYPES = AUTH_CONFIG.excludedProfileMenuUserTypes;
   function isRecord(value) {
     return typeof value === "object" && value !== null && !Array.isArray(value);
   }
@@ -29399,29 +29618,29 @@ var MyBharatShell = (() => {
     const items = [];
     const userType = user.userType;
     if (userType == null || !EXCLUDED_PROFILE_MENU_TYPES.has(userType)) {
-      if (userType === 6) {
+      if (userType === AUTH_CONFIG.youthUserType) {
         items.push({
-          href: user.publicProfileUrl ?? "/youth-profile",
+          href: user.publicProfileUrl ?? APP_ROUTES.youthProfile,
           label: "MY Bharat Profile",
           iconClass: "fa fa-th-large",
           external: Boolean(user.publicProfileUrl?.startsWith("http"))
         });
       } else {
         items.push({
-          href: "/dashboard",
+          href: APP_ROUTES.dashboard,
           label: "Dashboard",
           iconClass: "fa fa-th-large"
         });
       }
-      if (userType != null && userType !== 6) {
+      if (userType != null && userType !== AUTH_CONFIG.youthUserType) {
         items.push(
           {
-            href: `${webroot}users/editpartnerprofile`,
+            href: `${webroot}${APP_ROUTES.editPartnerProfile}`,
             label: "My Account",
             iconClass: "fa fa-user"
           },
           {
-            href: `${webroot}reports/partner_profile`,
+            href: `${webroot}${APP_ROUTES.partnerProfile}`,
             label: "View Profile",
             iconClass: "fa fa-user"
           }
@@ -29429,7 +29648,7 @@ var MyBharatShell = (() => {
       }
     }
     items.push({
-      href: `${webroot}users/check_user_logout`,
+      href: `${webroot}${APP_ROUTES.logout}`,
       label: "Log Out",
       iconClass: "fa fa-power-off",
       className: "firebase-profile-logout-btn"
@@ -29447,8 +29666,8 @@ var MyBharatShell = (() => {
   }
 
   // src/components/footer/footerFeedbackSubmit.ts
-  var SAVE_FEEDBACK_DATA_PATH = "/saveFeedbackData";
-  var TRIGGER_YOUTH_REWARD_PATH = "/trigger-youth-reward-points";
+  var SAVE_FEEDBACK_DATA_PATH = GATEWAY_PATHS.saveFeedbackData;
+  var TRIGGER_YOUTH_REWARD_PATH = GATEWAY_PATHS.triggerYouthReward;
   var feedbackApiBaseUrl;
   var rewardsApiBaseUrl;
   var feedbackSubmitUrlOverride;
@@ -29497,10 +29716,10 @@ var MyBharatShell = (() => {
     return "";
   }
   function usesHostApiAuthProxy(base) {
-    return base === "/api";
+    return base === DEV_API_PROXY_PREFIXES.feedback;
   }
   function usesHostRewardsApiAuthProxy(base) {
-    return base === "/rewards-api";
+    return base === DEV_API_PROXY_PREFIXES.rewards;
   }
   function unwrapRawUserRecord(input) {
     if (input == null || typeof input !== "object") return null;
@@ -29575,7 +29794,7 @@ var MyBharatShell = (() => {
         const token = await fetchInternalGuestOauthAccessToken();
         headers.Authorization = `Bearer ${token}`;
       } catch {
-        return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+        return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
       }
     }
     let res;
@@ -29587,14 +29806,14 @@ var MyBharatShell = (() => {
         credentials: usesHostApiAuthProxy(base) ? "same-origin" : "omit"
       });
     } catch {
-      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
     }
     const text = await res.text();
     try {
       const parsed = JSON.parse(text);
       return normalizeApiResponse(parsed, res.status);
     } catch {
-      return { status_code: res.ok ? 200 : res.status, message: DEFAULT_API_ERROR_MESSAGE };
+      return { status_code: res.ok ? 200 : res.status, message: DEFAULT_API_ERROR_MESSAGE2 };
     }
   }
   function buildRewardsApiUrl(path) {
@@ -29969,7 +30188,7 @@ var MyBharatShell = (() => {
     isLoggedIn,
     enabled = true
   } = {}) {
-    (0, import_react.useLayoutEffect)(() => {
+    (0, import_react2.useLayoutEffect)(() => {
       if (!enabled) return void 0;
       applyFooterFeedbackConfig({
         feedbackApiBaseUrl: feedbackApiBaseUrl2,
@@ -29983,7 +30202,7 @@ var MyBharatShell = (() => {
   }
 
   // src/components/FooterModals.tsx
-  var import_react2 = __toESM(require_react());
+  var import_react3 = __toESM(require_react());
   var import_react_dom = __toESM(require_react_dom());
 
   // src/components/footer/resolveRecaptchaSiteKey.ts
@@ -30024,12 +30243,12 @@ var MyBharatShell = (() => {
     window[SCRIPT_ONLOAD] = () => flushRecaptchaReadyCallbacks();
     const script = document.createElement("script");
     script.id = SCRIPT_ID;
-    script.src = `https://www.google.com/recaptcha/api.js?onload=${SCRIPT_ONLOAD}&render=explicit`;
+    script.src = `${EXTERNAL_URLS.thirdParty.recaptchaApi}?onload=${SCRIPT_ONLOAD}&render=explicit`;
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
   }
-  function whenRecaptchaReady(timeoutMs = 15e3) {
+  function whenRecaptchaReady(timeoutMs = AUTH_CONFIG.recaptchaLoadTimeoutMs) {
     return new Promise((resolve, reject) => {
       let settled = false;
       const timeoutId = window.setTimeout(() => {
@@ -30132,8 +30351,8 @@ var MyBharatShell = (() => {
     recaptchaSiteKey,
     onRegisteredUserClick
   }) => {
-    const [portalReady, setPortalReady] = (0, import_react2.useState)(false);
-    const captchaContainerRef = (0, import_react2.useRef)(null);
+    const [portalReady, setPortalReady] = (0, import_react3.useState)(false);
+    const captchaContainerRef = (0, import_react3.useRef)(null);
     const captchaSiteKey = resolveRecaptchaSiteKey(recaptchaSiteKey);
     const showGuestFeedbackRow = !isLoggedIn;
     const canRenderCaptcha = showGuestFeedbackRow && Boolean(captchaSiteKey);
@@ -30141,15 +30360,15 @@ var MyBharatShell = (() => {
       if (!canRenderCaptcha) return;
       scheduleFeedbackRecaptchaRender(() => captchaContainerRef.current, captchaSiteKey, 150);
     };
-    (0, import_react2.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       setPortalReady(true);
     }, []);
-    (0, import_react2.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       if (!canRenderCaptcha) return void 0;
       preloadRecaptchaScript();
       return void 0;
     }, [canRenderCaptcha]);
-    (0, import_react2.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       const modalEl = document.getElementById("feed_back");
       if (!modalEl || !canRenderCaptcha) return void 0;
       const onShown = () => {
@@ -30190,15 +30409,15 @@ var MyBharatShell = (() => {
       }, 200);
     };
     const feedbackActions = /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "cross_ico mb-common-footer__feedback-actions", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`, id: "form_cl", "data-bs-dismiss": "modal", alt: "" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { id: "form_c2", href: "#", className: "d-inline-block", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mega_checkcircle1.png"), id: "form_cl", "data-bs-dismiss": "modal", alt: "" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { id: "form_c2", href: "#", className: "d-inline-block", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mega_checkcircle.png"), alt: "" }) })
     ] });
     const content = /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal fade", id: "feed_back1", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-dialog", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-content", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-body", style: { borderRadius: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "row", id: "pls_select", children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "col-sm-12", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           "img",
           {
-            src: `${cdnBase}/assets/img/yuva_landing/XCircle_n.png`,
+            src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/XCircle_n.png"),
             alt: "",
             className: "btn-close",
             "data-bs-dismiss": "modal"
@@ -30316,7 +30535,7 @@ var MyBharatShell = (() => {
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "col-sm-12", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { id: "feedback_alert", className: "alert", role: "alert", style: { display: "none" } }) }) })
       ] }) }) }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal fade", id: "successToaster", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-dialog", style: { width: "fit-content" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-content", style: { border: "2px solid #0fbd5f" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "modal-header", style: { borderBottom: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h4", { className: "modal-title", style: { color: "#0fbd5f", fontSize: 16, fontWeight: 400 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mega_checkcircle.png"), alt: "" }),
         " Feedback has been submitted Successfully"
       ] }) }) }) }) })
     ] });
@@ -30345,7 +30564,8 @@ var MyBharatShell = (() => {
     userSession,
     onRegisteredUserClick
   }) => {
-    const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
+    useRequiredClientConfig({ cdnBase });
+    const cdn = resolveCdnBase({ cdnBase });
     const feedbackModalTarget = isLoggedIn ? "#feed_back" : "#feed_back1";
     useFooterFeedbackShell({
       feedbackApiBaseUrl: feedbackApiBaseUrl2,
@@ -30362,7 +30582,7 @@ var MyBharatShell = (() => {
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
                 "img",
                 {
-                  src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
+                  src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/YASLogo_opt_2x.png"),
                   alt: "",
                   className: "img-responsive cursor",
                   style: { width: 100 }
@@ -30372,7 +30592,7 @@ var MyBharatShell = (() => {
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
                 "img",
                 {
-                  src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+                  src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/mybharatlogo_opt_2x.png"),
                   alt: "MY Bharat",
                   className: "img-responsive cursor",
                   style: { width: 100 }
@@ -30427,27 +30647,27 @@ var MyBharatShell = (() => {
             /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h6", { className: "img_link lang_footer_heading_follow fontchange mb-2", children: "Follow Us" }),
             /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "social-icons mb-20 mb-common-footer__social-row", children: [
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "https://x.com/MYBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "icon", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: `${cdn}/assets/img/icon/twitter_v10.png`, alt: "Twitter" }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/twitter_v10.png"), alt: "Twitter" }),
                 /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "twitter-color", children: "Twitter" })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "https://www.instagram.com/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "icon", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: `${cdn}/assets/img/icon/instagram_v10.png`, alt: "Instagram" }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/instagram_v10.png"), alt: "Instagram" }),
                 /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "instagram-color", children: "Instagram" })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "https://www.facebook.com/mybharathq/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "icon", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: `${cdn}/assets/img/icon/facebook_v10.png`, alt: "Facebook" }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/facebook_v10.png"), alt: "Facebook" }),
                 /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "facebook-color", children: "Facebook" })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "https://www.linkedin.com/company/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "icon", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: `${cdn}/assets/img/icon/linkedin_v10.png`, alt: "Linkedin" }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/linkedin_v10.png"), alt: "Linkedin" }),
                 /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "linkedin-color", children: "Linkedin" })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "icon", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: `${cdn}/assets/img/icon/whatsapp_v10.png`, alt: "WhatsApp" }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/whatsapp_v10.png"), alt: "WhatsApp" }),
                 /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "whatsapp-color", children: "WhatsApp" })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: "https://www.youtube.com/@MyBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "icon", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: `${cdn}/assets/img/icon/youtube_v10.png`, alt: "YouTube" }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/youtube_v10.png"), alt: "YouTube" }),
                 /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "youtube-color", children: "YouTube" })
               ] }) })
             ] }),
@@ -30463,7 +30683,7 @@ var MyBharatShell = (() => {
                   children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
                     "img",
                     {
-                      src: `${cdn}/assets/img/yuva_landing/DigitalIndiamybharat.svg`,
+                      src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/DigitalIndiamybharat.svg"),
                       alt: "Digital India",
                       style: { width: 100, height: "auto", display: "block" }
                     }
@@ -30503,7 +30723,7 @@ var MyBharatShell = (() => {
     {
       type: "link",
       label: "Youth",
-      href: "https://web.mybharat.gov.in/youth-public-profile",
+      href: APP_ROUTES.youthProfile,
       linkClassName: "fontchange14 youth lang_youth",
       spanClassName: ""
     },
@@ -30585,7 +30805,7 @@ var MyBharatShell = (() => {
   ];
 
   // src/components/DesktopMainNav.tsx
-  var import_react3 = __toESM(require_react());
+  var import_react4 = __toESM(require_react());
 
   // src/navigation/navHref.ts
   function isSafeNavHref(href) {
@@ -30741,7 +30961,7 @@ var MyBharatShell = (() => {
       e.preventDefault();
       setNestedOpenKey(isOpen ? null : myKey);
     };
-    const handleMouseLeave = import_react3.default.useCallback(() => {
+    const handleMouseLeave = import_react4.default.useCallback(() => {
       if (isOpen) {
         setNestedOpenKey(null);
       }
@@ -30777,9 +30997,9 @@ var MyBharatShell = (() => {
     setOpenTopKey,
     topMenuKey
   }) {
-    const [nestedOpenKey, setNestedOpenKey] = import_react3.default.useState(null);
+    const [nestedOpenKey, setNestedOpenKey] = import_react4.default.useState(null);
     const isOpenTop = openTopKey === topMenuKey;
-    import_react3.default.useEffect(() => {
+    import_react4.default.useEffect(() => {
       if (!isOpenTop) {
         setNestedOpenKey(null);
       }
@@ -30788,7 +31008,7 @@ var MyBharatShell = (() => {
       e.preventDefault();
       setOpenTopKey(isOpenTop ? null : topMenuKey);
     };
-    const handleMouseLeave = import_react3.default.useCallback(() => {
+    const handleMouseLeave = import_react4.default.useCallback(() => {
       if (isOpenTop) {
         setOpenTopKey(null);
       }
@@ -30838,8 +31058,8 @@ var MyBharatShell = (() => {
     );
   }
   var DesktopMainNav = ({ items }) => {
-    const tree = import_react3.default.useMemo(() => normalizeNavTree(items), [items]);
-    const [openTopKey, setOpenTopKey] = import_react3.default.useState(null);
+    const tree = import_react4.default.useMemo(() => normalizeNavTree(items), [items]);
+    const [openTopKey, setOpenTopKey] = import_react4.default.useState(null);
     return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("ul", { className: "menu_nav1", children: tree.map((item, index) => {
       const segments = [index];
       return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
@@ -30858,8 +31078,8 @@ var MyBharatShell = (() => {
   // src/components/header/HeaderBrandLogos.tsx
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
   function HeaderBrandLogos({ cdn, layout }) {
-    const yas = `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`;
-    const mb = `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+    const yas = resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/YASLogo_opt_2x.png");
+    const mb = resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/mybharatlogo_opt_2x.png");
     if (layout === "mobile") {
       const mobileLogoStyle = { width: 70, maxWidth: 70, height: "auto" };
       return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "d-flex new_head align-items-center", children: [
@@ -30878,7 +31098,14 @@ var MyBharatShell = (() => {
   function HeaderGovernmentStrip({ cdn }) {
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "header-top d-none d-sm-block ", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "row", children: [
       /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "col-xl-3 col-lg-3 d-flex col-sm-4 col-6 align-items-center", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("a", { href: "https://www.india.gov.in/", target: "_blank", rel: "noreferrer", className: "goi", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("img", { src: `${cdn}/assets/img/mybharat/Flag%20of%20India.png`, className: "cursor", alt: "" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+          "img",
+          {
+            src: resolveCdnAssetUrl(cdn, "assets/img/mybharat/Flag%20of%20India.png"),
+            className: "cursor",
+            alt: ""
+          }
+        ),
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("strong", { className: "gov_india", children: "Government of India" })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "col-xl-9 col-lg-9 col-sm-8 col-6 text-end", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { className: " d-none d-md-inline", children: [
@@ -30963,17 +31190,17 @@ var MyBharatShell = (() => {
   }
 
   // src/components/header/useMbHeaderBootstrapAndPortal.ts
-  var import_react4 = __toESM(require_react());
+  var import_react5 = __toESM(require_react());
   function useMbHeaderBootstrapAndPortal(_cdn) {
-    const [menuPortalReady, setMenuPortalReady] = (0, import_react4.useState)(false);
-    (0, import_react4.useEffect)(() => {
+    const [menuPortalReady, setMenuPortalReady] = (0, import_react5.useState)(false);
+    (0, import_react5.useEffect)(() => {
       setMenuPortalReady(true);
     }, []);
     return menuPortalReady;
   }
 
   // src/components/MobileMenuModal.tsx
-  var import_react5 = __toESM(require_react());
+  var import_react6 = __toESM(require_react());
 
   // src/components/header/HeaderProfileMenu.tsx
   var import_jsx_runtime7 = __toESM(require_jsx_runtime());
@@ -31099,7 +31326,7 @@ var MyBharatShell = (() => {
     userSession,
     webroot
   }) => {
-    const tree = import_react5.default.useMemo(() => normalizeNavTree(items), [items]);
+    const tree = import_react6.default.useMemo(() => normalizeNavTree(items), [items]);
     const user = parseHeaderUserSession(userSession);
     return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
       "div",
@@ -31114,7 +31341,7 @@ var MyBharatShell = (() => {
             /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h5", { className: "modal-title flex-grow-1 mb-0", id: "mobileMenuNewLabel", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "logo", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("a", { href: "/", "data-bs-dismiss": "modal", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
               "img",
               {
-                src: `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+                src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mybharatlogo_opt_2x.png"),
                 className: "logo-w-sm-md-sec",
                 alt: "MY Bharat"
               }
@@ -31216,10 +31443,10 @@ var MyBharatShell = (() => {
   };
 
   // src/components/header/login/useHeaderLoginShell.tsx
-  var import_react7 = __toESM(require_react());
+  var import_react8 = __toESM(require_react());
 
   // src/components/header/login/HeaderLoginModals.tsx
-  var import_react6 = __toESM(require_react());
+  var import_react7 = __toESM(require_react());
   var import_react_dom2 = __toESM(require_react_dom());
 
   // src/components/header/login/HeaderLogin.css
@@ -31242,10 +31469,10 @@ var MyBharatShell = (() => {
     if (signIn) signIn.disabled = true;
   }
   function HeaderLoginModalsInner({ cdnBase, variant = "header" }) {
-    (0, import_react6.useLayoutEffect)(() => {
+    (0, import_react7.useLayoutEffect)(() => {
       disableShellLoginSubmitButtons();
     }, []);
-    const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+    const logo = resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mybharatlogo_opt_2x.png");
     const rootClass = variant === "header2" ? "mb-common-header-login mb-common-header-login--header2" : "mb-common-header-login";
     const content = /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: rootClass, "aria-hidden": false, children: [
       /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal fade uniform-modal-height", id: "signInModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "modal-content", children: [
@@ -31506,13 +31733,13 @@ var MyBharatShell = (() => {
     ] });
     return (0, import_react_dom2.createPortal)(content, document.body);
   }
-  var HeaderLoginModals = (0, import_react6.memo)(HeaderLoginModalsInner);
+  var HeaderLoginModals = (0, import_react7.memo)(HeaderLoginModalsInner);
 
   // src/components/header/login/useHeaderLoginShell.tsx
   var import_jsx_runtime10 = __toESM(require_jsx_runtime());
   function useHeaderLoginShell(enabled = true) {
-    const [showModals] = (0, import_react7.useState)(() => !hostHasLoginModals());
-    (0, import_react7.useLayoutEffect)(() => {
+    const [showModals] = (0, import_react8.useState)(() => !hostHasLoginModals());
+    (0, import_react8.useLayoutEffect)(() => {
       if (!enabled) return void 0;
       return installHeaderLoginFlow();
     }, [enabled]);
@@ -31529,25 +31756,38 @@ var MyBharatShell = (() => {
   }
 
   // src/components/header/login/useHeaderLoginConfig.ts
-  var import_react8 = __toESM(require_react());
+  var import_react9 = __toESM(require_react());
   function applyHeaderLoginConfig(config) {
+    assertRequiredClientConfig({
+      baseUrl: config?.baseUrl,
+      apiBaseUrl: config?.apiBaseUrl,
+      environment: config?.environment,
+      cdnBase: config?.cdnBase
+    });
     const baseUrl = config?.baseUrl?.trim();
     const apiBaseUrl = config?.apiBaseUrl?.trim();
+    const environment = config?.environment?.trim();
     const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
     const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
     const ipAddress = config?.ipAddress?.trim();
     const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
     const cookieDomain = config?.cookieDomain?.trim();
-    if (!baseUrl && !apiBaseUrl && !apiProxyBaseUrl && !loginPayloadPublicKey && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
+    const cdnBase = config?.cdnBase?.trim();
+    if (!baseUrl && !apiBaseUrl && !environment && !cdnBase && !apiProxyBaseUrl && !loginPayloadPublicKey && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
       return;
     }
     if (apiBaseUrl || apiProxyBaseUrl) applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl);
     window.MYBHARAT_SHELL = {
       ...window.MYBHARAT_SHELL,
+      ...cdnBase ? {
+        header: { ...window.MYBHARAT_SHELL?.header, cdnBase },
+        footer: { ...window.MYBHARAT_SHELL?.footer, cdnBase }
+      } : {},
       login: {
         ...window.MYBHARAT_SHELL?.login,
         ...baseUrl ? { baseUrl } : {},
         ...apiBaseUrl ? { apiBaseUrl } : {},
+        ...environment ? { environment } : {},
         ...apiProxyBaseUrl ? { apiProxyBaseUrl } : {},
         ...loginPayloadPublicKey ? { loginPayloadPublicKey } : {},
         ...ipAddress ? { ipAddress } : {},
@@ -31560,15 +31800,19 @@ var MyBharatShell = (() => {
     applyHeaderLoginConfig(config);
     const baseUrl = config?.baseUrl?.trim();
     const apiBaseUrl = config?.apiBaseUrl?.trim();
+    const environment = config?.environment?.trim();
     const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
     const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
     const ipAddress = config?.ipAddress?.trim();
     const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
     const cookieDomain = config?.cookieDomain?.trim();
-    (0, import_react8.useEffect)(() => {
+    const cdnBase = config?.cdnBase?.trim();
+    (0, import_react9.useEffect)(() => {
       applyHeaderLoginConfig({
         baseUrl,
         apiBaseUrl,
+        environment,
+        cdnBase,
         apiProxyBaseUrl,
         loginPayloadPublicKey,
         ipAddress,
@@ -31578,6 +31822,8 @@ var MyBharatShell = (() => {
     }, [
       baseUrl,
       apiBaseUrl,
+      environment,
+      cdnBase,
       apiProxyBaseUrl,
       loginPayloadPublicKey,
       ipAddress,
@@ -31587,20 +31833,20 @@ var MyBharatShell = (() => {
   }
 
   // src/components/header/useHeaderAccessibilityFont.ts
-  var import_react9 = __toESM(require_react());
+  var import_react10 = __toESM(require_react());
   function useHeaderAccessibilityFont(enabled = true) {
-    (0, import_react9.useEffect)(() => {
+    (0, import_react10.useEffect)(() => {
       if (!enabled) return void 0;
       return installHeaderAccessibilityFont();
     }, [enabled]);
   }
 
   // src/hooks/useBhashiniWidgetPlacement.ts
-  var import_react10 = __toESM(require_react());
+  var import_react11 = __toESM(require_react());
 
   // src/utils/loadBhashiniScript.ts
-  var BHASHINI_SCRIPT_URL = "https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js";
-  var BHASHINI_LANGUAGE_LIST = "en,as,bn,brx,gom,gu,hi,ml,or,pa,te,ur";
+  var BHASHINI_SCRIPT_URL = EXTERNAL_URLS.thirdParty.bhashiniScript;
+  var BHASHINI_LANGUAGE_LIST = EXTERNAL_URLS.thirdParty.bhashiniLanguages;
   var BHASHINI_WIDGET_SELECTORS = [
     "#bhashini-translation",
     ".bhashini-plugin-container .bhashini-dropdown",
@@ -31663,7 +31909,7 @@ var MyBharatShell = (() => {
     return window.getComputedStyle(slot).display !== "none" && slot.offsetParent !== null;
   }
   function useBhashiniWidgetPlacement(enabled = true) {
-    const moveBhashiniToTarget = (0, import_react10.useCallback)(() => {
+    const moveBhashiniToTarget = (0, import_react11.useCallback)(() => {
       const mount = document.getElementById(MOUNT_ID);
       const widget = findBhashiniWidget(mount ?? document);
       const mobileHeader = document.getElementById(MOBILE_SLOT_ID);
@@ -31681,7 +31927,7 @@ var MyBharatShell = (() => {
       }
       return Boolean(target?.contains(widget));
     }, []);
-    const pollUntilWidgetReady = (0, import_react10.useCallback)(() => {
+    const pollUntilWidgetReady = (0, import_react11.useCallback)(() => {
       const started = Date.now();
       const tryMove = () => {
         if (moveBhashiniToTarget()) return;
@@ -31693,7 +31939,7 @@ var MyBharatShell = (() => {
       };
       tryMove();
     }, [moveBhashiniToTarget]);
-    (0, import_react10.useEffect)(() => {
+    (0, import_react11.useEffect)(() => {
       if (!enabled) return;
       let resizeTimer;
       let cancelled = false;
@@ -31722,7 +31968,7 @@ var MyBharatShell = (() => {
         clearTimeout(resizeTimer);
       };
     }, [enabled, moveBhashiniToTarget, pollUntilWidgetReady]);
-    (0, import_react10.useEffect)(() => {
+    (0, import_react11.useEffect)(() => {
       if (!enabled) return;
       const id = setTimeout(moveBhashiniToTarget, 300);
       return () => clearTimeout(id);
@@ -31753,7 +31999,7 @@ var MyBharatShell = (() => {
       /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "fontchange", children: "Register Now" }) }) }),
       "\xA0\xA0",
       /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/youth_icon1.png"), alt: "" }),
         " ",
         /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "lang_yuva", children: "Youth" }),
         /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("br", {}),
@@ -31773,6 +32019,7 @@ var MyBharatShell = (() => {
     webroot,
     baseUrl,
     apiBaseUrl,
+    environment,
     apiProxyBaseUrl,
     loginPayloadPublicKey,
     ipAddress,
@@ -31783,15 +32030,17 @@ var MyBharatShell = (() => {
     useHeaderLoginConfig({
       baseUrl,
       apiBaseUrl,
+      environment,
       apiProxyBaseUrl,
       loginPayloadPublicKey,
       ipAddress,
       publicProfileApiBaseUrl,
-      cookieDomain
+      cookieDomain,
+      cdnBase
     });
     useHeaderAccessibilityFont();
     useBhashiniWidgetPlacement(bhashini);
-    const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
+    const cdn = resolveCdnBase({ cdnBase });
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
     const loggedIn = isHeaderUserLoggedIn(userSession);
@@ -31889,7 +32138,7 @@ var MyBharatShell = (() => {
     {
       type: "link",
       label: "Youth",
-      href: "https://web-beta.mybharats.in/youth-public-profile",
+      href: APP_ROUTES.youthProfile,
       linkClassName: "fontchange14 youth lang_youth",
       spanClassName: ""
     },
@@ -31977,6 +32226,7 @@ var MyBharatShell = (() => {
     webroot,
     baseUrl,
     apiBaseUrl,
+    environment,
     apiProxyBaseUrl,
     loginPayloadPublicKey,
     ipAddress,
@@ -31987,15 +32237,17 @@ var MyBharatShell = (() => {
     useHeaderLoginConfig({
       baseUrl,
       apiBaseUrl,
+      environment,
       apiProxyBaseUrl,
       loginPayloadPublicKey,
       ipAddress,
       publicProfileApiBaseUrl,
-      cookieDomain
+      cookieDomain,
+      cdnBase
     });
     useHeaderAccessibilityFont();
     useBhashiniWidgetPlacement(bhashini);
-    const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
+    const cdn = resolveCdnBase({ cdnBase });
     const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
     const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
     const loggedIn = isHeaderUserLoggedIn(userSession);
@@ -32214,6 +32466,7 @@ var MyBharatShell = (() => {
     return {
       baseUrl: el.getAttribute("login-base-url") ?? global?.baseUrl,
       apiBaseUrl: el.getAttribute("api-base-url") ?? global?.apiBaseUrl,
+      environment: el.getAttribute("environment") ?? global?.environment,
       apiProxyBaseUrl: el.getAttribute("api-proxy-base-url") ?? global?.apiProxyBaseUrl,
       loginPayloadPublicKey: el.getAttribute("login-payload-public-key") ?? global?.loginPayloadPublicKey,
       ipAddress: el.getAttribute("ip-address") ?? global?.ipAddress
@@ -32233,6 +32486,7 @@ var MyBharatShell = (() => {
       webroot: el.getAttribute("webroot") ?? global?.webroot,
       baseUrl: login.baseUrl,
       apiBaseUrl: login.apiBaseUrl,
+      environment: login.environment,
       apiProxyBaseUrl: login.apiProxyBaseUrl,
       loginPayloadPublicKey: login.loginPayloadPublicKey,
       ipAddress: login.ipAddress,
@@ -32269,6 +32523,7 @@ var MyBharatShell = (() => {
     "webroot",
     "login-base-url",
     "api-base-url",
+    "environment",
     "api-proxy-base-url",
     "login-payload-public-key",
     "ip-address",
@@ -32326,6 +32581,7 @@ var MyBharatShell = (() => {
         webroot,
         baseUrl,
         apiBaseUrl,
+        environment,
         apiProxyBaseUrl,
         loginPayloadPublicKey,
         ipAddress,
@@ -32343,6 +32599,7 @@ var MyBharatShell = (() => {
             webroot,
             baseUrl,
             apiBaseUrl,
+            environment,
             apiProxyBaseUrl,
             loginPayloadPublicKey,
             ipAddress,

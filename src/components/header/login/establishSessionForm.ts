@@ -2,6 +2,7 @@ import {
   readMbAppTokenFromGatewayResponse,
   setMbAuthSessionCookies,
 } from './authSessionCookies';
+import { PORTAL_PATHS } from '../../../config/apiPaths';
 
 export type EstablishSessionFlow = 'login_password' | 'login_otp' | 'registration';
 
@@ -26,8 +27,8 @@ export type SubmitEstablishSessionParams = {
 /** `{baseUrl}/establish_session` — PHP hydrates session from gateway auth response. */
 export function resolveEstablishSessionAction(baseUrl: string): string {
   const base = baseUrl.trim().replace(/\/$/, '');
-  if (!base) return '/establish_session';
-  return `${base}/establish_session`;
+  if (!base) return PORTAL_PATHS.establishSession;
+  return `${base}${PORTAL_PATHS.establishSession}`;
 }
 
 /** Full-page form POST — leaves the React SPA (not fetch/AJAX). */

@@ -1,4 +1,5 @@
 import React from 'react';
+import { resolveCdnAssetUrl } from '../../config/resolve';
 
 /** Dark “Government of India” strip + accessibility controls (identical for Header / Header2). */
 export function HeaderGovernmentStrip({ cdn }: { cdn: string }) {
@@ -8,7 +9,11 @@ export function HeaderGovernmentStrip({ cdn }: { cdn: string }) {
         <div className="row">
           <div className="col-xl-3 col-lg-3 d-flex col-sm-4 col-6 align-items-center">
             <a href="https://www.india.gov.in/" target="_blank" rel="noreferrer" className="goi">
-              <img src={`${cdn}/assets/img/mybharat/Flag%20of%20India.png`} className="cursor" alt="" />
+              <img
+                src={resolveCdnAssetUrl(cdn, 'assets/img/mybharat/Flag%20of%20India.png')}
+                className="cursor"
+                alt=""
+              />
               <strong className="gov_india">Government of India</strong>
             </a>
           </div>

@@ -1,7 +1,7 @@
 {
   "name": "mybharat_common_frontend",
   "version": "1.0.238",
-  "description": "",
+  "description": "MY Bharat shared Header/Footer. jsDelivr from this GitHub repo is for local CakePHP testing only; dev/beta/prod CDN is Infra-managed (OpenForge), not this personal repo.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "style": "dist/index.css",
@@ -34,8 +34,14 @@
       "import": "./server/oauthToken.ts",
       "default": "./server/oauthToken.ts"
     },
+    "./server/env": {
+      "types": "./server/env.ts",
+      "import": "./server/env.ts",
+      "default": "./server/env.ts"
+    },
     "./scripts/generateLoginPayloadKeypair.mjs": "./scripts/generateLoginPayloadKeypair.mjs",
-    "./scripts/viteShellLoginProxy.mjs": "./scripts/viteShellLoginProxy.mjs"
+    "./scripts/viteShellLoginProxy.mjs": "./scripts/viteShellLoginProxy.mjs",
+    "./scripts/readServerEnv.mjs": "./scripts/readServerEnv.mjs"
   },
   "files": [
     "dist",
@@ -74,6 +80,7 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "@types/node": "^26.0.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "bootstrap": "^5.3.6",
@@ -81,6 +88,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vite": "^8.1.0"
   }
 }

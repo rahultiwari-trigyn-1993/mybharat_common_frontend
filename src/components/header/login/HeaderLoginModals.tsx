@@ -1,6 +1,7 @@
 import React, { memo, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { submitOtpLoginFromModal, validateOtpLoginForm } from './headerLoginFlow';
+import { resolveCdnAssetUrl } from '../../../config/resolve';
 import './HeaderLogin.css';
 
 export type HeaderLoginModalsProps = {
@@ -35,7 +36,7 @@ function HeaderLoginModalsInner({ cdnBase, variant = 'header' }: HeaderLoginModa
     disableShellLoginSubmitButtons();
   }, []);
 
-  const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+  const logo = resolveCdnAssetUrl(cdnBase, 'assets/img/yuva_landing/mybharatlogo_opt_2x.png');
   const rootClass =
     variant === 'header2' ? 'mb-common-header-login mb-common-header-login--header2' : 'mb-common-header-login';
 

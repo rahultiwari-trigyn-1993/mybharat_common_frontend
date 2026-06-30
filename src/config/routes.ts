@@ -1,0 +1,22 @@
+/** CakePHP / portal routes used in header, footer, and profile menus. */
+export const APP_ROUTES = {
+  home: '/',
+  yuvaRegister: '/yuva_register',
+  partnerRegister: '/partner_register',
+  youthProfile: '/youth-profile',
+  dashboard: '/dashboard',
+  quiz: '/quiz',
+  support: '/pages/support',
+  terms: '/pages/terms_of_use',
+  policy: '/pages/policy',
+  sitemap: '/sitemap',
+  about: '/pages/about_mybharat',
+  megaEvents: '/mega_events',
+  experientialLearning: '/pages/experiential_learning?mode=I',
+  events: '/pages/events',
+  podcasts: '/pages/podcasts',
+  designForBharat: '/pages/design_for_bharat',
+  editPartnerProfile: 'users/editpartnerprofile',
+  partnerProfile: 'reports/partner_profile',
+  logout: 'users/check_user_logout',
+} as const;

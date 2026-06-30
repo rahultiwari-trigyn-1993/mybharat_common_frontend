@@ -1,11 +1,12 @@
 import React from 'react';
-import { MYBHARAT_CDN_BASE } from '../constants/cdn';
+import { resolveCdnAssetUrl, resolveCdnBase } from '../config/resolve';
+import { useRequiredClientConfig } from '../hooks/useRequiredClientConfig';
 import type { HeaderUserSessionInput } from './header/headerUserSession';
 import { useFooterFeedbackShell } from './footer/useFooterFeedbackShell';
 import FooterModals from './FooterModals';
 
 export type FooterProps = {
-  /** CDN origin + `/mybharat` path segment (no trailing slash) */
+  /** CDN origin (e.g. `https://cdn-prod.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
   cdnBase?: string;
   /** Matches logged-in `User` / `$ufdl_id` — feedback opens full form; skips Guest modal branch for captcha UI when false */
   isLoggedIn?: boolean;
@@ -50,7 +51,8 @@ export const Footer: React.FC<FooterProps> = ({
   userSession,
   onRegisteredUserClick,
 }) => {
-  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, '');
+  useRequiredClientConfig({ cdnBase });
+  const cdn = resolveCdnBase({ cdnBase });
   const feedbackModalTarget = isLoggedIn ? '#feed_back' : '#feed_back1';
 
   useFooterFeedbackShell({
@@ -71,7 +73,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <div className="d-flex flex-wrap align-items-center gap-2 mb-2">
                   <a href="/">
                     <img
-                      src={`${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`}
+                      src={resolveCdnAssetUrl(cdn, 'assets/img/yuva_landing/YASLogo_opt_2x.png')}
                       alt=""
                       className="img-responsive cursor"
                       style={{ width: 100 }}
@@ -82,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({
                   </span>
                   <a href="/">
                     <img
-                      src={`${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`}
+                      src={resolveCdnAssetUrl(cdn, 'assets/img/yuva_landing/mybharatlogo_opt_2x.png')}
                       alt="MY Bharat"
                       className="img-responsive cursor"
                       style={{ width: 100 }}
@@ -175,37 +177,37 @@ export const Footer: React.FC<FooterProps> = ({
                 <div className="social-icons mb-20 mb-common-footer__social-row">
                   <a href="https://x.com/MYBharatHQ" target="_blank" rel="noreferrer">
                     <div className="icon">
-                      <img src={`${cdn}/assets/img/icon/twitter_v10.png`} alt="Twitter" />
+                      <img src={resolveCdnAssetUrl(cdn, 'assets/img/icon/twitter_v10.png')} alt="Twitter" />
                       <span className="twitter-color">Twitter</span>
                     </div>
                   </a>
                   <a href="https://www.instagram.com/mybharatgov/" target="_blank" rel="noreferrer">
                     <div className="icon">
-                      <img src={`${cdn}/assets/img/icon/instagram_v10.png`} alt="Instagram" />
+                      <img src={resolveCdnAssetUrl(cdn, 'assets/img/icon/instagram_v10.png')} alt="Instagram" />
                       <span className="instagram-color">Instagram</span>
                     </div>
                   </a>
                   <a href="https://www.facebook.com/mybharathq/" target="_blank" rel="noreferrer">
                     <div className="icon">
-                      <img src={`${cdn}/assets/img/icon/facebook_v10.png`} alt="Facebook" />
+                      <img src={resolveCdnAssetUrl(cdn, 'assets/img/icon/facebook_v10.png')} alt="Facebook" />
                       <span className="facebook-color">Facebook</span>
                     </div>
                   </a>
                   <a href="https://www.linkedin.com/company/mybharatgov/" target="_blank" rel="noreferrer">
                     <div className="icon">
-                      <img src={`${cdn}/assets/img/icon/linkedin_v10.png`} alt="Linkedin" />
+                      <img src={resolveCdnAssetUrl(cdn, 'assets/img/icon/linkedin_v10.png')} alt="Linkedin" />
                       <span className="linkedin-color">Linkedin</span>
                     </div>
                   </a>
                   <a href="https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h" target="_blank" rel="noreferrer">
                     <div className="icon">
-                      <img src={`${cdn}/assets/img/icon/whatsapp_v10.png`} alt="WhatsApp" />
+                      <img src={resolveCdnAssetUrl(cdn, 'assets/img/icon/whatsapp_v10.png')} alt="WhatsApp" />
                       <span className="whatsapp-color">WhatsApp</span>
                     </div>
                   </a>
                   <a href="https://www.youtube.com/@MyBharatHQ" target="_blank" rel="noreferrer">
                     <div className="icon">
-                      <img src={`${cdn}/assets/img/icon/youtube_v10.png`} alt="YouTube" />
+                      <img src={resolveCdnAssetUrl(cdn, 'assets/img/icon/youtube_v10.png')} alt="YouTube" />
                       <span className="youtube-color">YouTube</span>
                     </div>
                   </a>
@@ -221,7 +223,7 @@ export const Footer: React.FC<FooterProps> = ({
                       rel="noreferrer"
                     >
                       <img
-                        src={`${cdn}/assets/img/yuva_landing/DigitalIndiamybharat.svg`}
+                        src={resolveCdnAssetUrl(cdn, 'assets/img/yuva_landing/DigitalIndiamybharat.svg')}
                         alt="Digital India"
                         style={{ width: 100, height: 'auto', display: 'block' }}
                       />

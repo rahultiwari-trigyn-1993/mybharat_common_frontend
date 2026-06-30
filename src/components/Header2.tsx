@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { MYBHARAT_CDN_BASE_BETA } from '../constants/cdn';
+import { resolveCdnBase } from '../config/resolve';
 import { DEFAULT_HEADER2_MAIN_NAV } from '../navigation/header2MainNav.defaults';
 import type { NavTreeItem } from '../navigation/types';
 import { DesktopMainNav } from './DesktopMainNav';
@@ -17,6 +17,7 @@ import { HeaderLoginShellPortal } from './header/login/useHeaderLoginShell';
 import { useHeaderLoginConfig } from './header/login/useHeaderLoginConfig';
 import { useHeaderAccessibilityFont } from './header/useHeaderAccessibilityFont';
 import { useBhashiniWidgetPlacement } from '../hooks/useBhashiniWidgetPlacement';
+import type { ClientEnvironment } from '../config/types';
 import './Header2.css';
 
 import { HeaderAuthControls, isHeaderUserLoggedIn } from './header/HeaderAuthControls';
@@ -25,7 +26,7 @@ import type { HeaderUserSessionInput } from './header/headerUserSession';
 export type Header2Props = {
   /** Landmark label for the root `<header>` (`aria-label`). Does not change visible UI. */
   title?: string;
-  /** Override CDN base (no trailing slash), e.g. `https://cdn-beta.mybharats.in/mybharat` */
+  /** CDN origin (e.g. `https://cdn-beta.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
   cdnBase?: string;
   /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER2_MAIN_NAV}. */
   mainNavItems?: readonly NavTreeItem[];
@@ -37,6 +38,8 @@ export type Header2Props = {
   baseUrl?: string;
   /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
   apiBaseUrl?: string;
+  /** Host environment (`local` | `dev` | `beta` | `prod`). */
+  environment?: ClientEnvironment;
   /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
   apiProxyBaseUrl?: string;
   /** RSA public key PEM (optional). Browser encrypts password/OTP — never pass private key as a prop. */
@@ -59,6 +62,7 @@ export const Header2: React.FC<Header2Props> = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  environment,
   apiProxyBaseUrl,
   loginPayloadPublicKey,
   ipAddress,
@@ -69,15 +73,17 @@ export const Header2: React.FC<Header2Props> = ({
   useHeaderLoginConfig({
     baseUrl,
     apiBaseUrl,
+    environment,
     apiProxyBaseUrl,
     loginPayloadPublicKey,
     ipAddress,
     publicProfileApiBaseUrl,
     cookieDomain,
+    cdnBase,
   });
   useHeaderAccessibilityFont();
   useBhashiniWidgetPlacement(bhashini);
-  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, '');
+  const cdn = resolveCdnBase({ cdnBase });
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
   const loggedIn = isHeaderUserLoggedIn(userSession);

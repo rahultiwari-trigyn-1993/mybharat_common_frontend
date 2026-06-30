@@ -32,22 +32,29 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  APP_ROUTES: () => APP_ROUTES,
+  AUTH_CONFIG: () => AUTH_CONFIG,
   BHASHINI_WIDGET_SELECTORS: () => BHASHINI_WIDGET_SELECTORS,
+  DEFAULT_API_ERROR_MESSAGE: () => DEFAULT_API_ERROR_MESSAGE,
   DEFAULT_HEADER2_MAIN_NAV: () => DEFAULT_HEADER2_MAIN_NAV,
   DEFAULT_HEADER_MAIN_NAV: () => DEFAULT_HEADER_MAIN_NAV,
   DEFAULT_LOGIN_API_ERROR: () => DEFAULT_LOGIN_API_ERROR,
+  DEV_API_PROXY_PREFIXES: () => DEV_API_PROXY_PREFIXES,
   DesktopMainNav: () => DesktopMainNav,
+  EXTERNAL_URLS: () => EXTERNAL_URLS,
   Footer: () => Footer_default,
+  GATEWAY_PATHS: () => GATEWAY_PATHS,
   HEADER_LOGIN_SIGN_IN_SELECTORS: () => HEADER_LOGIN_SIGN_IN_SELECTORS,
   Header: () => Header_default,
   Header2: () => Header2_default,
   HeaderAuthControls: () => HeaderAuthControls,
   HeaderLoginShellPortal: () => HeaderLoginShellPortal,
   HeaderProfileMenu: () => HeaderProfileMenu,
-  MYBHARAT_CDN_BASE: () => MYBHARAT_CDN_BASE,
-  MYBHARAT_CDN_BASE_BETA: () => MYBHARAT_CDN_BASE_BETA,
-  MYBHARAT_CDN_ORIGIN: () => MYBHARAT_CDN_ORIGIN,
+  INTERNAL_PATHS: () => INTERNAL_PATHS,
   MYBHARAT_COMMON_FRONTEND_VERSION: () => MYBHARAT_COMMON_FRONTEND_VERSION,
+  OTP_MESSAGES: () => OTP_MESSAGES,
+  PORTAL_PATHS: () => PORTAL_PATHS,
+  PROXY_REWRITES: () => PROXY_REWRITES,
   SAVE_FEEDBACK_DATA_PATH: () => SAVE_FEEDBACK_DATA_PATH,
   SHELL_INTERNAL_CHANGE_PASSWORD_PATH: () => SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
   SHELL_INTERNAL_GUEST_OAUTH_PATH: () => SHELL_INTERNAL_GUEST_OAUTH_PATH,
@@ -59,6 +66,7 @@ __export(index_exports, {
   applyFooterFeedbackApiConfig: () => applyFooterFeedbackApiConfig,
   applyFooterFeedbackConfig: () => applyFooterFeedbackConfig,
   applyShellLoginApiConfig: () => applyShellLoginApiConfig,
+  assertRequiredClientConfig: () => assertRequiredClientConfig,
   buildHeaderProfileMenuItems: () => buildHeaderProfileMenuItems,
   buildShellApiUrl: () => buildShellApiUrl,
   completeForgotPasswordUpdate: () => completeForgotPasswordUpdate,
@@ -81,6 +89,7 @@ __export(index_exports, {
   isNavLinkItem: () => isNavLinkItem,
   isSafeNavHref: () => isSafeNavHref,
   loadBhashiniScript: () => loadBhashiniScript,
+  mergeRequiredClientConfig: () => mergeRequiredClientConfig,
   navTreeItemKey: () => navTreeItemKey,
   normalizeApiMenuTree: () => normalizeApiMenuTree,
   normalizeHrefForNav: () => normalizeHrefForNav,
@@ -89,9 +98,13 @@ __export(index_exports, {
   openSignInPasswordModal: () => openSignInPasswordModal,
   parseHeaderUserSession: () => parseHeaderUserSession,
   prepareMainNavItems: () => prepareMainNavItems,
+  readClientEnvironment: () => readClientEnvironment,
   readMbAppTokenFromGatewayResponse: () => readMbAppTokenFromGatewayResponse,
   readShellCookieDomain: () => readShellCookieDomain,
+  resolveCdnAssetUrl: () => resolveCdnAssetUrl,
+  resolveCdnBase: () => resolveCdnBase,
   resolveEstablishSessionAction: () => resolveEstablishSessionAction,
+  resolveShellLoginConfig: () => resolveShellLoginConfig,
   saveUserFeedback: () => saveUserFeedback,
   setMbAuthSessionCookies: () => setMbAuthSessionCookies,
   submitEstablishSessionForm: () => submitEstablishSessionForm,
@@ -102,6 +115,7 @@ __export(index_exports, {
   useFooterFeedbackShell: () => useFooterFeedbackShell,
   useHeaderAccessibilityFont: () => useHeaderAccessibilityFont,
   useMainNavItems: () => useMainNavItems,
+  useRequiredClientConfig: () => useRequiredClientConfig,
   validateFeedbackForm: () => validateFeedbackForm,
   validateOtpLoginForm: () => validateOtpLoginForm
 });
@@ -5325,17 +5339,163 @@ styleInject("#feed_back.modal,\n#feed_back1.modal,\n#successToaster.modal {\n  z
 // src/components/Header.tsx
 var import_react_dom2 = require("react-dom");
 
-// src/constants/cdn.ts
-var MYBHARAT_CDN_ORIGIN = "https://cdn-prod.mybharats.in";
-var MYBHARAT_CDN_BASE = `${MYBHARAT_CDN_ORIGIN}/mybharat`;
-var MYBHARAT_CDN_BASE_BETA = "https://cdn-beta.mybharats.in/mybharat";
+// src/config/apiPaths.ts
+var GATEWAY_PATHS = {
+  checkUserExists: "/checkUserExists",
+  sendMobileGuestUserOtp: "/sendMobileGuestUserOtp",
+  keycloakGetExchangeToken: "/keycloakGetExchangeToken",
+  keycloakForgotPassword: "/keycloakForgotPassword",
+  saveFeedbackData: "/saveFeedbackData",
+  triggerYouthReward: "/trigger-youth-reward-points"
+};
+var INTERNAL_PATHS = {
+  proxyDefault: "/mybharat-shell-api",
+  kcClient: "/_internal/kc-client",
+  guestOauth: "/_internal/guest-oauth",
+  loginPubkey: "/_internal/login-pubkey",
+  keycloakLogin: "/_internal/keycloak-login",
+  verifyGuestOtp: "/_internal/verify-guest-otp",
+  keycloakChangePassword: "/_internal/keycloak-change-password"
+};
+var PROXY_REWRITES = {
+  kcClient: "/api/getKeycloakClientAccessToken",
+  guestOauth: "/api/oauth",
+  apiPrefix: "/api"
+};
+var PORTAL_PATHS = {
+  establishSession: "/establish_session"
+};
+var DEV_API_PROXY_PREFIXES = {
+  feedback: "/api",
+  rewards: "/rewards-api"
+};
+
+// src/config/requireClientConfig.ts
+var VALID_ENVIRONMENTS = /* @__PURE__ */ new Set(["local", "dev", "beta", "prod"]);
+var alerted = /* @__PURE__ */ new Set();
+function alertOnce(key, message) {
+  if (typeof window === "undefined" || alerted.has(key)) return;
+  alerted.add(key);
+  window.alert(message);
+}
+function readBaseUrlFromDom() {
+  return document.querySelector("mybharat-header")?.getAttribute("login-base-url")?.trim();
+}
+function readApiBaseUrlFromDom() {
+  return document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
+}
+function readEnvironmentFromDom() {
+  return document.querySelector("mybharat-header")?.getAttribute("environment")?.trim();
+}
+function readCdnBaseFromDom() {
+  return document.querySelector("mybharat-header")?.getAttribute("cdn-base")?.trim() || document.querySelector("mybharat-footer")?.getAttribute("cdn-base")?.trim();
+}
+function mergeRequiredClientConfig(props) {
+  const shellLogin = window.MYBHARAT_SHELL?.login;
+  return {
+    baseUrl: props?.baseUrl?.trim() || shellLogin?.baseUrl?.trim() || readBaseUrlFromDom(),
+    apiBaseUrl: props?.apiBaseUrl?.trim() || shellLogin?.apiBaseUrl?.trim() || readApiBaseUrlFromDom(),
+    environment: props?.environment?.trim() || shellLogin?.environment?.trim() || readEnvironmentFromDom(),
+    cdnBase: props?.cdnBase?.trim() || window.MYBHARAT_SHELL?.header?.cdnBase?.trim() || window.MYBHARAT_SHELL?.footer?.cdnBase?.trim() || readCdnBaseFromDom()
+  };
+}
+function isValidEnvironment(value) {
+  return !!value && VALID_ENVIRONMENTS.has(value);
+}
+function assertRequiredClientConfig(props) {
+  const merged = mergeRequiredClientConfig(props);
+  let ok = true;
+  if (!merged.baseUrl) {
+    alertOnce("baseUrl", "Base Url is not configured");
+    ok = false;
+  }
+  if (!merged.apiBaseUrl) {
+    alertOnce("apiBaseUrl", "Api Base Url is not configured");
+    ok = false;
+  }
+  if (!isValidEnvironment(merged.environment)) {
+    alertOnce("environment", "Environment is not configured");
+    ok = false;
+  }
+  if (!merged.cdnBase) {
+    alertOnce("cdnBase", "Cdn Base Url is not configured");
+    ok = false;
+  }
+  return ok;
+}
+function readClientEnvironment(props) {
+  const env = mergeRequiredClientConfig(props).environment;
+  return isValidEnvironment(env) ? env : void 0;
+}
+
+// src/config/resolve.ts
+var CDN_ASSET_SEGMENT = "mybharat";
+function normalizeCdnOrigin(cdnBase) {
+  return cdnBase.trim().replace(/\/$/, "").replace(/\/mybharat$/i, "");
+}
+function resolveCdnBase(options) {
+  const merged = mergeRequiredClientConfig({ cdnBase: options?.cdnBase });
+  const raw = merged.cdnBase?.trim();
+  return raw ? normalizeCdnOrigin(raw) : "";
+}
+function resolveCdnAssetUrl(cdnBase, assetPath) {
+  const origin = normalizeCdnOrigin(cdnBase);
+  const path = assetPath.replace(/^\/+/, "");
+  if (!origin) return `/${CDN_ASSET_SEGMENT}/${path}`;
+  return `${origin}/${CDN_ASSET_SEGMENT}/${path}`;
+}
+function resolveShellLoginConfig(props) {
+  const shell = window.MYBHARAT_SHELL?.login ?? {};
+  const required = mergeRequiredClientConfig({
+    baseUrl: props?.baseUrl,
+    apiBaseUrl: props?.apiBaseUrl,
+    environment: props?.environment,
+    cdnBase: props?.cdnBase
+  });
+  return {
+    baseUrl: required.baseUrl,
+    apiBaseUrl: required.apiBaseUrl,
+    environment: required.environment,
+    cdnBase: required.cdnBase,
+    apiProxyBaseUrl: props?.apiProxyBaseUrl?.trim() || shell.apiProxyBaseUrl?.trim() || INTERNAL_PATHS.proxyDefault,
+    cookieDomain: props?.cookieDomain?.trim() || shell.cookieDomain?.trim(),
+    publicProfileApiBaseUrl: props?.publicProfileApiBaseUrl?.trim() || shell.publicProfileApiBaseUrl?.trim(),
+    recaptchaSiteKey: props?.recaptchaSiteKey?.trim(),
+    feedbackApiBaseUrl: props?.feedbackApiBaseUrl?.trim(),
+    rewardsApiBaseUrl: props?.rewardsApiBaseUrl?.trim(),
+    navItems: props?.navItems
+  };
+}
+
+// src/config/routes.ts
+var APP_ROUTES = {
+  home: "/",
+  yuvaRegister: "/yuva_register",
+  partnerRegister: "/partner_register",
+  youthProfile: "/youth-profile",
+  dashboard: "/dashboard",
+  quiz: "/quiz",
+  support: "/pages/support",
+  terms: "/pages/terms_of_use",
+  policy: "/pages/policy",
+  sitemap: "/sitemap",
+  about: "/pages/about_mybharat",
+  megaEvents: "/mega_events",
+  experientialLearning: "/pages/experiential_learning?mode=I",
+  events: "/pages/events",
+  podcasts: "/pages/podcasts",
+  designForBharat: "/pages/design_for_bharat",
+  editPartnerProfile: "users/editpartnerprofile",
+  partnerProfile: "reports/partner_profile",
+  logout: "users/check_user_logout"
+};
 
 // src/navigation/headerMainNav.defaults.ts
 var DEFAULT_HEADER_MAIN_NAV = [
   {
     type: "link",
     label: "Youth",
-    href: "https://web.mybharat.gov.in/youth-public-profile",
+    href: APP_ROUTES.youthProfile,
     linkClassName: "fontchange14 youth lang_youth",
     spanClassName: ""
   },
@@ -5693,8 +5853,8 @@ var DesktopMainNav = ({ items }) => {
 // src/components/header/HeaderBrandLogos.tsx
 var import_jsx_runtime2 = require("react/jsx-runtime");
 function HeaderBrandLogos({ cdn, layout }) {
-  const yas = `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`;
-  const mb = `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+  const yas = resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/YASLogo_opt_2x.png");
+  const mb = resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/mybharatlogo_opt_2x.png");
   if (layout === "mobile") {
     const mobileLogoStyle = { width: 70, maxWidth: 70, height: "auto" };
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "d-flex new_head align-items-center", children: [
@@ -5713,7 +5873,14 @@ var import_jsx_runtime3 = require("react/jsx-runtime");
 function HeaderGovernmentStrip({ cdn }) {
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "header-top d-none d-sm-block ", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "container", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "row", children: [
     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "col-xl-3 col-lg-3 d-flex col-sm-4 col-6 align-items-center", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("a", { href: "https://www.india.gov.in/", target: "_blank", rel: "noreferrer", className: "goi", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("img", { src: `${cdn}/assets/img/mybharat/Flag%20of%20India.png`, className: "cursor", alt: "" }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+        "img",
+        {
+          src: resolveCdnAssetUrl(cdn, "assets/img/mybharat/Flag%20of%20India.png"),
+          className: "cursor",
+          alt: ""
+        }
+      ),
       /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { className: "gov_india", children: "Government of India" })
     ] }) }),
     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "col-xl-9 col-lg-9 col-sm-8 col-6 text-end", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: " d-none d-md-inline", children: [
@@ -5879,8 +6046,18 @@ function switchBootstrapModal(fromId, toId, delayMs = 0) {
   window.setTimeout(() => showBootstrapModal(toId, { backdrop: "static", keyboard: false }), delayMs);
 }
 
-// src/components/header/login/loginApiErrorMessage.ts
+// src/config/messages.ts
 var DEFAULT_API_ERROR_MESSAGE = "Something went wrong!!! Plz try again later.";
+var OTP_MESSAGES = {
+  invalid: "Please enter valid OTP.",
+  required: "Please enter OTP",
+  sixDigits: "Please enter 6 digit OTP",
+  maxAttempts: "You have reached maximum limit to verify OTP. Please try again after sometime.",
+  sendFailed: "Failed to send OTP"
+};
+
+// src/components/header/login/loginApiErrorMessage.ts
+var DEFAULT_API_ERROR_MESSAGE2 = DEFAULT_API_ERROR_MESSAGE;
 var TECHNICAL_ERROR_PATTERNS = [
   /fetch failed/i,
   /ECONNREFUSED/i,
@@ -5920,7 +6097,7 @@ function collectErrorStrings(node, depth = 0) {
   }
   return parts;
 }
-function resolveApiErrorMessage(res, fallback = DEFAULT_API_ERROR_MESSAGE) {
+function resolveApiErrorMessage(res, fallback = DEFAULT_API_ERROR_MESSAGE2) {
   if (!res || typeof res !== "object") return fallback;
   const direct = readTrimmedString(res.error_description) || readTrimmedString(res.keycloak?.error_description) || readTrimmedString(res.error) || readTrimmedString(res.keycloak?.error);
   if (direct && direct !== "invalid_grant") return direct;
@@ -5935,7 +6112,7 @@ function resolveApiErrorMessage(res, fallback = DEFAULT_API_ERROR_MESSAGE) {
   if (collected.length) return collected[0];
   return fallback;
 }
-function sanitizeUserFacingError(message, fallback = DEFAULT_API_ERROR_MESSAGE) {
+function sanitizeUserFacingError(message, fallback = DEFAULT_API_ERROR_MESSAGE2) {
   const trimmed = message.trim();
   if (!trimmed) return fallback;
   if (TECHNICAL_ERROR_PATTERNS.some((pattern) => pattern.test(trimmed))) {
@@ -5943,7 +6120,7 @@ function sanitizeUserFacingError(message, fallback = DEFAULT_API_ERROR_MESSAGE) 
   }
   return trimmed;
 }
-function resolveUserFacingApiError(res, fallback = DEFAULT_API_ERROR_MESSAGE) {
+function resolveUserFacingApiError(res, fallback = DEFAULT_API_ERROR_MESSAGE2) {
   return sanitizeUserFacingError(resolveApiErrorMessage(res, fallback), fallback);
 }
 function hasOAuthFailure(res) {
@@ -5981,7 +6158,7 @@ function isApiFailureResponse(res) {
   if (res.status_code == null || res.status_code === "") return false;
   return !isApiSuccessStatus(res.status_code);
 }
-function resolveLoginFlowError(error, fallback = DEFAULT_API_ERROR_MESSAGE) {
+function resolveLoginFlowError(error, fallback = DEFAULT_API_ERROR_MESSAGE2) {
   if (error instanceof Error) {
     return resolveUserFacingApiError({ message: error.message }, fallback);
   }
@@ -5989,20 +6166,20 @@ function resolveLoginFlowError(error, fallback = DEFAULT_API_ERROR_MESSAGE) {
 }
 
 // src/components/header/login/shellLoginInternalAuth.ts
-var SHELL_LOGIN_API_PROXY_DEFAULT = "/mybharat-shell-api";
-var SHELL_INTERNAL_KC_CLIENT_PATH = "/_internal/kc-client";
-var SHELL_INTERNAL_GUEST_OAUTH_PATH = "/_internal/guest-oauth";
-var SHELL_INTERNAL_LOGIN_PUBKEY_PATH = "/_internal/login-pubkey";
-var SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = "/_internal/keycloak-login";
-var SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = "/_internal/verify-guest-otp";
-var SHELL_INTERNAL_CHANGE_PASSWORD_PATH = "/_internal/keycloak-change-password";
+var SHELL_LOGIN_API_PROXY_DEFAULT = INTERNAL_PATHS.proxyDefault;
+var SHELL_INTERNAL_KC_CLIENT_PATH = INTERNAL_PATHS.kcClient;
+var SHELL_INTERNAL_GUEST_OAUTH_PATH = INTERNAL_PATHS.guestOauth;
+var SHELL_INTERNAL_LOGIN_PUBKEY_PATH = INTERNAL_PATHS.loginPubkey;
+var SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = INTERNAL_PATHS.keycloakLogin;
+var SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = INTERNAL_PATHS.verifyGuestOtp;
+var SHELL_INTERNAL_CHANGE_PASSWORD_PATH = INTERNAL_PATHS.keycloakChangePassword;
 var ShellInternalAuthError = class extends Error {
   constructor(message) {
     super(message);
     this.name = "ShellInternalAuthError";
   }
 };
-var DEFAULT_INTERNAL_AUTH_ERROR = DEFAULT_API_ERROR_MESSAGE;
+var DEFAULT_INTERNAL_AUTH_ERROR = DEFAULT_API_ERROR_MESSAGE2;
 function normalizeBearerAccessToken(raw) {
   if (!raw) return "";
   let token = raw.trim();
@@ -6081,7 +6258,7 @@ async function postInternalAuth(path, forceRefresh = false) {
       headers: forceRefresh ? { "X-Shell-Auth-Refresh": "1" } : void 0
     });
   } catch {
-    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
+    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE2);
   }
   const text = await res.text();
   try {
@@ -6096,7 +6273,7 @@ async function postInternalAuth(path, forceRefresh = false) {
   } catch {
     return {
       status_code: res.ok ? 200 : res.status,
-      message: DEFAULT_API_ERROR_MESSAGE
+      message: DEFAULT_API_ERROR_MESSAGE2
     };
   }
 }
@@ -6114,7 +6291,7 @@ async function postInternalAuthJson(path, body) {
       body: JSON.stringify(body)
     });
   } catch {
-    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE);
+    throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE2);
   }
   const text = await res.text();
   try {
@@ -6123,7 +6300,7 @@ async function postInternalAuthJson(path, body) {
   } catch {
     return {
       status_code: res.ok ? 200 : res.status,
-      message: DEFAULT_API_ERROR_MESSAGE
+      message: DEFAULT_API_ERROR_MESSAGE2
     };
   }
 }
@@ -6233,7 +6410,7 @@ async function fetchPublicKeyPemFromHost() {
   }
   const pem = typeof res.public_key === "string" && res.public_key || typeof res.publicKey === "string" && res.publicKey || "";
   if (!pem.trim()) {
-    throw new Error(DEFAULT_API_ERROR_MESSAGE);
+    throw new Error(DEFAULT_API_ERROR_MESSAGE2);
   }
   return pem.trim();
 }
@@ -6300,6 +6477,36 @@ async function encryptLoginSecret(plaintext) {
   };
 }
 
+// src/config/auth.ts
+var AUTH_CONFIG = {
+  cookieNames: {
+    token: "token",
+    tokenEssays: "token_essays",
+    encryptId: "encryptId",
+    essayRedirectUrl: "essay_redirect_url"
+  },
+  cookieExpiryMinutes: 1440,
+  cookiePath: "/",
+  otpResendSeconds: 45,
+  otpLength: 6,
+  storageKeys: {
+    loginData: "loginData",
+    regCode: "mybharat_reg_code",
+    clientIp: "mybharat_client_ip_address",
+    fromQuiz: "fromQuiz",
+    fromOrg: "fromOrg",
+    quizId: "quizId",
+    designForBharat: "design_for_bharat",
+    hackForSocial: "hack_for_social_cause",
+    fromGamification: "fromGamification",
+    userId: "user_id",
+    accessibilityFont: "mb-accessibility-font-step"
+  },
+  excludedProfileMenuUserTypes: /* @__PURE__ */ new Set([11, 12, 13, 14, 50]),
+  youthUserType: 6,
+  recaptchaLoadTimeoutMs: 15e3
+};
+
 // src/components/header/login/authSessionCookies.ts
 function readField(obj, ...keys) {
   if (!obj || typeof obj !== "object") return void 0;
@@ -6353,21 +6560,24 @@ function readShellCookieDomain() {
   if (configured) return configured;
   return window.location.hostname;
 }
-function setMbAuthSessionCookies(token, options) {
-  const value = token.trim();
+function setMbAuthSessionCookies(tokenValue, options) {
+  const value = tokenValue.trim();
   if (!value) return;
-  const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
+  const expiry = new Date(
+    Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
+  ).toUTCString();
   const domain = (options?.cookieDomain ?? readShellCookieDomain()).trim();
   const domainPart = domain ? `;domain=${domain}` : "";
-  document.cookie = `token=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
-  document.cookie = `token_essays=${encodeURIComponent(value)};expires=${expiry};path=/${domainPart}`;
+  const names = AUTH_CONFIG.cookieNames;
+  document.cookie = `${names.token}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
+  document.cookie = `${names.tokenEssays}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
 }
 
 // src/components/header/login/establishSessionForm.ts
 function resolveEstablishSessionAction(baseUrl) {
   const base = baseUrl.trim().replace(/\/$/, "");
-  if (!base) return "/establish_session";
-  return `${base}/establish_session`;
+  if (!base) return PORTAL_PATHS.establishSession;
+  return `${base}${PORTAL_PATHS.establishSession}`;
 }
 function submitEstablishSessionForm(params) {
   const mbToken = readMbAppTokenFromGatewayResponse(params.authResponse);
@@ -6402,8 +6612,8 @@ function submitEstablishSessionForm(params) {
 }
 
 // src/components/header/login/loginWithOtpFlow.ts
-var DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
-var REG_CODE_STORAGE_KEY = "mybharat_reg_code";
+var DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE2;
+var REG_CODE_STORAGE_KEY = AUTH_CONFIG.storageKeys.regCode;
 function isLoginOtpRedirectResult(res) {
   return "redirecting" in res && res.redirecting === true;
 }
@@ -6418,7 +6628,7 @@ function readLoginFetchBase() {
   if (!direct) return "";
   try {
     const origin = direct.includes("://") ? new URL(direct).origin : window.location.origin;
-    if (origin !== window.location.origin) return "/mybharat-shell-api";
+    if (origin !== window.location.origin) return INTERNAL_PATHS.proxyDefault;
   } catch {
   }
   return direct;
@@ -6526,6 +6736,7 @@ function isGatewayAuthSuccess(res) {
 function submitPortalEstablishSession(flow, username, authResponse) {
   const baseUrl = readPagesBaseUrl();
   if (!baseUrl.trim()) {
+    assertRequiredClientConfig();
     throw new Error("Portal base URL is not configured for establish_session.");
   }
   submitEstablishSessionForm({
@@ -6552,7 +6763,7 @@ async function completeLoginWithOtp(username) {
     return { status_code: 500, message: resolveLoginFlowError(err) };
   }
   const exchange = await postGatewayJson(
-    "/keycloakGetExchangeToken",
+    GATEWAY_PATHS.keycloakGetExchangeToken,
     { username, reg_code: regCode },
     clientToken
   );
@@ -6673,7 +6884,7 @@ async function completeForgotPasswordUpdate(identifier, password) {
     return { status_code: 500, message: resolveLoginFlowError(err) };
   }
   const forgotRes = await postGatewayJson(
-    "/keycloakForgotPassword",
+    GATEWAY_PATHS.keycloakForgotPassword,
     { identifier, reg_code: regCode },
     clientToken
   );
@@ -6716,13 +6927,45 @@ async function completeForgotPasswordUpdate(identifier, password) {
   return { status_code: 200, message: "success" };
 }
 
+// src/config/external.ts
+var EXTERNAL_URLS = {
+  government: {
+    indiaGov: "https://www.india.gov.in/",
+    digitalIndia: "https://digitalindia.gov.in/",
+    yas: "https://yas.gov.in/"
+  },
+  support: {
+    phones: ["14472", "18002122729"],
+    tel: "18002122729",
+    label: "support.mybharat.gov.in"
+  },
+  social: {
+    twitter: "https://x.com/MYBharatHQ",
+    instagram: "https://www.instagram.com/mybharatgov/",
+    facebook: "https://www.facebook.com/mybharathq/",
+    linkedin: "https://www.linkedin.com/company/mybharatgov/",
+    whatsapp: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h",
+    youtube: "https://www.youtube.com/@MyBharatHQ"
+  },
+  thirdParty: {
+    bhashiniScript: "https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js",
+    bhashiniLanguages: "en,as,bn,brx,gom,gu,hi,ml,or,pa,te,ur",
+    recaptchaApi: "https://www.google.com/recaptcha/api.js",
+    ipLookup: [
+      "https://api.ipify.org?format=json",
+      "https://api64.ipify.org?format=json"
+    ],
+    cloudflareTrace: "https://www.cloudflare.com/cdn-cgi/trace"
+  }
+};
+
 // src/components/header/login/headerLoginFlow.ts
 var HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
-var LOGIN_DATA_KEY = "loginData";
-var DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE;
+var LOGIN_DATA_KEY = AUTH_CONFIG.storageKeys.loginData;
+var DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE2;
 var shellLoginApiBaseUrl;
 var shellLoginApiProxyBaseUrl;
-var SHELL_LOGIN_API_PROXY_DEFAULT2 = "/mybharat-shell-api";
+var SHELL_LOGIN_API_PROXY_DEFAULT2 = INTERNAL_PATHS.proxyDefault;
 var warnedAutoLoginProxy = false;
 function applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl) {
   const url = apiBaseUrl?.trim();
@@ -6732,7 +6975,7 @@ function applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl) {
   clearShellInternalAuthCache();
 }
 var installed = false;
-var timeRemainingHeader = 45;
+var timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
 var responseCount = 0;
 var countdownHeader = null;
 var otpLoginSendInFlight = false;
@@ -6808,21 +7051,24 @@ function readLoginIdentifier() {
 function clearLoginStorage() {
   try {
     localStorage.removeItem(LOGIN_DATA_KEY);
-    localStorage.removeItem("user_id");
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.userId);
   } catch {
   }
 }
 function cookieExists(name) {
   return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
 }
-function setAuthCookies(token, domain, encryptId) {
-  const expiry = new Date(Date.now() + 1440 * 60 * 1e3).toUTCString();
-  if (!cookieExists("token") && !cookieExists("token_essays")) {
-    document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
-    document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
+function setAuthCookies(tokenValue, domain, encryptIdValue) {
+  const expiry = new Date(
+    Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
+  ).toUTCString();
+  const names = AUTH_CONFIG.cookieNames;
+  if (!cookieExists(names.token) && !cookieExists(names.tokenEssays)) {
+    document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
+    document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
   }
-  if (encryptId) {
-    document.cookie = `encryptId=${encodeURIComponent(encryptId)};expires=${expiry};path=/;domain=${domain};`;
+  if (encryptIdValue) {
+    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${domain};`;
   }
 }
 function resolveFirebaseTrackingUserId(loginRes) {
@@ -6929,6 +7175,13 @@ function isSuccessStatus2(statusCode) {
 function resolveLoginApiError(res, fallback = DEFAULT_LOGIN_API_ERROR) {
   return resolveUserFacingApiError(res, fallback);
 }
+function readShellLoginBaseUrl() {
+  syncShellLoginApiConfigFromDom();
+  const fromShell = window.MYBHARAT_SHELL?.login?.baseUrl?.trim();
+  if (fromShell) return fromShell.replace(/\/$/, "");
+  const fromHeader = document.querySelector("mybharat-header")?.getAttribute("login-base-url")?.trim();
+  return fromHeader ? fromHeader.replace(/\/$/, "") : "";
+}
 function showLoginFieldError(id, message) {
   setText(id, message);
   const el = $(id);
@@ -6937,7 +7190,7 @@ function showLoginFieldError(id, message) {
     el.setAttribute("role", "alert");
   }
 }
-function resolveVerifyOtpError(res, fallback = "Please enter valid OTP.") {
+function resolveVerifyOtpError(res, fallback = OTP_MESSAGES.invalid) {
   const data = res?.data;
   if (typeof data === "string" && data.trim()) return data.trim();
   if (data && typeof data === "object") {
@@ -7087,7 +7340,7 @@ function readShellClientIpAddress() {
 function readClientUserAgent() {
   return typeof navigator !== "undefined" ? navigator.userAgent : "";
 }
-var CLIENT_IP_SESSION_KEY = "mybharat_client_ip_address";
+var CLIENT_IP_SESSION_KEY = AUTH_CONFIG.storageKeys.clientIp;
 var cachedClientIpAddress = null;
 var clientIpFetchPromise = null;
 function readCachedClientIpFromSession() {
@@ -7123,10 +7376,7 @@ function parseIpFromCloudflareTrace(text) {
   return void 0;
 }
 async function fetchClientIpFromPublicApi() {
-  const jsonEndpoints = [
-    "https://api.ipify.org?format=json",
-    "https://api64.ipify.org?format=json"
-  ];
+  const jsonEndpoints = [...EXTERNAL_URLS.thirdParty.ipLookup];
   for (const url of jsonEndpoints) {
     try {
       const res = await fetch(url, { method: "GET", credentials: "omit" });
@@ -7138,7 +7388,7 @@ async function fetchClientIpFromPublicApi() {
     }
   }
   try {
-    const res = await fetch("https://www.cloudflare.com/cdn-cgi/trace", {
+    const res = await fetch(EXTERNAL_URLS.thirdParty.cloudflareTrace, {
       method: "GET",
       credentials: "omit"
     });
@@ -7172,23 +7422,27 @@ function prefetchClientIpAddress() {
   void resolveClientIpAddress();
 }
 async function fetchCheckUserExists(identifier, accessToken) {
-  return fetchLoginApiJsonPost("/checkUserExists", { identifier }, accessToken);
+  return fetchLoginApiJsonPost(GATEWAY_PATHS.checkUserExists, { identifier }, accessToken);
 }
 function handleLoginRedirect(signInJsonObj) {
-  const fromQuiz = localStorage.getItem("fromQuiz");
-  const returnUrl = localStorage.getItem("fromOrg");
-  const quizId = localStorage.getItem("quizId");
-  const designForBharat = localStorage.getItem("design_for_bharat") === "true";
-  const hackForSocial = localStorage.getItem("hack_for_social_cause") === "true";
-  const baseUrl = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+  const fromQuiz = localStorage.getItem(AUTH_CONFIG.storageKeys.fromQuiz);
+  const returnUrl = localStorage.getItem(AUTH_CONFIG.storageKeys.fromOrg);
+  const quizId = localStorage.getItem(AUTH_CONFIG.storageKeys.quizId);
+  const designForBharat = localStorage.getItem(AUTH_CONFIG.storageKeys.designForBharat) === "true";
+  const hackForSocial = localStorage.getItem(AUTH_CONFIG.storageKeys.hackForSocial) === "true";
+  const baseUrl = readShellLoginBaseUrl();
+  if (!baseUrl) {
+    assertRequiredClientConfig();
+    return;
+  }
   if (hackForSocial) {
-    localStorage.removeItem("hack_for_social_cause");
-    window.location.href = `${baseUrl}pages/podcasts`;
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
+    window.location.href = `${baseUrl}${APP_ROUTES.podcasts.replace(/^\//, "")}`;
     return;
   }
   if (designForBharat) {
-    localStorage.removeItem("design_for_bharat");
-    window.location.href = `${baseUrl}pages/design_for_bharat`;
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+    window.location.href = `${baseUrl}${APP_ROUTES.designForBharat.replace(/^\//, "")}`;
     return;
   }
   if (returnUrl && quizId != null) {
@@ -7210,9 +7464,9 @@ function handleLoginRedirect(signInJsonObj) {
       window.location.href = decodeURIComponent(matches[1]);
       return;
     }
-    const fromGamification = localStorage.getItem("fromGamification");
+    const fromGamification = localStorage.getItem(AUTH_CONFIG.storageKeys.fromGamification);
     if (fromGamification) {
-      localStorage.removeItem("fromGamification");
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.fromGamification);
       window.location.href = fromGamification;
       return;
     }
@@ -7404,14 +7658,14 @@ async function sendGuestOtp(data) {
   try {
     let accessToken = await getOauthAccessToken();
     let res = await fetchLoginApiFormPost(
-      "/sendMobileGuestUserOtp",
+      GATEWAY_PATHS.sendMobileGuestUserOtp,
       form,
       accessToken
     );
     if (isKeycloakUnauthorizedResponse(res)) {
       accessToken = await getOauthAccessToken(true);
       res = await fetchLoginApiFormPost(
-        "/sendMobileGuestUserOtp",
+        GATEWAY_PATHS.sendMobileGuestUserOtp,
         form,
         accessToken
       );
@@ -7501,7 +7755,7 @@ async function handleForgotPasswordGetOtp() {
     const payload = buildOtpPayload(identifier, given);
     const otpRes = await sendGuestOtp(payload);
     if (isSuccessStatus2(otpRes.status_code)) {
-      timeRemainingHeader = 45;
+      timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
       startTimerHeader();
       setDisabled("user_mobile_header", true);
       document.querySelectorAll(".generate_otp_header").forEach((el) => {
@@ -7551,7 +7805,7 @@ async function handleOtpLoginSend() {
     const payload = buildOtpPayload(identifier, given);
     const otpRes = await sendGuestOtp(payload);
     if (isSuccessStatus2(otpRes.status_code)) {
-      timeRemainingHeader = 45;
+      timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
       startTimerHeader();
       switchBootstrapModal("loginWithOtpModal", "loginWIthOtpVerifyModal", 200);
       setVal("otp-field-3", "");
@@ -7576,7 +7830,7 @@ function otpPayloadForStoredIdentifier() {
 }
 async function handleResendOtp() {
   if (timeRemainingHeader > 0) return;
-  timeRemainingHeader = 45;
+  timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
   const payload = otpPayloadForStoredIdentifier();
   const res = await sendGuestOtp(payload);
   if (isSuccessStatus2(res.status_code)) {
@@ -7593,11 +7847,11 @@ async function handleVerifyForgotOtp() {
   const identifier = readLoginIdentifier() || val("user_mobile_header");
   const otp = val("otp-field-2");
   if (!otp) {
-    showLoginFieldError("otp-field-2_error", "Please enter OTP");
+    showLoginFieldError("otp-field-2_error", OTP_MESSAGES.required);
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    showLoginFieldError("otp-field-2_error", "Please enter 6 digit OTP");
+    showLoginFieldError("otp-field-2_error", OTP_MESSAGES.sixDigits);
     return;
   }
   showLoader();
@@ -7619,7 +7873,7 @@ async function handleVerifyForgotOtp() {
     if (responseCount >= 5) {
       showLoginFieldError(
         "otp-field-2_error",
-        "You have reached maximum limit to verify OTP. Please try again after sometime."
+        OTP_MESSAGES.maxAttempts
       );
       setDisabled("btn-verify-otp-header", true);
     } else {
@@ -7637,12 +7891,12 @@ async function handleVerifyLoginOtp() {
   setDisabled("btn-otp-verify-header", true);
   const otp = val("otp-field-3");
   if (!otp) {
-    showLoginFieldError("otp-field-3_error", "Please enter OTP");
+    showLoginFieldError("otp-field-3_error", OTP_MESSAGES.required);
     setDisabled("btn-otp-verify-header", false);
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    showLoginFieldError("otp-field-3_error", "Please enter 6 digit OTP");
+    showLoginFieldError("otp-field-3_error", OTP_MESSAGES.sixDigits);
     setDisabled("btn-otp-verify-header", false);
     return;
   }
@@ -7664,7 +7918,7 @@ async function handleVerifyLoginOtp() {
         });
         showLoginFieldError(
           "otp-field-3_error",
-          "You have reached maximum limit to verify OTP. Please try again after sometime."
+          OTP_MESSAGES.maxAttempts
         );
         setDisabled("btn-otp-verify-header", true);
       } else {
@@ -7891,24 +8145,29 @@ function onDocumentClick(e) {
   if (target.closest("#loginNowButton")) {
     e.preventDefault();
     hideBootstrapModal("successModal");
-    window.location.href = window.MYBHARAT_SHELL?.login?.baseUrl ?? "/";
+    const baseUrl = readShellLoginBaseUrl();
+    if (!baseUrl) {
+      assertRequiredClientConfig();
+      return;
+    }
+    window.location.href = baseUrl;
     return;
   }
   if (target.closest("#close-signIn")) {
-    localStorage.removeItem("fromQuiz");
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.fromQuiz);
     localStorage.removeItem("quizId");
     localStorage.removeItem("loginData");
-    localStorage.removeItem("design_for_bharat");
-    localStorage.removeItem("hack_for_social_cause");
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
     return;
   }
   if (target.closest("#close-otpLogin")) {
     setVal("otp_login_header", "");
-    localStorage.removeItem("fromQuiz");
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.fromQuiz);
     localStorage.removeItem("quizId");
     localStorage.removeItem("loginData");
-    localStorage.removeItem("design_for_bharat");
-    localStorage.removeItem("hack_for_social_cause");
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
     loginModalQueryAll(".login_otp_header").forEach((el) => {
       el.disabled = true;
     });
@@ -8005,7 +8264,7 @@ function ucfirst(value) {
   if (!value) return value;
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
-var EXCLUDED_PROFILE_MENU_TYPES = /* @__PURE__ */ new Set([11, 12, 13, 14, 50]);
+var EXCLUDED_PROFILE_MENU_TYPES = AUTH_CONFIG.excludedProfileMenuUserTypes;
 function isRecord(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -8104,29 +8363,29 @@ function buildHeaderProfileMenuItems(user, options) {
   const items = [];
   const userType = user.userType;
   if (userType == null || !EXCLUDED_PROFILE_MENU_TYPES.has(userType)) {
-    if (userType === 6) {
+    if (userType === AUTH_CONFIG.youthUserType) {
       items.push({
-        href: user.publicProfileUrl ?? "/youth-profile",
+        href: user.publicProfileUrl ?? APP_ROUTES.youthProfile,
         label: "MY Bharat Profile",
         iconClass: "fa fa-th-large",
         external: Boolean(user.publicProfileUrl?.startsWith("http"))
       });
     } else {
       items.push({
-        href: "/dashboard",
+        href: APP_ROUTES.dashboard,
         label: "Dashboard",
         iconClass: "fa fa-th-large"
       });
     }
-    if (userType != null && userType !== 6) {
+    if (userType != null && userType !== AUTH_CONFIG.youthUserType) {
       items.push(
         {
-          href: `${webroot}users/editpartnerprofile`,
+          href: `${webroot}${APP_ROUTES.editPartnerProfile}`,
           label: "My Account",
           iconClass: "fa fa-user"
         },
         {
-          href: `${webroot}reports/partner_profile`,
+          href: `${webroot}${APP_ROUTES.partnerProfile}`,
           label: "View Profile",
           iconClass: "fa fa-user"
         }
@@ -8134,7 +8393,7 @@ function buildHeaderProfileMenuItems(user, options) {
     }
   }
   items.push({
-    href: `${webroot}users/check_user_logout`,
+    href: `${webroot}${APP_ROUTES.logout}`,
     label: "Log Out",
     iconClass: "fa fa-power-off",
     className: "firebase-profile-logout-btn"
@@ -8290,7 +8549,7 @@ var MobileMenuModal = ({
           /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h5", { className: "modal-title flex-grow-1 mb-0", id: "mobileMenuNewLabel", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "logo", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", { href: "/", "data-bs-dismiss": "modal", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
             "img",
             {
-              src: `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+              src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mybharatlogo_opt_2x.png"),
               className: "logo-w-sm-md-sec",
               alt: "MY Bharat"
             }
@@ -8421,7 +8680,7 @@ function HeaderLoginModalsInner({ cdnBase, variant = "header" }) {
   (0, import_react4.useLayoutEffect)(() => {
     disableShellLoginSubmitButtons();
   }, []);
-  const logo = `${cdnBase}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+  const logo = resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mybharatlogo_opt_2x.png");
   const rootClass = variant === "header2" ? "mb-common-header-login mb-common-header-login--header2" : "mb-common-header-login";
   const content = /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: rootClass, "aria-hidden": false, children: [
     /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "modal fade uniform-modal-height", id: "signInModal", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "modal-dialog modal-dialog-centered", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "modal-content", children: [
@@ -8707,23 +8966,36 @@ function HeaderLoginShellPortal({
 // src/components/header/login/useHeaderLoginConfig.ts
 var import_react6 = require("react");
 function applyHeaderLoginConfig(config) {
+  assertRequiredClientConfig({
+    baseUrl: config?.baseUrl,
+    apiBaseUrl: config?.apiBaseUrl,
+    environment: config?.environment,
+    cdnBase: config?.cdnBase
+  });
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const environment = config?.environment?.trim();
   const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
   const ipAddress = config?.ipAddress?.trim();
   const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
   const cookieDomain = config?.cookieDomain?.trim();
-  if (!baseUrl && !apiBaseUrl && !apiProxyBaseUrl && !loginPayloadPublicKey && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
+  const cdnBase = config?.cdnBase?.trim();
+  if (!baseUrl && !apiBaseUrl && !environment && !cdnBase && !apiProxyBaseUrl && !loginPayloadPublicKey && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
     return;
   }
   if (apiBaseUrl || apiProxyBaseUrl) applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl);
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
+    ...cdnBase ? {
+      header: { ...window.MYBHARAT_SHELL?.header, cdnBase },
+      footer: { ...window.MYBHARAT_SHELL?.footer, cdnBase }
+    } : {},
     login: {
       ...window.MYBHARAT_SHELL?.login,
       ...baseUrl ? { baseUrl } : {},
       ...apiBaseUrl ? { apiBaseUrl } : {},
+      ...environment ? { environment } : {},
       ...apiProxyBaseUrl ? { apiProxyBaseUrl } : {},
       ...loginPayloadPublicKey ? { loginPayloadPublicKey } : {},
       ...ipAddress ? { ipAddress } : {},
@@ -8736,15 +9008,19 @@ function useHeaderLoginConfig(config) {
   applyHeaderLoginConfig(config);
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const environment = config?.environment?.trim();
   const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
   const ipAddress = config?.ipAddress?.trim();
   const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
   const cookieDomain = config?.cookieDomain?.trim();
+  const cdnBase = config?.cdnBase?.trim();
   (0, import_react6.useEffect)(() => {
     applyHeaderLoginConfig({
       baseUrl,
       apiBaseUrl,
+      environment,
+      cdnBase,
       apiProxyBaseUrl,
       loginPayloadPublicKey,
       ipAddress,
@@ -8754,6 +9030,8 @@ function useHeaderLoginConfig(config) {
   }, [
     baseUrl,
     apiBaseUrl,
+    environment,
+    cdnBase,
     apiProxyBaseUrl,
     loginPayloadPublicKey,
     ipAddress,
@@ -8768,7 +9046,7 @@ var import_react7 = require("react");
 // src/components/header/headerAccessibilityFont.ts
 var STEP_SIZE = 2;
 var MAX_STEPS = 3;
-var STORAGE_KEY = "mb-accessibility-font-step";
+var STORAGE_KEY = AUTH_CONFIG.storageKeys.accessibilityFont;
 var HTML_ACTIVE_CLASS = "mb-accessibility-font-active";
 var listenerCount = 0;
 var currentStep = 0;
@@ -8889,8 +9167,8 @@ function useHeaderAccessibilityFont(enabled = true) {
 var import_react8 = require("react");
 
 // src/utils/loadBhashiniScript.ts
-var BHASHINI_SCRIPT_URL = "https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js";
-var BHASHINI_LANGUAGE_LIST = "en,as,bn,brx,gom,gu,hi,ml,or,pa,te,ur";
+var BHASHINI_SCRIPT_URL = EXTERNAL_URLS.thirdParty.bhashiniScript;
+var BHASHINI_LANGUAGE_LIST = EXTERNAL_URLS.thirdParty.bhashiniLanguages;
 var BHASHINI_WIDGET_SELECTORS = [
   "#bhashini-translation",
   ".bhashini-plugin-container .bhashini-dropdown",
@@ -9043,7 +9321,7 @@ function HeaderAuthControls({ cdn, userSession, webroot }) {
     /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("a", { href: "/yuva_register", className: "mb-common-header__register-link text-decoration-none", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { id: "btnGroupDrop2", type: "button", className: "btn mb-common-header__auth-btn", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "fontchange", children: "Register Now" }) }) }),
     "\xA0\xA0",
     /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "btn-group", role: "group", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "dropdown-menu dropdown-menu-header", "aria-labelledby": "btnGroupDrop1", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("a", { className: "dropdown-item border-bottom", href: "/yuva_register", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: `${cdn}/assets/img/yuva_landing/youth_icon1.png`, alt: "" }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/youth_icon1.png"), alt: "" }),
       " ",
       /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "lang_yuva", children: "Youth" }),
       /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("br", {}),
@@ -9063,6 +9341,7 @@ var Header = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  environment,
   apiProxyBaseUrl,
   loginPayloadPublicKey,
   ipAddress,
@@ -9073,15 +9352,17 @@ var Header = ({
   useHeaderLoginConfig({
     baseUrl,
     apiBaseUrl,
+    environment,
     apiProxyBaseUrl,
     loginPayloadPublicKey,
     ipAddress,
     publicProfileApiBaseUrl,
-    cookieDomain
+    cookieDomain,
+    cdnBase
   });
   useHeaderAccessibilityFont();
   useBhashiniWidgetPlacement(bhashini);
-  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
+  const cdn = resolveCdnBase({ cdnBase });
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
   const loggedIn = isHeaderUserLoggedIn(userSession);
@@ -9179,7 +9460,7 @@ var DEFAULT_HEADER2_MAIN_NAV = [
   {
     type: "link",
     label: "Youth",
-    href: "https://web-beta.mybharats.in/youth-public-profile",
+    href: APP_ROUTES.youthProfile,
     linkClassName: "fontchange14 youth lang_youth",
     spanClassName: ""
   },
@@ -9267,6 +9548,7 @@ var Header2 = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  environment,
   apiProxyBaseUrl,
   loginPayloadPublicKey,
   ipAddress,
@@ -9277,15 +9559,17 @@ var Header2 = ({
   useHeaderLoginConfig({
     baseUrl,
     apiBaseUrl,
+    environment,
     apiProxyBaseUrl,
     loginPayloadPublicKey,
     ipAddress,
     publicProfileApiBaseUrl,
-    cookieDomain
+    cookieDomain,
+    cdnBase
   });
   useHeaderAccessibilityFont();
   useBhashiniWidgetPlacement(bhashini);
-  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE_BETA).replace(/\/$/, "");
+  const cdn = resolveCdnBase({ cdnBase });
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
   const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
   const loggedIn = isHeaderUserLoggedIn(userSession);
@@ -9330,8 +9614,20 @@ var Header2 = ({
 };
 var Header2_default = Header2;
 
-// src/components/footer/useFooterFeedbackShell.ts
+// src/hooks/useRequiredClientConfig.ts
 var import_react9 = require("react");
+function useRequiredClientConfig(config) {
+  const baseUrl = config?.baseUrl?.trim();
+  const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const environment = config?.environment?.trim();
+  const cdnBase = config?.cdnBase?.trim();
+  (0, import_react9.useEffect)(() => {
+    assertRequiredClientConfig({ baseUrl, apiBaseUrl, environment, cdnBase });
+  }, [baseUrl, apiBaseUrl, environment, cdnBase]);
+}
+
+// src/components/footer/useFooterFeedbackShell.ts
+var import_react10 = require("react");
 
 // src/components/footer/footerRecaptchaBridge.ts
 var feedbackRecaptchaWidgetId = null;
@@ -9356,8 +9652,8 @@ function resetFeedbackRecaptchaSafely() {
 }
 
 // src/components/footer/footerFeedbackSubmit.ts
-var SAVE_FEEDBACK_DATA_PATH = "/saveFeedbackData";
-var TRIGGER_YOUTH_REWARD_PATH = "/trigger-youth-reward-points";
+var SAVE_FEEDBACK_DATA_PATH = GATEWAY_PATHS.saveFeedbackData;
+var TRIGGER_YOUTH_REWARD_PATH = GATEWAY_PATHS.triggerYouthReward;
 var feedbackApiBaseUrl;
 var rewardsApiBaseUrl;
 var feedbackSubmitUrlOverride;
@@ -9406,10 +9702,10 @@ function resolveRewardsApiFetchBase() {
   return "";
 }
 function usesHostApiAuthProxy(base) {
-  return base === "/api";
+  return base === DEV_API_PROXY_PREFIXES.feedback;
 }
 function usesHostRewardsApiAuthProxy(base) {
-  return base === "/rewards-api";
+  return base === DEV_API_PROXY_PREFIXES.rewards;
 }
 function unwrapRawUserRecord(input) {
   if (input == null || typeof input !== "object") return null;
@@ -9484,7 +9780,7 @@ async function postFormToApi(url, form) {
       const token = await fetchInternalGuestOauthAccessToken();
       headers.Authorization = `Bearer ${token}`;
     } catch {
-      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
     }
   }
   let res;
@@ -9496,14 +9792,14 @@ async function postFormToApi(url, form) {
       credentials: usesHostApiAuthProxy(base) ? "same-origin" : "omit"
     });
   } catch {
-    return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+    return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
   }
   const text = await res.text();
   try {
     const parsed = JSON.parse(text);
     return normalizeApiResponse(parsed, res.status);
   } catch {
-    return { status_code: res.ok ? 200 : res.status, message: DEFAULT_API_ERROR_MESSAGE };
+    return { status_code: res.ok ? 200 : res.status, message: DEFAULT_API_ERROR_MESSAGE2 };
   }
 }
 function buildRewardsApiUrl(path) {
@@ -9878,7 +10174,7 @@ function useFooterFeedbackShell({
   isLoggedIn,
   enabled = true
 } = {}) {
-  (0, import_react9.useLayoutEffect)(() => {
+  (0, import_react10.useLayoutEffect)(() => {
     if (!enabled) return void 0;
     applyFooterFeedbackConfig({
       feedbackApiBaseUrl: feedbackApiBaseUrl2,
@@ -9892,7 +10188,7 @@ function useFooterFeedbackShell({
 }
 
 // src/components/FooterModals.tsx
-var import_react10 = require("react");
+var import_react11 = require("react");
 var import_react_dom4 = require("react-dom");
 
 // src/components/footer/resolveRecaptchaSiteKey.ts
@@ -9933,12 +10229,12 @@ function ensureRecaptchaScript() {
   window[SCRIPT_ONLOAD] = () => flushRecaptchaReadyCallbacks();
   const script = document.createElement("script");
   script.id = SCRIPT_ID;
-  script.src = `https://www.google.com/recaptcha/api.js?onload=${SCRIPT_ONLOAD}&render=explicit`;
+  script.src = `${EXTERNAL_URLS.thirdParty.recaptchaApi}?onload=${SCRIPT_ONLOAD}&render=explicit`;
   script.async = true;
   script.defer = true;
   document.body.appendChild(script);
 }
-function whenRecaptchaReady(timeoutMs = 15e3) {
+function whenRecaptchaReady(timeoutMs = AUTH_CONFIG.recaptchaLoadTimeoutMs) {
   return new Promise((resolve, reject) => {
     let settled = false;
     const timeoutId = window.setTimeout(() => {
@@ -10041,8 +10337,8 @@ var FooterModals = ({
   recaptchaSiteKey,
   onRegisteredUserClick
 }) => {
-  const [portalReady, setPortalReady] = (0, import_react10.useState)(false);
-  const captchaContainerRef = (0, import_react10.useRef)(null);
+  const [portalReady, setPortalReady] = (0, import_react11.useState)(false);
+  const captchaContainerRef = (0, import_react11.useRef)(null);
   const captchaSiteKey = resolveRecaptchaSiteKey(recaptchaSiteKey);
   const showGuestFeedbackRow = !isLoggedIn;
   const canRenderCaptcha = showGuestFeedbackRow && Boolean(captchaSiteKey);
@@ -10050,15 +10346,15 @@ var FooterModals = ({
     if (!canRenderCaptcha) return;
     scheduleFeedbackRecaptchaRender(() => captchaContainerRef.current, captchaSiteKey, 150);
   };
-  (0, import_react10.useEffect)(() => {
+  (0, import_react11.useEffect)(() => {
     setPortalReady(true);
   }, []);
-  (0, import_react10.useEffect)(() => {
+  (0, import_react11.useEffect)(() => {
     if (!canRenderCaptcha) return void 0;
     preloadRecaptchaScript();
     return void 0;
   }, [canRenderCaptcha]);
-  (0, import_react10.useEffect)(() => {
+  (0, import_react11.useEffect)(() => {
     const modalEl = document.getElementById("feed_back");
     if (!modalEl || !canRenderCaptcha) return void 0;
     const onShown = () => {
@@ -10099,15 +10395,15 @@ var FooterModals = ({
     }, 200);
   };
   const feedbackActions = /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "cross_ico mb-common-footer__feedback-actions", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`, id: "form_cl", "data-bs-dismiss": "modal", alt: "" }),
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("a", { id: "form_c2", href: "#", className: "d-inline-block", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }) })
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mega_checkcircle1.png"), id: "form_cl", "data-bs-dismiss": "modal", alt: "" }),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("a", { id: "form_c2", href: "#", className: "d-inline-block", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mega_checkcircle.png"), alt: "" }) })
   ] });
   const content = /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal fade", id: "feed_back1", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal-dialog", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal-content", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal-body", style: { borderRadius: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "row", id: "pls_select", children: [
       /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "col-sm-12", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
         "img",
         {
-          src: `${cdnBase}/assets/img/yuva_landing/XCircle_n.png`,
+          src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/XCircle_n.png"),
           alt: "",
           className: "btn-close",
           "data-bs-dismiss": "modal"
@@ -10225,7 +10521,7 @@ var FooterModals = ({
       /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "row", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "col-sm-12", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { id: "feedback_alert", className: "alert", role: "alert", style: { display: "none" } }) }) })
     ] }) }) }) }),
     /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal fade", id: "successToaster", tabIndex: -1, "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal-dialog", style: { width: "fit-content" }, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal-content", style: { border: "2px solid #0fbd5f" }, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "modal-header", style: { borderBottom: "none" }, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("h4", { className: "modal-title", style: { color: "#0fbd5f", fontSize: 16, fontWeight: 400 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: `${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`, alt: "" }),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("img", { src: resolveCdnAssetUrl(cdnBase, "assets/img/yuva_landing/mega_checkcircle.png"), alt: "" }),
       " Feedback has been submitted Successfully"
     ] }) }) }) }) })
   ] });
@@ -10254,7 +10550,8 @@ var Footer = ({
   userSession,
   onRegisteredUserClick
 }) => {
-  const cdn = (cdnBase ?? MYBHARAT_CDN_BASE).replace(/\/$/, "");
+  useRequiredClientConfig({ cdnBase });
+  const cdn = resolveCdnBase({ cdnBase });
   const feedbackModalTarget = isLoggedIn ? "#feed_back" : "#feed_back1";
   useFooterFeedbackShell({
     feedbackApiBaseUrl: feedbackApiBaseUrl2,
@@ -10271,7 +10568,7 @@ var Footer = ({
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               "img",
               {
-                src: `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`,
+                src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/YASLogo_opt_2x.png"),
                 alt: "",
                 className: "img-responsive cursor",
                 style: { width: 100 }
@@ -10281,7 +10578,7 @@ var Footer = ({
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "/", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               "img",
               {
-                src: `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`,
+                src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/mybharatlogo_opt_2x.png"),
                 alt: "MY Bharat",
                 className: "img-responsive cursor",
                 style: { width: 100 }
@@ -10336,27 +10633,27 @@ var Footer = ({
           /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h6", { className: "img_link lang_footer_heading_follow fontchange mb-2", children: "Follow Us" }),
           /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "social-icons mb-20 mb-common-footer__social-row", children: [
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "https://x.com/MYBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "icon", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: `${cdn}/assets/img/icon/twitter_v10.png`, alt: "Twitter" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/twitter_v10.png"), alt: "Twitter" }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "twitter-color", children: "Twitter" })
             ] }) }),
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "https://www.instagram.com/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "icon", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: `${cdn}/assets/img/icon/instagram_v10.png`, alt: "Instagram" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/instagram_v10.png"), alt: "Instagram" }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "instagram-color", children: "Instagram" })
             ] }) }),
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "https://www.facebook.com/mybharathq/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "icon", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: `${cdn}/assets/img/icon/facebook_v10.png`, alt: "Facebook" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/facebook_v10.png"), alt: "Facebook" }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "facebook-color", children: "Facebook" })
             ] }) }),
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "https://www.linkedin.com/company/mybharatgov/", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "icon", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: `${cdn}/assets/img/icon/linkedin_v10.png`, alt: "Linkedin" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/linkedin_v10.png"), alt: "Linkedin" }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "linkedin-color", children: "Linkedin" })
             ] }) }),
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "icon", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: `${cdn}/assets/img/icon/whatsapp_v10.png`, alt: "WhatsApp" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/whatsapp_v10.png"), alt: "WhatsApp" }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "whatsapp-color", children: "WhatsApp" })
             ] }) }),
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("a", { href: "https://www.youtube.com/@MyBharatHQ", target: "_blank", rel: "noreferrer", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "icon", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: `${cdn}/assets/img/icon/youtube_v10.png`, alt: "YouTube" }),
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("img", { src: resolveCdnAssetUrl(cdn, "assets/img/icon/youtube_v10.png"), alt: "YouTube" }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "youtube-color", children: "YouTube" })
             ] }) })
           ] }),
@@ -10372,7 +10669,7 @@ var Footer = ({
                 children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
                   "img",
                   {
-                    src: `${cdn}/assets/img/yuva_landing/DigitalIndiamybharat.svg`,
+                    src: resolveCdnAssetUrl(cdn, "assets/img/yuva_landing/DigitalIndiamybharat.svg"),
                     alt: "Digital India",
                     style: { width: 100, height: "auto", display: "block" }
                   }
@@ -10518,11 +10815,11 @@ function prepareMainNavItems(raw, options) {
 }
 
 // src/navigation/useMainNavItems.ts
-var import_react11 = require("react");
+var import_react12 = require("react");
 function useMainNavItems(options) {
   const { load, select, fallback = DEFAULT_HEADER_MAIN_NAV, maxDepth } = options;
-  const [nav, setNav] = (0, import_react11.useState)(fallback);
-  (0, import_react11.useEffect)(() => {
+  const [nav, setNav] = (0, import_react12.useState)(fallback);
+  (0, import_react12.useEffect)(() => {
     let cancelled = false;
     (async () => {
       try {
@@ -10546,22 +10843,29 @@ var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.238";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  APP_ROUTES,
+  AUTH_CONFIG,
   BHASHINI_WIDGET_SELECTORS,
+  DEFAULT_API_ERROR_MESSAGE,
   DEFAULT_HEADER2_MAIN_NAV,
   DEFAULT_HEADER_MAIN_NAV,
   DEFAULT_LOGIN_API_ERROR,
+  DEV_API_PROXY_PREFIXES,
   DesktopMainNav,
+  EXTERNAL_URLS,
   Footer,
+  GATEWAY_PATHS,
   HEADER_LOGIN_SIGN_IN_SELECTORS,
   Header,
   Header2,
   HeaderAuthControls,
   HeaderLoginShellPortal,
   HeaderProfileMenu,
-  MYBHARAT_CDN_BASE,
-  MYBHARAT_CDN_BASE_BETA,
-  MYBHARAT_CDN_ORIGIN,
+  INTERNAL_PATHS,
   MYBHARAT_COMMON_FRONTEND_VERSION,
+  OTP_MESSAGES,
+  PORTAL_PATHS,
+  PROXY_REWRITES,
   SAVE_FEEDBACK_DATA_PATH,
   SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
   SHELL_INTERNAL_GUEST_OAUTH_PATH,
@@ -10573,6 +10877,7 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   applyFooterFeedbackApiConfig,
   applyFooterFeedbackConfig,
   applyShellLoginApiConfig,
+  assertRequiredClientConfig,
   buildHeaderProfileMenuItems,
   buildShellApiUrl,
   completeForgotPasswordUpdate,
@@ -10594,6 +10899,7 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   isNavLinkItem,
   isSafeNavHref,
   loadBhashiniScript,
+  mergeRequiredClientConfig,
   navTreeItemKey,
   normalizeApiMenuTree,
   normalizeHrefForNav,
@@ -10602,9 +10908,13 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   openSignInPasswordModal,
   parseHeaderUserSession,
   prepareMainNavItems,
+  readClientEnvironment,
   readMbAppTokenFromGatewayResponse,
   readShellCookieDomain,
+  resolveCdnAssetUrl,
+  resolveCdnBase,
   resolveEstablishSessionAction,
+  resolveShellLoginConfig,
   saveUserFeedback,
   setMbAuthSessionCookies,
   submitEstablishSessionForm,
@@ -10615,6 +10925,7 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   useFooterFeedbackShell,
   useHeaderAccessibilityFont,
   useMainNavItems,
+  useRequiredClientConfig,
   validateFeedbackForm,
   validateOtpLoginForm
 });

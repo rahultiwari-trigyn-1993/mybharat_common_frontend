@@ -24,12 +24,18 @@ import {
   resolveUserFacingApiError,
   type ApiErrorPayload,
 } from './loginApiErrorMessage';
+import { AUTH_CONFIG } from '../../../config/auth';
+import { APP_ROUTES } from '../../../config/routes';
+import { EXTERNAL_URLS } from '../../../config/external';
+import { GATEWAY_PATHS, INTERNAL_PATHS } from '../../../config/apiPaths';
+import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
+import { OTP_MESSAGES } from '../../../config/messages';
 
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
 export const HEADER_LOGIN_SIGN_IN_SELECTORS =
   '#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link';
 
-const LOGIN_DATA_KEY = 'loginData';
+const LOGIN_DATA_KEY = AUTH_CONFIG.storageKeys.loginData;
 const DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE;
 
 /** Shell-scoped API base — never derived from `window.location` (avoids localhost:3000 registration `/api` collision). */
@@ -37,8 +43,7 @@ let shellLoginApiBaseUrl: string | undefined;
 /** Same-origin proxy base for fetch (avoids cross-origin CORS OPTIONS preflight). */
 let shellLoginApiProxyBaseUrl: string | undefined;
 
-/** Default same-origin proxy prefix when apiBaseUrl is on another host/port. */
-export const SHELL_LOGIN_API_PROXY_DEFAULT = '/mybharat-shell-api';
+export const SHELL_LOGIN_API_PROXY_DEFAULT = INTERNAL_PATHS.proxyDefault;
 
 let warnedAutoLoginProxy = false;
 
@@ -52,7 +57,7 @@ export function applyShellLoginApiConfig(apiBaseUrl?: string, apiProxyBaseUrl?: 
 }
 
 let installed = false;
-let timeRemainingHeader = 45;
+let timeRemainingHeader: number = AUTH_CONFIG.otpResendSeconds;
 let responseCount = 0;
 let countdownHeader: ReturnType<typeof setInterval> | null = null;
 let otpLoginSendInFlight = false;
@@ -152,7 +157,7 @@ function readLoginIdentifier(): string {
 function clearLoginStorage(): void {
   try {
     localStorage.removeItem(LOGIN_DATA_KEY);
-    localStorage.removeItem('user_id');
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.userId);
   } catch {
     /* ignore */
   }
@@ -162,14 +167,17 @@ function cookieExists(name: string): boolean {
   return document.cookie.split(';').some((c) => c.trim().startsWith(`${name}=`));
 }
 
-function setAuthCookies(token: string, domain: string, encryptId?: string): void {
-  const expiry = new Date(Date.now() + 1440 * 60 * 1000).toUTCString();
-  if (!cookieExists('token') && !cookieExists('token_essays')) {
-    document.cookie = `token=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
-    document.cookie = `token_essays=${encodeURIComponent(token)};expires=${expiry};path=/;domain=${domain};`;
+function setAuthCookies(tokenValue: string, domain: string, encryptIdValue?: string): void {
+  const expiry = new Date(
+    Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1000
+  ).toUTCString();
+  const names = AUTH_CONFIG.cookieNames;
+  if (!cookieExists(names.token) && !cookieExists(names.tokenEssays)) {
+    document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
+    document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
   }
-  if (encryptId) {
-    document.cookie = `encryptId=${encodeURIComponent(encryptId)};expires=${expiry};path=/;domain=${domain};`;
+  if (encryptIdValue) {
+    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${domain};`;
   }
 }
 
@@ -393,7 +401,7 @@ type LoginApiErrorPayload = {
 
 function resolveVerifyOtpError(
   res?: SignInResponse | null,
-  fallback = 'Please enter valid OTP.'
+  fallback = OTP_MESSAGES.invalid
 ): string {
   const data = res?.data;
   if (typeof data === 'string' && data.trim()) return data.trim();
@@ -681,7 +689,7 @@ function readClientUserAgent(): string {
   return typeof navigator !== 'undefined' ? navigator.userAgent : '';
 }
 
-const CLIENT_IP_SESSION_KEY = 'mybharat_client_ip_address';
+const CLIENT_IP_SESSION_KEY = AUTH_CONFIG.storageKeys.clientIp;
 let cachedClientIpAddress: string | null = null;
 let clientIpFetchPromise: Promise<string> | null = null;
 
@@ -723,10 +731,7 @@ function parseIpFromCloudflareTrace(text: string): string | undefined {
 }
 
 async function fetchClientIpFromPublicApi(): Promise<string> {
-  const jsonEndpoints = [
-    'https://api.ipify.org?format=json',
-    'https://api64.ipify.org?format=json',
-  ];
+  const jsonEndpoints = [...EXTERNAL_URLS.thirdParty.ipLookup];
 
   for (const url of jsonEndpoints) {
     try {
@@ -741,7 +746,7 @@ async function fetchClientIpFromPublicApi(): Promise<string> {
   }
 
   try {
-    const res = await fetch('https://www.cloudflare.com/cdn-cgi/trace', {
+    const res = await fetch(EXTERNAL_URLS.thirdParty.cloudflareTrace, {
       method: 'GET',
       credentials: 'omit',
     });
@@ -786,7 +791,7 @@ function prefetchClientIpAddress(): void {
 
 /** POST /checkUserExists — Authorization: Bearer {token}; body `{ identifier }` only. */
 async function fetchCheckUserExists(identifier: string, accessToken: string): Promise<KeycloakCheckResponse> {
-  return fetchLoginApiJsonPost<KeycloakCheckResponse>('/checkUserExists', { identifier }, accessToken);
+  return fetchLoginApiJsonPost<KeycloakCheckResponse>(GATEWAY_PATHS.checkUserExists, { identifier }, accessToken);
 }
 
 async function postJson(path: string, data: Record<string, string>): Promise<SignInResponse> {
@@ -816,21 +821,27 @@ async function postJson(path: string, data: Record<string, string>): Promise<Sig
 }
 
 function handleLoginRedirect(signInJsonObj: SignInResponse): void {
-  const fromQuiz = localStorage.getItem('fromQuiz');
-  const returnUrl = localStorage.getItem('fromOrg');
-  const quizId = localStorage.getItem('quizId');
-  const designForBharat = localStorage.getItem('design_for_bharat') === 'true';
-  const hackForSocial = localStorage.getItem('hack_for_social_cause') === 'true';
-  const baseUrl = window.MYBHARAT_SHELL?.login?.baseUrl ?? '/';
+  const fromQuiz = localStorage.getItem(AUTH_CONFIG.storageKeys.fromQuiz);
+  const returnUrl = localStorage.getItem(AUTH_CONFIG.storageKeys.fromOrg);
+  const quizId = localStorage.getItem(AUTH_CONFIG.storageKeys.quizId);
+  const designForBharat =
+    localStorage.getItem(AUTH_CONFIG.storageKeys.designForBharat) === 'true';
+  const hackForSocial =
+    localStorage.getItem(AUTH_CONFIG.storageKeys.hackForSocial) === 'true';
+  const baseUrl = readShellLoginBaseUrl();
+  if (!baseUrl) {
+    assertRequiredClientConfig();
+    return;
+  }
 
   if (hackForSocial) {
-    localStorage.removeItem('hack_for_social_cause');
-    window.location.href = `${baseUrl}pages/podcasts`;
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
+    window.location.href = `${baseUrl}${APP_ROUTES.podcasts.replace(/^\//, '')}`;
     return;
   }
   if (designForBharat) {
-    localStorage.removeItem('design_for_bharat');
-    window.location.href = `${baseUrl}pages/design_for_bharat`;
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+    window.location.href = `${baseUrl}${APP_ROUTES.designForBharat.replace(/^\//, '')}`;
     return;
   }
   if (returnUrl && quizId != null) {
@@ -852,9 +863,9 @@ function handleLoginRedirect(signInJsonObj: SignInResponse): void {
       window.location.href = decodeURIComponent(matches[1]);
       return;
     }
-    const fromGamification = localStorage.getItem('fromGamification');
+    const fromGamification = localStorage.getItem(AUTH_CONFIG.storageKeys.fromGamification);
     if (fromGamification) {
-      localStorage.removeItem('fromGamification');
+      localStorage.removeItem(AUTH_CONFIG.storageKeys.fromGamification);
       window.location.href = fromGamification;
       return;
     }
@@ -1072,7 +1083,7 @@ async function sendGuestOtp(data: Record<string, string>): Promise<SignInRespons
   try {
     let accessToken = await getOauthAccessToken();
     let res = await fetchLoginApiFormPost<SignInResponse>(
-      '/sendMobileGuestUserOtp',
+      GATEWAY_PATHS.sendMobileGuestUserOtp,
       form,
       accessToken
     );
@@ -1080,7 +1091,7 @@ async function sendGuestOtp(data: Record<string, string>): Promise<SignInRespons
     if (isKeycloakUnauthorizedResponse(res)) {
       accessToken = await getOauthAccessToken(true);
       res = await fetchLoginApiFormPost<SignInResponse>(
-        '/sendMobileGuestUserOtp',
+        GATEWAY_PATHS.sendMobileGuestUserOtp,
         form,
         accessToken
       );
@@ -1185,7 +1196,7 @@ async function handleForgotPasswordGetOtp(): Promise<void> {
     const payload = buildOtpPayload(identifier, given);
     const otpRes = await sendGuestOtp(payload);
     if (isSuccessStatus(otpRes.status_code)) {
-      timeRemainingHeader = 45;
+      timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
       startTimerHeader();
       setDisabled('user_mobile_header', true);
       document.querySelectorAll('.generate_otp_header').forEach((el) => {
@@ -1240,7 +1251,7 @@ async function handleOtpLoginSend(): Promise<void> {
     const payload = buildOtpPayload(identifier, given);
     const otpRes = await sendGuestOtp(payload);
     if (isSuccessStatus(otpRes.status_code)) {
-      timeRemainingHeader = 45;
+      timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
       startTimerHeader();
       switchBootstrapModal('loginWithOtpModal', 'loginWIthOtpVerifyModal', 200);
       setVal('otp-field-3', '');
@@ -1267,7 +1278,7 @@ function otpPayloadForStoredIdentifier(): Record<string, string> {
 
 async function handleResendOtp(): Promise<void> {
   if (timeRemainingHeader > 0) return;
-  timeRemainingHeader = 45;
+  timeRemainingHeader = AUTH_CONFIG.otpResendSeconds;
   const payload = otpPayloadForStoredIdentifier();
   const res = await sendGuestOtp(payload);
   if (isSuccessStatus(res.status_code)) {
@@ -1285,11 +1296,11 @@ async function handleVerifyForgotOtp(): Promise<void> {
   const identifier = readLoginIdentifier() || val('user_mobile_header');
   const otp = val('otp-field-2');
   if (!otp) {
-    showLoginFieldError('otp-field-2_error', 'Please enter OTP');
+    showLoginFieldError('otp-field-2_error', OTP_MESSAGES.required);
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    showLoginFieldError('otp-field-2_error', 'Please enter 6 digit OTP');
+    showLoginFieldError('otp-field-2_error', OTP_MESSAGES.sixDigits);
     return;
   }
 
@@ -1312,7 +1323,7 @@ async function handleVerifyForgotOtp(): Promise<void> {
     if (responseCount >= 5) {
       showLoginFieldError(
         'otp-field-2_error',
-        'You have reached maximum limit to verify OTP. Please try again after sometime.'
+        OTP_MESSAGES.maxAttempts
       );
       setDisabled('btn-verify-otp-header', true);
     } else {
@@ -1331,12 +1342,12 @@ async function handleVerifyLoginOtp(): Promise<void> {
   setDisabled('btn-otp-verify-header', true);
   const otp = val('otp-field-3');
   if (!otp) {
-    showLoginFieldError('otp-field-3_error', 'Please enter OTP');
+    showLoginFieldError('otp-field-3_error', OTP_MESSAGES.required);
     setDisabled('btn-otp-verify-header', false);
     return;
   }
   if (!/^[0-9]{6}$/.test(otp)) {
-    showLoginFieldError('otp-field-3_error', 'Please enter 6 digit OTP');
+    showLoginFieldError('otp-field-3_error', OTP_MESSAGES.sixDigits);
     setDisabled('btn-otp-verify-header', false);
     return;
   }
@@ -1359,7 +1370,7 @@ async function handleVerifyLoginOtp(): Promise<void> {
         });
         showLoginFieldError(
           'otp-field-3_error',
-          'You have reached maximum limit to verify OTP. Please try again after sometime.'
+          OTP_MESSAGES.maxAttempts
         );
         setDisabled('btn-otp-verify-header', true);
       } else {
@@ -1620,26 +1631,31 @@ function onDocumentClick(e: Event): void {
   if (target.closest('#loginNowButton')) {
     e.preventDefault();
     hideBootstrapModal('successModal');
-    window.location.href = window.MYBHARAT_SHELL?.login?.baseUrl ?? '/';
+    const baseUrl = readShellLoginBaseUrl();
+    if (!baseUrl) {
+      assertRequiredClientConfig();
+      return;
+    }
+    window.location.href = baseUrl;
     return;
   }
 
   if (target.closest('#close-signIn')) {
-    localStorage.removeItem('fromQuiz');
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.fromQuiz);
     localStorage.removeItem('quizId');
     localStorage.removeItem('loginData');
-    localStorage.removeItem('design_for_bharat');
-    localStorage.removeItem('hack_for_social_cause');
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
     return;
   }
 
   if (target.closest('#close-otpLogin')) {
     setVal('otp_login_header', '');
-    localStorage.removeItem('fromQuiz');
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.fromQuiz);
     localStorage.removeItem('quizId');
     localStorage.removeItem('loginData');
-    localStorage.removeItem('design_for_bharat');
-    localStorage.removeItem('hack_for_social_cause');
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.designForBharat);
+    localStorage.removeItem(AUTH_CONFIG.storageKeys.hackForSocial);
     loginModalQueryAll('.login_otp_header').forEach((el) => {
       (el as HTMLButtonElement).disabled = true;
     });

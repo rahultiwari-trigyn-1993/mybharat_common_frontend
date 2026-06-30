@@ -2,9 +2,11 @@ import { readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "tsup";
+import { getShellManifestGithub } from "./scripts/loadBuildEnv.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, "package.json"), "utf8"));
+const shellManifestGithub = getShellManifestGithub(pkg);
 
 function writeShellCssAndManifest() {
   const shellDir = join(__dirname, "dist/shell");
@@ -18,10 +20,11 @@ function writeShellCssAndManifest() {
 
   /* CSS: scripts/bundle-framework-css.mjs (Bootstrap + icons + FA + component CSS) */
 
-  const githubUser = "rahultiwari-trigyn-1993";
-  const githubRepo = "mybharat_common_frontend";
-  const gitTag = `v${pkg.version}`;
-  const jsdelivrBase = `https://cdn.jsdelivr.net/gh/${githubUser}/${githubRepo}@${gitTag}/dist/shell`;
+  const { githubUser, githubRepo, tag: gitTag } = shellManifestGithub;
+  const jsdelivrBase =
+    githubUser && githubRepo
+      ? `https://cdn.jsdelivr.net/gh/${githubUser}/${githubRepo}@${gitTag}/dist/shell`
+      : '';
 
   writeFileSync(
     join(shellDir, "manifest.json"),
@@ -38,12 +41,23 @@ function writeShellCssAndManifest() {
         },
         customElements: ["mybharat-header", "mybharat-footer"],
         cdn: {
-          recommended: "jsdelivr",
-          jsdelivr: {
+          localTestingOnly: {
+            provider: "jsdelivr",
+            purpose:
+              "Local CakePHP / dev-machine testing when you have no S3 or org CDN access. Not for dev/beta/prod.",
+            githubUser,
+            githubRepo,
             tag: gitTag,
             base: jsdelivrBase,
-            shellJs: `${jsdelivrBase}/shell.js`,
-            shellCss: `${jsdelivrBase}/mybharat-shell.css`,
+            shellJs: jsdelivrBase ? `${jsdelivrBase}/shell.js` : "",
+            shellCss: jsdelivrBase ? `${jsdelivrBase}/mybharat-shell.css` : "",
+          },
+          devBetaProd: {
+            managedBy: "Infra (OpenForge)",
+            purpose:
+              "Org CDN for dev, beta, and production. Host sets cdnBase (VITE_MYBHARAT_CDN_BASE / window.MYBHARAT_SHELL).",
+            assetPath: "/mybharat",
+            note: "Do not point dev/beta/prod at the personal GitHub jsDelivr URLs in package.json repository.",
           },
           note: "Do not use raw.githubusercontent.com in <link>/<script> — Content-Type text/plain causes net::ERR_BLOCKED_BY_ORB in Chrome.",
         },

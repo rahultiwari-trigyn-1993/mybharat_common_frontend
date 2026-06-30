@@ -1,0 +1,28 @@
+export const AUTH_CONFIG = {
+  cookieNames: {
+    token: 'token',
+    tokenEssays: 'token_essays',
+    encryptId: 'encryptId',
+    essayRedirectUrl: 'essay_redirect_url',
+  },
+  cookieExpiryMinutes: 1440,
+  cookiePath: '/',
+  otpResendSeconds: 45,
+  otpLength: 6,
+  storageKeys: {
+    loginData: 'loginData',
+    regCode: 'mybharat_reg_code',
+    clientIp: 'mybharat_client_ip_address',
+    fromQuiz: 'fromQuiz',
+    fromOrg: 'fromOrg',
+    quizId: 'quizId',
+    designForBharat: 'design_for_bharat',
+    hackForSocial: 'hack_for_social_cause',
+    fromGamification: 'fromGamification',
+    userId: 'user_id',
+    accessibilityFont: 'mb-accessibility-font-step',
+  },
+  excludedProfileMenuUserTypes: new Set([11, 12, 13, 14, 50]),
+  youthUserType: 6,
+  recaptchaLoadTimeoutMs: 15000,
+} as const;

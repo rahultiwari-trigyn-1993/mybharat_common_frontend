@@ -39,6 +39,8 @@ export type ShellLoginConfig = {
    * Use full URL when shell is embedded on another origin (e.g. registration on localhost:3000).
    */
   apiBaseUrl?: string;
+  /** Host environment (`local` | `dev` | `beta` | `prod`). */
+  environment?: 'local' | 'dev' | 'beta' | 'prod';
   /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin. */
   apiProxyBaseUrl?: string;
   /** @deprecated Server-side only — configure host `/_internal/guest-oauth` proxy route. */
@@ -54,19 +56,6 @@ export type ShellLoginConfig = {
   youthProfileUrl?: string;
   publicProfileApiBaseUrl?: string;
 };
-
-declare global {
-  interface Window {
-    MYBHARAT_SHELL?: {
-      header?: ShellHeaderConfig;
-      footer?: ShellFooterConfig;
-      login?: ShellLoginConfig;
-    };
-    MyBharatShell?: {
-      openLoginModal?: (mode?: 'otp' | 'password') => void;
-    };
-  }
-}
 
 export function parseBooleanAttr(value: string | null): boolean | undefined {
   if (value === null) return undefined;
@@ -141,6 +130,9 @@ export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
   return {
     baseUrl: el.getAttribute('login-base-url') ?? global?.baseUrl,
     apiBaseUrl: el.getAttribute('api-base-url') ?? global?.apiBaseUrl,
+    environment: (el.getAttribute('environment') ?? global?.environment) as
+      | ShellLoginConfig['environment']
+      | undefined,
     apiProxyBaseUrl: el.getAttribute('api-proxy-base-url') ?? global?.apiProxyBaseUrl,
     loginPayloadPublicKey:
       el.getAttribute('login-payload-public-key') ?? global?.loginPayloadPublicKey,
@@ -157,6 +149,7 @@ export function resolveHeaderProps(el: HTMLElement): {
   webroot?: string;
   baseUrl?: string;
   apiBaseUrl?: string;
+  environment?: 'local' | 'dev' | 'beta' | 'prod';
   apiProxyBaseUrl?: string;
   loginPayloadPublicKey?: string;
   ipAddress?: string;
@@ -177,6 +170,7 @@ export function resolveHeaderProps(el: HTMLElement): {
     webroot: el.getAttribute('webroot') ?? global?.webroot,
     baseUrl: login.baseUrl,
     apiBaseUrl: login.apiBaseUrl,
+    environment: login.environment,
     apiProxyBaseUrl: login.apiProxyBaseUrl,
     loginPayloadPublicKey: login.loginPayloadPublicKey,
     ipAddress: login.ipAddress,

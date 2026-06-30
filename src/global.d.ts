@@ -12,6 +12,7 @@ interface Window {
       navItems?: unknown;
       userSession?: unknown;
       webroot?: string;
+      bhashini?: boolean;
     };
     footer?: {
       cdnBase?: string;
@@ -27,6 +28,8 @@ interface Window {
       baseUrl?: string;
       /** Absolute MY Bharat API root — not the host page `/api` (see shell login docs). */
       apiBaseUrl?: string;
+      /** Host environment (`local` | `dev` | `beta` | `prod`). */
+      environment?: 'local' | 'dev' | 'beta' | 'prod';
       /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
       apiProxyBaseUrl?: string;
       /** @deprecated OAuth credentials belong on the host server — map `/_internal/guest-oauth` in your proxy. */

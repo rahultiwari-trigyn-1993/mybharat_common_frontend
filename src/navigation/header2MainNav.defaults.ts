@@ -1,4 +1,5 @@
 import type { NavTreeItem } from './types';
+import { APP_ROUTES } from '../config/routes';
 
 /** Default desktop main nav for {@link Header2} — override with `mainNavItems` when loading from API. */
 export const DEFAULT_HEADER2_MAIN_NAV: readonly NavTreeItem[] = [
@@ -58,7 +59,7 @@ export const DEFAULT_HEADER2_MAIN_NAV: readonly NavTreeItem[] = [
   {
     type: 'link',
     label: 'Youth',
-    href: 'https://web-beta.mybharats.in/youth-public-profile',
+    href: APP_ROUTES.youthProfile,
     linkClassName: 'fontchange14 youth lang_youth',
     spanClassName: '',
   },

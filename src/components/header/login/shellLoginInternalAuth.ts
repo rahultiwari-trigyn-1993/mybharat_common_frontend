@@ -10,27 +10,28 @@ import {
   resolveUserFacingApiError,
   type ApiErrorPayload,
 } from './loginApiErrorMessage';
+import { INTERNAL_PATHS } from '../../../config/apiPaths';
 
 /** Default same-origin proxy prefix when host does not set apiProxyBaseUrl explicitly. */
-const SHELL_LOGIN_API_PROXY_DEFAULT = '/mybharat-shell-api';
+export const SHELL_LOGIN_API_PROXY_DEFAULT = INTERNAL_PATHS.proxyDefault;
 
 /** Opaque path — host proxies to POST /getKeycloakClientAccessToken (no body). */
-export const SHELL_INTERNAL_KC_CLIENT_PATH = '/_internal/kc-client';
+export const SHELL_INTERNAL_KC_CLIENT_PATH = INTERNAL_PATHS.kcClient;
 
 /** Opaque path — host proxies to POST /oauth with server-stored client credentials. */
-export const SHELL_INTERNAL_GUEST_OAUTH_PATH = '/_internal/guest-oauth';
+export const SHELL_INTERNAL_GUEST_OAUTH_PATH = INTERNAL_PATHS.guestOauth;
 
 /** RSA public key for encrypting passwords/OTP in the browser. */
-export const SHELL_INTERNAL_LOGIN_PUBKEY_PATH = '/_internal/login-pubkey';
+export const SHELL_INTERNAL_LOGIN_PUBKEY_PATH = INTERNAL_PATHS.loginPubkey;
 
 /** Encrypted password sign-in — host decrypts and calls keycloakLogin. */
-export const SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = '/_internal/keycloak-login';
+export const SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = INTERNAL_PATHS.keycloakLogin;
 
 /** Encrypted OTP verify — host decrypts and calls verifyGuestUserOtp. */
-export const SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = '/_internal/verify-guest-otp';
+export const SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = INTERNAL_PATHS.verifyGuestOtp;
 
 /** Encrypted password change — host decrypts and calls keycloakChangePassword. */
-export const SHELL_INTERNAL_CHANGE_PASSWORD_PATH = '/_internal/keycloak-change-password';
+export const SHELL_INTERNAL_CHANGE_PASSWORD_PATH = INTERNAL_PATHS.keycloakChangePassword;
 
 export class ShellInternalAuthError extends Error {
   constructor(message: string) {

@@ -6,6 +6,7 @@ import {
   type HeaderUserSessionInput,
 } from './headerUserSession';
 import { HeaderProfileMenu } from './HeaderProfileMenu';
+import { resolveCdnAssetUrl } from '../../config/resolve';
 
 export type HeaderAuthControlsProps = {
   cdn: string;
@@ -46,7 +47,7 @@ export function HeaderAuthControls({ cdn, userSession, webroot }: HeaderAuthCont
       <div className="btn-group" role="group">
         <div className="dropdown-menu dropdown-menu-header" aria-labelledby="btnGroupDrop1">
           <a className="dropdown-item border-bottom" href="/yuva_register">
-            <img src={`${cdn}/assets/img/yuva_landing/youth_icon1.png`} alt="" />{' '}
+            <img src={resolveCdnAssetUrl(cdn, 'assets/img/yuva_landing/youth_icon1.png')} alt="" />{' '}
             <span className="lang_yuva">Youth</span>
             <br />{' '}
             <span className="f-12-dropdown lang_applicants_volunteer">Applicants/Volunteers/Participants</span>

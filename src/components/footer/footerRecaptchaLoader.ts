@@ -1,3 +1,6 @@
+import { EXTERNAL_URLS } from '../../config/external';
+import { AUTH_CONFIG } from '../../config/auth';
+
 type GrecaptchaApi = {
   render: (container: HTMLElement, params: { sitekey: string }) => number;
   reset: (widgetId?: number) => void;
@@ -34,14 +37,16 @@ function ensureRecaptchaScript(): void {
 
   const script = document.createElement('script');
   script.id = SCRIPT_ID;
-  script.src = `https://www.google.com/recaptcha/api.js?onload=${SCRIPT_ONLOAD}&render=explicit`;
+  script.src = `${EXTERNAL_URLS.thirdParty.recaptchaApi}?onload=${SCRIPT_ONLOAD}&render=explicit`;
   script.async = true;
   script.defer = true;
   document.body.appendChild(script);
 }
 
 /** Load api.js once and resolve when `grecaptcha.render` is callable. */
-export function whenRecaptchaReady(timeoutMs = 15000): Promise<GrecaptchaApi> {
+export function whenRecaptchaReady(
+  timeoutMs = AUTH_CONFIG.recaptchaLoadTimeoutMs
+): Promise<GrecaptchaApi> {
   return new Promise((resolve, reject) => {
     let settled = false;
     const timeoutId = window.setTimeout(() => {

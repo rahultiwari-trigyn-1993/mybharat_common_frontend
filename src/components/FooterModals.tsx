@@ -7,6 +7,7 @@ import {
 import { resolveRecaptchaSiteKey } from './footer/resolveRecaptchaSiteKey';
 import { preloadRecaptchaScript } from './footer/footerRecaptchaLoader';
 import { scheduleFeedbackRecaptchaRender } from './footer/footerRecaptchaWidget';
+import { resolveCdnAssetUrl } from '../config/resolve';
 
 type BootstrapModal = {
   getInstance: (el: Element | null) => { hide: () => void } | undefined;
@@ -107,9 +108,9 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
 
   const feedbackActions = (
     <div className="cross_ico mb-common-footer__feedback-actions">
-      <img src={`${cdnBase}/assets/img/yuva_landing/mega_checkcircle1.png`} id="form_cl" data-bs-dismiss="modal" alt="" />
+      <img src={resolveCdnAssetUrl(cdnBase, 'assets/img/yuva_landing/mega_checkcircle1.png')} id="form_cl" data-bs-dismiss="modal" alt="" />
       <a id="form_c2" href="#" className="d-inline-block">
-        <img src={`${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`} alt="" />
+        <img src={resolveCdnAssetUrl(cdnBase, 'assets/img/yuva_landing/mega_checkcircle.png')} alt="" />
       </a>
     </div>
   );
@@ -123,7 +124,7 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
               <div className="row" id="pls_select">
                 <div className="col-sm-12">
                   <img
-                    src={`${cdnBase}/assets/img/yuva_landing/XCircle_n.png`}
+                    src={resolveCdnAssetUrl(cdnBase, 'assets/img/yuva_landing/XCircle_n.png')}
                     alt=""
                     className="btn-close"
                     data-bs-dismiss="modal"
@@ -280,7 +281,7 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
           <div className="modal-content" style={{ border: '2px solid #0fbd5f' }}>
             <div className="modal-header" style={{ borderBottom: 'none' }}>
               <h4 className="modal-title" style={{ color: '#0fbd5f', fontSize: 16, fontWeight: 400 }}>
-                <img src={`${cdnBase}/assets/img/yuva_landing/mega_checkcircle.png`} alt="" /> Feedback has been submitted Successfully
+                <img src={resolveCdnAssetUrl(cdnBase, 'assets/img/yuva_landing/mega_checkcircle.png')} alt="" /> Feedback has been submitted Successfully
               </h4>
             </div>
           </div>

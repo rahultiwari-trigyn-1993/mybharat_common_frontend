@@ -1,7 +1,8 @@
-const BHASHINI_SCRIPT_URL =
-  'https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js';
+import { EXTERNAL_URLS } from '../config/external';
 
-const BHASHINI_LANGUAGE_LIST = 'en,as,bn,brx,gom,gu,hi,ml,or,pa,te,ur';
+export const BHASHINI_SCRIPT_URL = EXTERNAL_URLS.thirdParty.bhashiniScript;
+
+const BHASHINI_LANGUAGE_LIST = EXTERNAL_URLS.thirdParty.bhashiniLanguages;
 
 /** v3 widget id/class (v2 used `.bhashini-translator-widget`). */
 export const BHASHINI_WIDGET_SELECTORS = [

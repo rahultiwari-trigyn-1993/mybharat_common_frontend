@@ -1,4 +1,4 @@
-import React from 'react';
+import { resolveCdnAssetUrl } from '../../config/resolve';
 
 type HeaderBrandLogosProps = {
   cdn: string;
@@ -7,8 +7,8 @@ type HeaderBrandLogosProps = {
 };
 
 export function HeaderBrandLogos({ cdn, layout }: HeaderBrandLogosProps) {
-  const yas = `${cdn}/assets/img/yuva_landing/YASLogo_opt_2x.png`;
-  const mb = `${cdn}/assets/img/yuva_landing/mybharatlogo_opt_2x.png`;
+  const yas = resolveCdnAssetUrl(cdn, 'assets/img/yuva_landing/YASLogo_opt_2x.png');
+  const mb = resolveCdnAssetUrl(cdn, 'assets/img/yuva_landing/mybharatlogo_opt_2x.png');
 
   if (layout === 'mobile') {
     const mobileLogoStyle = { width: 70, maxWidth: 70, height: 'auto' as const };

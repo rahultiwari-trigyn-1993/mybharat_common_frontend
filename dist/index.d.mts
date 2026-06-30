@@ -64,7 +64,7 @@ declare function buildHeaderProfileMenuItems(user: HeaderUserSession, options?: 
 }): HeaderProfileMenuItem[];
 
 type FooterProps = {
-    /** CDN origin + `/mybharat` path segment (no trailing slash) */
+    /** CDN origin (e.g. `https://cdn-prod.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
     cdnBase?: string;
     /** Matches logged-in `User` / `$ufdl_id` — feedback opens full form; skips Guest modal branch for captcha UI when false */
     isLoggedIn?: boolean;
@@ -114,6 +114,25 @@ type NavGroupItem = {
 };
 type NavTreeItem = NavLinkItem | NavGroupItem;
 
+/** Runtime environment supplied by the host app (browser). */
+type ClientEnvironment = 'local' | 'dev' | 'beta' | 'prod';
+type ShellRuntimeConfig = {
+    baseUrl?: string;
+    apiBaseUrl?: string;
+    /** Host environment — required at runtime (`local` | `dev` | `beta` | `prod`). */
+    environment?: ClientEnvironment;
+    apiProxyBaseUrl?: string;
+    cookieDomain?: string;
+    publicProfileApiBaseUrl?: string;
+    /** RSA public key PEM — browser-safe; skips /_internal/login-pubkey fetch when inlined. */
+    loginPayloadPublicKey?: string;
+    recaptchaSiteKey?: string;
+    feedbackApiBaseUrl?: string;
+    rewardsApiBaseUrl?: string;
+    cdnBase?: string;
+    navItems?: unknown;
+};
+
 /**
  * Alternate header (nav + auth styling). Exported as `Header2` from the package entry.
  * Avoid mounting `Header` and `Header2` on one page — shared DOM ids / modal hooks.
@@ -122,7 +141,7 @@ type NavTreeItem = NavLinkItem | NavGroupItem;
 type Header2Props = {
     /** Landmark label for the root `<header>` (`aria-label`). Does not change visible UI. */
     title?: string;
-    /** Override CDN base (no trailing slash), e.g. `https://cdn-beta.mybharats.in/mybharat` */
+    /** CDN origin (e.g. `https://cdn-beta.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
     cdnBase?: string;
     /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER2_MAIN_NAV}. */
     mainNavItems?: readonly NavTreeItem[];
@@ -134,6 +153,8 @@ type Header2Props = {
     baseUrl?: string;
     /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
     apiBaseUrl?: string;
+    /** Host environment (`local` | `dev` | `beta` | `prod`). */
+    environment?: ClientEnvironment;
     /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
     apiProxyBaseUrl?: string;
     /** RSA public key PEM (optional). Browser encrypts password/OTP — never pass private key as a prop. */
@@ -152,7 +173,7 @@ declare const Header2: React__default.FC<Header2Props>;
 type HeaderProps = {
     /** Landmark label for the root `<header>` (`aria-label`). Does not change visible UI. */
     title?: string;
-    /** Override CDN base (no trailing slash), e.g. `https://cdn-prod.mybharats.in/mybharat` */
+    /** CDN origin (e.g. `https://cdn-prod.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
     cdnBase?: string;
     /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER_MAIN_NAV}. */
     mainNavItems?: readonly NavTreeItem[];
@@ -164,6 +185,8 @@ type HeaderProps = {
     baseUrl?: string;
     /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
     apiBaseUrl?: string;
+    /** Host environment (`local` | `dev` | `beta` | `prod`). */
+    environment?: ClientEnvironment;
     /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
     apiProxyBaseUrl?: string;
     /** RSA public key PEM (optional). Browser encrypts password/OTP — never pass private key as a prop. */
@@ -191,23 +214,22 @@ declare global {
 }
 
 /** Opaque path — host proxies to POST /getKeycloakClientAccessToken (no body). */
-declare const SHELL_INTERNAL_KC_CLIENT_PATH = "/_internal/kc-client";
+declare const SHELL_INTERNAL_KC_CLIENT_PATH: "/_internal/kc-client";
 /** Opaque path — host proxies to POST /oauth with server-stored client credentials. */
-declare const SHELL_INTERNAL_GUEST_OAUTH_PATH = "/_internal/guest-oauth";
+declare const SHELL_INTERNAL_GUEST_OAUTH_PATH: "/_internal/guest-oauth";
 /** RSA public key for encrypting passwords/OTP in the browser. */
-declare const SHELL_INTERNAL_LOGIN_PUBKEY_PATH = "/_internal/login-pubkey";
+declare const SHELL_INTERNAL_LOGIN_PUBKEY_PATH: "/_internal/login-pubkey";
 /** Encrypted password sign-in — host decrypts and calls keycloakLogin. */
-declare const SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = "/_internal/keycloak-login";
+declare const SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH: "/_internal/keycloak-login";
 /** Encrypted OTP verify — host decrypts and calls verifyGuestUserOtp. */
-declare const SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = "/_internal/verify-guest-otp";
+declare const SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH: "/_internal/verify-guest-otp";
 /** Encrypted password change — host decrypts and calls keycloakChangePassword. */
-declare const SHELL_INTERNAL_CHANGE_PASSWORD_PATH = "/_internal/keycloak-change-password";
+declare const SHELL_INTERNAL_CHANGE_PASSWORD_PATH: "/_internal/keycloak-change-password";
 
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
 declare const HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
 declare const DEFAULT_LOGIN_API_ERROR = "Something went wrong!!! Plz try again later.";
-/** Default same-origin proxy prefix when apiBaseUrl is on another host/port. */
-declare const SHELL_LOGIN_API_PROXY_DEFAULT = "/mybharat-shell-api";
+declare const SHELL_LOGIN_API_PROXY_DEFAULT: "/mybharat-shell-api";
 /** Pin header login API root and optional same-origin proxy for browser fetch. */
 declare function applyShellLoginApiConfig(apiBaseUrl?: string, apiProxyBaseUrl?: string): void;
 /** Same-origin or proxy base used for APIGateway fetch from the shell. */
@@ -305,7 +327,7 @@ declare function submitEstablishSessionForm(params: SubmitEstablishSessionParams
 declare function readMbAppTokenFromGatewayResponse(authResponse: unknown): string;
 declare function readShellCookieDomain(): string;
 /** Sets `token` and `token_essays` before `establish_session` navigation. */
-declare function setMbAuthSessionCookies(token: string, options?: {
+declare function setMbAuthSessionCookies(tokenValue: string, options?: {
     cookieDomain?: string;
 }): void;
 
@@ -367,7 +389,7 @@ declare function validateFeedbackForm(requireCaptcha?: boolean): boolean;
 /** Document-level feedback modal handlers — validation + APIGateway submit. */
 declare function installFooterFeedbackFlow(): () => void;
 
-declare const SAVE_FEEDBACK_DATA_PATH = "/saveFeedbackData";
+declare const SAVE_FEEDBACK_DATA_PATH: "/saveFeedbackData";
 type FeedbackApiResponse = {
     status_code?: number | string;
     data?: string;
@@ -422,12 +444,156 @@ type DesktopMainNavProps = {
  */
 declare const DesktopMainNav: React__default.FC<DesktopMainNavProps>;
 
-/** MY Bharat production CDN origin (CSS, JS, images under /mybharat/...). */
-declare const MYBHARAT_CDN_ORIGIN = "https://cdn-prod.mybharats.in";
-/** Base path for MY Bharat static assets on the CDN. */
-declare const MYBHARAT_CDN_BASE = "https://cdn-prod.mybharats.in/mybharat";
-/** Beta CDN base for `Header2` default (no trailing slash). */
-declare const MYBHARAT_CDN_BASE_BETA = "https://cdn-beta.mybharats.in/mybharat";
+/** APIGateway paths (appended to apiBaseUrl or same-origin proxy prefix). */
+declare const GATEWAY_PATHS: {
+    readonly checkUserExists: "/checkUserExists";
+    readonly sendMobileGuestUserOtp: "/sendMobileGuestUserOtp";
+    readonly keycloakGetExchangeToken: "/keycloakGetExchangeToken";
+    readonly keycloakForgotPassword: "/keycloakForgotPassword";
+    readonly saveFeedbackData: "/saveFeedbackData";
+    readonly triggerYouthReward: "/trigger-youth-reward-points";
+};
+/** Opaque browser → host-server routes (credentials stay on server). */
+declare const INTERNAL_PATHS: {
+    readonly proxyDefault: "/mybharat-shell-api";
+    readonly kcClient: "/_internal/kc-client";
+    readonly guestOauth: "/_internal/guest-oauth";
+    readonly loginPubkey: "/_internal/login-pubkey";
+    readonly keycloakLogin: "/_internal/keycloak-login";
+    readonly verifyGuestOtp: "/_internal/verify-guest-otp";
+    readonly keycloakChangePassword: "/_internal/keycloak-change-password";
+};
+/** Host dev proxy rewrites (server-side only). */
+declare const PROXY_REWRITES: {
+    readonly kcClient: "/api/getKeycloakClientAccessToken";
+    readonly guestOauth: "/api/oauth";
+    readonly apiPrefix: "/api";
+};
+declare const PORTAL_PATHS: {
+    readonly establishSession: "/establish_session";
+};
+/** Dev proxy shortcuts checked by feedback submit. */
+declare const DEV_API_PROXY_PREFIXES: {
+    readonly feedback: "/api";
+    readonly rewards: "/rewards-api";
+};
+
+/** CakePHP / portal routes used in header, footer, and profile menus. */
+declare const APP_ROUTES: {
+    readonly home: "/";
+    readonly yuvaRegister: "/yuva_register";
+    readonly partnerRegister: "/partner_register";
+    readonly youthProfile: "/youth-profile";
+    readonly dashboard: "/dashboard";
+    readonly quiz: "/quiz";
+    readonly support: "/pages/support";
+    readonly terms: "/pages/terms_of_use";
+    readonly policy: "/pages/policy";
+    readonly sitemap: "/sitemap";
+    readonly about: "/pages/about_mybharat";
+    readonly megaEvents: "/mega_events";
+    readonly experientialLearning: "/pages/experiential_learning?mode=I";
+    readonly events: "/pages/events";
+    readonly podcasts: "/pages/podcasts";
+    readonly designForBharat: "/pages/design_for_bharat";
+    readonly editPartnerProfile: "users/editpartnerprofile";
+    readonly partnerProfile: "reports/partner_profile";
+    readonly logout: "users/check_user_logout";
+};
+
+declare const AUTH_CONFIG: {
+    readonly cookieNames: {
+        readonly token: "token";
+        readonly tokenEssays: "token_essays";
+        readonly encryptId: "encryptId";
+        readonly essayRedirectUrl: "essay_redirect_url";
+    };
+    readonly cookieExpiryMinutes: 1440;
+    readonly cookiePath: "/";
+    readonly otpResendSeconds: 45;
+    readonly otpLength: 6;
+    readonly storageKeys: {
+        readonly loginData: "loginData";
+        readonly regCode: "mybharat_reg_code";
+        readonly clientIp: "mybharat_client_ip_address";
+        readonly fromQuiz: "fromQuiz";
+        readonly fromOrg: "fromOrg";
+        readonly quizId: "quizId";
+        readonly designForBharat: "design_for_bharat";
+        readonly hackForSocial: "hack_for_social_cause";
+        readonly fromGamification: "fromGamification";
+        readonly userId: "user_id";
+        readonly accessibilityFont: "mb-accessibility-font-step";
+    };
+    readonly excludedProfileMenuUserTypes: Set<number>;
+    readonly youthUserType: 6;
+    readonly recaptchaLoadTimeoutMs: 15000;
+};
+
+declare const EXTERNAL_URLS: {
+    readonly government: {
+        readonly indiaGov: "https://www.india.gov.in/";
+        readonly digitalIndia: "https://digitalindia.gov.in/";
+        readonly yas: "https://yas.gov.in/";
+    };
+    readonly support: {
+        readonly phones: readonly ["14472", "18002122729"];
+        readonly tel: "18002122729";
+        readonly label: "support.mybharat.gov.in";
+    };
+    readonly social: {
+        readonly twitter: "https://x.com/MYBharatHQ";
+        readonly instagram: "https://www.instagram.com/mybharatgov/";
+        readonly facebook: "https://www.facebook.com/mybharathq/";
+        readonly linkedin: "https://www.linkedin.com/company/mybharatgov/";
+        readonly whatsapp: "https://whatsapp.com/channel/0029VaI9Yoj9WtCA717aAd0h";
+        readonly youtube: "https://www.youtube.com/@MyBharatHQ";
+    };
+    readonly thirdParty: {
+        readonly bhashiniScript: "https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js";
+        readonly bhashiniLanguages: "en,as,bn,brx,gom,gu,hi,ml,or,pa,te,ur";
+        readonly recaptchaApi: "https://www.google.com/recaptcha/api.js";
+        readonly ipLookup: readonly ["https://api.ipify.org?format=json", "https://api64.ipify.org?format=json"];
+        readonly cloudflareTrace: "https://www.cloudflare.com/cdn-cgi/trace";
+    };
+};
+
+/** Standard fallback when an API response cannot be treated as success. */
+declare const DEFAULT_API_ERROR_MESSAGE = "Something went wrong!!! Plz try again later.";
+declare const OTP_MESSAGES: {
+    readonly invalid: "Please enter valid OTP.";
+    readonly required: "Please enter OTP";
+    readonly sixDigits: "Please enter 6 digit OTP";
+    readonly maxAttempts: "You have reached maximum limit to verify OTP. Please try again after sometime.";
+    readonly sendFailed: "Failed to send OTP";
+};
+
+declare function resolveCdnBase(options?: {
+    cdnBase?: string;
+}): string;
+/** Build `{cdnBase}/mybharat/{assetPath}` for logos and static images on the CDN. */
+declare function resolveCdnAssetUrl(cdnBase: string, assetPath: string): string;
+declare function resolveShellLoginConfig(props?: ShellRuntimeConfig): ShellRuntimeConfig & {
+    apiProxyBaseUrl: string;
+};
+
+type RequiredClientConfigInput = {
+    baseUrl?: string;
+    apiBaseUrl?: string;
+    environment?: string;
+    cdnBase?: string;
+};
+/** Merges React props, `window.MYBHARAT_SHELL`, and web-component attributes. */
+declare function mergeRequiredClientConfig(props?: RequiredClientConfigInput): RequiredClientConfigInput;
+/**
+ * Alerts when required host config is missing.
+ * Each message is shown at most once per page load.
+ */
+declare function assertRequiredClientConfig(props?: RequiredClientConfigInput): boolean;
+declare function readClientEnvironment(props?: RequiredClientConfigInput): ClientEnvironment | undefined;
+
+/** Validates required host config on mount. */
+declare function useRequiredClientConfig(config?: RequiredClientConfigInput): void;
 
 /** Default desktop main nav for {@link Header} — replace at runtime via `mainNavItems` prop or merge from API. */
 declare const DEFAULT_HEADER_MAIN_NAV: readonly NavTreeItem[];
@@ -511,4 +677,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { BHASHINI_WIDGET_SELECTORS, DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DesktopMainNav, type EstablishSessionFlow, Footer, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, MYBHARAT_CDN_BASE, MYBHARAT_CDN_BASE_BETA, MYBHARAT_CDN_ORIGIN, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, type PrepareMainNavItemsOptions, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, readMbAppTokenFromGatewayResponse, readShellCookieDomain, resolveEstablishSessionAction, saveUserFeedback, setMbAuthSessionCookies, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, validateFeedbackForm, validateOtpLoginForm };
+export { APP_ROUTES, AUTH_CONFIG, BHASHINI_WIDGET_SELECTORS, type ClientEnvironment, DEFAULT_API_ERROR_MESSAGE, DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DEV_API_PROXY_PREFIXES, DesktopMainNav, EXTERNAL_URLS, type EstablishSessionFlow, Footer, GATEWAY_PATHS, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, INTERNAL_PATHS, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, OTP_MESSAGES, PORTAL_PATHS, PROXY_REWRITES, type PrepareMainNavItemsOptions, type RequiredClientConfigInput, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type ShellRuntimeConfig, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, assertRequiredClientConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, mergeRequiredClientConfig, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, readClientEnvironment, readMbAppTokenFromGatewayResponse, readShellCookieDomain, resolveCdnAssetUrl, resolveCdnBase, resolveEstablishSessionAction, resolveShellLoginConfig, saveUserFeedback, setMbAuthSessionCookies, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, useRequiredClientConfig, validateFeedbackForm, validateOtpLoginForm };

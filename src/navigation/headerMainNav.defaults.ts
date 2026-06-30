@@ -1,11 +1,12 @@
 import type { NavTreeItem } from './types';
+import { APP_ROUTES } from '../config/routes';
 
 /** Default desktop main nav for {@link Header} — replace at runtime via `mainNavItems` prop or merge from API. */
 export const DEFAULT_HEADER_MAIN_NAV: readonly NavTreeItem[] = [
   {
     type: 'link',
     label: 'Youth',
-    href: 'https://web.mybharat.gov.in/youth-public-profile',
+    href: APP_ROUTES.youthProfile,
     linkClassName: 'fontchange14 youth lang_youth',
     spanClassName: '',
   },

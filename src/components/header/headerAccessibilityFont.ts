@@ -1,6 +1,8 @@
+import { AUTH_CONFIG } from '../../config/auth';
+
 const STEP_SIZE = 2;
 const MAX_STEPS = 3;
-const STORAGE_KEY = 'mb-accessibility-font-step';
+const STORAGE_KEY = AUTH_CONFIG.storageKeys.accessibilityFont;
 const HTML_ACTIVE_CLASS = 'mb-accessibility-font-active';
 
 let listenerCount = 0;

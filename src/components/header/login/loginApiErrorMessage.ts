@@ -1,5 +1,7 @@
+import { DEFAULT_API_ERROR_MESSAGE as CONFIG_DEFAULT_API_ERROR_MESSAGE } from '../../../config/messages';
+
 /** Standard fallback when an API response cannot be treated as success. */
-export const DEFAULT_API_ERROR_MESSAGE = 'Something went wrong!!! Plz try again later.';
+export const DEFAULT_API_ERROR_MESSAGE = CONFIG_DEFAULT_API_ERROR_MESSAGE;
 
 export type ApiErrorPayload = {
   status_code?: number | string;
