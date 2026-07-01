@@ -121,11 +121,10 @@ type ShellRuntimeConfig = {
     apiBaseUrl?: string;
     /** Host environment — required at runtime (`local` | `dev` | `beta` | `prod`). */
     environment?: ClientEnvironment;
-    apiProxyBaseUrl?: string;
+    oauthUsername?: string;
+    oauthPassword?: string;
     cookieDomain?: string;
     publicProfileApiBaseUrl?: string;
-    /** RSA public key PEM — browser-safe; skips /_internal/login-pubkey fetch when inlined. */
-    loginPayloadPublicKey?: string;
     recaptchaSiteKey?: string;
     feedbackApiBaseUrl?: string;
     rewardsApiBaseUrl?: string;
@@ -151,14 +150,12 @@ type Header2Props = {
     webroot?: string;
     /** Portal origin for header login redirects (`VITE_BASE_URL`). */
     baseUrl?: string;
-    /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
+    /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
     apiBaseUrl?: string;
     /** Host environment (`local` | `dev` | `beta` | `prod`). */
     environment?: ClientEnvironment;
-    /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
-    apiProxyBaseUrl?: string;
-    /** RSA public key PEM (optional). Browser encrypts password/OTP — never pass private key as a prop. */
-    loginPayloadPublicKey?: string;
+    oauthUsername?: string;
+    oauthPassword?: string;
     /** Optional client IP for OTP send when host cannot infer IP server-side. */
     ipAddress?: string;
     /** Public profile API base for post-login `getUserId`. */
@@ -183,14 +180,14 @@ type HeaderProps = {
     webroot?: string;
     /** Portal origin for header login redirects (`VITE_BASE_URL`). */
     baseUrl?: string;
-    /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
+    /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
     apiBaseUrl?: string;
     /** Host environment (`local` | `dev` | `beta` | `prod`). */
     environment?: ClientEnvironment;
-    /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
-    apiProxyBaseUrl?: string;
-    /** RSA public key PEM (optional). Browser encrypts password/OTP — never pass private key as a prop. */
-    loginPayloadPublicKey?: string;
+    /** Guest OAuth username for OTP APIs. */
+    oauthUsername?: string;
+    /** Guest OAuth password for OTP APIs. */
+    oauthPassword?: string;
     /** Optional client IP for OTP send when host cannot infer IP server-side. */
     ipAddress?: string;
     /** Public profile API base for post-login `getUserId`. */
@@ -213,25 +210,11 @@ declare global {
     }
 }
 
-/** Opaque path — host proxies to POST /getKeycloakClientAccessToken (no body). */
-declare const SHELL_INTERNAL_KC_CLIENT_PATH: "/_internal/kc-client";
-/** Opaque path — host proxies to POST /oauth with server-stored client credentials. */
-declare const SHELL_INTERNAL_GUEST_OAUTH_PATH: "/_internal/guest-oauth";
-/** RSA public key for encrypting passwords/OTP in the browser. */
-declare const SHELL_INTERNAL_LOGIN_PUBKEY_PATH: "/_internal/login-pubkey";
-/** Encrypted password sign-in — host decrypts and calls keycloakLogin. */
-declare const SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH: "/_internal/keycloak-login";
-/** Encrypted OTP verify — host decrypts and calls verifyGuestUserOtp. */
-declare const SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH: "/_internal/verify-guest-otp";
-/** Encrypted password change — host decrypts and calls keycloakChangePassword. */
-declare const SHELL_INTERNAL_CHANGE_PASSWORD_PATH: "/_internal/keycloak-change-password";
-
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
 declare const HEADER_LOGIN_SIGN_IN_SELECTORS = "#btnGroupDrop1, #signInLink, #register-login-link, #home-login-link";
 declare const DEFAULT_LOGIN_API_ERROR = "Something went wrong!!! Plz try again later.";
-declare const SHELL_LOGIN_API_PROXY_DEFAULT: "/mybharat-shell-api";
-/** Pin header login API root and optional same-origin proxy for browser fetch. */
-declare function applyShellLoginApiConfig(apiBaseUrl?: string, apiProxyBaseUrl?: string): void;
+/** Pin header login API root for browser fetch. */
+declare function applyShellLoginApiConfig(apiBaseUrl?: string): void;
 /** Same-origin or proxy base used for APIGateway fetch from the shell. */
 declare function getShellApiFetchBaseUrl(): string;
 /** Build APIGateway URL under the shell login/feedback proxy base. */
@@ -248,8 +231,14 @@ declare function submitOtpLoginFromModal(): void;
 /** Wire global Sign In triggers + modal interactions (idempotent). */
 declare function installHeaderLoginFlow(): () => void;
 
+declare function clearShellInternalAuthCache(): void;
+/** POST {apiBaseUrl}/getKeycloakClientAccessToken */
+declare function fetchInternalKeycloakClientAccessToken(forceRefresh?: boolean): Promise<string>;
+/** POST {apiBaseUrl}/oauth with guest credentials from MYBHARAT_SHELL.login */
+declare function fetchInternalGuestOauthAccessToken(forceRefresh?: boolean): Promise<string>;
+
 /**
- * Post-OTP-verify / password login — gateway auth then browser POST to PHP `establish_session`.
+ * Post-OTP-verify / password login — direct APIGateway calls then browser POST to `establish_session`.
  */
 type LoginOtpApiResponse = {
     status_code?: number | string;
@@ -284,20 +273,8 @@ type LoginOtpRedirectResult = {
     redirecting: true;
 };
 declare function isLoginOtpRedirectResult(res: LoginOtpApiResponse | LoginOtpSuccessResponse | LoginOtpRedirectResult): res is LoginOtpRedirectResult;
-/**
- * Full loginWithOtp replacement — call after successful verifyGuestUserOtp.
- * Requires reg_code from verify response (stored via storeRegCodeFromVerifyResponse).
- */
 declare function completeLoginWithOtp(username: string): Promise<LoginOtpApiResponse | LoginOtpRedirectResult>;
-/**
- * Password sign-in — replaces legacy `pages/signIn`.
- * Flow: keycloakLogin → POST `{baseUrl}/establish_session`.
- */
 declare function completePasswordSignIn(username: string, password: string): Promise<LoginOtpApiResponse | LoginOtpRedirectResult>;
-/**
- * Forgot-password password update — replaces legacy `pages/keycloakForgotPassword`.
- * Flow: keycloakForgotPassword → keycloakChangePassword (requires reg_code from OTP verify).
- */
 declare function completeForgotPasswordUpdate(identifier: string, password: string): Promise<LoginOtpApiResponse>;
 
 type EstablishSessionFlow = 'login_password' | 'login_otp' | 'registration';
@@ -444,8 +421,13 @@ type DesktopMainNavProps = {
  */
 declare const DesktopMainNav: React__default.FC<DesktopMainNavProps>;
 
-/** APIGateway paths (appended to apiBaseUrl or same-origin proxy prefix). */
+/** APIGateway paths (appended to `apiBaseUrl`, e.g. `https://host/api/checkUserExists`). */
 declare const GATEWAY_PATHS: {
+    readonly getKeycloakClientAccessToken: "/getKeycloakClientAccessToken";
+    readonly oauth: "/oauth";
+    readonly keycloakLogin: "/keycloakLogin";
+    readonly verifyGuestUserOtp: "/verifyGuestUserOtp";
+    readonly keycloakChangePassword: "/keycloakChangePassword";
     readonly checkUserExists: "/checkUserExists";
     readonly sendMobileGuestUserOtp: "/sendMobileGuestUserOtp";
     readonly keycloakGetExchangeToken: "/keycloakGetExchangeToken";
@@ -453,17 +435,11 @@ declare const GATEWAY_PATHS: {
     readonly saveFeedbackData: "/saveFeedbackData";
     readonly triggerYouthReward: "/trigger-youth-reward-points";
 };
-/** Opaque browser → host-server routes (credentials stay on server). */
+/** @deprecated Optional Vite dev plugin only — browser shell calls APIGateway directly. */
 declare const INTERNAL_PATHS: {
     readonly proxyDefault: "/mybharat-shell-api";
-    readonly kcClient: "/_internal/kc-client";
-    readonly guestOauth: "/_internal/guest-oauth";
-    readonly loginPubkey: "/_internal/login-pubkey";
-    readonly keycloakLogin: "/_internal/keycloak-login";
-    readonly verifyGuestOtp: "/_internal/verify-guest-otp";
-    readonly keycloakChangePassword: "/_internal/keycloak-change-password";
 };
-/** Host dev proxy rewrites (server-side only). */
+/** @deprecated Optional Vite dev plugin only. */
 declare const PROXY_REWRITES: {
     readonly kcClient: "/api/getKeycloakClientAccessToken";
     readonly guestOauth: "/api/oauth";
@@ -573,9 +549,7 @@ declare function resolveCdnBase(options?: {
 }): string;
 /** Build `{cdnBase}/mybharat/{assetPath}` for logos and static images on the CDN. */
 declare function resolveCdnAssetUrl(cdnBase: string, assetPath: string): string;
-declare function resolveShellLoginConfig(props?: ShellRuntimeConfig): ShellRuntimeConfig & {
-    apiProxyBaseUrl: string;
-};
+declare function resolveShellLoginConfig(props?: ShellRuntimeConfig): ShellRuntimeConfig;
 
 type RequiredClientConfigInput = {
     baseUrl?: string;
@@ -683,4 +657,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { APP_ROUTES, AUTH_CONFIG, BHASHINI_WIDGET_SELECTORS, type ClientEnvironment, DEFAULT_API_ERROR_MESSAGE, DEFAULT_LOGIN_API_ERROR, DEV_API_PROXY_PREFIXES, DesktopMainNav, EXTERNAL_URLS, type EstablishSessionFlow, Footer, GATEWAY_PATHS, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, INTERNAL_PATHS, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, OTP_MESSAGES, PORTAL_PATHS, PROXY_REWRITES, type PrepareMainNavItemsOptions, type RequireMainNavItemsOptions, type RequiredClientConfigInput, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type ShellRuntimeConfig, type UseMainNavItemsOptions, alertMainNavLoadFailed, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, assertRequiredClientConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, mergeRequiredClientConfig, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, readClientEnvironment, readMbAppTokenFromGatewayResponse, readShellCookieDomain, requireMainNavItems, resolveCdnAssetUrl, resolveCdnBase, resolveEstablishSessionAction, resolveMainNavItemsFromProp, resolveShellLoginConfig, saveUserFeedback, setMbAuthSessionCookies, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, useRequiredClientConfig, validateFeedbackForm, validateOtpLoginForm };
+export { APP_ROUTES, AUTH_CONFIG, BHASHINI_WIDGET_SELECTORS, type ClientEnvironment, DEFAULT_API_ERROR_MESSAGE, DEFAULT_LOGIN_API_ERROR, DEV_API_PROXY_PREFIXES, DesktopMainNav, EXTERNAL_URLS, type EstablishSessionFlow, Footer, GATEWAY_PATHS, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, INTERNAL_PATHS, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, OTP_MESSAGES, PORTAL_PATHS, PROXY_REWRITES, type PrepareMainNavItemsOptions, type RequireMainNavItemsOptions, type RequiredClientConfigInput, SAVE_FEEDBACK_DATA_PATH, type ShellRuntimeConfig, type UseMainNavItemsOptions, alertMainNavLoadFailed, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, assertRequiredClientConfig, buildHeaderProfileMenuItems, buildShellApiUrl, clearShellInternalAuthCache, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, fetchInternalGuestOauthAccessToken, fetchInternalKeycloakClientAccessToken, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, mergeRequiredClientConfig, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, readClientEnvironment, readMbAppTokenFromGatewayResponse, readShellCookieDomain, requireMainNavItems, resolveCdnAssetUrl, resolveCdnBase, resolveEstablishSessionAction, resolveMainNavItemsFromProp, resolveShellLoginConfig, saveUserFeedback, setMbAuthSessionCookies, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, useRequiredClientConfig, validateFeedbackForm, validateOtpLoginForm };

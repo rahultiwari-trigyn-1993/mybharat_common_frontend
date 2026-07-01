@@ -1,5 +1,10 @@
-/** APIGateway paths (appended to apiBaseUrl or same-origin proxy prefix). */
+/** APIGateway paths (appended to `apiBaseUrl`, e.g. `https://host/api/checkUserExists`). */
 export const GATEWAY_PATHS = {
+  getKeycloakClientAccessToken: '/getKeycloakClientAccessToken',
+  oauth: '/oauth',
+  keycloakLogin: '/keycloakLogin',
+  verifyGuestUserOtp: '/verifyGuestUserOtp',
+  keycloakChangePassword: '/keycloakChangePassword',
   checkUserExists: '/checkUserExists',
   sendMobileGuestUserOtp: '/sendMobileGuestUserOtp',
   keycloakGetExchangeToken: '/keycloakGetExchangeToken',
@@ -8,18 +13,12 @@ export const GATEWAY_PATHS = {
   triggerYouthReward: '/trigger-youth-reward-points',
 } as const;
 
-/** Opaque browser → host-server routes (credentials stay on server). */
+/** @deprecated Optional Vite dev plugin only — browser shell calls APIGateway directly. */
 export const INTERNAL_PATHS = {
   proxyDefault: '/mybharat-shell-api',
-  kcClient: '/_internal/kc-client',
-  guestOauth: '/_internal/guest-oauth',
-  loginPubkey: '/_internal/login-pubkey',
-  keycloakLogin: '/_internal/keycloak-login',
-  verifyGuestOtp: '/_internal/verify-guest-otp',
-  keycloakChangePassword: '/_internal/keycloak-change-password',
 } as const;
 
-/** Host dev proxy rewrites (server-side only). */
+/** @deprecated Optional Vite dev plugin only. */
 export const PROXY_REWRITES = {
   kcClient: '/api/getKeycloakClientAccessToken',
   guestOauth: '/api/oauth',

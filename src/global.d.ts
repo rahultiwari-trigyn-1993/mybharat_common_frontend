@@ -26,27 +26,16 @@ interface Window {
     };
     login?: {
       baseUrl?: string;
-      /** Absolute MY Bharat API root — not the host page `/api` (see shell login docs). */
+      /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
       apiBaseUrl?: string;
-      /** Host environment (`local` | `dev` | `beta` | `prod`). */
       environment?: 'local' | 'dev' | 'beta' | 'prod';
-      /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
-      apiProxyBaseUrl?: string;
-      /** @deprecated OAuth credentials belong on the host server — map `/_internal/guest-oauth` in your proxy. */
+      /** Guest OAuth for sendMobileGuestUserOtp / verifyGuestUserOtp. */
       oauthUsername?: string;
-      /** @deprecated OAuth credentials belong on the host server — map `/_internal/guest-oauth` in your proxy. */
       oauthPassword?: string;
-      /** Optional RSA public key PEM for encrypting passwords/OTP before internal routes. */
-      loginPayloadPublicKey?: string;
-      /** Optional client IP forwarded to sendMobileGuestUserOtp when host cannot infer it server-side. */
       ipAddress?: string;
-      /** Cake route for PHP session hydration after OTP login (default `/reports/establishSession`). */
       sessionEstablishPath?: string;
-      /** Cookie domain for post-login token cookies (defaults to current hostname). */
       cookieDomain?: string;
-      /** Youth profile redirect URL for UserType 6 (default `{baseUrl}/youth-profile`). */
       youthProfileUrl?: string;
-      /** Optional internal API base for `getUserId` when User.ID is missing. */
       publicProfileApiBaseUrl?: string;
     };
   };

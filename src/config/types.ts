@@ -6,11 +6,10 @@ export type ShellRuntimeConfig = {
   apiBaseUrl?: string;
   /** Host environment — required at runtime (`local` | `dev` | `beta` | `prod`). */
   environment?: ClientEnvironment;
-  apiProxyBaseUrl?: string;
+  oauthUsername?: string;
+  oauthPassword?: string;
   cookieDomain?: string;
   publicProfileApiBaseUrl?: string;
-  /** RSA public key PEM — browser-safe; skips /_internal/login-pubkey fetch when inlined. */
-  loginPayloadPublicKey?: string;
   recaptchaSiteKey?: string;
   feedbackApiBaseUrl?: string;
   rewardsApiBaseUrl?: string;

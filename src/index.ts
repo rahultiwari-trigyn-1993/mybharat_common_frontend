@@ -10,25 +10,21 @@ import Footer from './components/Footer';
 
 export { Header, Header2, Footer };
 export {
-  SHELL_INTERNAL_GUEST_OAUTH_PATH,
-  SHELL_INTERNAL_KC_CLIENT_PATH,
-  SHELL_INTERNAL_LOGIN_PUBKEY_PATH,
-  SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
-  SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH,
-  SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
-} from './components/header/login/shellLoginInternalAuth';
-export {
   openLoginWithOtpModal,
   openSignInPasswordModal,
   installHeaderLoginFlow,
   HEADER_LOGIN_SIGN_IN_SELECTORS,
   getKeycloakClientAccessToken,
   applyShellLoginApiConfig,
-  SHELL_LOGIN_API_PROXY_DEFAULT,
   validateOtpLoginForm,
   submitOtpLoginFromModal,
   DEFAULT_LOGIN_API_ERROR,
 } from './components/header/login/headerLoginFlow';
+export {
+  fetchInternalKeycloakClientAccessToken,
+  fetchInternalGuestOauthAccessToken,
+  clearShellInternalAuthCache,
+} from './components/header/login/shellLoginGateway';
 export { completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completeForgotPasswordUpdate, completePasswordSignIn, isLoginOtpRedirectResult } from './components/header/login/loginWithOtpFlow';
 export {
   submitEstablishSessionForm,

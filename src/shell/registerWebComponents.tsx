@@ -21,8 +21,8 @@ const HEADER_OBSERVED = [
   'login-base-url',
   'api-base-url',
   'environment',
-  'api-proxy-base-url',
-  'login-payload-public-key',
+  'oauth-username',
+  'oauth-password',
   'ip-address',
   'bhashini',
 ] as const;
@@ -83,8 +83,8 @@ class MyBharatHeaderElement extends HTMLElement {
       baseUrl,
       apiBaseUrl,
       environment,
-      apiProxyBaseUrl,
-      loginPayloadPublicKey,
+      oauthUsername,
+      oauthPassword,
       ipAddress,
       bhashini,
     } = resolveHeaderProps(this);
@@ -100,8 +100,8 @@ class MyBharatHeaderElement extends HTMLElement {
         baseUrl={baseUrl}
         apiBaseUrl={apiBaseUrl}
         environment={environment}
-        apiProxyBaseUrl={apiProxyBaseUrl}
-        loginPayloadPublicKey={loginPayloadPublicKey}
+        oauthUsername={oauthUsername}
+        oauthPassword={oauthPassword}
         ipAddress={ipAddress}
         bhashini={bhashini}
       />

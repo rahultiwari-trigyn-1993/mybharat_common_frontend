@@ -6,23 +6,17 @@ import { applyShellLoginApiConfig } from './headerLoginFlow';
 export type HeaderLoginConfig = {
   /** Portal origin for post-login redirects (trailing slash recommended). */
   baseUrl?: string;
-  /**
-   * MY Bharat login API root (absolute URL, no trailing slash).
-   * Example: `http://127.0.0.1:8000/api` — required when shell runs on another app (e.g. registration on localhost:3000).
-   */
+  /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or same-origin `/api`. */
   apiBaseUrl?: string;
   /** Host environment (`local` | `dev` | `beta` | `prod`). */
   environment?: ClientEnvironment;
-  /**
-   * Same-origin proxy base for login fetch (e.g. `/mybharat-shell-api`).
-   * Required on cross-origin embeds to avoid CORS OPTIONS while keeping Authorization header.
-   */
-  apiProxyBaseUrl?: string;
-  /** RSA public key PEM — optional; browser encrypts password/OTP before internal routes. Never pass private key here. */
-  loginPayloadPublicKey?: string;
+  /** Guest OAuth username for sendMobileGuestUserOtp / verifyGuestUserOtp. */
+  oauthUsername?: string;
+  /** Guest OAuth password for sendMobileGuestUserOtp / verifyGuestUserOtp. */
+  oauthPassword?: string;
   /** Optional client IP for sendMobileGuestUserOtp when host cannot infer it server-side. */
   ipAddress?: string;
-  /** Public profile API base for post-login `getUserId` (e.g. `{VITE_API_BASE_URL}/public-profile/v1`). */
+  /** Public profile API base for post-login `getUserId`. */
   publicProfileApiBaseUrl?: string;
   /** Cookie domain for post-login token cookies. */
   cookieDomain?: string;
@@ -41,8 +35,8 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
   const environment = config?.environment?.trim();
-  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
-  const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
+  const oauthUsername = config?.oauthUsername?.trim();
+  const oauthPassword = config?.oauthPassword?.trim();
   const ipAddress = config?.ipAddress?.trim();
   const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
   const cookieDomain = config?.cookieDomain?.trim();
@@ -52,8 +46,8 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
     !apiBaseUrl &&
     !environment &&
     !cdnBase &&
-    !apiProxyBaseUrl &&
-    !loginPayloadPublicKey &&
+    !oauthUsername &&
+    !oauthPassword &&
     !ipAddress &&
     !publicProfileApiBaseUrl &&
     !cookieDomain
@@ -61,7 +55,7 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
     return;
   }
 
-  if (apiBaseUrl || apiProxyBaseUrl) applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl);
+  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
 
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -76,8 +70,8 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
       ...(baseUrl ? { baseUrl } : {}),
       ...(apiBaseUrl ? { apiBaseUrl } : {}),
       ...(environment ? { environment: environment as ClientEnvironment } : {}),
-      ...(apiProxyBaseUrl ? { apiProxyBaseUrl } : {}),
-      ...(loginPayloadPublicKey ? { loginPayloadPublicKey } : {}),
+      ...(oauthUsername ? { oauthUsername } : {}),
+      ...(oauthPassword ? { oauthPassword } : {}),
       ...(ipAddress ? { ipAddress } : {}),
       ...(publicProfileApiBaseUrl ? { publicProfileApiBaseUrl } : {}),
       ...(cookieDomain ? { cookieDomain } : {}),
@@ -85,15 +79,15 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
   };
 }
 
-/** Syncs React `Header` props into shell login config (isolated from host page `/api`). */
+/** Syncs React `Header` props into shell login config. */
 export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
   applyHeaderLoginConfig(config);
 
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
   const environment = config?.environment?.trim();
-  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
-  const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
+  const oauthUsername = config?.oauthUsername?.trim();
+  const oauthPassword = config?.oauthPassword?.trim();
   const ipAddress = config?.ipAddress?.trim();
   const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
   const cookieDomain = config?.cookieDomain?.trim();
@@ -105,8 +99,8 @@ export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
       apiBaseUrl,
       environment: environment as ClientEnvironment | undefined,
       cdnBase,
-      apiProxyBaseUrl,
-      loginPayloadPublicKey,
+      oauthUsername,
+      oauthPassword,
       ipAddress,
       publicProfileApiBaseUrl,
       cookieDomain,
@@ -116,8 +110,8 @@ export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
     apiBaseUrl,
     environment,
     cdnBase,
-    apiProxyBaseUrl,
-    loginPayloadPublicKey,
+    oauthUsername,
+    oauthPassword,
     ipAddress,
     publicProfileApiBaseUrl,
     cookieDomain,

@@ -11,11 +11,8 @@ import {
   clearShellInternalKcAuthCache,
   fetchInternalGuestOauthAccessToken,
   fetchInternalKeycloakClientAccessToken,
-  postInternalAuthJson,
-  ShellInternalAuthError,
-  SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH,
-} from './shellLoginInternalAuth';
-import { encryptLoginSecret } from './shellLoginSecretPayload';
+  ShellGatewayAuthError,
+} from './shellLoginGateway';
 import {
   DEFAULT_API_ERROR_MESSAGE,
   isApiSuccessStatus,
@@ -27,7 +24,7 @@ import {
 import { AUTH_CONFIG } from '../../../config/auth';
 import { APP_ROUTES } from '../../../config/routes';
 import { EXTERNAL_URLS } from '../../../config/external';
-import { GATEWAY_PATHS, INTERNAL_PATHS } from '../../../config/apiPaths';
+import { GATEWAY_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
 import { OTP_MESSAGES } from '../../../config/messages';
 
@@ -38,21 +35,13 @@ export const HEADER_LOGIN_SIGN_IN_SELECTORS =
 const LOGIN_DATA_KEY = AUTH_CONFIG.storageKeys.loginData;
 const DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE;
 
-/** Shell-scoped API base — never derived from `window.location` (avoids localhost:3000 registration `/api` collision). */
+/** Shell-scoped API base — set via `apiBaseUrl` / `MYBHARAT_SHELL.login.apiBaseUrl`. */
 let shellLoginApiBaseUrl: string | undefined;
-/** Same-origin proxy base for fetch (avoids cross-origin CORS OPTIONS preflight). */
-let shellLoginApiProxyBaseUrl: string | undefined;
 
-export const SHELL_LOGIN_API_PROXY_DEFAULT = INTERNAL_PATHS.proxyDefault;
-
-let warnedAutoLoginProxy = false;
-
-/** Pin header login API root and optional same-origin proxy for browser fetch. */
-export function applyShellLoginApiConfig(apiBaseUrl?: string, apiProxyBaseUrl?: string): void {
+/** Pin header login API root for browser fetch. */
+export function applyShellLoginApiConfig(apiBaseUrl?: string): void {
   const url = apiBaseUrl?.trim();
   if (url) shellLoginApiBaseUrl = url.replace(/\/$/, '');
-  const proxy = apiProxyBaseUrl?.trim();
-  if (proxy) shellLoginApiProxyBaseUrl = proxy.replace(/\/$/, '');
   clearShellInternalAuthCache();
 }
 
@@ -248,75 +237,20 @@ function readShellLoginApiBaseUrl(): string {
   return fromMeta ? fromMeta.replace(/\/$/, '') : '';
 }
 
-function readShellLoginApiProxyBaseUrl(): string {
-  if (shellLoginApiProxyBaseUrl) return shellLoginApiProxyBaseUrl;
-
-  const fromShell = window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim();
-  if (fromShell) return fromShell.replace(/\/$/, '');
-
-  const fromHeader = document
-    .querySelector('mybharat-header')
-    ?.getAttribute('api-proxy-base-url')
-    ?.trim();
-  if (fromHeader) return fromHeader.replace(/\/$/, '');
-
-  const fromMeta = document
-    .querySelector('meta[name="mybharat-shell-api-proxy-base"]')
-    ?.getAttribute('content')
-    ?.trim();
-  return fromMeta ? fromMeta.replace(/\/$/, '') : '';
-}
-
-function resolveApiBaseOrigin(base: string): string | undefined {
-  if (typeof window === 'undefined') return undefined;
-  try {
-    const resolved = base.includes('://')
-      ? base
-      : `${window.location.origin}${base.startsWith('/') ? base : `/${base}`}`;
-    return new URL(resolved).origin;
-  } catch {
-    return undefined;
-  }
-}
-
-function isCrossOriginApiBase(base: string): boolean {
-  if (typeof window === 'undefined' || !base) return false;
-  const apiOrigin = resolveApiBaseOrigin(base);
-  return !!apiOrigin && apiOrigin !== window.location.origin;
-}
-
-/**
- * URL base used for browser fetch — same-origin proxy when apiBaseUrl is cross-origin
- * (keeps Authorization: Bearer POST without CORS OPTIONS preflight).
- */
 function readShellLoginFetchBaseUrl(): string {
-  const proxy = readShellLoginApiProxyBaseUrl();
-  if (proxy) return proxy;
-
-  const direct = readShellLoginApiBaseUrl();
-  if (!direct) return '';
-
-  if (!isCrossOriginApiBase(direct)) return direct;
-
-  if (!warnedAutoLoginProxy && typeof console !== 'undefined') {
-    warnedAutoLoginProxy = true;
-    console.warn(
-      `[mybharat header] apiBaseUrl (${direct}) is cross-origin; login fetch uses same-origin proxy ${SHELL_LOGIN_API_PROXY_DEFAULT}. Forward that path to the API on your dev server (see docs).`
-    );
-  }
-  return SHELL_LOGIN_API_PROXY_DEFAULT;
+  syncShellLoginApiConfigFromDom();
+  return readShellLoginApiBaseUrl();
 }
 
 /** Sync `<mybharat-header api-base-url>` into shell login config before fetch. */
 function syncShellLoginApiConfigFromDom(): void {
   const headerEl = document.querySelector('mybharat-header');
   const apiBaseUrl = headerEl?.getAttribute('api-base-url')?.trim();
-  const apiProxyBaseUrl = headerEl?.getAttribute('api-proxy-base-url')?.trim();
   const baseUrl = headerEl?.getAttribute('login-base-url')?.trim();
 
-  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl);
+  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
 
-  if (!baseUrl && !apiBaseUrl && !apiProxyBaseUrl) return;
+  if (!baseUrl && !apiBaseUrl) return;
 
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -324,7 +258,6 @@ function syncShellLoginApiConfigFromDom(): void {
       ...window.MYBHARAT_SHELL?.login,
       ...(baseUrl ? { baseUrl } : {}),
       ...(apiBaseUrl ? { apiBaseUrl } : {}),
-      ...(apiProxyBaseUrl ? { apiProxyBaseUrl } : {}),
     },
   };
 }
@@ -662,7 +595,7 @@ export async function getKeycloakClientAccessToken(forceRefresh = false): Promis
   try {
     return await fetchInternalKeycloakClientAccessToken(forceRefresh);
   } catch (err) {
-    if (err instanceof ShellInternalAuthError) {
+    if (err instanceof ShellGatewayAuthError) {
       throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
     }
     throw err;
@@ -674,7 +607,7 @@ async function getOauthAccessToken(forceRefresh = false): Promise<string> {
   try {
     return await fetchInternalGuestOauthAccessToken(forceRefresh);
   } catch (err) {
-    if (err instanceof ShellInternalAuthError) {
+    if (err instanceof ShellGatewayAuthError) {
       throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
     }
     throw err;
@@ -1104,31 +1037,38 @@ async function sendGuestOtp(data: Record<string, string>): Promise<SignInRespons
   }
 }
 
-/** POST verifyGuestUserOtp via encrypted internal route (OTP never in plain network payload). */
+/** POST verifyGuestUserOtp — direct APIGateway call with guest OAuth bearer. */
 async function verifyGuestUserOtp(identifier: string, otp: string): Promise<SignInResponse> {
-  let otpSecret;
-  try {
-    otpSecret = await encryptLoginSecret(otp);
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  const form: Record<string, string> = { otp };
+  if (validateEmail(identifier)) {
+    form.user_email = identifier;
+    form.user_phone = '';
+  } else if (validatePhone(identifier)) {
+    form.user_phone = identifier;
+    form.user_email = '';
+  } else {
+    form.user_email = identifier;
+    form.user_phone = '';
   }
 
   try {
-    const body: Record<string, unknown> = {
-      otp_secret: otpSecret,
-    };
-    if (validateEmail(identifier)) {
-      body.user_email = identifier;
-      body.user_phone = '';
-    } else if (validatePhone(identifier)) {
-      body.user_phone = identifier;
-      body.user_email = '';
-    } else {
-      body.user_email = identifier;
-      body.user_phone = '';
+    let accessToken = await getOauthAccessToken();
+    let res = await fetchLoginApiFormPost<SignInResponse>(
+      GATEWAY_PATHS.verifyGuestUserOtp,
+      form,
+      accessToken
+    );
+
+    if (isKeycloakUnauthorizedResponse(res)) {
+      accessToken = await getOauthAccessToken(true);
+      res = await fetchLoginApiFormPost<SignInResponse>(
+        GATEWAY_PATHS.verifyGuestUserOtp,
+        form,
+        accessToken
+      );
     }
 
-    return await postInternalAuthJson<SignInResponse>(SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, body);
+    return res;
   } catch (err) {
     return { status_code: 500, message: resolveLoginFlowError(err) };
   }
@@ -1718,10 +1658,7 @@ export function installHeaderLoginFlow(): () => void {
   installed = true;
 
   syncShellLoginApiConfigFromDom();
-  applyShellLoginApiConfig(
-    window.MYBHARAT_SHELL?.login?.apiBaseUrl,
-    window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl
-  );
+  applyShellLoginApiConfig(window.MYBHARAT_SHELL?.login?.apiBaseUrl);
   prefetchClientIpAddress();
 
   document.addEventListener('click', onDocumentClick, true);

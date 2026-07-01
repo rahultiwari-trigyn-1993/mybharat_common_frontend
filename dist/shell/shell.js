@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.239 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.240 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27108,32 +27108,6 @@ var MyBharatShell = (() => {
   // src/shell/registerWebComponents.tsx
   var import_client = __toESM(require_client());
 
-  // src/config/apiPaths.ts
-  var GATEWAY_PATHS = {
-    checkUserExists: "/checkUserExists",
-    sendMobileGuestUserOtp: "/sendMobileGuestUserOtp",
-    keycloakGetExchangeToken: "/keycloakGetExchangeToken",
-    keycloakForgotPassword: "/keycloakForgotPassword",
-    saveFeedbackData: "/saveFeedbackData",
-    triggerYouthReward: "/trigger-youth-reward-points"
-  };
-  var INTERNAL_PATHS = {
-    proxyDefault: "/mybharat-shell-api",
-    kcClient: "/_internal/kc-client",
-    guestOauth: "/_internal/guest-oauth",
-    loginPubkey: "/_internal/login-pubkey",
-    keycloakLogin: "/_internal/keycloak-login",
-    verifyGuestOtp: "/_internal/verify-guest-otp",
-    keycloakChangePassword: "/_internal/keycloak-change-password"
-  };
-  var PORTAL_PATHS = {
-    establishSession: "/establish_session"
-  };
-  var DEV_API_PROXY_PREFIXES = {
-    feedback: "/api",
-    rewards: "/rewards-api"
-  };
-
   // src/config/requireClientConfig.ts
   var VALID_ENVIRONMENTS = /* @__PURE__ */ new Set(["local", "dev", "beta", "prod"]);
   var alerted = /* @__PURE__ */ new Set();
@@ -27395,12 +27369,6 @@ var MyBharatShell = (() => {
     }
     return next;
   }
-  function isApiFailureResponse(res) {
-    if (!res || typeof res !== "object") return true;
-    if (hasOAuthFailure(res)) return true;
-    if (res.status_code == null || res.status_code === "") return false;
-    return !isApiSuccessStatus(res.status_code);
-  }
   function resolveLoginFlowError(error, fallback = DEFAULT_API_ERROR_MESSAGE2) {
     if (error instanceof Error) {
       return resolveUserFacingApiError({ message: error.message }, fallback);
@@ -27408,28 +27376,65 @@ var MyBharatShell = (() => {
     return fallback;
   }
 
-  // src/components/header/login/shellLoginInternalAuth.ts
-  var SHELL_LOGIN_API_PROXY_DEFAULT = INTERNAL_PATHS.proxyDefault;
-  var SHELL_INTERNAL_KC_CLIENT_PATH = INTERNAL_PATHS.kcClient;
-  var SHELL_INTERNAL_GUEST_OAUTH_PATH = INTERNAL_PATHS.guestOauth;
-  var SHELL_INTERNAL_LOGIN_PUBKEY_PATH = INTERNAL_PATHS.loginPubkey;
-  var SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH = INTERNAL_PATHS.keycloakLogin;
-  var SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH = INTERNAL_PATHS.verifyGuestOtp;
-  var SHELL_INTERNAL_CHANGE_PASSWORD_PATH = INTERNAL_PATHS.keycloakChangePassword;
-  var ShellInternalAuthError = class extends Error {
+  // src/config/apiPaths.ts
+  var GATEWAY_PATHS = {
+    getKeycloakClientAccessToken: "/getKeycloakClientAccessToken",
+    oauth: "/oauth",
+    keycloakLogin: "/keycloakLogin",
+    verifyGuestUserOtp: "/verifyGuestUserOtp",
+    keycloakChangePassword: "/keycloakChangePassword",
+    checkUserExists: "/checkUserExists",
+    sendMobileGuestUserOtp: "/sendMobileGuestUserOtp",
+    keycloakGetExchangeToken: "/keycloakGetExchangeToken",
+    keycloakForgotPassword: "/keycloakForgotPassword",
+    saveFeedbackData: "/saveFeedbackData",
+    triggerYouthReward: "/trigger-youth-reward-points"
+  };
+  var PORTAL_PATHS = {
+    establishSession: "/establish_session"
+  };
+  var DEV_API_PROXY_PREFIXES = {
+    feedback: "/api",
+    rewards: "/rewards-api"
+  };
+
+  // src/components/header/login/shellLoginGateway.ts
+  var ShellGatewayAuthError = class extends Error {
     constructor(message) {
       super(message);
-      this.name = "ShellInternalAuthError";
+      this.name = "ShellGatewayAuthError";
     }
   };
-  var DEFAULT_INTERNAL_AUTH_ERROR = DEFAULT_API_ERROR_MESSAGE2;
+  var cachedKeycloakClientToken = null;
+  var keycloakClientTokenPromise = null;
+  var cachedGuestOauthToken = null;
+  function clearShellInternalKcAuthCache() {
+    cachedKeycloakClientToken = null;
+    keycloakClientTokenPromise = null;
+  }
+  function clearShellInternalAuthCache() {
+    clearShellInternalKcAuthCache();
+    cachedGuestOauthToken = null;
+  }
+  function readApiBaseUrl() {
+    const fromShell = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
+    if (fromShell) return fromShell.replace(/\/$/, "");
+    const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
+    if (fromHeader) return fromHeader.replace(/\/$/, "");
+    const fromMeta = document.querySelector('meta[name="mybharat-shell-api-base-url"]')?.getAttribute("content")?.trim();
+    return fromMeta ? fromMeta.replace(/\/$/, "") : "";
+  }
+  function buildGatewayUrl(path) {
+    const base = readApiBaseUrl();
+    if (!base) {
+      throw new ShellGatewayAuthError("Api Base Url is not configured");
+    }
+    const suffix = path.startsWith("/") ? path : `/${path}`;
+    return `${base}${suffix}`;
+  }
   function normalizeBearerAccessToken(raw) {
     if (!raw) return "";
-    let token = raw.trim();
-    if (/^bearer\s+/i.test(token)) {
-      token = token.replace(/^bearer\s+/i, "").trim();
-    }
-    return token;
+    return raw.trim().replace(/^bearer\s+/i, "").trim();
   }
   function readAccessTokenField(value) {
     if (typeof value !== "string") return void 0;
@@ -27455,108 +27460,12 @@ var MyBharatShell = (() => {
       const nested = readAccessTokenFromNode(obj[key], depth + 1);
       if (nested) return nested;
     }
-    for (const value of Object.values(obj)) {
-      if (value && typeof value === "object") {
-        const nested = readAccessTokenFromNode(value, depth + 1);
-        if (nested) return nested;
-      }
-    }
     return void 0;
   }
   function readAccessTokenFromResponse(data) {
-    const rootToken = readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken);
-    if (rootToken) return rootToken;
+    const root = readAccessTokenField(data.access_token) ?? readAccessTokenField(data.accessToken);
+    if (root) return root;
     return readAccessTokenFromNode(data.data) ?? readAccessTokenFromNode(data.message) ?? readAccessTokenFromNode(data);
-  }
-  function readConfiguredProxyBase() {
-    const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-proxy-base-url")?.trim();
-    if (fromHeader) return fromHeader.replace(/\/$/, "");
-    const fromShell = window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim();
-    if (fromShell) return fromShell.replace(/\/$/, "");
-    const fromMeta = document.querySelector('meta[name="mybharat-shell-api-proxy-base"]')?.getAttribute("content")?.trim();
-    if (fromMeta) return fromMeta.replace(/\/$/, "");
-    return "";
-  }
-  function resolveInternalAuthBase() {
-    const explicit = readConfiguredProxyBase();
-    if (explicit) return explicit;
-    return SHELL_LOGIN_API_PROXY_DEFAULT;
-  }
-  function buildInternalAuthUrl(path) {
-    const base = resolveInternalAuthBase();
-    if (!base) {
-      throw new ShellInternalAuthError(DEFAULT_INTERNAL_AUTH_ERROR);
-    }
-    const suffix = path.startsWith("/") ? path : `/${path}`;
-    return `${base}${suffix}`;
-  }
-  async function postInternalAuth(path, forceRefresh = false) {
-    const refreshSuffix = forceRefresh ? path.includes("?") ? "&refresh=1" : "?refresh=1" : "";
-    const url = `${buildInternalAuthUrl(path)}${refreshSuffix}`;
-    let res;
-    try {
-      res = await fetch(url, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: forceRefresh ? { "X-Shell-Auth-Refresh": "1" } : void 0
-      });
-    } catch {
-      throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE2);
-    }
-    const text = await res.text();
-    try {
-      const parsed = JSON.parse(text);
-      if (Array.isArray(parsed)) {
-        return normalizeApiResponse(
-          { status_code: res.status, data: parsed },
-          res.status
-        );
-      }
-      return normalizeApiResponse(parsed, res.status);
-    } catch {
-      return {
-        status_code: res.ok ? 200 : res.status,
-        message: DEFAULT_API_ERROR_MESSAGE2
-      };
-    }
-  }
-  async function postInternalAuthJson(path, body) {
-    const url = buildInternalAuthUrl(path);
-    let res;
-    try {
-      res = await fetch(url, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-    } catch {
-      throw new ShellInternalAuthError(DEFAULT_API_ERROR_MESSAGE2);
-    }
-    const text = await res.text();
-    try {
-      const parsed = JSON.parse(text);
-      return normalizeApiResponse(parsed, res.status);
-    } catch {
-      return {
-        status_code: res.ok ? 200 : res.status,
-        message: DEFAULT_API_ERROR_MESSAGE2
-      };
-    }
-  }
-  var cachedKeycloakClientToken = null;
-  var keycloakClientTokenPromise = null;
-  var cachedGuestOauthToken = null;
-  function clearShellInternalKcAuthCache() {
-    cachedKeycloakClientToken = null;
-    keycloakClientTokenPromise = null;
-  }
-  function clearShellInternalAuthCache() {
-    clearShellInternalKcAuthCache();
-    cachedGuestOauthToken = null;
   }
   function decodeJwtHeaderAlg(token) {
     try {
@@ -27570,35 +27479,51 @@ var MyBharatShell = (() => {
       return "";
     }
   }
-  function assertKeycloakClientJwt(token) {
-    if (decodeJwtHeaderAlg(token) !== "RS256") {
-      throw new ShellInternalAuthError(
-        "Internal auth returned the wrong token type for Keycloak client access."
-      );
-    }
-  }
-  async function fetchInternalKeycloakClientAccessToken(forceRefresh = false) {
-    if (forceRefresh) {
-      clearShellInternalKcAuthCache();
-    }
-    if (cachedKeycloakClientToken) {
-      return cachedKeycloakClientToken;
-    }
-    if (keycloakClientTokenPromise) {
-      return keycloakClientTokenPromise;
-    }
-    keycloakClientTokenPromise = (async () => {
-      const data = await postInternalAuth(SHELL_INTERNAL_KC_CLIENT_PATH, forceRefresh);
-      if (data.status_code === 404 || data.status_code === "404") {
-        throw new ShellInternalAuthError(
-          "Host proxy must map /_internal/kc-client \u2192 /api/getKeycloakClientAccessToken. See scripts/viteShellLoginProxy.mjs or docs/cakephp-shell-integration.md."
+  async function parseGatewayJson(res) {
+    const text = await res.text();
+    try {
+      const parsed = JSON.parse(text);
+      if (Array.isArray(parsed)) {
+        return normalizeApiResponse(
+          { status_code: res.status, data: parsed },
+          res.status
         );
       }
+      return normalizeApiResponse(parsed, res.status);
+    } catch {
+      return { status_code: res.ok ? 200 : res.status, message: DEFAULT_API_ERROR_MESSAGE2 };
+    }
+  }
+  function readOauthCredentials() {
+    const login = window.MYBHARAT_SHELL?.login;
+    return {
+      username: login?.oauthUsername?.trim() ?? "",
+      password: login?.oauthPassword?.trim() ?? ""
+    };
+  }
+  async function fetchInternalKeycloakClientAccessToken(forceRefresh = false) {
+    if (forceRefresh) clearShellInternalKcAuthCache();
+    if (cachedKeycloakClientToken) return cachedKeycloakClientToken;
+    if (keycloakClientTokenPromise) return keycloakClientTokenPromise;
+    keycloakClientTokenPromise = (async () => {
+      let res;
+      try {
+        res = await fetch(buildGatewayUrl(GATEWAY_PATHS.getKeycloakClientAccessToken), {
+          method: "POST",
+          credentials: "omit",
+          headers: { Accept: "application/json" }
+        });
+      } catch {
+        throw new ShellGatewayAuthError(DEFAULT_API_ERROR_MESSAGE2);
+      }
+      const data = await parseGatewayJson(res);
       const token = readAccessTokenFromResponse(data);
       if (!token) {
-        throw new ShellInternalAuthError(resolveUserFacingApiError(data));
+        throw new ShellGatewayAuthError(resolveUserFacingApiError(data));
       }
-      assertKeycloakClientJwt(token);
+      if (decodeJwtHeaderAlg(token) !== "RS256") {
+        throw new ShellGatewayAuthError("Keycloak client token has unexpected format.");
+      }
       cachedKeycloakClientToken = token;
       return token;
     })();
@@ -27609,115 +27534,39 @@ var MyBharatShell = (() => {
       keycloakClientTokenPromise = null;
       throw err;
     } finally {
-      if (cachedKeycloakClientToken) {
-        keycloakClientTokenPromise = null;
-      }
+      if (cachedKeycloakClientToken) keycloakClientTokenPromise = null;
     }
   }
   async function fetchInternalGuestOauthAccessToken(forceRefresh = false) {
-    if (forceRefresh) {
-      cachedGuestOauthToken = null;
-    }
-    if (cachedGuestOauthToken) {
-      return cachedGuestOauthToken;
-    }
-    const data = await postInternalAuth(SHELL_INTERNAL_GUEST_OAUTH_PATH, forceRefresh);
-    if (data.status_code === 404 || data.status_code === "404") {
-      throw new ShellInternalAuthError(
-        "Host proxy must map /_internal/guest-oauth \u2192 /api/oauth with server credentials. See scripts/viteShellLoginProxy.mjs."
+    if (forceRefresh) cachedGuestOauthToken = null;
+    if (cachedGuestOauthToken) return cachedGuestOauthToken;
+    const { username, password } = readOauthCredentials();
+    if (!username || !password) {
+      throw new ShellGatewayAuthError(
+        "Guest OAuth is not configured. Set MYBHARAT_SHELL.login.oauthUsername and oauthPassword."
       );
     }
+    let res;
+    try {
+      res = await fetch(buildGatewayUrl(GATEWAY_PATHS.oauth), {
+        method: "POST",
+        credentials: "omit",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json"
+        },
+        body: new URLSearchParams({ username, password }).toString()
+      });
+    } catch {
+      throw new ShellGatewayAuthError(DEFAULT_API_ERROR_MESSAGE2);
+    }
+    const data = await parseGatewayJson(res);
     const token = readAccessTokenFromResponse(data);
     if (!token) {
-      throw new ShellInternalAuthError(resolveUserFacingApiError(data));
+      throw new ShellGatewayAuthError(resolveUserFacingApiError(data));
     }
     cachedGuestOauthToken = token;
     return token;
-  }
-
-  // src/components/header/login/shellLoginSecretPayload.ts
-  var cachedPublicKeyPem = null;
-  var publicKeyPromise = null;
-  function readConfiguredPublicKeyPem() {
-    const fromShell = window.MYBHARAT_SHELL?.login?.loginPayloadPublicKey?.trim();
-    if (fromShell) return fromShell;
-    const fromHeader = document.querySelector("mybharat-header")?.getAttribute("login-payload-public-key")?.trim();
-    if (fromHeader) return fromHeader;
-    const fromMeta = document.querySelector('meta[name="mybharat-login-payload-public-key"]')?.getAttribute("content")?.trim();
-    return fromMeta ?? "";
-  }
-  async function fetchPublicKeyPemFromHost() {
-    const res = await postInternalAuthJson(SHELL_INTERNAL_LOGIN_PUBKEY_PATH, {});
-    if (isApiFailureResponse(res)) {
-      throw new Error(resolveUserFacingApiError(res));
-    }
-    const pem = typeof res.public_key === "string" && res.public_key || typeof res.publicKey === "string" && res.publicKey || "";
-    if (!pem.trim()) {
-      throw new Error(DEFAULT_API_ERROR_MESSAGE2);
-    }
-    return pem.trim();
-  }
-  async function resolveLoginPayloadPublicKeyPem() {
-    const configured = readConfiguredPublicKeyPem();
-    if (configured) return configured;
-    if (cachedPublicKeyPem) return cachedPublicKeyPem;
-    if (publicKeyPromise) return publicKeyPromise;
-    publicKeyPromise = fetchPublicKeyPemFromHost().then((pem) => {
-      cachedPublicKeyPem = pem;
-      return pem;
-    });
-    try {
-      return await publicKeyPromise;
-    } finally {
-      publicKeyPromise = null;
-    }
-  }
-  function pemToSpkiBuffer(pem) {
-    const b64 = pem.replace(/-----BEGIN PUBLIC KEY-----/g, "").replace(/-----END PUBLIC KEY-----/g, "").replace(/\s+/g, "");
-    const binary = atob(b64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i += 1) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
-  async function importRsaPublicKey(pem) {
-    return crypto.subtle.importKey(
-      "spki",
-      pemToSpkiBuffer(pem),
-      { name: "RSA-OAEP", hash: "SHA-256" },
-      false,
-      ["encrypt"]
-    );
-  }
-  function bufferToBase64(buffer) {
-    const bytes = new Uint8Array(buffer);
-    let binary = "";
-    for (let i = 0; i < bytes.length; i += 1) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
-  }
-  async function encryptLoginSecret(plaintext) {
-    const value = plaintext.trim();
-    if (!value) {
-      throw new Error("Secret value is empty.");
-    }
-    if (typeof crypto === "undefined" || !crypto.subtle) {
-      throw new Error("Secure login requires Web Crypto in this browser.");
-    }
-    const pem = await resolveLoginPayloadPublicKeyPem();
-    const key = await importRsaPublicKey(pem);
-    const encrypted = await crypto.subtle.encrypt(
-      { name: "RSA-OAEP" },
-      key,
-      new TextEncoder().encode(value)
-    );
-    return {
-      v: 1,
-      alg: "RSA-OAEP",
-      ciphertext: bufferToBase64(encrypted)
-    };
   }
 
   // src/components/header/login/authSessionCookies.ts
@@ -27835,15 +27684,7 @@ var MyBharatShell = (() => {
   }
   function readLoginFetchBase() {
     const shell = window.MYBHARAT_SHELL?.login;
-    const proxy = shell?.apiProxyBaseUrl?.trim().replace(/\/$/, "");
-    if (proxy) return proxy;
     const direct = shell?.apiBaseUrl?.trim().replace(/\/$/, "") || document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim().replace(/\/$/, "") || "";
-    if (!direct) return "";
-    try {
-      const origin = direct.includes("://") ? new URL(direct).origin : window.location.origin;
-      if (origin !== window.location.origin) return INTERNAL_PATHS.proxyDefault;
-    } catch {
-    }
     return direct;
   }
   function apiUrl(path) {
@@ -27996,24 +27837,11 @@ var MyBharatShell = (() => {
     } catch (err) {
       return { status_code: 500, message: resolveLoginFlowError(err) };
     }
-    let passwordSecret;
-    try {
-      passwordSecret = await encryptLoginSecret(password);
-    } catch (err) {
-      return { status_code: 500, message: resolveLoginFlowError(err) };
-    }
-    let loginRes;
-    try {
-      loginRes = await postInternalAuthJson(
-        SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
-        {
-          username,
-          password_secret: passwordSecret
-        }
-      );
-    } catch (err) {
-      return { status_code: 500, message: resolveLoginFlowError(err) };
-    }
+    const loginRes = await postGatewayJson(
+      GATEWAY_PATHS.keycloakLogin,
+      { username, password },
+      clientToken
+    );
     if (!isGatewayAuthSuccess(loginRes)) {
       return {
         status_code: inferApiStatusCode(loginRes) ?? loginRes.status_code ?? 401,
@@ -28116,19 +27944,10 @@ var MyBharatShell = (() => {
     } catch (err) {
       return { status_code: 500, message: resolveLoginFlowError(err) };
     }
-    let passwordSecret;
-    try {
-      passwordSecret = await encryptLoginSecret(password);
-    } catch (err) {
-      return { status_code: 500, message: resolveLoginFlowError(err) };
-    }
-    const changeRes = await postInternalAuthJson(
-      SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
-      {
-        userId,
-        dlId,
-        password_secret: passwordSecret
-      }
+    const changeRes = await postGatewayJson(
+      GATEWAY_PATHS.keycloakChangePassword,
+      { userId, dlId, password },
+      clientToken
     );
     if (!isKeycloakChangePasswordSuccess(changeRes)) {
       return {
@@ -28200,14 +28019,9 @@ var MyBharatShell = (() => {
   var LOGIN_DATA_KEY = AUTH_CONFIG.storageKeys.loginData;
   var DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE2;
   var shellLoginApiBaseUrl;
-  var shellLoginApiProxyBaseUrl;
-  var SHELL_LOGIN_API_PROXY_DEFAULT2 = INTERNAL_PATHS.proxyDefault;
-  var warnedAutoLoginProxy = false;
-  function applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl) {
+  function applyShellLoginApiConfig(apiBaseUrl) {
     const url = apiBaseUrl?.trim();
     if (url) shellLoginApiBaseUrl = url.replace(/\/$/, "");
-    const proxy = apiProxyBaseUrl?.trim();
-    if (proxy) shellLoginApiProxyBaseUrl = proxy.replace(/\/$/, "");
     clearShellInternalAuthCache();
   }
   var installed = false;
@@ -28338,57 +28152,22 @@ var MyBharatShell = (() => {
     const fromMeta = document.querySelector('meta[name="mybharat-shell-api-base-url"]')?.getAttribute("content")?.trim();
     return fromMeta ? fromMeta.replace(/\/$/, "") : "";
   }
-  function readShellLoginApiProxyBaseUrl() {
-    if (shellLoginApiProxyBaseUrl) return shellLoginApiProxyBaseUrl;
-    const fromShell = window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim();
-    if (fromShell) return fromShell.replace(/\/$/, "");
-    const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-proxy-base-url")?.trim();
-    if (fromHeader) return fromHeader.replace(/\/$/, "");
-    const fromMeta = document.querySelector('meta[name="mybharat-shell-api-proxy-base"]')?.getAttribute("content")?.trim();
-    return fromMeta ? fromMeta.replace(/\/$/, "") : "";
-  }
-  function resolveApiBaseOrigin(base) {
-    if (typeof window === "undefined") return void 0;
-    try {
-      const resolved = base.includes("://") ? base : `${window.location.origin}${base.startsWith("/") ? base : `/${base}`}`;
-      return new URL(resolved).origin;
-    } catch {
-      return void 0;
-    }
-  }
-  function isCrossOriginApiBase(base) {
-    if (typeof window === "undefined" || !base) return false;
-    const apiOrigin = resolveApiBaseOrigin(base);
-    return !!apiOrigin && apiOrigin !== window.location.origin;
-  }
   function readShellLoginFetchBaseUrl() {
-    const proxy = readShellLoginApiProxyBaseUrl();
-    if (proxy) return proxy;
-    const direct = readShellLoginApiBaseUrl();
-    if (!direct) return "";
-    if (!isCrossOriginApiBase(direct)) return direct;
-    if (!warnedAutoLoginProxy && typeof console !== "undefined") {
-      warnedAutoLoginProxy = true;
-      console.warn(
-        `[mybharat header] apiBaseUrl (${direct}) is cross-origin; login fetch uses same-origin proxy ${SHELL_LOGIN_API_PROXY_DEFAULT2}. Forward that path to the API on your dev server (see docs).`
-      );
-    }
-    return SHELL_LOGIN_API_PROXY_DEFAULT2;
+    syncShellLoginApiConfigFromDom();
+    return readShellLoginApiBaseUrl();
   }
   function syncShellLoginApiConfigFromDom() {
     const headerEl = document.querySelector("mybharat-header");
     const apiBaseUrl = headerEl?.getAttribute("api-base-url")?.trim();
-    const apiProxyBaseUrl = headerEl?.getAttribute("api-proxy-base-url")?.trim();
     const baseUrl = headerEl?.getAttribute("login-base-url")?.trim();
-    if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl);
-    if (!baseUrl && !apiBaseUrl && !apiProxyBaseUrl) return;
+    if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+    if (!baseUrl && !apiBaseUrl) return;
     window.MYBHARAT_SHELL = {
       ...window.MYBHARAT_SHELL,
       login: {
         ...window.MYBHARAT_SHELL?.login,
         ...baseUrl ? { baseUrl } : {},
-        ...apiBaseUrl ? { apiBaseUrl } : {},
-        ...apiProxyBaseUrl ? { apiProxyBaseUrl } : {}
+        ...apiBaseUrl ? { apiBaseUrl } : {}
       }
     };
   }
@@ -28554,7 +28333,7 @@ var MyBharatShell = (() => {
     try {
       return await fetchInternalKeycloakClientAccessToken(forceRefresh);
     } catch (err) {
-      if (err instanceof ShellInternalAuthError) {
+      if (err instanceof ShellGatewayAuthError) {
         throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
       }
       throw err;
@@ -28564,7 +28343,7 @@ var MyBharatShell = (() => {
     try {
       return await fetchInternalGuestOauthAccessToken(forceRefresh);
     } catch (err) {
-      if (err instanceof ShellInternalAuthError) {
+      if (err instanceof ShellGatewayAuthError) {
         throw new LoginApiError(resolveUserFacingApiError({ message: err.message }));
       }
       throw err;
@@ -28913,27 +28692,33 @@ var MyBharatShell = (() => {
     }
   }
   async function verifyGuestUserOtp(identifier, otp) {
-    let otpSecret;
-    try {
-      otpSecret = await encryptLoginSecret(otp);
-    } catch (err) {
-      return { status_code: 500, message: resolveLoginFlowError(err) };
+    const form = { otp };
+    if (validateEmail(identifier)) {
+      form.user_email = identifier;
+      form.user_phone = "";
+    } else if (validatePhone(identifier)) {
+      form.user_phone = identifier;
+      form.user_email = "";
+    } else {
+      form.user_email = identifier;
+      form.user_phone = "";
     }
     try {
-      const body = {
-        otp_secret: otpSecret
-      };
-      if (validateEmail(identifier)) {
-        body.user_email = identifier;
-        body.user_phone = "";
-      } else if (validatePhone(identifier)) {
-        body.user_phone = identifier;
-        body.user_email = "";
-      } else {
-        body.user_email = identifier;
-        body.user_phone = "";
+      let accessToken = await getOauthAccessToken();
+      let res = await fetchLoginApiFormPost(
+        GATEWAY_PATHS.verifyGuestUserOtp,
+        form,
+        accessToken
+      );
+      if (isKeycloakUnauthorizedResponse(res)) {
+        accessToken = await getOauthAccessToken(true);
+        res = await fetchLoginApiFormPost(
+          GATEWAY_PATHS.verifyGuestUserOtp,
+          form,
+          accessToken
+        );
       }
-      return await postInternalAuthJson(SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, body);
+      return res;
     } catch (err) {
       return { status_code: 500, message: resolveLoginFlowError(err) };
     }
@@ -29461,10 +29246,7 @@ var MyBharatShell = (() => {
     if (installed) return () => void 0;
     installed = true;
     syncShellLoginApiConfigFromDom();
-    applyShellLoginApiConfig(
-      window.MYBHARAT_SHELL?.login?.apiBaseUrl,
-      window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl
-    );
+    applyShellLoginApiConfig(window.MYBHARAT_SHELL?.login?.apiBaseUrl);
     prefetchClientIpAddress();
     document.addEventListener("click", onDocumentClick2, true);
     document.addEventListener("input", onDocumentInput, true);
@@ -31681,16 +31463,16 @@ var MyBharatShell = (() => {
     const baseUrl = config?.baseUrl?.trim();
     const apiBaseUrl = config?.apiBaseUrl?.trim();
     const environment = config?.environment?.trim();
-    const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
-    const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
+    const oauthUsername = config?.oauthUsername?.trim();
+    const oauthPassword = config?.oauthPassword?.trim();
     const ipAddress = config?.ipAddress?.trim();
     const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
     const cookieDomain = config?.cookieDomain?.trim();
     const cdnBase = config?.cdnBase?.trim();
-    if (!baseUrl && !apiBaseUrl && !environment && !cdnBase && !apiProxyBaseUrl && !loginPayloadPublicKey && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
+    if (!baseUrl && !apiBaseUrl && !environment && !cdnBase && !oauthUsername && !oauthPassword && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
       return;
     }
-    if (apiBaseUrl || apiProxyBaseUrl) applyShellLoginApiConfig(apiBaseUrl, apiProxyBaseUrl);
+    if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
     window.MYBHARAT_SHELL = {
       ...window.MYBHARAT_SHELL,
       ...cdnBase ? {
@@ -31702,8 +31484,8 @@ var MyBharatShell = (() => {
         ...baseUrl ? { baseUrl } : {},
         ...apiBaseUrl ? { apiBaseUrl } : {},
         ...environment ? { environment } : {},
-        ...apiProxyBaseUrl ? { apiProxyBaseUrl } : {},
-        ...loginPayloadPublicKey ? { loginPayloadPublicKey } : {},
+        ...oauthUsername ? { oauthUsername } : {},
+        ...oauthPassword ? { oauthPassword } : {},
         ...ipAddress ? { ipAddress } : {},
         ...publicProfileApiBaseUrl ? { publicProfileApiBaseUrl } : {},
         ...cookieDomain ? { cookieDomain } : {}
@@ -31715,8 +31497,8 @@ var MyBharatShell = (() => {
     const baseUrl = config?.baseUrl?.trim();
     const apiBaseUrl = config?.apiBaseUrl?.trim();
     const environment = config?.environment?.trim();
-    const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
-    const loginPayloadPublicKey = config?.loginPayloadPublicKey?.trim();
+    const oauthUsername = config?.oauthUsername?.trim();
+    const oauthPassword = config?.oauthPassword?.trim();
     const ipAddress = config?.ipAddress?.trim();
     const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
     const cookieDomain = config?.cookieDomain?.trim();
@@ -31727,8 +31509,8 @@ var MyBharatShell = (() => {
         apiBaseUrl,
         environment,
         cdnBase,
-        apiProxyBaseUrl,
-        loginPayloadPublicKey,
+        oauthUsername,
+        oauthPassword,
         ipAddress,
         publicProfileApiBaseUrl,
         cookieDomain
@@ -31738,8 +31520,8 @@ var MyBharatShell = (() => {
       apiBaseUrl,
       environment,
       cdnBase,
-      apiProxyBaseUrl,
-      loginPayloadPublicKey,
+      oauthUsername,
+      oauthPassword,
       ipAddress,
       publicProfileApiBaseUrl,
       cookieDomain
@@ -31934,8 +31716,8 @@ var MyBharatShell = (() => {
     baseUrl,
     apiBaseUrl,
     environment,
-    apiProxyBaseUrl,
-    loginPayloadPublicKey,
+    oauthUsername,
+    oauthPassword,
     ipAddress,
     publicProfileApiBaseUrl,
     cookieDomain,
@@ -31945,8 +31727,8 @@ var MyBharatShell = (() => {
       baseUrl,
       apiBaseUrl,
       environment,
-      apiProxyBaseUrl,
-      loginPayloadPublicKey,
+      oauthUsername,
+      oauthPassword,
       ipAddress,
       publicProfileApiBaseUrl,
       cookieDomain,
@@ -32008,8 +31790,8 @@ var MyBharatShell = (() => {
     baseUrl,
     apiBaseUrl,
     environment,
-    apiProxyBaseUrl,
-    loginPayloadPublicKey,
+    oauthUsername,
+    oauthPassword,
     ipAddress,
     publicProfileApiBaseUrl,
     cookieDomain,
@@ -32019,8 +31801,8 @@ var MyBharatShell = (() => {
       baseUrl,
       apiBaseUrl,
       environment,
-      apiProxyBaseUrl,
-      loginPayloadPublicKey,
+      oauthUsername,
+      oauthPassword,
       ipAddress,
       publicProfileApiBaseUrl,
       cookieDomain,
@@ -32381,8 +32163,8 @@ var MyBharatShell = (() => {
       baseUrl: el.getAttribute("login-base-url") ?? global?.baseUrl,
       apiBaseUrl: el.getAttribute("api-base-url") ?? global?.apiBaseUrl,
       environment: el.getAttribute("environment") ?? global?.environment,
-      apiProxyBaseUrl: el.getAttribute("api-proxy-base-url") ?? global?.apiProxyBaseUrl,
-      loginPayloadPublicKey: el.getAttribute("login-payload-public-key") ?? global?.loginPayloadPublicKey,
+      oauthUsername: el.getAttribute("oauth-username") ?? global?.oauthUsername,
+      oauthPassword: el.getAttribute("oauth-password") ?? global?.oauthPassword,
       ipAddress: el.getAttribute("ip-address") ?? global?.ipAddress
     };
   }
@@ -32401,8 +32183,8 @@ var MyBharatShell = (() => {
       baseUrl: login.baseUrl,
       apiBaseUrl: login.apiBaseUrl,
       environment: login.environment,
-      apiProxyBaseUrl: login.apiProxyBaseUrl,
-      loginPayloadPublicKey: login.loginPayloadPublicKey,
+      oauthUsername: login.oauthUsername,
+      oauthPassword: login.oauthPassword,
       ipAddress: login.ipAddress,
       bhashini: parseBooleanAttr(el.getAttribute("bhashini")) ?? global?.bhashini
     };
@@ -32438,8 +32220,8 @@ var MyBharatShell = (() => {
     "login-base-url",
     "api-base-url",
     "environment",
-    "api-proxy-base-url",
-    "login-payload-public-key",
+    "oauth-username",
+    "oauth-password",
     "ip-address",
     "bhashini"
   ];
@@ -32471,7 +32253,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.239" }
+          detail: { component: "header", version: "1.0.240" }
         })
       );
     }
@@ -32496,8 +32278,8 @@ var MyBharatShell = (() => {
         baseUrl,
         apiBaseUrl,
         environment,
-        apiProxyBaseUrl,
-        loginPayloadPublicKey,
+        oauthUsername,
+        oauthPassword,
         ipAddress,
         bhashini
       } = resolveHeaderProps(this);
@@ -32514,8 +32296,8 @@ var MyBharatShell = (() => {
             baseUrl,
             apiBaseUrl,
             environment,
-            apiProxyBaseUrl,
-            loginPayloadPublicKey,
+            oauthUsername,
+            oauthPassword,
             ipAddress,
             bhashini
           }
@@ -32542,7 +32324,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.239" }
+          detail: { component: "footer", version: "1.0.240" }
         })
       );
     }
@@ -32603,7 +32385,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.239";
+  var MYBHARAT_SHELL_VERSION = "1.0.240";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

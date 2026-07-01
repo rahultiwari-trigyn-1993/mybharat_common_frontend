@@ -1,8 +1,7 @@
 /**
- * Post-OTP-verify / password login — gateway auth then browser POST to PHP `establish_session`.
+ * Post-OTP-verify / password login — direct APIGateway calls then browser POST to `establish_session`.
  */
 
-import { encryptLoginSecret } from './shellLoginSecretPayload';
 import {
   DEFAULT_API_ERROR_MESSAGE,
   hasOAuthFailure,
@@ -11,18 +10,12 @@ import {
   normalizeApiResponse,
   resolveLoginFlowError,
   resolveUserFacingApiError,
-  toApiErrorResponse,
   type ApiErrorPayload,
 } from './loginApiErrorMessage';
-import {
-  fetchInternalKeycloakClientAccessToken,
-  postInternalAuthJson,
-  SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
-  SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
-} from './shellLoginInternalAuth';
+import { fetchInternalKeycloakClientAccessToken } from './shellLoginGateway';
 import { submitEstablishSessionForm, type EstablishSessionFlow } from './establishSessionForm';
 import { readMbAppTokenFromGatewayResponse } from './authSessionCookies';
-import { INTERNAL_PATHS, GATEWAY_PATHS } from '../../../config/apiPaths';
+import { GATEWAY_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
 import { AUTH_CONFIG } from '../../../config/auth';
 
@@ -74,23 +67,10 @@ function isSuccessStatus(statusCode?: number | string): boolean {
 
 function readLoginFetchBase(): string {
   const shell = window.MYBHARAT_SHELL?.login;
-  const proxy = shell?.apiProxyBaseUrl?.trim().replace(/\/$/, '');
-  if (proxy) return proxy;
-
   const direct =
     shell?.apiBaseUrl?.trim().replace(/\/$/, '') ||
     document.querySelector('mybharat-header')?.getAttribute('api-base-url')?.trim().replace(/\/$/, '') ||
     '';
-  if (!direct) return '';
-
-  try {
-    const origin = direct.includes('://')
-      ? new URL(direct).origin
-      : window.location.origin;
-    if (origin !== window.location.origin) return INTERNAL_PATHS.proxyDefault;
-  } catch {
-    /* ignore */
-  }
   return direct;
 }
 
@@ -149,16 +129,6 @@ async function postGatewayJson<T extends LoginOtpApiResponse>(
       headers,
       body: JSON.stringify(body),
     });
-  } catch {
-    return { status_code: 500, message: DEFAULT_ERROR } as T;
-  }
-  return parseJsonResponse<T>(res, await res.text());
-}
-
-async function postGatewayEmpty<T extends LoginOtpApiResponse>(path: string): Promise<T> {
-  let res: Response;
-  try {
-    res = await fetch(apiUrl(path), { method: 'POST', credentials: 'omit' });
   } catch {
     return { status_code: 500, message: DEFAULT_ERROR } as T;
   }
@@ -274,10 +244,6 @@ function resolveExchangeError(res: LoginOtpApiResponse): string {
   return resolveGatewayError(res, DEFAULT_ERROR);
 }
 
-/**
- * Full loginWithOtp replacement — call after successful verifyGuestUserOtp.
- * Requires reg_code from verify response (stored via storeRegCodeFromVerifyResponse).
- */
 export async function completeLoginWithOtp(
   username: string
 ): Promise<LoginOtpApiResponse | LoginOtpRedirectResult> {
@@ -310,10 +276,6 @@ export async function completeLoginWithOtp(
   return submitPortalEstablishSession('login_otp', username, exchange);
 }
 
-/**
- * Password sign-in — replaces legacy `pages/signIn`.
- * Flow: keycloakLogin → POST `{baseUrl}/establish_session`.
- */
 export async function completePasswordSignIn(
   username: string,
   password: string
@@ -325,25 +287,11 @@ export async function completePasswordSignIn(
     return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
-  let passwordSecret;
-  try {
-    passwordSecret = await encryptLoginSecret(password);
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
-  }
-
-  let loginRes: LoginOtpApiResponse;
-  try {
-    loginRes = await postInternalAuthJson<LoginOtpApiResponse>(
-      SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH,
-      {
-        username,
-        password_secret: passwordSecret,
-      }
-    );
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
-  }
+  const loginRes = await postGatewayJson<LoginOtpApiResponse>(
+    GATEWAY_PATHS.keycloakLogin,
+    { username, password },
+    clientToken
+  );
 
   if (!isGatewayAuthSuccess(loginRes)) {
     return {
@@ -406,7 +354,6 @@ function isForgotPasswordGatewaySuccess(response: unknown): boolean {
   return false;
 }
 
-/** APIGateway keycloakChangePassword often returns `{ message: "Password changed successfully" }` without status_code. */
 function isKeycloakChangePasswordSuccess(res: LoginOtpApiResponse): boolean {
   if (isSuccessStatus(res.status_code)) return true;
   if (res.status_code != null && res.status_code !== '' && !isSuccessStatus(res.status_code)) {
@@ -451,10 +398,6 @@ function readForgotPasswordIdentity(response: LoginOtpApiResponse | unknown): {
   return { userId, dlId };
 }
 
-/**
- * Forgot-password password update — replaces legacy `pages/keycloakForgotPassword`.
- * Flow: keycloakForgotPassword → keycloakChangePassword (requires reg_code from OTP verify).
- */
 export async function completeForgotPasswordUpdate(
   identifier: string,
   password: string
@@ -495,20 +438,10 @@ export async function completeForgotPasswordUpdate(
     return { status_code: 500, message: resolveLoginFlowError(err) };
   }
 
-  let passwordSecret;
-  try {
-    passwordSecret = await encryptLoginSecret(password);
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
-  }
-
-  const changeRes = await postInternalAuthJson<LoginOtpApiResponse>(
-    SHELL_INTERNAL_CHANGE_PASSWORD_PATH,
-    {
-      userId,
-      dlId,
-      password_secret: passwordSecret,
-    }
+  const changeRes = await postGatewayJson<LoginOtpApiResponse>(
+    GATEWAY_PATHS.keycloakChangePassword,
+    { userId, dlId, password },
+    clientToken
   );
 
   if (!isKeycloakChangePasswordSuccess(changeRes)) {

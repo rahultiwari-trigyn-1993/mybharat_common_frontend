@@ -1,4 +1,3 @@
-import { INTERNAL_PATHS } from './apiPaths';
 import { mergeRequiredClientConfig } from './requireClientConfig';
 import type { ClientEnvironment, ShellRuntimeConfig } from './types';
 
@@ -23,9 +22,7 @@ export function resolveCdnAssetUrl(cdnBase: string, assetPath: string): string {
   return `${origin}/${CDN_ASSET_SEGMENT}/${path}`;
 }
 
-export function resolveShellLoginConfig(
-  props?: ShellRuntimeConfig,
-): ShellRuntimeConfig & { apiProxyBaseUrl: string } {
+export function resolveShellLoginConfig(props?: ShellRuntimeConfig): ShellRuntimeConfig {
   const shell = window.MYBHARAT_SHELL?.login ?? {};
   const required = mergeRequiredClientConfig({
     baseUrl: props?.baseUrl,
@@ -38,10 +35,8 @@ export function resolveShellLoginConfig(
     apiBaseUrl: required.apiBaseUrl,
     environment: required.environment as ClientEnvironment | undefined,
     cdnBase: required.cdnBase,
-    apiProxyBaseUrl:
-      props?.apiProxyBaseUrl?.trim() ||
-      shell.apiProxyBaseUrl?.trim() ||
-      INTERNAL_PATHS.proxyDefault,
+    oauthUsername: props?.oauthUsername?.trim() || shell.oauthUsername?.trim(),
+    oauthPassword: props?.oauthPassword?.trim() || shell.oauthPassword?.trim(),
     cookieDomain: props?.cookieDomain?.trim() || shell.cookieDomain?.trim(),
     publicProfileApiBaseUrl:
       props?.publicProfileApiBaseUrl?.trim() || shell.publicProfileApiBaseUrl?.trim(),

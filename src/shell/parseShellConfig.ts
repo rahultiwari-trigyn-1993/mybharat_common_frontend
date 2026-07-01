@@ -30,24 +30,11 @@ export type ShellFooterConfig = {
 };
 
 export type ShellLoginConfig = {
-  /** Post-login redirect prefix, e.g. `https://mybharat.gov.in/` */
   baseUrl?: string;
-  /**
-   * MY Bharat login API root (absolute URL recommended, no trailing slash).
-   * Use full URL when shell is embedded on another origin (e.g. registration on localhost:3000).
-   */
   apiBaseUrl?: string;
-  /** Host environment (`local` | `dev` | `beta` | `prod`). */
   environment?: 'local' | 'dev' | 'beta' | 'prod';
-  /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin. */
-  apiProxyBaseUrl?: string;
-  /** @deprecated Server-side only — configure host `/_internal/guest-oauth` proxy route. */
   oauthUsername?: string;
-  /** @deprecated Server-side only — configure host `/_internal/guest-oauth` proxy route. */
   oauthPassword?: string;
-  /** Optional RSA public key PEM — browser encrypts password/OTP before internal routes. */
-  loginPayloadPublicKey?: string;
-  /** Optional client IP for sendMobileGuestUserOtp. */
   ipAddress?: string;
   sessionEstablishPath?: string;
   cookieDomain?: string;
@@ -155,9 +142,8 @@ export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
     environment: (el.getAttribute('environment') ?? global?.environment) as
       | ShellLoginConfig['environment']
       | undefined,
-    apiProxyBaseUrl: el.getAttribute('api-proxy-base-url') ?? global?.apiProxyBaseUrl,
-    loginPayloadPublicKey:
-      el.getAttribute('login-payload-public-key') ?? global?.loginPayloadPublicKey,
+    oauthUsername: el.getAttribute('oauth-username') ?? global?.oauthUsername,
+    oauthPassword: el.getAttribute('oauth-password') ?? global?.oauthPassword,
     ipAddress: el.getAttribute('ip-address') ?? global?.ipAddress,
   };
 }
@@ -172,8 +158,8 @@ export function resolveHeaderProps(el: HTMLElement): {
   baseUrl?: string;
   apiBaseUrl?: string;
   environment?: 'local' | 'dev' | 'beta' | 'prod';
-  apiProxyBaseUrl?: string;
-  loginPayloadPublicKey?: string;
+  oauthUsername?: string;
+  oauthPassword?: string;
   ipAddress?: string;
   bhashini?: boolean;
 } {
@@ -193,8 +179,8 @@ export function resolveHeaderProps(el: HTMLElement): {
     baseUrl: login.baseUrl,
     apiBaseUrl: login.apiBaseUrl,
     environment: login.environment,
-    apiProxyBaseUrl: login.apiProxyBaseUrl,
-    loginPayloadPublicKey: login.loginPayloadPublicKey,
+    oauthUsername: login.oauthUsername,
+    oauthPassword: login.oauthPassword,
     ipAddress: login.ipAddress,
     bhashini: parseBooleanAttr(el.getAttribute('bhashini')) ?? global?.bhashini,
   };

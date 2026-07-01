@@ -1,7 +1,7 @@
 import {
   getShellApiFetchBaseUrl,
 } from '../header/login/headerLoginFlow';
-import { fetchInternalGuestOauthAccessToken } from '../header/login/shellLoginInternalAuth';
+import { fetchInternalGuestOauthAccessToken } from '../header/login/shellLoginGateway';
 import {
   DEFAULT_API_ERROR_MESSAGE,
   isApiSuccessStatus,

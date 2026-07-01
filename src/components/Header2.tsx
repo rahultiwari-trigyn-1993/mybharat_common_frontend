@@ -35,14 +35,12 @@ export type Header2Props = {
   webroot?: string;
   /** Portal origin for header login redirects (`VITE_BASE_URL`). */
   baseUrl?: string;
-  /** MY Bharat login API root — absolute URL when embedded on another app (not host `/api`). */
+  /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
   apiBaseUrl?: string;
   /** Host environment (`local` | `dev` | `beta` | `prod`). */
   environment?: ClientEnvironment;
-  /** Same-origin proxy for login fetch when apiBaseUrl is cross-origin (avoids OPTIONS preflight). */
-  apiProxyBaseUrl?: string;
-  /** RSA public key PEM (optional). Browser encrypts password/OTP — never pass private key as a prop. */
-  loginPayloadPublicKey?: string;
+  oauthUsername?: string;
+  oauthPassword?: string;
   /** Optional client IP for OTP send when host cannot infer IP server-side. */
   ipAddress?: string;
   /** Public profile API base for post-login `getUserId`. */
@@ -62,8 +60,8 @@ export const Header2: React.FC<Header2Props> = ({
   baseUrl,
   apiBaseUrl,
   environment,
-  apiProxyBaseUrl,
-  loginPayloadPublicKey,
+  oauthUsername,
+  oauthPassword,
   ipAddress,
   publicProfileApiBaseUrl,
   cookieDomain,
@@ -73,8 +71,8 @@ export const Header2: React.FC<Header2Props> = ({
     baseUrl,
     apiBaseUrl,
     environment,
-    apiProxyBaseUrl,
-    loginPayloadPublicKey,
+    oauthUsername,
+    oauthPassword,
     ipAddress,
     publicProfileApiBaseUrl,
     cookieDomain,
