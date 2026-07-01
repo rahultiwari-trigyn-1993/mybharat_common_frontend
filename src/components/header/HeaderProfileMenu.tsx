@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   buildHeaderProfileMenuItems,
   encodeHeaderUserIdForLogout,
@@ -62,10 +62,37 @@ function MenuLink({
   );
 }
 
-/** Desktop profile chip + Bootstrap dropdown (legacy `header.ctp` `.chat-toggler`). */
+/** Desktop profile chip + dropdown (legacy `header.ctp` `.chat-toggler`). */
 export function HeaderProfileMenu({ user, webroot, variant = 'desktop' }: HeaderProfileMenuProps) {
   const items = buildHeaderProfileMenuItems(user, { webroot });
   const displayName = headerUserDisplayName(user);
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const toggleOpen = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen((prev) => !prev);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const onDocumentClick = (e: MouseEvent) => {
+      if (rootRef.current?.contains(e.target as Node)) return;
+      setOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('click', onDocumentClick);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   if (variant === 'mobile') {
     return (
@@ -87,15 +114,18 @@ export function HeaderProfileMenu({ user, webroot, variant = 'desktop' }: Header
   }
 
   return (
-    <div className="dropdown chat-toggler header_img mb-common-header__profile">
+    <div
+      ref={rootRef}
+      className={`dropdown chat-toggler header_img mb-common-header__profile${open ? ' show' : ''}`}
+    >
       <a
         href="#"
         className="mb-common-header__profile-toggle text-decoration-none"
         id="user-options"
         role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        onClick={(e) => e.preventDefault()}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        onClick={toggleOpen}
       >
         <ProfileAvatar user={user} />
         <div className="user-details">
@@ -103,7 +133,12 @@ export function HeaderProfileMenu({ user, webroot, variant = 'desktop' }: Header
           <div className="username">{displayName}</div>
         </div>
       </a>
-      <ul className="dropdown-menu dropdown-menu-end pull-right" role="menu" aria-labelledby="user-options">
+      <ul
+        className={`dropdown-menu dropdown-menu-end pull-right${open ? ' show' : ''}`}
+        role="menu"
+        aria-labelledby="user-options"
+        style={open ? { display: 'block' } : undefined}
+      >
         {items.map((item) => (
           <li key={item.href + item.label}>
             <MenuLink item={item} userId={user.id} />

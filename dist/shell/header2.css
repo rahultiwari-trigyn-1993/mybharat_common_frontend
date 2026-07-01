@@ -2476,6 +2476,26 @@ header.mb-common-header .chat-toggler .profile-wrapper .profileimage {
   overflow-y: auto;
 }
 
+/* Login modals portaled to body — beat host default.css `.logo-w-sm-md-sec` / `img` rules */
+.mb-common-header-login img.logo-w-sm-md-sec {
+  width: 98px !important;
+  max-width: none !important;
+  height: auto !important;
+  object-fit: contain;
+  transform: none !important;
+  display: inline-block;
+}
+
+.mb-common-header-login .modal-header {
+  align-items: center !important;
+}
+
+.mb-common-header-login .modal-header .text-center.w-100 {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-right: 2rem;
+}
+
 .mb-common-header-login .form-check {
   padding-right: 1.5em !important;
 }
@@ -3226,7 +3246,7 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
 }
 
 /* generic dropdown override used by header profile menu */
-.dropdown-menu {
+header#mb-common-header-root.mb-common-header .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
@@ -3240,6 +3260,18 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   border-radius: 3px;
   padding: 0;
   font-size: 13px;
+}
+
+header#mb-common-header-root.mb-common-header .mb-common-header__profile.dropdown.show > .dropdown-menu,
+header#mb-common-header-root.mb-common-header .mb-common-header__profile .dropdown-menu.show {
+  display: block !important;
+}
+
+header#mb-common-header-root.mb-common-header .header-area,
+header#mb-common-header-root.mb-common-header .main-menu,
+header#mb-common-header-root.mb-common-header #mb-nav-desktop-main,
+header#mb-common-header-root.mb-common-header .mb-common-header__profile {
+  overflow: visible !important;
 }
 
 /* =========================

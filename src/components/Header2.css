@@ -599,7 +599,7 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
 }
 
 /* generic dropdown override used by header profile menu */
-.dropdown-menu {
+header#mb-common-header-root.mb-common-header .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
@@ -613,6 +613,18 @@ header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-comm
   border-radius: 3px;
   padding: 0;
   font-size: 13px;
+}
+
+header#mb-common-header-root.mb-common-header .mb-common-header__profile.dropdown.show > .dropdown-menu,
+header#mb-common-header-root.mb-common-header .mb-common-header__profile .dropdown-menu.show {
+  display: block !important;
+}
+
+header#mb-common-header-root.mb-common-header .header-area,
+header#mb-common-header-root.mb-common-header .main-menu,
+header#mb-common-header-root.mb-common-header #mb-nav-desktop-main,
+header#mb-common-header-root.mb-common-header .mb-common-header__profile {
+  overflow: visible !important;
 }
 
 /* =========================

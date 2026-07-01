@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-if (typeof window !== 'undefined' && !window.bootstrap) {
+if (typeof window !== 'undefined') {
   window.bootstrap = bootstrap;
 }
 

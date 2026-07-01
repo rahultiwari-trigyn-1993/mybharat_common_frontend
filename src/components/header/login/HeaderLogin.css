@@ -9,6 +9,26 @@
   overflow-y: auto;
 }
 
+/* Login modals portaled to body — beat host default.css `.logo-w-sm-md-sec` / `img` rules */
+.mb-common-header-login img.logo-w-sm-md-sec {
+  width: 98px !important;
+  max-width: none !important;
+  height: auto !important;
+  object-fit: contain;
+  transform: none !important;
+  display: inline-block;
+}
+
+.mb-common-header-login .modal-header {
+  align-items: center !important;
+}
+
+.mb-common-header-login .modal-header .text-center.w-100 {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-right: 2rem;
+}
+
 .mb-common-header-login .form-check {
   padding-right: 1.5em !important;
 }

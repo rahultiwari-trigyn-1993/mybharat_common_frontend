@@ -1,7 +1,6 @@
 <?php
 /**
- * Drop-in MY Bharat shell block for CakePHP `View/Layouts/default.ctp`.
- * Replace v1.0.243 with the latest tag after publish.
+ * Reference layout for CakePHP `View/Layouts/default.ctp` (shell v1.0.245+).
  */
 
 if (!isset($isLoggedIn)) {
@@ -20,15 +19,10 @@ $mybharatOauthUsername = Configure::read('MybharatShell.MYBHARAT_OAUTH_USERNAME'
 $mybharatOauthPassword = Configure::read('MybharatShell.MYBHARAT_OAUTH_PASSWORD') ?: '';
 $mybharatPublicProfileApiBaseUrl = Configure::read('PUBLIC_PROFILE_API_BASE_URL');
 
-// Local dev: post establish_session to the current host, not production base_url.
 if (!empty($_SERVER['HTTP_HOST']) && stripos($_SERVER['HTTP_HOST'], 'local') !== false) {
     $mybharatBaseUrl = Router::url('/', true);
 }
 
-/**
- * Shell expects API-shaped user JSON (`data.id`, not Cake `User.ID`).
- * v1.0.244+ also accepts Cake keys (ID, UserType, FirstName) when passed raw.
- */
 $headerUserPayload = null;
 if (!empty($isLoggedIn) && !empty($userSession)) {
     $headerUserPayload = array(
@@ -38,20 +32,20 @@ if (!empty($isLoggedIn) && !empty($userSession)) {
             'first_name' => !empty($userSession['first_name'])
                 ? $userSession['first_name']
                 : (!empty($userSession['FirstName']) ? $userSession['FirstName'] : ''),
-            'middle_name' => !empty($userSession['middle_name']) ? $userSession['middle_name'] : '',
-            'last_name' => !empty($userSession['last_name']) ? $userSession['last_name'] : '',
-            'username' => !empty($userSession['username']) ? $userSession['username'] : '',
             'user_type' => isset($userSession['UserType']) ? (int)$userSession['UserType'] : null,
-            'profile_pic' => !empty($userSession['profile_pic']) ? $userSession['profile_pic'] : '',
-            'public_profile' => !empty($userSession['public_profile']) ? $userSession['public_profile'] : '',
+            'username' => !empty($userSession['username']) ? $userSession['username'] : '',
         ),
     );
 }
 
-$mybharatShellVersion = 'v1.0.244';
+$mybharatShellVersion = 'v1.0.245';
 $mybharatShellCdn = 'https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@' . $mybharatShellVersion . '/dist/shell/';
 ?>
 
+<!--
+  IMPORTANT: place mybharat-shell.css AFTER host bootstrap.min.css and default.css
+  in default.ctp so shell logo/dropdown rules win over Cake theme CSS.
+-->
 <link rel="stylesheet" href="<?php echo h($mybharatShellCdn . 'mybharat-shell.css'); ?>" />
 
 <script type="text/javascript">

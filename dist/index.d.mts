@@ -325,7 +325,7 @@ type HeaderProfileMenuProps = {
     /** `desktop` — navbar dropdown; `mobile` — drawer link list */
     variant?: 'desktop' | 'mobile';
 };
-/** Desktop profile chip + Bootstrap dropdown (legacy `header.ctp` `.chat-toggler`). */
+/** Desktop profile chip + dropdown (legacy `header.ctp` `.chat-toggler`). */
 declare function HeaderProfileMenu({ user, webroot, variant }: HeaderProfileMenuProps): react_jsx_runtime.JSX.Element;
 
 type HeaderLoginShellPortalProps = {
