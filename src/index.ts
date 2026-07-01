@@ -95,8 +95,12 @@ export {
 export type { ClientEnvironment, ShellRuntimeConfig } from './config';
 export type { RequiredClientConfigInput } from './config/requireClientConfig';
 export { useRequiredClientConfig } from './hooks/useRequiredClientConfig';
-export { DEFAULT_HEADER_MAIN_NAV } from './navigation/headerMainNav.defaults';
-export { DEFAULT_HEADER2_MAIN_NAV } from './navigation/header2MainNav.defaults';
+export {
+  requireMainNavItems,
+  resolveMainNavItemsFromProp,
+  alertMainNavLoadFailed,
+} from './navigation/requireMainNavItems';
+export type { RequireMainNavItemsOptions } from './navigation/requireMainNavItems';
 export { isSafeNavHref } from './navigation/navHref';
 export { normalizeNavTree, isNavLinkItem, isNavGroupItem } from './navigation/navTree';
 export { navTreeItemKey } from './navigation/navTreeKeys';

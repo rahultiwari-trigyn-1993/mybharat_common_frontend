@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.238 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.239 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -36,8 +36,6 @@ __export(index_exports, {
   AUTH_CONFIG: () => AUTH_CONFIG,
   BHASHINI_WIDGET_SELECTORS: () => BHASHINI_WIDGET_SELECTORS,
   DEFAULT_API_ERROR_MESSAGE: () => DEFAULT_API_ERROR_MESSAGE,
-  DEFAULT_HEADER2_MAIN_NAV: () => DEFAULT_HEADER2_MAIN_NAV,
-  DEFAULT_HEADER_MAIN_NAV: () => DEFAULT_HEADER_MAIN_NAV,
   DEFAULT_LOGIN_API_ERROR: () => DEFAULT_LOGIN_API_ERROR,
   DEV_API_PROXY_PREFIXES: () => DEV_API_PROXY_PREFIXES,
   DesktopMainNav: () => DesktopMainNav,
@@ -63,6 +61,7 @@ __export(index_exports, {
   SHELL_INTERNAL_LOGIN_PUBKEY_PATH: () => SHELL_INTERNAL_LOGIN_PUBKEY_PATH,
   SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH: () => SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH,
   SHELL_LOGIN_API_PROXY_DEFAULT: () => SHELL_LOGIN_API_PROXY_DEFAULT2,
+  alertMainNavLoadFailed: () => alertMainNavLoadFailed,
   applyFooterFeedbackApiConfig: () => applyFooterFeedbackApiConfig,
   applyFooterFeedbackConfig: () => applyFooterFeedbackConfig,
   applyShellLoginApiConfig: () => applyShellLoginApiConfig,
@@ -101,9 +100,11 @@ __export(index_exports, {
   readClientEnvironment: () => readClientEnvironment,
   readMbAppTokenFromGatewayResponse: () => readMbAppTokenFromGatewayResponse,
   readShellCookieDomain: () => readShellCookieDomain,
+  requireMainNavItems: () => requireMainNavItems,
   resolveCdnAssetUrl: () => resolveCdnAssetUrl,
   resolveCdnBase: () => resolveCdnBase,
   resolveEstablishSessionAction: () => resolveEstablishSessionAction,
+  resolveMainNavItemsFromProp: () => resolveMainNavItemsFromProp,
   resolveShellLoginConfig: () => resolveShellLoginConfig,
   saveUserFeedback: () => saveUserFeedback,
   setMbAuthSessionCookies: () => setMbAuthSessionCookies,
@@ -5467,115 +5468,6 @@ function resolveShellLoginConfig(props) {
   };
 }
 
-// src/config/routes.ts
-var APP_ROUTES = {
-  home: "/",
-  yuvaRegister: "/yuva_register",
-  partnerRegister: "/partner_register",
-  youthProfile: "/youth-profile",
-  dashboard: "/dashboard",
-  quiz: "/quiz",
-  support: "/pages/support",
-  terms: "/pages/terms_of_use",
-  policy: "/pages/policy",
-  sitemap: "/sitemap",
-  about: "/pages/about_mybharat",
-  megaEvents: "/mega_events",
-  experientialLearning: "/pages/experiential_learning?mode=I",
-  events: "/pages/events",
-  podcasts: "/pages/podcasts",
-  designForBharat: "/pages/design_for_bharat",
-  editPartnerProfile: "users/editpartnerprofile",
-  partnerProfile: "reports/partner_profile",
-  logout: "users/check_user_logout"
-};
-
-// src/navigation/headerMainNav.defaults.ts
-var DEFAULT_HEADER_MAIN_NAV = [
-  {
-    type: "link",
-    label: "Youth",
-    href: APP_ROUTES.youthProfile,
-    linkClassName: "fontchange14 youth lang_youth",
-    spanClassName: ""
-  },
-  {
-    type: "link",
-    label: "Quiz & Essay",
-    href: "/quiz",
-    linkClassName: "fontchange14",
-    spanClassName: ""
-  },
-  {
-    type: "group",
-    label: "Voices",
-    children: [
-      {
-        type: "link",
-        label: "Blogs",
-        href: "/voices/blogs",
-        linkClassName: "events fontchange14",
-        spanClassName: "lang_event"
-      },
-      {
-        type: "link",
-        label: "Newsletters",
-        href: "/pages/newsletter",
-        linkClassName: "mission_yuva fontchange14",
-        spanClassName: "lang_exp_lrn01"
-      }
-    ]
-  },
-  {
-    type: "group",
-    label: "Events & Program",
-    children: [
-      {
-        type: "link",
-        label: "Experiential Learning",
-        href: "/pages/experiential_learning?mode=I",
-        linkClassName: "mission_yuva fontchange14",
-        spanClassName: "lang_exp_lrn01"
-      },
-      {
-        type: "link",
-        label: "Volunteer for Bharat",
-        href: "/pages/events",
-        linkClassName: "events fontchange14",
-        spanClassName: "lang_event"
-      },
-      {
-        type: "link",
-        label: "Mega Events",
-        href: "/mega_events",
-        linkClassName: "mega_event fontchange14",
-        spanClassName: "lang_mega_event"
-      },
-      {
-        type: "link",
-        label: "VBYLD-2026",
-        href: "/pages/vbyld_2026",
-        linkClassName: "mega_event fontchange14",
-        spanClassName: "lang_mega_event"
-      }
-    ]
-  },
-  {
-    type: "link",
-    label: " MY Bharat Podcast",
-    href: "/pages/podcasts",
-    linkClassName: "mega_event fontchange14",
-    spanClassName: "lang_mega_event"
-  },
-  {
-    type: "link",
-    label: "BRICS India 2026",
-    href: "/pages/brics_2026",
-    linkClassName: "mega_event fontchange14",
-    spanClassName: "lang_mega_event"
-  }
-];
-
 // src/components/DesktopMainNav.tsx
 var import_react = __toESM(require("react"));
 
@@ -6926,6 +6818,29 @@ async function completeForgotPasswordUpdate(identifier, password) {
   clearStoredRegCode();
   return { status_code: 200, message: "success" };
 }
+
+// src/config/routes.ts
+var APP_ROUTES = {
+  home: "/",
+  yuvaRegister: "/yuva_register",
+  partnerRegister: "/partner_register",
+  youthProfile: "/youth-profile",
+  dashboard: "/dashboard",
+  quiz: "/quiz",
+  support: "/pages/support",
+  terms: "/pages/terms_of_use",
+  policy: "/pages/policy",
+  sitemap: "/sitemap",
+  about: "/pages/about_mybharat",
+  megaEvents: "/mega_events",
+  experientialLearning: "/pages/experiential_learning?mode=I",
+  events: "/pages/events",
+  podcasts: "/pages/podcasts",
+  designForBharat: "/pages/design_for_bharat",
+  editPartnerProfile: "users/editpartnerprofile",
+  partnerProfile: "reports/partner_profile",
+  logout: "users/check_user_logout"
+};
 
 // src/config/external.ts
 var EXTERNAL_URLS = {
@@ -9364,7 +9279,7 @@ var Header = ({
   useBhashiniWidgetPlacement(bhashini);
   const cdn = resolveCdnBase({ cdnBase });
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
-  const navItems = mainNavItems ?? DEFAULT_HEADER_MAIN_NAV;
+  const navItems = mainNavItems;
   const loggedIn = isHeaderUserLoggedIn(userSession);
   return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("header", { id: "mb-common-header-root", className: "fixed-top shadow mb-common-header", "aria-label": title, children: [
@@ -9402,139 +9317,6 @@ var Header_default = Header;
 // src/components/Header2.tsx
 var import_react_dom3 = require("react-dom");
 
-// src/navigation/header2MainNav.defaults.ts
-var DEFAULT_HEADER2_MAIN_NAV = [
-  {
-    type: "group",
-    label: "MYBHARAT Diaspora",
-    children: [
-      {
-        type: "link",
-        label: "Friends of MY Bharat",
-        href: "/pages/mb_friends",
-        linkClassName: "mission_yuva fontchange14",
-        spanClassName: "lang_exp_lrn01"
-      },
-      {
-        type: "link",
-        label: "International Youth Club",
-        href: "/connect-international-youth-club",
-        linkClassName: "events fontchange14",
-        spanClassName: "lang_event"
-      }
-    ]
-  },
-  {
-    type: "group",
-    label: "Resources",
-    children: [
-      {
-        type: "group",
-        label: "Voices",
-        children: [
-          {
-            type: "link",
-            label: "Blogs",
-            href: "/voices/blogs",
-            linkClassName: "mission_yuva fontchange14",
-            spanClassName: "lang_exp_lrn01"
-          },
-          {
-            type: "link",
-            label: "Newsletters",
-            href: "/pages/newsletter",
-            linkClassName: "events fontchange14",
-            spanClassName: "lang_event"
-          }
-        ]
-      },
-      {
-        type: "link",
-        label: "Other Resources",
-        href: "/resources-list",
-        linkClassName: "events fontchange14",
-        spanClassName: "lang_event"
-      }
-    ]
-  },
-  {
-    type: "link",
-    label: "Youth",
-    href: APP_ROUTES.youthProfile,
-    linkClassName: "fontchange14 youth lang_youth",
-    spanClassName: ""
-  },
-  {
-    type: "link",
-    label: "Quiz & Essay",
-    href: "/quiz",
-    linkClassName: "fontchange14",
-    spanClassName: ""
-  },
-  {
-    type: "group",
-    label: "Events & Program",
-    children: [
-      {
-        type: "link",
-        label: "Experiential Learning",
-        href: "/elp/listing",
-        linkClassName: "mission_yuva fontchange14",
-        spanClassName: "lang_exp_lrn01"
-      },
-      {
-        type: "link",
-        label: "Volunteer for Bharat",
-        href: "/pages/events",
-        linkClassName: "events fontchange14",
-        spanClassName: "lang_event"
-      },
-      {
-        type: "link",
-        label: "Mega Events",
-        href: "/mega_events",
-        linkClassName: "mega_event fontchange14",
-        spanClassName: "lang_mega_event"
-      },
-      {
-        type: "link",
-        label: "VBYLD-2026",
-        href: "/pages/vbyld_2026",
-        linkClassName: "mega_event fontchange14",
-        spanClassName: "lang_mega_event"
-      }
-    ]
-  },
-  {
-    type: "link",
-    label: " MY Bharat Podcast",
-    href: "/pages/podcasts",
-    linkClassName: "mega_event fontchange14",
-    spanClassName: "lang_mega_event"
-  },
-  {
-    type: "link",
-    label: "BRICS India 2026",
-    href: "/pages/brics_2026",
-    linkClassName: "mega_event fontchange14",
-    spanClassName: "lang_mega_event"
-  },
-  {
-    type: "link",
-    label: "Mentorship",
-    href: "/mentorship",
-    linkClassName: "mega_event fontchange14",
-    spanClassName: "lang_mega_event"
-  },
-  {
-    type: "link",
-    label: "Dice Roll Game",
-    href: "/game/yuva",
-    linkClassName: "mega_event fontchange14",
-    spanClassName: "lang_mega_event"
-  }
-];
-
 // src/components/Header2.css
 styleInject(".main-menu ul li {\n  display: inline-block;\n  margin: 0 3px;\n  position: relative;\n  list-style: none;\n}\n.main-menu ul li a {\n  color: #000000;\n  display: list-item;\n  list-style: none;\n  line-height: 1;\n  padding: 6px 4px !important;\n  font-size: 13px;\n  font-weight: 600 !important;\n  position: relative;\n  transition: all 0.3s ease-in-out;\n  text-decoration: none !important;\n}\n.dropevent i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n  margin-left: 4px;\n}\n.dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent_content {\n  display: block !important;\n}\n.dropevent_content .dropdown_evnt_prog.active > .dropevent i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\n.header-area {\n  background-size: cover;\n}\n@media (max-width: 991.98px) {\n  header#mb-common-header-root.mb-common-header .header-area.mb-common-header__header-area {\n    padding-top: 0.45rem !important;\n    padding-bottom: 0.45rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 {\n  position: relative;\n  z-index: 2;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n  align-items: center !important;\n  gap: 0.5rem;\n}\n.mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n  flex: 0 1 auto;\n  justify-content: flex-start;\n  align-items: center;\n  align-self: center;\n}\n@media (max-width: 991.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.25rem 0.35rem;\n    width: 100%;\n    min-width: 0;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 0 auto;\n    min-width: 0;\n    max-width: none;\n    align-items: center;\n    overflow: visible;\n    padding-right: 2px;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.35rem;\n    min-width: 0;\n    float: none !important;\n    margin-top: 0 !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-actions--h2 #toll_mb .lang_toll_free {\n    justify-content: flex-end;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    padding-top: 0.3rem !important;\n    padding-bottom: 0.3rem !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #toll_mb.skip01,\n.mb-common-header__mobile-bar--h2 #toll_mb.mb-common-header__toll-link--h2 {\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  white-space: nowrap;\n  flex: 0 1 auto;\n  min-width: 0;\n  color: rgb(13 110 253);\n  text-decoration: none !important;\n  line-height: 1;\n}\n.mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n  font-size: clamp(11px, 3vw, 14px);\n  font-weight: 700;\n  line-height: 1.15;\n  color: rgb(13 110 253);\n  display: inline-flex;\n  align-items: center;\n  gap: 0.35em;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n  display: inline-block;\n  font-size: 0.95em;\n  line-height: 1;\n  vertical-align: middle;\n  transform: rotate(180deg);\n}\n@media (min-width: 1000px) {\n  .mb-common-header__mobile-bar--h2 #toll_mb,\n  .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    right: auto !important;\n    top: auto !important;\n  }\n}\n.mb-common-header__mobile-bar--h2 #mb_menus {\n  position: static !important;\n  right: auto !important;\n  top: auto !important;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free .mb-common-header__toll-phone-icon {\n    font-size: 0.88em;\n  }\n  .dropdown-menu-header a,\n  .dropdown-item,\n  .dropdown-menu-header a.border-bottom {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n  .dropdown-menu-header a:hover,\n  .dropdown-menu-header a:focus,\n  .dropdown-item:hover,\n  .dropdown-item:focus {\n    text-decoration: none !important;\n    border: none !important;\n    border-bottom: none !important;\n  }\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  width: auto !important;\n  height: auto !important;\n  min-width: 0 !important;\n  padding: 6px !important;\n  display: inline-flex !important;\n  align-items: center;\n  justify-content: center;\n  background-color: #bc4717 !important;\n  border: none !important;\n  color: #ffffff !important;\n  border-radius: 10px !important;\n  box-shadow: none !important;\n  line-height: 1 !important;\n  flex: 0 0 auto !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:hover {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2:focus-visible {\n  background-color: #9a3a13 !important;\n  color: #ffffff !important;\n  outline: 2px solid rgb(13 110 253);\n  outline-offset: 2px;\n}\nheader.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa {\n  color: #ffffff !important;\n  font-size: 1rem;\n  line-height: 1;\n}\n@media (max-width: 575.98px) {\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    padding: 0.28rem 0.5rem !important;\n  }\n  header.mb-common-header--header2 .mb-common-header__mobile-menu-btn--h2 .fa,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    font-size: 1rem !important;\n  }\n}\nheader.mb-common-header--header2.mb-common-header .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n  border: none !important;\n}\n.new_head a img {\n  padding-right: 6px;\n  padding-left: 6px;\n}\n.new_head1 {\n  border-right: 1px solid #bdbdbd;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__register-link {\n  display: inline-block;\n  vertical-align: middle;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn {\n  --bs-btn-bg: #bc4717;\n  --bs-btn-border-color: #bc4717;\n  color: #ffffff !important;\n  background-color: #bc4717 !important;\n  border: none !important;\n  border-radius: 9999px !important;\n  padding: 10px 22px !important;\n  font-weight: 600 !important;\n  line-height: 1.25 !important;\n  box-shadow: none !important;\n  min-height: 42px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop1.btn.mb-common-header__auth-btn:focus-visible,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:hover,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 #btnGroupDrop2.btn.mb-common-header__auth-btn:focus-visible {\n  color: #bc4717 !important;\n  background-color: #ffffff !important;\n  border: 1px solid #bc4717 !important;\n  box-shadow: none !important;\n}\n@media (min-width: 992px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n    margin-left: 7px;\n    margin-top: 5px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1 {\n    width: 90px !important;\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    transform: scale(1.12);\n  }\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n}\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\nheader#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n  flex-shrink: 1;\n  min-width: 0;\n  object-fit: contain;\n  height: auto !important;\n  max-width: none !important;\n}\n@media only screen and (max-width: 991.98px) {\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 90px !important;\n    max-width: none !important;\n    height: auto !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 98px !important;\n    max-width: none !important;\n    height: auto !important;\n    transform: scale(1.12) !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md1,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head img.logo-w-sm-md-sec {\n    width: 70px !important;\n    max-width: 70px !important;\n    min-width: 0 !important;\n    height: auto !important;\n    max-height: 48px !important;\n    object-fit: contain !important;\n    transform: none !important;\n    margin-left: 0 !important;\n    margin-top: 0 !important;\n    flex-shrink: 0 !important;\n  }\n}\n@media only screen and (max-width: 600px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md1,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md1 {\n    width: 70px !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .logo-w-sm-md-sec,\n  body:has(header#mb-common-header-root.mb-common-header--header2) #mobileMenuNew img.logo-w-sm-md-sec {\n    width: 70px !important;\n    transform: none !important;\n  }\n}\n.f-12-dropdown {\n  padding-left: 24px;\n  color: #000000;\n  font-weight: 400;\n  font-size: 12px;\n}\n.dropdown-menu-header {\n  background: #ffffff;\n  border: 1px solid #f15b43;\n  border-radius: 10px;\n}\n.dropdown-menu-header a.border-bottom {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a.border-bottom:hover,\n.dropdown-menu-header a.border-bottom:focus {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n.dropdown-menu-header a {\n  padding-top: 4px;\n  padding-bottom: 10px;\n  text-decoration: none !important;\n}\n.dropdown_evnt_prog {\n  position: relative;\n  display: inline-block;\n}\n.dropevent {\n  background-color: #ffffff;\n  color: #000000;\n  padding: 6px 4px;\n  font-size: 13px;\n  font-weight: 600;\n  border: none;\n}\n.dropevent_content {\n  display: none;\n  position: absolute;\n  background-color: #fff;\n  min-width: 180px;\n  z-index: 1;\n  border: 1px solid #dcdcdc;\n  border-radius: 4px;\n  left: -25px;\n}\n.dropevent_content > .fa.fa-caret-up {\n  position: absolute;\n  top: -10px;\n  left: 43%;\n  color: #bc4717;\n}\n.dropevent_content a {\n  color: black;\n  border-bottom: 1px solid #dcdcdc;\n  padding: 12px 16px;\n  text-decoration: none;\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n}\n.dropevent_content a:hover {\n  background-color: #fff;\n}\n.dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.dropevent_content .dropdown_evnt_prog {\n  display: block;\n  width: 100%;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent {\n  width: 100%;\n  text-align: left;\n  border-top: 1px solid #dcdcdc;\n}\n.dropevent_content .dropdown_evnt_prog .dropevent_content {\n  left: 100%;\n  top: 0;\n  margin-left: 2px;\n  z-index: 2;\n}\n.dropevent_content .dropdown_evnt_prog:hover > .dropevent_content {\n  display: block;\n}\n.pull-right {\n  margin-left: 30px;\n}\n.header_img {\n  text-align: center;\n  top: 0 !important;\n}\n.user-info-wrapper {\n  display: block;\n  margin: 0;\n  width: 46px;\n  height: 46px;\n  background: #6c757d8a;\n  border-radius: 50px;\n  padding: 3px;\n  float: left;\n}\n.user-info-wrapper .profile-wrapper {\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  overflow: hidden;\n  display: inline-block;\n}\n.chat-toggler .user-details {\n  float: left;\n  line-height: 0;\n  color: #003d52;\n}\n.chat-toggler .dropdown-menu {\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.5);\n}\n.chat-toggler .dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n.chat-toggler .dropdown-menu[data-bs-popper] {\n  top: 92%;\n}\n.chat-toggler .dropdown-menu li {\n  display: block !important;\n}\n.chat-toggler .dropdown-menu li a i {\n  font-size: 12px;\n}\n.chat-toggler .dropdown-menu > li > a {\n  line-height: 25px !important;\n  color: #003d52 !important;\n  margin: 4px;\n  border-radius: 3px;\n  text-align: left;\n  font-size: 14px !important;\n  font-weight: 400 !important;\n  padding: 3px 20px !important;\n}\n.chat-toggler .dropdown-menu > li > a:hover {\n  text-decoration: none;\n  background-color: #eff2f3;\n  background-image: none;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  list-style: none;\n  text-shadow: none;\n  box-shadow: 0 0 5px rgba(86, 96, 117, 0.2);\n  border: none;\n  border-radius: 3px;\n  padding: 0;\n  font-size: 13px;\n}\n@media only screen and (max-width: 600px) {\n  .header-area {\n    min-height: 56px;\n  }\n}\n@media only screen and (max-width: 1000px) {\n  .header-top,\n  .main-menu {\n    display: none !important;\n  }\n  header.mb-common-header .d-sm-none1 {\n    display: block !important;\n  }\n  .header-area .justify-content-sm-end {\n    justify-content: flex-start !important;\n  }\n}\n@media only screen and (max-width: 575.98px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-row--h2 {\n    gap: 0.25rem !important;\n    padding-left: 4px !important;\n    padding-right: 2px !important;\n  }\n}\n@media only screen and (max-width: 999px) {\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area {\n    height: 60px;\n    min-height: 56px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .header-area .container {\n    padding-left: 8px;\n    padding-right: 8px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-row--h2 {\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 0.35rem !important;\n    width: 100%;\n    min-height: 52px;\n    padding-top: 0.25rem !important;\n    padding-bottom: 0.25rem !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-logos--h2 {\n    flex: 0 1 auto !important;\n    align-items: center !important;\n    min-width: 0;\n    max-width: calc(100% - 158px);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #bhashini-mobile-header {\n    flex: 0 0 28px !important;\n    width: 28px;\n    min-width: 28px;\n    height: 24px;\n    display: inline-block;\n    margin-right: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .new_head {\n    align-items: center !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 .mb-common-header__mobile-actions--h2 {\n    flex: 1 1 auto !important;\n    display: flex !important;\n    flex-wrap: nowrap !important;\n    align-items: center !important;\n    justify-content: flex-end !important;\n    gap: 0.4rem !important;\n    min-width: 0;\n    float: none !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb,\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus {\n    position: static !important;\n    float: none !important;\n    right: auto !important;\n    top: auto !important;\n    left: auto !important;\n    bottom: auto !important;\n    margin: 0 !important;\n    z-index: auto !important;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb {\n    display: inline-flex !important;\n    align-items: center !important;\n    font-size: 10px !important;\n    white-space: nowrap;\n    flex: 0 1 auto;\n    min-width: 0;\n    color: rgb(13 110 253);\n    text-decoration: none;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #toll_mb .lang_toll_free {\n    font-size: 10px !important;\n    font-weight: 700 !important;\n    line-height: 1.1 !important;\n    gap: 0.2em !important;\n    align-items: center !important;\n    display: inline-flex !important;\n    color: rgb(13 110 253);\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 {\n    display: inline-flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    flex: 0 0 auto !important;\n    width: auto !important;\n    height: auto !important;\n    min-width: 0 !important;\n    padding: 6px !important;\n    background-color: #bc4717 !important;\n    border: none !important;\n    color: #ffffff !important;\n    border-radius: 10px !important;\n    box-shadow: none !important;\n    margin-left: 0.1rem;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 .mb-common-header__mobile-bar--h2 #mb_menus.mb-common-header__mobile-menu-btn--h2 .fa {\n    color: #ffffff !important;\n    font-size: 1rem !important;\n    line-height: 1 !important;\n  }\n  .bhashini-dropdown-content {\n    top: 40px !important;\n    right: -40px;\n  }\n  header#mb-common-header-root.mb-common-header.mb-common-header--header2 #bhashini-mobile-header .bhashini-translator-widget svg path,\n  .bhashini-plugin-container svg path {\n    fill: #000000 !important;\n  }\n}\n@media (min-width: 1001px) {\n  header.mb-common-header .d-sm-none1 {\n    display: none !important;\n  }\n}\n#mobileMenuNew.modal.left {\n  z-index: 1060 !important;\n}\n#mobileMenuNew.modal.left .modal-dialog {\n  position: fixed;\n  margin: auto;\n  width: 75%;\n  max-width: 420px;\n  height: 100%;\n  transform: translate3d(0%, 0, 0);\n  right: 0;\n  left: auto;\n}\n#mobileMenuNew.modal.left .modal-content {\n  height: 100%;\n  overflow-y: auto;\n}\n#mobileMenuNew .modal-header .btn-close {\n  margin: -1rem -5px -0.5rem auto;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li:not(:last-child) {\n  border-bottom: 1px solid #d7d7d7;\n}\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a,\n#mobileMenuNew .modal-body > .m-menu:first-of-type ul.list-unstyled > li a {\n  border-bottom: none !important;\n  border: none !important;\n  text-decoration: none !important;\n}\n#mobileMenuNew a,\n#mobileMenuNew a * {\n  text-decoration: none !important;\n}\n#mobileMenuNew a:hover,\n#mobileMenuNew a:focus,\n#mobileMenuNew a:visited,\n#mobileMenuNew a:active {\n  text-decoration: none !important;\n  color: inherit !important;\n}\n#mobileMenuNew .modal-body ul.list-unstyled li a {\n  text-decoration: none !important;\n  font-weight: 500 !important;\n  color: #333333 !important;\n}\n#mobileMenuNew .modal-body ul li a,\n#mobileMenuNew .modal-body ul li a span {\n  text-decoration: none !important;\n}\n.f-10-dropdown {\n  font-size: 10px;\n  color: #999999;\n}\n@media only screen and (max-width: 600px) {\n  #mobileMenuNew .modal-content {\n    transform: translate(100%, 0) scale(1);\n    transition: transform 0.4s ease-in-out;\n  }\n  #mobileMenuNew.modal.show .modal-content {\n    transform: translate(0, 0) scale(1);\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed) {\n    background-color: #bc4717 !important;\n    color: #fff !important;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button::after {\n    transform: rotate(0deg);\n    transition: transform 0.3s ease-in-out;\n  }\n  body:has(header.mb-common-header--header2) #mobileMenuNew .accordion-button:not(.collapsed)::after {\n    transform: rotate(-90deg);\n    transition: transform 0.3s ease-in-out;\n  }\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse] i.fa-chevron-down {\n  display: inline-block;\n  transform: rotate(0deg);\n  transition: transform 0.3s ease-in-out;\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew [data-bs-toggle=collapse][aria-expanded=true] i.fa-chevron-down {\n  transform: rotate(-90deg);\n}\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a,\nbody:has(header.mb-common-header--header2) #mobileMenuNew .modal-body > .m-menu + .m-menu ul.list-unstyled > li:last-child > a > span {\n  color: #bc4717 !important;\n}\n");
 
@@ -9571,7 +9353,7 @@ var Header2 = ({
   useBhashiniWidgetPlacement(bhashini);
   const cdn = resolveCdnBase({ cdnBase });
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
-  const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
+  const navItems = mainNavItems;
   const loggedIn = isHeaderUserLoggedIn(userSession);
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
@@ -10701,6 +10483,15 @@ var Footer = ({
 };
 var Footer_default = Footer;
 
+// src/navigation/filterUnsafeNavTree.ts
+function filterUnsafeNavTree(items) {
+  return items.map((item) => {
+    if (item.type === "link") return isSafeNavHref(item.href) ? item : null;
+    const children = filterUnsafeNavTree(item.children);
+    return children.length ? { ...item, children } : null;
+  }).filter((item) => item !== null);
+}
+
 // src/navigation/navApiNormalize.ts
 var LABEL_KEYS = ["label", "name", "title", "text", "menu_label", "menu_name", "display_name"];
 var HREF_KEYS = ["href", "url", "path", "link", "route", "slug", "menu_url"];
@@ -10770,15 +10561,6 @@ function normalizeApiMenuTree(items, options) {
   return items.map((raw) => normalizeApiMenuNode(raw, 0, maxDepth)).filter((n) => n !== null);
 }
 
-// src/navigation/filterUnsafeNavTree.ts
-function filterUnsafeNavTree(items) {
-  return items.map((item) => {
-    if (item.type === "link") return isSafeNavHref(item.href) ? item : null;
-    const children = filterUnsafeNavTree(item.children);
-    return children.length ? { ...item, children } : null;
-  }).filter((item) => item !== null);
-}
-
 // src/navigation/unwrapMenuList.ts
 var MENU_LIST_KEYS = [
   "items",
@@ -10803,43 +10585,171 @@ function unwrapMenuListFromPayload(data) {
   return null;
 }
 
-// src/navigation/prepareMainNavItems.ts
-function prepareMainNavItems(raw, options) {
-  const fallback = options?.fallback ?? [];
+// src/navigation/requireMainNavItems.ts
+var alerted2 = /* @__PURE__ */ new Set();
+function alertOnceNav(key, message) {
+  if (typeof window === "undefined" || alerted2.has(key)) return;
+  alerted2.add(key);
+  window.alert(message);
+}
+function alertMainNavLoadFailed(source) {
+  alertOnceNav(
+    `nav:${source}:load-failed`,
+    `${source}: failed to load nav JSON. Check your API/CDN URL and network.`
+  );
+}
+function isPlainRecord3(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+function validateStrictNavItem(item, path) {
+  if (!isPlainRecord3(item)) {
+    return `${path}: must be an object with type "link" or "group"`;
+  }
+  const type = typeof item.type === "string" ? item.type.trim().toLowerCase() : "";
+  if (type !== "link" && type !== "group") {
+    return `${path}: missing or invalid "type" (expected "link" or "group")`;
+  }
+  if (typeof item.label !== "string" || !item.label.trim()) {
+    return `${path}: missing or empty "label"`;
+  }
+  if (type === "link") {
+    if (typeof item.href !== "string" || !item.href.trim()) {
+      return `${path}: missing or empty "href"`;
+    }
+    if (!isSafeNavHref(item.href)) {
+      return `${path}: unsafe or invalid "href"`;
+    }
+    return null;
+  }
+  if (!Array.isArray(item.children) || item.children.length === 0) {
+    return `${path}: "group" must have a non-empty "children" array`;
+  }
+  for (let i = 0; i < item.children.length; i += 1) {
+    const childError = validateStrictNavItem(item.children[i], `${path}.children[${i}]`);
+    if (childError) return childError;
+  }
+  return null;
+}
+function describeLooseNavItemError(item, path) {
+  if (!isPlainRecord3(item)) {
+    return `${path}: must be an object`;
+  }
+  const hasLabel = ["label", "name", "title", "text", "menu_label", "menu_name", "display_name"].some(
+    (key) => typeof item[key] === "string" && String(item[key]).trim()
+  );
+  const hasHref = ["href", "url", "path", "link", "route", "slug", "menu_url"].some(
+    (key) => typeof item[key] === "string" && String(item[key]).trim()
+  );
+  const childKeys = ["children", "submenu", "items", "nodes", "child_menus", "menu_items", "sub_menus"];
+  const hasChildren = childKeys.some((key) => Array.isArray(item[key]) && item[key].length > 0);
+  if (!hasLabel && !hasHref && !hasChildren) {
+    return `${path}: missing menu fields (need label/name, href/url, or children/submenu)`;
+  }
+  if (hasChildren) {
+    for (const key of childKeys) {
+      const children = item[key];
+      if (!Array.isArray(children)) continue;
+      for (let i = 0; i < children.length; i += 1) {
+        const childError = describeLooseNavItemError(children[i], `${path}.${key}[${i}]`);
+        if (childError) return childError;
+      }
+    }
+  }
+  if (hasHref) {
+    const hrefKey = ["href", "url", "path", "link", "route", "slug", "menu_url"].find(
+      (key) => typeof item[key] === "string" && String(item[key]).trim()
+    );
+    const href = hrefKey ? String(item[hrefKey]) : "";
+    if (href && !isSafeNavHref(href)) {
+      return `${path}: unsafe or invalid href`;
+    }
+  }
+  return null;
+}
+function findFirstNavJsonError(list) {
+  for (let i = 0; i < list.length; i += 1) {
+    const item = list[i];
+    const path = `[${i}]`;
+    if (isPlainRecord3(item) && (item.type === "link" || item.type === "group")) {
+      const strictError = validateStrictNavItem(item, path);
+      if (strictError) return strictError;
+    } else {
+      const looseError = describeLooseNavItemError(item, path);
+      if (looseError) return looseError;
+    }
+  }
+  return null;
+}
+function requireMainNavItems(raw, options) {
+  const source = options?.source?.trim() || "Header nav";
+  const alertKey = `nav:${source}`;
+  if (raw === void 0 || raw === null) {
+    alertOnceNav(
+      `${alertKey}:missing`,
+      `${source}: nav JSON is not passed. Provide a non-empty JSON array via mainNavItems, nav-json-id, or MYBHARAT_SHELL.header.navItems.`
+    );
+    return [];
+  }
   const list = unwrapMenuListFromPayload(raw);
-  if (!list?.length) return fallback.length ? fallback : [];
+  if (!list) {
+    alertOnceNav(
+      `${alertKey}:not-array`,
+      `${source}: nav JSON must be a non-empty array (or an object wrapping one, e.g. { "data": [...] }).`
+    );
+    return [];
+  }
+  if (!list.length) {
+    alertOnceNav(`${alertKey}:empty`, `${source}: nav JSON array is empty.`);
+    return [];
+  }
   const shaped = normalizeApiMenuTree(list, { maxDepth: options?.maxDepth });
   const safe = filterUnsafeNavTree(shaped);
   if (safe.length) return safe;
-  return fallback.length ? fallback : [];
+  const detail = findFirstNavJsonError(list);
+  alertOnceNav(
+    `${alertKey}:invalid`,
+    detail ? `${source}: invalid nav JSON \u2014 ${detail}` : `${source}: nav JSON has no usable menu items after validation.`
+  );
+  return [];
+}
+function resolveMainNavItemsFromProp(items, source) {
+  return requireMainNavItems(items, { source });
+}
+
+// src/navigation/prepareMainNavItems.ts
+function prepareMainNavItems(raw, options) {
+  return requireMainNavItems(raw, options);
 }
 
 // src/navigation/useMainNavItems.ts
 var import_react12 = require("react");
 function useMainNavItems(options) {
-  const { load, select, fallback = DEFAULT_HEADER_MAIN_NAV, maxDepth } = options;
-  const [nav, setNav] = (0, import_react12.useState)(fallback);
+  const { load, select, maxDepth, source = "Header nav" } = options;
+  const [nav, setNav] = (0, import_react12.useState)([]);
   (0, import_react12.useEffect)(() => {
     let cancelled = false;
     (async () => {
       try {
         const raw = await load();
         const slice = select ? select(raw) : raw;
-        const items = prepareMainNavItems(slice, { fallback, maxDepth });
+        const items = prepareMainNavItems(slice, { maxDepth, source });
         if (!cancelled) setNav(items);
       } catch {
-        if (!cancelled) setNav(fallback);
+        if (!cancelled) {
+          alertMainNavLoadFailed(source);
+          setNav([]);
+        }
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [load, select, fallback, maxDepth]);
+  }, [load, select, maxDepth, source]);
   return nav;
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.238";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.239";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -10847,8 +10757,6 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   AUTH_CONFIG,
   BHASHINI_WIDGET_SELECTORS,
   DEFAULT_API_ERROR_MESSAGE,
-  DEFAULT_HEADER2_MAIN_NAV,
-  DEFAULT_HEADER_MAIN_NAV,
   DEFAULT_LOGIN_API_ERROR,
   DEV_API_PROXY_PREFIXES,
   DesktopMainNav,
@@ -10874,6 +10782,7 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   SHELL_INTERNAL_LOGIN_PUBKEY_PATH,
   SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH,
   SHELL_LOGIN_API_PROXY_DEFAULT,
+  alertMainNavLoadFailed,
   applyFooterFeedbackApiConfig,
   applyFooterFeedbackConfig,
   applyShellLoginApiConfig,
@@ -10911,9 +10820,11 @@ var index_default = { Header: Header_default, Header2: Header2_default, Footer: 
   readClientEnvironment,
   readMbAppTokenFromGatewayResponse,
   readShellCookieDomain,
+  requireMainNavItems,
   resolveCdnAssetUrl,
   resolveCdnBase,
   resolveEstablishSessionAction,
+  resolveMainNavItemsFromProp,
   resolveShellLoginConfig,
   saveUserFeedback,
   setMbAuthSessionCookies,

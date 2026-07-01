@@ -1,7 +1,5 @@
-import { DEFAULT_HEADER2_MAIN_NAV } from '../navigation/header2MainNav.defaults';
-import { DEFAULT_HEADER_MAIN_NAV } from '../navigation/headerMainNav.defaults';
-import { prepareMainNavItems } from '../navigation/prepareMainNavItems';
 import type { NavTreeItem } from '../navigation/types';
+import { requireMainNavItems } from '../navigation/requireMainNavItems';
 import type { HeaderUserSessionInput } from '../components/header/headerUserSession';
 
 export type ShellHeaderConfig = {
@@ -64,14 +62,27 @@ export function parseBooleanAttr(value: string | null): boolean | undefined {
   return undefined;
 }
 
-function readJsonFromScriptId(id: string): unknown | undefined {
+const alerted = new Set<string>();
+
+function alertOnceShellNav(key: string, message: string): void {
+  if (typeof window === 'undefined' || alerted.has(key)) return;
+  alerted.add(key);
+  window.alert(message);
+}
+
+function readJsonFromScriptId(id: string): { ok: true; data: unknown } | { ok: false; message: string } {
   const el = document.getElementById(id);
-  const text = el?.textContent?.trim();
-  if (!text) return undefined;
+  if (!el) {
+    return { ok: false, message: `element #${id} not found` };
+  }
+  const text = el.textContent?.trim();
+  if (!text) {
+    return { ok: false, message: `#${id} is empty — pass a JSON array` };
+  }
   try {
-    return JSON.parse(text) as unknown;
+    return { ok: true, data: JSON.parse(text) as unknown };
   } catch {
-    return undefined;
+    return { ok: false, message: `invalid JSON in #${id}` };
   }
 }
 
@@ -79,38 +90,49 @@ export function resolveHeaderNavItems(
   el: HTMLElement,
   variant: 'header' | 'header2'
 ): readonly NavTreeItem[] {
-  const fallback = variant === 'header2' ? DEFAULT_HEADER2_MAIN_NAV : DEFAULT_HEADER_MAIN_NAV;
-
+  const source = variant === 'header2' ? 'Header2 nav' : 'Header nav';
   const jsonId = el.getAttribute('nav-json-id');
+
   if (jsonId) {
-    const fromScript = readJsonFromScriptId(jsonId);
-    if (fromScript !== undefined) {
-      return prepareMainNavItems(fromScript, { fallback });
+    const parsed = readJsonFromScriptId(jsonId);
+    if (parsed.ok) {
+      return requireMainNavItems(parsed.data, { source });
     }
+    alertOnceShellNav(`shell-nav:${jsonId}`, `${source}: ${parsed.message}`);
+    return [];
   }
 
   const navAttr = el.getAttribute('nav-items');
-  if (navAttr) {
+  if (navAttr !== null) {
+    if (!navAttr.trim()) {
+      alertOnceShellNav('shell-nav:attr-empty', `${source}: nav-items attribute is empty.`);
+      return [];
+    }
     try {
-      return prepareMainNavItems(JSON.parse(navAttr) as unknown, { fallback });
+      return requireMainNavItems(JSON.parse(navAttr) as unknown, { source });
     } catch {
-      return fallback;
+      alertOnceShellNav('shell-nav:attr-parse', `${source}: nav-items attribute contains invalid JSON.`);
+      return [];
     }
   }
 
   const globalNav = window.MYBHARAT_SHELL?.header?.navItems;
   if (globalNav !== undefined) {
-    return prepareMainNavItems(globalNav, { fallback });
+    return requireMainNavItems(globalNav, { source });
   }
 
-  return fallback;
+  alertOnceShellNav(
+    'shell-nav:not-configured',
+    `${source}: nav JSON is not configured. Set nav-json-id, nav-items, or MYBHARAT_SHELL.header.navItems.`
+  );
+  return [];
 }
 
 export function resolveHeaderUserSession(el: HTMLElement): HeaderUserSessionInput {
   const jsonId = el.getAttribute('user-json-id');
   if (jsonId) {
-    const fromScript = readJsonFromScriptId(jsonId);
-    if (fromScript !== undefined) return fromScript as HeaderUserSessionInput;
+    const parsed = readJsonFromScriptId(jsonId);
+    if (parsed.ok) return parsed.data as HeaderUserSessionInput;
   }
 
   const userAttr = el.getAttribute('user-session');

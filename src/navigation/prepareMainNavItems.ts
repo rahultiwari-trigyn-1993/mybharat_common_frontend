@@ -1,28 +1,15 @@
-import { filterUnsafeNavTree } from './filterUnsafeNavTree';
-import { normalizeApiMenuTree } from './navApiNormalize';
 import type { NavTreeItem } from './types';
-import { unwrapMenuListFromPayload } from './unwrapMenuList';
+import { requireMainNavItems, type RequireMainNavItemsOptions } from './requireMainNavItems';
 
-export type PrepareMainNavItemsOptions = {
-  /** Used when payload is empty or normalizes to no safe links (default `[]`). */
-  fallback?: readonly NavTreeItem[];
-  maxDepth?: number;
-};
+export type PrepareMainNavItemsOptions = RequireMainNavItemsOptions;
 
 /**
- * Unwraps API JSON → loose API normalize → {@link filterUnsafeNavTree}.
- * Pass the result to `Header` / `Header2` as `mainNavItems`.
+ * Unwraps API JSON → normalize → filter unsafe hrefs.
+ * Alerts when nav is missing or invalid; no built-in fallback menu.
  */
 export function prepareMainNavItems(
   raw: unknown,
   options?: PrepareMainNavItemsOptions
 ): readonly NavTreeItem[] {
-  const fallback = options?.fallback ?? [];
-  const list = unwrapMenuListFromPayload(raw);
-  if (!list?.length) return fallback.length ? fallback : [];
-
-  const shaped = normalizeApiMenuTree(list, { maxDepth: options?.maxDepth });
-  const safe = filterUnsafeNavTree(shaped);
-  if (safe.length) return safe;
-  return fallback.length ? fallback : [];
+  return requireMainNavItems(raw, options);
 }

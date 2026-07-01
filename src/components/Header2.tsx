@@ -5,7 +5,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { resolveCdnBase } from '../config/resolve';
-import { DEFAULT_HEADER2_MAIN_NAV } from '../navigation/header2MainNav.defaults';
 import type { NavTreeItem } from '../navigation/types';
 import { DesktopMainNav } from './DesktopMainNav';
 import { HeaderBrandLogos } from './header/HeaderBrandLogos';
@@ -28,8 +27,8 @@ export type Header2Props = {
   title?: string;
   /** CDN origin (e.g. `https://cdn-beta.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
   cdnBase?: string;
-  /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER2_MAIN_NAV}. */
-  mainNavItems?: readonly NavTreeItem[];
+  /** Desktop main nav from host API/CMS — required JSON array. */
+  mainNavItems: readonly NavTreeItem[];
   /** Logged-in user (`data` object or full API envelope). Guest header when omitted. */
   userSession?: HeaderUserSessionInput;
   /** Cake webroot for profile / logout URLs (default `/`). */
@@ -85,7 +84,7 @@ export const Header2: React.FC<Header2Props> = ({
   useBhashiniWidgetPlacement(bhashini);
   const cdn = resolveCdnBase({ cdnBase });
   const menuPortalReady = useMbHeaderBootstrapAndPortal(cdn);
-  const navItems = mainNavItems ?? DEFAULT_HEADER2_MAIN_NAV;
+  const navItems = mainNavItems;
   const loggedIn = isHeaderUserLoggedIn(userSession);
 
   return (

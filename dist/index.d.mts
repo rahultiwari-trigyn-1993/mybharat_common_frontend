@@ -143,8 +143,8 @@ type Header2Props = {
     title?: string;
     /** CDN origin (e.g. `https://cdn-beta.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
     cdnBase?: string;
-    /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER2_MAIN_NAV}. */
-    mainNavItems?: readonly NavTreeItem[];
+    /** Desktop main nav from host API/CMS — required JSON array. */
+    mainNavItems: readonly NavTreeItem[];
     /** Logged-in user (`data` object or full API envelope). Guest header when omitted. */
     userSession?: HeaderUserSessionInput;
     /** Cake webroot for profile / logout URLs (default `/`). */
@@ -175,8 +175,8 @@ type HeaderProps = {
     title?: string;
     /** CDN origin (e.g. `https://cdn-prod.mybharats.in`) — assets load from `{cdnBase}/mybharat/...`. */
     cdnBase?: string;
-    /** Desktop main nav from API/CMS; defaults to {@link DEFAULT_HEADER_MAIN_NAV}. */
-    mainNavItems?: readonly NavTreeItem[];
+    /** Desktop main nav from host API/CMS — required JSON array. */
+    mainNavItems: readonly NavTreeItem[];
     /** Logged-in user (`data` object or full API envelope). Guest header when omitted. */
     userSession?: HeaderUserSessionInput;
     /** Cake webroot for profile / logout URLs (default `/`). */
@@ -595,11 +595,20 @@ declare function readClientEnvironment(props?: RequiredClientConfigInput): Clien
 /** Validates required host config on mount. */
 declare function useRequiredClientConfig(config?: RequiredClientConfigInput): void;
 
-/** Default desktop main nav for {@link Header} — replace at runtime via `mainNavItems` prop or merge from API. */
-declare const DEFAULT_HEADER_MAIN_NAV: readonly NavTreeItem[];
-
-/** Default desktop main nav for {@link Header2} — override with `mainNavItems` when loading from API. */
-declare const DEFAULT_HEADER2_MAIN_NAV: readonly NavTreeItem[];
+/** Host nav loader failed (network/API). */
+declare function alertMainNavLoadFailed(source: string): void;
+type RequireMainNavItemsOptions = {
+    maxDepth?: number;
+    /** Shown in alert messages, e.g. "Header nav" or "Header". */
+    source?: string;
+};
+/**
+ * Validates host-provided nav JSON. Alerts once per page when missing/invalid; returns `[]` on failure.
+ * No built-in default menu — the host must pass API/CDN JSON.
+ */
+declare function requireMainNavItems(raw: unknown, options?: RequireMainNavItemsOptions): readonly NavTreeItem[];
+/** React Header / Header2 — require prepared or raw nav items from the host app. */
+declare function resolveMainNavItemsFromProp(items: readonly NavTreeItem[] | unknown | undefined | null, source: string): readonly NavTreeItem[];
 
 /**
  * Basic href allowlist for untrusted CMS JSON. Extend if your API needs more schemes.
@@ -639,14 +648,10 @@ declare function normalizeApiMenuTree(items: unknown, options?: NormalizeApiMenu
 /** Drops links with unsafe `href` values; prunes empty groups. */
 declare function filterUnsafeNavTree(items: readonly NavTreeItem[]): NavTreeItem[];
 
-type PrepareMainNavItemsOptions = {
-    /** Used when payload is empty or normalizes to no safe links (default `[]`). */
-    fallback?: readonly NavTreeItem[];
-    maxDepth?: number;
-};
+type PrepareMainNavItemsOptions = RequireMainNavItemsOptions;
 /**
- * Unwraps API JSON → loose API normalize → {@link filterUnsafeNavTree}.
- * Pass the result to `Header` / `Header2` as `mainNavItems`.
+ * Unwraps API JSON → normalize → filter unsafe hrefs.
+ * Alerts when nav is missing or invalid; no built-in fallback menu.
  */
 declare function prepareMainNavItems(raw: unknown, options?: PrepareMainNavItemsOptions): readonly NavTreeItem[];
 
@@ -660,11 +665,12 @@ type UseMainNavItemsOptions = {
     load: () => Promise<unknown>;
     /** Pick the slice to normalize, e.g. `(raw) => raw.data` */
     select?: (raw: unknown) => unknown;
-    fallback?: readonly NavTreeItem[];
     maxDepth?: number;
+    /** Shown in alert messages when nav load/validation fails. */
+    source?: string;
 };
 /**
- * Loads nav in the host app, then unwraps / normalizes / filters for `mainNavItems`.
+ * Loads nav in the host app, then validates for `mainNavItems`.
  * Memoize `load` (and `select` if inline) with `useCallback` to avoid duplicate requests.
  */
 declare function useMainNavItems(options: UseMainNavItemsOptions): readonly NavTreeItem[];
@@ -677,4 +683,4 @@ declare const _default: {
     Footer: React.FC<FooterProps>;
 };
 
-export { APP_ROUTES, AUTH_CONFIG, BHASHINI_WIDGET_SELECTORS, type ClientEnvironment, DEFAULT_API_ERROR_MESSAGE, DEFAULT_HEADER2_MAIN_NAV, DEFAULT_HEADER_MAIN_NAV, DEFAULT_LOGIN_API_ERROR, DEV_API_PROXY_PREFIXES, DesktopMainNav, EXTERNAL_URLS, type EstablishSessionFlow, Footer, GATEWAY_PATHS, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, INTERNAL_PATHS, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, OTP_MESSAGES, PORTAL_PATHS, PROXY_REWRITES, type PrepareMainNavItemsOptions, type RequiredClientConfigInput, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type ShellRuntimeConfig, type UseMainNavItemsOptions, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, assertRequiredClientConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, mergeRequiredClientConfig, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, readClientEnvironment, readMbAppTokenFromGatewayResponse, readShellCookieDomain, resolveCdnAssetUrl, resolveCdnBase, resolveEstablishSessionAction, resolveShellLoginConfig, saveUserFeedback, setMbAuthSessionCookies, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, useRequiredClientConfig, validateFeedbackForm, validateOtpLoginForm };
+export { APP_ROUTES, AUTH_CONFIG, BHASHINI_WIDGET_SELECTORS, type ClientEnvironment, DEFAULT_API_ERROR_MESSAGE, DEFAULT_LOGIN_API_ERROR, DEV_API_PROXY_PREFIXES, DesktopMainNav, EXTERNAL_URLS, type EstablishSessionFlow, Footer, GATEWAY_PATHS, HEADER_LOGIN_SIGN_IN_SELECTORS, Header, Header2, HeaderAuthControls, HeaderLoginShellPortal, HeaderProfileMenu, type HeaderUserApiData, type HeaderUserApiEnvelope, type HeaderUserSession, type HeaderUserSessionInput, INTERNAL_PATHS, MYBHARAT_COMMON_FRONTEND_VERSION, type NavGroupItem, type NavLinkItem, type NavTreeItem, type NormalizeApiMenuTreeOptions, type NormalizeNavTreeOptions, OTP_MESSAGES, PORTAL_PATHS, PROXY_REWRITES, type PrepareMainNavItemsOptions, type RequireMainNavItemsOptions, type RequiredClientConfigInput, SAVE_FEEDBACK_DATA_PATH, SHELL_INTERNAL_CHANGE_PASSWORD_PATH, SHELL_INTERNAL_GUEST_OAUTH_PATH, SHELL_INTERNAL_KC_CLIENT_PATH, SHELL_INTERNAL_KEYCLOAK_LOGIN_PATH, SHELL_INTERNAL_LOGIN_PUBKEY_PATH, SHELL_INTERNAL_VERIFY_GUEST_OTP_PATH, SHELL_LOGIN_API_PROXY_DEFAULT, type ShellRuntimeConfig, type UseMainNavItemsOptions, alertMainNavLoadFailed, applyFooterFeedbackApiConfig, applyFooterFeedbackConfig, applyShellLoginApiConfig, assertRequiredClientConfig, buildHeaderProfileMenuItems, buildShellApiUrl, completeForgotPasswordUpdate, completeLoginWithOtp, completeLoginWithOtp as completeLoginWithOtpFlow, completePasswordSignIn, _default as default, filterUnsafeNavTree, findBhashiniWidget, getKeycloakClientAccessToken, getShellApiFetchBaseUrl, installFooterFeedbackFlow, installHeaderAccessibilityFont, installHeaderLoginFlow, isFeedbackSubmitSuccess, isGuestHeaderUserPayload, isHeaderUserLoggedIn, isLoginOtpRedirectResult, isNavGroupItem, isNavLinkItem, isSafeNavHref, loadBhashiniScript, mergeRequiredClientConfig, navTreeItemKey, normalizeApiMenuTree, normalizeHrefForNav, normalizeNavTree, openLoginWithOtpModal, openSignInPasswordModal, parseHeaderUserSession, prepareMainNavItems, readClientEnvironment, readMbAppTokenFromGatewayResponse, readShellCookieDomain, requireMainNavItems, resolveCdnAssetUrl, resolveCdnBase, resolveEstablishSessionAction, resolveMainNavItemsFromProp, resolveShellLoginConfig, saveUserFeedback, setMbAuthSessionCookies, submitEstablishSessionForm, submitOtpLoginFromModal, triggerGeneralFeedbackReward, unwrapMenuListFromPayload, useBhashiniWidgetPlacement, useFooterFeedbackShell, useHeaderAccessibilityFont, useMainNavItems, useRequiredClientConfig, validateFeedbackForm, validateOtpLoginForm };
