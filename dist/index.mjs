@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.242 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.243 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -5941,7 +5941,7 @@ function logSameOriginRewrite(from, to) {
   if (loggedSameOriginRewrite) return;
   loggedSameOriginRewrite = true;
   console.info(
-    `[mybharat_common_frontend] apiBaseUrl "${from}" \u2192 "${to}" to avoid CORS OPTIONS preflight. Add a dev proxy (mybharatApiGatewayProxy in vite.config). Set MYBHARAT_SHELL.login.crossOriginApi = true to keep the absolute URL.`
+    `[mybharat_common_frontend] sameOriginApi: "${from}" \u2192 "${to}". Host must proxy /api to APIGateway (Vite or CakePHP).`
   );
 }
 function resolveBrowserApiBaseUrl(configured) {
@@ -5949,7 +5949,7 @@ function resolveBrowserApiBaseUrl(configured) {
   if (!trimmed) return "";
   if (typeof window === "undefined") return trimmed;
   const login = window.MYBHARAT_SHELL?.login;
-  if (login?.crossOriginApi === true) return trimmed;
+  if (login?.sameOriginApi !== true) return trimmed;
   if (!/^https?:\/\//i.test(trimmed)) return trimmed;
   try {
     const parsed = new URL(trimmed);
@@ -10486,7 +10486,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.242";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.243";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   APP_ROUTES,

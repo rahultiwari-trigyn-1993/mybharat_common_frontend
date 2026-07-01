@@ -28,7 +28,9 @@ interface Window {
       baseUrl?: string;
       /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
       apiBaseUrl?: string;
-      /** When true, keep absolute cross-origin apiBaseUrl (browser sends CORS OPTIONS preflight). */
+      /** When true, rewrite cross-origin apiBaseUrl to same-origin `/api` (host must proxy). */
+      sameOriginApi?: boolean;
+      /** @deprecated Use sameOriginApi instead. Kept for compatibility — ignored when sameOriginApi is set. */
       crossOriginApi?: boolean;
       environment?: 'local' | 'dev' | 'beta' | 'prod';
       /** Guest OAuth for sendMobileGuestUserOtp / verifyGuestUserOtp. */

@@ -1,7 +1,8 @@
 /**
- * Browser fetch should use same-origin `/api` when APIGateway is on another host/port.
- * Cross-origin POST + Authorization triggers an automatic OPTIONS preflight (not a duplicate POST).
- * Host dev server must proxy `/api` → APIGateway (see `scripts/viteShellLoginProxy.mjs`).
+ * APIGateway root for browser fetch.
+ * Default: use `apiBaseUrl` as configured (e.g. `http://127.0.0.1:8000/api`).
+ * Set `MYBHARAT_SHELL.login.sameOriginApi = true` to rewrite cross-origin URLs to `/api`
+ * when the host proxies `/api` → APIGateway (avoids CORS OPTIONS).
  */
 let loggedSameOriginRewrite = false;
 
@@ -9,9 +10,8 @@ function logSameOriginRewrite(from: string, to: string): void {
   if (loggedSameOriginRewrite) return;
   loggedSameOriginRewrite = true;
   console.info(
-    `[mybharat_common_frontend] apiBaseUrl "${from}" → "${to}" to avoid CORS OPTIONS preflight. ` +
-      'Add a dev proxy (mybharatApiGatewayProxy in vite.config). ' +
-      'Set MYBHARAT_SHELL.login.crossOriginApi = true to keep the absolute URL.'
+    `[mybharat_common_frontend] sameOriginApi: "${from}" → "${to}". ` +
+      'Host must proxy /api to APIGateway (Vite or CakePHP).'
   );
 }
 
@@ -23,7 +23,7 @@ export function resolveBrowserApiBaseUrl(configured?: string): string {
   if (typeof window === 'undefined') return trimmed;
 
   const login = window.MYBHARAT_SHELL?.login;
-  if (login?.crossOriginApi === true) return trimmed;
+  if (login?.sameOriginApi !== true) return trimmed;
 
   if (!/^https?:\/\//i.test(trimmed)) return trimmed;
 

@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.242 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.243 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27404,7 +27404,7 @@ var MyBharatShell = (() => {
     if (loggedSameOriginRewrite) return;
     loggedSameOriginRewrite = true;
     console.info(
-      `[mybharat_common_frontend] apiBaseUrl "${from}" \u2192 "${to}" to avoid CORS OPTIONS preflight. Add a dev proxy (mybharatApiGatewayProxy in vite.config). Set MYBHARAT_SHELL.login.crossOriginApi = true to keep the absolute URL.`
+      `[mybharat_common_frontend] sameOriginApi: "${from}" \u2192 "${to}". Host must proxy /api to APIGateway (Vite or CakePHP).`
     );
   }
   function resolveBrowserApiBaseUrl(configured) {
@@ -27412,7 +27412,7 @@ var MyBharatShell = (() => {
     if (!trimmed) return "";
     if (typeof window === "undefined") return trimmed;
     const login = window.MYBHARAT_SHELL?.login;
-    if (login?.crossOriginApi === true) return trimmed;
+    if (login?.sameOriginApi !== true) return trimmed;
     if (!/^https?:\/\//i.test(trimmed)) return trimmed;
     try {
       const parsed = new URL(trimmed);
@@ -32283,7 +32283,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.242" }
+          detail: { component: "header", version: "1.0.243" }
         })
       );
     }
@@ -32354,7 +32354,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.242" }
+          detail: { component: "footer", version: "1.0.243" }
         })
       );
     }
@@ -32415,7 +32415,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.242";
+  var MYBHARAT_SHELL_VERSION = "1.0.243";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:
