@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.240 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.241 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -10508,12 +10508,17 @@ var import_react12 = require("react");
 function useMainNavItems(options) {
   const { load, select, maxDepth, source = "Header nav" } = options;
   const [nav, setNav] = (0, import_react12.useState)([]);
+  const loadRef = (0, import_react12.useRef)(load);
+  const selectRef = (0, import_react12.useRef)(select);
+  loadRef.current = load;
+  selectRef.current = select;
   (0, import_react12.useEffect)(() => {
     let cancelled = false;
     (async () => {
       try {
-        const raw = await load();
-        const slice = select ? select(raw) : raw;
+        const raw = await loadRef.current();
+        const selectFn = selectRef.current;
+        const slice = selectFn ? selectFn(raw) : raw;
         const items = prepareMainNavItems(slice, { maxDepth, source });
         if (!cancelled) setNav(items);
       } catch {
@@ -10526,12 +10531,12 @@ function useMainNavItems(options) {
     return () => {
       cancelled = true;
     };
-  }, [load, select, maxDepth, source]);
+  }, [maxDepth, source]);
   return nav;
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.240";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.241";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

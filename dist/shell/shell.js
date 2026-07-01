@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.240 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.241 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -32253,7 +32253,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.240" }
+          detail: { component: "header", version: "1.0.241" }
         })
       );
     }
@@ -32324,7 +32324,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.240" }
+          detail: { component: "footer", version: "1.0.241" }
         })
       );
     }
@@ -32385,7 +32385,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.240";
+  var MYBHARAT_SHELL_VERSION = "1.0.241";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

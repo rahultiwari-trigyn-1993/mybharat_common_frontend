@@ -1,6 +1,6 @@
 {
   "name": "mybharat_common_frontend",
-  "version": "1.0.240",
+  "version": "1.0.241",
   "description": "MY Bharat shared Header/Footer. jsDelivr from this GitHub repo is for local CakePHP testing only; dev/beta/prod CDN is Infra-managed (OpenForge), not this personal repo.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

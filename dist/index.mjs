@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.240 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.241 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -10392,16 +10392,21 @@ function prepareMainNavItems(raw, options) {
 }
 
 // src/navigation/useMainNavItems.ts
-import { useEffect as useEffect7, useState as useState4 } from "react";
+import { useEffect as useEffect7, useRef as useRef2, useState as useState4 } from "react";
 function useMainNavItems(options) {
   const { load, select, maxDepth, source = "Header nav" } = options;
   const [nav, setNav] = useState4([]);
+  const loadRef = useRef2(load);
+  const selectRef = useRef2(select);
+  loadRef.current = load;
+  selectRef.current = select;
   useEffect7(() => {
     let cancelled = false;
     (async () => {
       try {
-        const raw = await load();
-        const slice = select ? select(raw) : raw;
+        const raw = await loadRef.current();
+        const selectFn = selectRef.current;
+        const slice = selectFn ? selectFn(raw) : raw;
         const items = prepareMainNavItems(slice, { maxDepth, source });
         if (!cancelled) setNav(items);
       } catch {
@@ -10414,12 +10419,12 @@ function useMainNavItems(options) {
     return () => {
       cancelled = true;
     };
-  }, [load, select, maxDepth, source]);
+  }, [maxDepth, source]);
   return nav;
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.240";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.241";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   APP_ROUTES,

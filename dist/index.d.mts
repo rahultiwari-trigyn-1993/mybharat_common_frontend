@@ -645,7 +645,8 @@ type UseMainNavItemsOptions = {
 };
 /**
  * Loads nav in the host app, then validates for `mainNavItems`.
- * Memoize `load` (and `select` if inline) with `useCallback` to avoid duplicate requests.
+ * Fetches once on mount (and when maxDepth/source change) — inline `load`/`select`
+ * without useCallback will not retrigger endless requests.
  */
 declare function useMainNavItems(options: UseMainNavItemsOptions): readonly NavTreeItem[];
 
