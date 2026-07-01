@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.243 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.244 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 "use strict";
 var __create = Object.create;
@@ -7997,15 +7997,25 @@ function isRecord(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 function readUserType(data) {
-  const raw = data.user_type ?? data.userType;
+  const record = data;
+  const raw = readField3(record, "user_type", "userType", "UserType");
   return typeof raw === "number" && Number.isFinite(raw) ? raw : void 0;
 }
+function readStringField(data, ...keys) {
+  const value = readField3(data, ...keys);
+  return typeof value === "string" ? value.trim() : "";
+}
 function buildDisplayName(data) {
-  const parts = [data.first_name, data.middle_name, data.last_name].map((p) => typeof p === "string" ? p.trim() : "").filter(Boolean);
+  const record = data;
+  const parts = [
+    readStringField(record, "first_name", "FirstName"),
+    readStringField(record, "middle_name", "MiddleName"),
+    readStringField(record, "last_name", "LastName")
+  ].filter(Boolean);
   if (parts.length) return ucfirst(parts.join(" "));
-  const screen = typeof data.screen_name === "string" ? data.screen_name.trim() : "";
+  const screen = readStringField(record, "screen_name", "ScreenName");
   if (screen) return ucfirst(screen);
-  const username = typeof data.username === "string" ? data.username.trim() : "";
+  const username = readStringField(record, "username", "Username");
   if (username) return username;
   return "User";
 }
@@ -8015,8 +8025,14 @@ function resolveUserType(data) {
   if (typeof data.yuva_type === "string" && data.yuva_type.trim()) return 6;
   return void 0;
 }
+function readField3(data, ...keys) {
+  for (const key of keys) {
+    if (data[key] != null && data[key] !== "") return data[key];
+  }
+  return void 0;
+}
 function parseUserId(data) {
-  const raw = data.id;
+  const raw = readField3(data, "id", "ID");
   if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) return raw;
   if (typeof raw === "string" && raw.trim() !== "") {
     const parsed = Number(raw);
@@ -10599,7 +10615,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.243";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.244";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

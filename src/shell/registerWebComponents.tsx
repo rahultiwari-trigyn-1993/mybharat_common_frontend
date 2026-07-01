@@ -34,6 +34,8 @@ const FOOTER_OBSERVED = [
   'feedback-api-base-url',
   'rewards-api-base-url',
   'feedback-submit-url',
+  'user-session',
+  'user-json-id',
 ] as const;
 
 class MyBharatHeaderElement extends HTMLElement {

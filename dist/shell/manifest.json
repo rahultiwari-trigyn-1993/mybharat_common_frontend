@@ -1,6 +1,6 @@
 {
   "name": "mybharat-shell",
-  "version": "1.0.243",
+  "version": "1.0.244",
   "files": {
     "shell.js": "shell.js",
     "shell.css": "shell.css (local / npm)",
@@ -18,10 +18,10 @@
       "purpose": "Local CakePHP / dev-machine testing when you have no S3 or org CDN access. Not for dev/beta/prod.",
       "githubUser": "rahultiwari-trigyn-1993",
       "githubRepo": "mybharat_common_frontend",
-      "tag": "v1.0.243",
-      "base": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.243/dist/shell",
-      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.243/dist/shell/shell.js",
-      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.243/dist/shell/mybharat-shell.css"
+      "tag": "v1.0.244",
+      "base": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.244/dist/shell",
+      "shellJs": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.244/dist/shell/shell.js",
+      "shellCss": "https://cdn.jsdelivr.net/gh/rahultiwari-trigyn-1993/mybharat_common_frontend@v1.0.244/dist/shell/mybharat-shell.css"
     },
     "devBetaProd": {
       "managedBy": "Infra (OpenForge)",

@@ -115,7 +115,7 @@ export function resolveHeaderNavItems(
   return [];
 }
 
-export function resolveHeaderUserSession(el: HTMLElement): HeaderUserSessionInput {
+export function resolveUserSessionFromElement(el: HTMLElement): HeaderUserSessionInput {
   const jsonId = el.getAttribute('user-json-id');
   if (jsonId) {
     const parsed = readJsonFromScriptId(jsonId);
@@ -131,7 +131,14 @@ export function resolveHeaderUserSession(el: HTMLElement): HeaderUserSessionInpu
     }
   }
 
-  return (window.MYBHARAT_SHELL?.header?.userSession ?? null) as HeaderUserSessionInput;
+  return null;
+}
+
+export function resolveHeaderUserSession(el: HTMLElement): HeaderUserSessionInput {
+  return (
+    resolveUserSessionFromElement(el) ??
+    ((window.MYBHARAT_SHELL?.header?.userSession ?? null) as HeaderUserSessionInput)
+  );
 }
 
 export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
@@ -213,6 +220,8 @@ export function resolveFooterProps(el: HTMLElement): {
       el.getAttribute('rewards-api-base-url') ?? global?.rewardsApiBaseUrl,
     feedbackSubmitUrl: el.getAttribute('feedback-submit-url') ?? global?.feedbackSubmitUrl,
     userSession:
-      global?.userSession ?? window.MYBHARAT_SHELL?.header?.userSession,
+      resolveUserSessionFromElement(el) ??
+      global?.userSession ??
+      window.MYBHARAT_SHELL?.header?.userSession,
   };
 }

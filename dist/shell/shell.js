@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.243 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.244 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -29336,15 +29336,25 @@ var MyBharatShell = (() => {
     return typeof value === "object" && value !== null && !Array.isArray(value);
   }
   function readUserType(data) {
-    const raw = data.user_type ?? data.userType;
+    const record = data;
+    const raw = readField3(record, "user_type", "userType", "UserType");
     return typeof raw === "number" && Number.isFinite(raw) ? raw : void 0;
   }
+  function readStringField(data, ...keys) {
+    const value = readField3(data, ...keys);
+    return typeof value === "string" ? value.trim() : "";
+  }
   function buildDisplayName(data) {
-    const parts = [data.first_name, data.middle_name, data.last_name].map((p) => typeof p === "string" ? p.trim() : "").filter(Boolean);
+    const record = data;
+    const parts = [
+      readStringField(record, "first_name", "FirstName"),
+      readStringField(record, "middle_name", "MiddleName"),
+      readStringField(record, "last_name", "LastName")
+    ].filter(Boolean);
     if (parts.length) return ucfirst(parts.join(" "));
-    const screen = typeof data.screen_name === "string" ? data.screen_name.trim() : "";
+    const screen = readStringField(record, "screen_name", "ScreenName");
     if (screen) return ucfirst(screen);
-    const username = typeof data.username === "string" ? data.username.trim() : "";
+    const username = readStringField(record, "username", "Username");
     if (username) return username;
     return "User";
   }
@@ -29354,8 +29364,14 @@ var MyBharatShell = (() => {
     if (typeof data.yuva_type === "string" && data.yuva_type.trim()) return 6;
     return void 0;
   }
+  function readField3(data, ...keys) {
+    for (const key of keys) {
+      if (data[key] != null && data[key] !== "") return data[key];
+    }
+    return void 0;
+  }
   function parseUserId(data) {
-    const raw = data.id;
+    const raw = readField3(data, "id", "ID");
     if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) return raw;
     if (typeof raw === "string" && raw.trim() !== "") {
       const parsed = Number(raw);
@@ -32171,7 +32187,7 @@ var MyBharatShell = (() => {
     );
     return [];
   }
-  function resolveHeaderUserSession(el) {
+  function resolveUserSessionFromElement(el) {
     const jsonId = el.getAttribute("user-json-id");
     if (jsonId) {
       const parsed = readJsonFromScriptId(jsonId);
@@ -32185,7 +32201,10 @@ var MyBharatShell = (() => {
         return null;
       }
     }
-    return window.MYBHARAT_SHELL?.header?.userSession ?? null;
+    return null;
+  }
+  function resolveHeaderUserSession(el) {
+    return resolveUserSessionFromElement(el) ?? (window.MYBHARAT_SHELL?.header?.userSession ?? null);
   }
   function resolveHeaderLoginConfig(el) {
     const global = window.MYBHARAT_SHELL?.login;
@@ -32230,7 +32249,7 @@ var MyBharatShell = (() => {
       feedbackApiBaseUrl: el.getAttribute("feedback-api-base-url") ?? global?.feedbackApiBaseUrl ?? window.MYBHARAT_SHELL?.login?.apiBaseUrl,
       rewardsApiBaseUrl: el.getAttribute("rewards-api-base-url") ?? global?.rewardsApiBaseUrl,
       feedbackSubmitUrl: el.getAttribute("feedback-submit-url") ?? global?.feedbackSubmitUrl,
-      userSession: global?.userSession ?? window.MYBHARAT_SHELL?.header?.userSession
+      userSession: resolveUserSessionFromElement(el) ?? global?.userSession ?? window.MYBHARAT_SHELL?.header?.userSession
     };
   }
 
@@ -32262,7 +32281,9 @@ var MyBharatShell = (() => {
     "webroot",
     "feedback-api-base-url",
     "rewards-api-base-url",
-    "feedback-submit-url"
+    "feedback-submit-url",
+    "user-session",
+    "user-json-id"
   ];
   var MyBharatHeaderElement = class extends HTMLElement {
     constructor() {
@@ -32283,7 +32304,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.243" }
+          detail: { component: "header", version: "1.0.244" }
         })
       );
     }
@@ -32354,7 +32375,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.243" }
+          detail: { component: "footer", version: "1.0.244" }
         })
       );
     }
@@ -32415,7 +32436,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.243";
+  var MYBHARAT_SHELL_VERSION = "1.0.244";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

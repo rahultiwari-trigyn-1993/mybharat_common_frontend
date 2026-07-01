@@ -78,20 +78,29 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function readUserType(data: HeaderUserApiData): number | undefined {
-  const raw = data.user_type ?? data.userType;
+  const record = data as Record<string, unknown>;
+  const raw = readField(record, 'user_type', 'userType', 'UserType');
   return typeof raw === 'number' && Number.isFinite(raw) ? raw : undefined;
 }
 
+function readStringField(data: Record<string, unknown>, ...keys: string[]): string {
+  const value = readField(data, ...keys);
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 function buildDisplayName(data: HeaderUserApiData): string {
-  const parts = [data.first_name, data.middle_name, data.last_name]
-    .map((p) => (typeof p === 'string' ? p.trim() : ''))
-    .filter(Boolean);
+  const record = data as Record<string, unknown>;
+  const parts = [
+    readStringField(record, 'first_name', 'FirstName'),
+    readStringField(record, 'middle_name', 'MiddleName'),
+    readStringField(record, 'last_name', 'LastName'),
+  ].filter(Boolean);
   if (parts.length) return ucfirst(parts.join(' '));
 
-  const screen = typeof data.screen_name === 'string' ? data.screen_name.trim() : '';
+  const screen = readStringField(record, 'screen_name', 'ScreenName');
   if (screen) return ucfirst(screen);
 
-  const username = typeof data.username === 'string' ? data.username.trim() : '';
+  const username = readStringField(record, 'username', 'Username');
   if (username) return username;
 
   return 'User';
@@ -104,8 +113,15 @@ function resolveUserType(data: HeaderUserApiData): number | undefined {
   return undefined;
 }
 
+function readField(data: Record<string, unknown>, ...keys: string[]): unknown {
+  for (const key of keys) {
+    if (data[key] != null && data[key] !== '') return data[key];
+  }
+  return undefined;
+}
+
 function parseUserId(data: Record<string, unknown>): number | null {
-  const raw = data.id;
+  const raw = readField(data, 'id', 'ID');
   if (typeof raw === 'number' && Number.isFinite(raw) && raw > 0) return raw;
   if (typeof raw === 'string' && raw.trim() !== '') {
     const parsed = Number(raw);
