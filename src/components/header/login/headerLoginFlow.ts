@@ -26,6 +26,7 @@ import { APP_ROUTES } from '../../../config/routes';
 import { EXTERNAL_URLS } from '../../../config/external';
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
+import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
 import { OTP_MESSAGES } from '../../../config/messages';
 
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
@@ -41,7 +42,7 @@ let shellLoginApiBaseUrl: string | undefined;
 /** Pin header login API root for browser fetch. */
 export function applyShellLoginApiConfig(apiBaseUrl?: string): void {
   const url = apiBaseUrl?.trim();
-  if (url) shellLoginApiBaseUrl = url.replace(/\/$/, '');
+  if (url) shellLoginApiBaseUrl = resolveBrowserApiBaseUrl(url);
   clearShellInternalAuthCache();
 }
 
@@ -222,19 +223,19 @@ function readShellLoginApiBaseUrl(): string {
   if (shellLoginApiBaseUrl) return shellLoginApiBaseUrl;
 
   const fromShellLogin = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-  if (fromShellLogin) return fromShellLogin.replace(/\/$/, '');
+  if (fromShellLogin) return resolveBrowserApiBaseUrl(fromShellLogin);
 
   const fromHeader = document
     .querySelector('mybharat-header')
     ?.getAttribute('api-base-url')
     ?.trim();
-  if (fromHeader) return fromHeader.replace(/\/$/, '');
+  if (fromHeader) return resolveBrowserApiBaseUrl(fromHeader);
 
   const fromMeta = document
     .querySelector('meta[name="mybharat-shell-api-base-url"]')
     ?.getAttribute('content')
     ?.trim();
-  return fromMeta ? fromMeta.replace(/\/$/, '') : '';
+  return fromMeta ? resolveBrowserApiBaseUrl(fromMeta) : '';
 }
 
 function readShellLoginFetchBaseUrl(): string {

@@ -17,6 +17,7 @@ import { submitEstablishSessionForm, type EstablishSessionFlow } from './establi
 import { readMbAppTokenFromGatewayResponse } from './authSessionCookies';
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
+import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
 import { AUTH_CONFIG } from '../../../config/auth';
 
 const DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
@@ -71,7 +72,7 @@ function readLoginFetchBase(): string {
     shell?.apiBaseUrl?.trim().replace(/\/$/, '') ||
     document.querySelector('mybharat-header')?.getAttribute('api-base-url')?.trim().replace(/\/$/, '') ||
     '';
-  return direct;
+  return resolveBrowserApiBaseUrl(direct);
 }
 
 function apiUrl(path: string): string {

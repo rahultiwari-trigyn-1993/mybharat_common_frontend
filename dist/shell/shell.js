@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.241 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.242 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27398,6 +27398,36 @@ var MyBharatShell = (() => {
     rewards: "/rewards-api"
   };
 
+  // src/config/resolveBrowserApiBaseUrl.ts
+  var loggedSameOriginRewrite = false;
+  function logSameOriginRewrite(from, to) {
+    if (loggedSameOriginRewrite) return;
+    loggedSameOriginRewrite = true;
+    console.info(
+      `[mybharat_common_frontend] apiBaseUrl "${from}" \u2192 "${to}" to avoid CORS OPTIONS preflight. Add a dev proxy (mybharatApiGatewayProxy in vite.config). Set MYBHARAT_SHELL.login.crossOriginApi = true to keep the absolute URL.`
+    );
+  }
+  function resolveBrowserApiBaseUrl(configured) {
+    const trimmed = configured?.trim().replace(/\/$/, "") ?? "";
+    if (!trimmed) return "";
+    if (typeof window === "undefined") return trimmed;
+    const login = window.MYBHARAT_SHELL?.login;
+    if (login?.crossOriginApi === true) return trimmed;
+    if (!/^https?:\/\//i.test(trimmed)) return trimmed;
+    try {
+      const parsed = new URL(trimmed);
+      if (parsed.origin === window.location.origin) return trimmed;
+      const apiPath = parsed.pathname.replace(/\/$/, "") || "/api";
+      if (apiPath === "/api" || apiPath.endsWith("/api")) {
+        logSameOriginRewrite(trimmed, apiPath);
+        return apiPath;
+      }
+    } catch {
+      return trimmed;
+    }
+    return trimmed;
+  }
+
   // src/components/header/login/shellLoginGateway.ts
   var ShellGatewayAuthError = class extends Error {
     constructor(message) {
@@ -27418,11 +27448,11 @@ var MyBharatShell = (() => {
   }
   function readApiBaseUrl() {
     const fromShell = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-    if (fromShell) return fromShell.replace(/\/$/, "");
+    if (fromShell) return resolveBrowserApiBaseUrl(fromShell);
     const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
-    if (fromHeader) return fromHeader.replace(/\/$/, "");
+    if (fromHeader) return resolveBrowserApiBaseUrl(fromHeader);
     const fromMeta = document.querySelector('meta[name="mybharat-shell-api-base-url"]')?.getAttribute("content")?.trim();
-    return fromMeta ? fromMeta.replace(/\/$/, "") : "";
+    return fromMeta ? resolveBrowserApiBaseUrl(fromMeta) : "";
   }
   function buildGatewayUrl(path) {
     const base = readApiBaseUrl();
@@ -27685,7 +27715,7 @@ var MyBharatShell = (() => {
   function readLoginFetchBase() {
     const shell = window.MYBHARAT_SHELL?.login;
     const direct = shell?.apiBaseUrl?.trim().replace(/\/$/, "") || document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim().replace(/\/$/, "") || "";
-    return direct;
+    return resolveBrowserApiBaseUrl(direct);
   }
   function apiUrl(path) {
     const base = readLoginFetchBase();
@@ -28021,7 +28051,7 @@ var MyBharatShell = (() => {
   var shellLoginApiBaseUrl;
   function applyShellLoginApiConfig(apiBaseUrl) {
     const url = apiBaseUrl?.trim();
-    if (url) shellLoginApiBaseUrl = url.replace(/\/$/, "");
+    if (url) shellLoginApiBaseUrl = resolveBrowserApiBaseUrl(url);
     clearShellInternalAuthCache();
   }
   var installed = false;
@@ -28146,11 +28176,11 @@ var MyBharatShell = (() => {
   function readShellLoginApiBaseUrl() {
     if (shellLoginApiBaseUrl) return shellLoginApiBaseUrl;
     const fromShellLogin = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-    if (fromShellLogin) return fromShellLogin.replace(/\/$/, "");
+    if (fromShellLogin) return resolveBrowserApiBaseUrl(fromShellLogin);
     const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
-    if (fromHeader) return fromHeader.replace(/\/$/, "");
+    if (fromHeader) return resolveBrowserApiBaseUrl(fromHeader);
     const fromMeta = document.querySelector('meta[name="mybharat-shell-api-base-url"]')?.getAttribute("content")?.trim();
-    return fromMeta ? fromMeta.replace(/\/$/, "") : "";
+    return fromMeta ? resolveBrowserApiBaseUrl(fromMeta) : "";
   }
   function readShellLoginFetchBaseUrl() {
     syncShellLoginApiConfigFromDom();
@@ -32253,7 +32283,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.241" }
+          detail: { component: "header", version: "1.0.242" }
         })
       );
     }
@@ -32324,7 +32354,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.241" }
+          detail: { component: "footer", version: "1.0.242" }
         })
       );
     }
@@ -32385,7 +32415,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.241";
+  var MYBHARAT_SHELL_VERSION = "1.0.242";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

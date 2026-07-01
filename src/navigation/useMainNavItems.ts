@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { prepareMainNavItems } from './prepareMainNavItems';
 import { alertMainNavLoadFailed } from './requireMainNavItems';
+import {
+  navLoadCacheKey,
+  readCachedNavItems,
+  runCachedNavLoad,
+} from './navLoadCache';
 import type { NavTreeItem } from './types';
 
 export type UseMainNavItemsOptions = {
@@ -28,21 +33,29 @@ export function useMainNavItems(options: UseMainNavItemsOptions): readonly NavTr
 
   useEffect(() => {
     let cancelled = false;
+    const cacheKey = navLoadCacheKey(source, maxDepth);
 
-    (async () => {
-      try {
-        const raw = await loadRef.current();
-        const selectFn = selectRef.current;
-        const slice = selectFn ? selectFn(raw) : raw;
-        const items = prepareMainNavItems(slice, { maxDepth, source });
+    const cached = readCachedNavItems(cacheKey);
+    if (cached) {
+      setNav(cached);
+      return;
+    }
+
+    runCachedNavLoad(cacheKey, async () => {
+      const raw = await loadRef.current();
+      const selectFn = selectRef.current;
+      const slice = selectFn ? selectFn(raw) : raw;
+      return prepareMainNavItems(slice, { maxDepth, source });
+    })
+      .then((items) => {
         if (!cancelled) setNav(items);
-      } catch {
+      })
+      .catch(() => {
         if (!cancelled) {
           alertMainNavLoadFailed(source);
           setNav([]);
         }
-      }
-    })();
+      });
 
     return () => {
       cancelled = true;

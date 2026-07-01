@@ -4,6 +4,7 @@
  * For guest OTP, set `MYBHARAT_SHELL.login.oauthUsername` / `oauthPassword`.
  */
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
+import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
 import {
   DEFAULT_API_ERROR_MESSAGE,
   normalizeApiResponse,
@@ -34,19 +35,19 @@ export function clearShellInternalAuthCache(): void {
 
 function readApiBaseUrl(): string {
   const fromShell = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-  if (fromShell) return fromShell.replace(/\/$/, '');
+  if (fromShell) return resolveBrowserApiBaseUrl(fromShell);
 
   const fromHeader = document
     .querySelector('mybharat-header')
     ?.getAttribute('api-base-url')
     ?.trim();
-  if (fromHeader) return fromHeader.replace(/\/$/, '');
+  if (fromHeader) return resolveBrowserApiBaseUrl(fromHeader);
 
   const fromMeta = document
     .querySelector('meta[name="mybharat-shell-api-base-url"]')
     ?.getAttribute('content')
     ?.trim();
-  return fromMeta ? fromMeta.replace(/\/$/, '') : '';
+  return fromMeta ? resolveBrowserApiBaseUrl(fromMeta) : '';
 }
 
 function buildGatewayUrl(path: string): string {

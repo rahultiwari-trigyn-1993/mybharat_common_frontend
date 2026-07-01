@@ -90,6 +90,7 @@ export {
 } from './config';
 export type { ClientEnvironment, ShellRuntimeConfig } from './config';
 export type { RequiredClientConfigInput } from './config/requireClientConfig';
+export { resolveBrowserApiBaseUrl } from './config/resolveBrowserApiBaseUrl';
 export { useRequiredClientConfig } from './hooks/useRequiredClientConfig';
 export {
   requireMainNavItems,

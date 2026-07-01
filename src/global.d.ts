@@ -28,6 +28,8 @@ interface Window {
       baseUrl?: string;
       /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
       apiBaseUrl?: string;
+      /** When true, keep absolute cross-origin apiBaseUrl (browser sends CORS OPTIONS preflight). */
+      crossOriginApi?: boolean;
       environment?: 'local' | 'dev' | 'beta' | 'prod';
       /** Guest OAuth for sendMobileGuestUserOtp / verifyGuestUserOtp. */
       oauthUsername?: string;

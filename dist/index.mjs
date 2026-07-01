@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.241 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.242 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -5935,6 +5935,36 @@ var DEV_API_PROXY_PREFIXES = {
   rewards: "/rewards-api"
 };
 
+// src/config/resolveBrowserApiBaseUrl.ts
+var loggedSameOriginRewrite = false;
+function logSameOriginRewrite(from, to) {
+  if (loggedSameOriginRewrite) return;
+  loggedSameOriginRewrite = true;
+  console.info(
+    `[mybharat_common_frontend] apiBaseUrl "${from}" \u2192 "${to}" to avoid CORS OPTIONS preflight. Add a dev proxy (mybharatApiGatewayProxy in vite.config). Set MYBHARAT_SHELL.login.crossOriginApi = true to keep the absolute URL.`
+  );
+}
+function resolveBrowserApiBaseUrl(configured) {
+  const trimmed = configured?.trim().replace(/\/$/, "") ?? "";
+  if (!trimmed) return "";
+  if (typeof window === "undefined") return trimmed;
+  const login = window.MYBHARAT_SHELL?.login;
+  if (login?.crossOriginApi === true) return trimmed;
+  if (!/^https?:\/\//i.test(trimmed)) return trimmed;
+  try {
+    const parsed = new URL(trimmed);
+    if (parsed.origin === window.location.origin) return trimmed;
+    const apiPath = parsed.pathname.replace(/\/$/, "") || "/api";
+    if (apiPath === "/api" || apiPath.endsWith("/api")) {
+      logSameOriginRewrite(trimmed, apiPath);
+      return apiPath;
+    }
+  } catch {
+    return trimmed;
+  }
+  return trimmed;
+}
+
 // src/components/header/login/shellLoginGateway.ts
 var ShellGatewayAuthError = class extends Error {
   constructor(message) {
@@ -5955,11 +5985,11 @@ function clearShellInternalAuthCache() {
 }
 function readApiBaseUrl() {
   const fromShell = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-  if (fromShell) return fromShell.replace(/\/$/, "");
+  if (fromShell) return resolveBrowserApiBaseUrl(fromShell);
   const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
-  if (fromHeader) return fromHeader.replace(/\/$/, "");
+  if (fromHeader) return resolveBrowserApiBaseUrl(fromHeader);
   const fromMeta = document.querySelector('meta[name="mybharat-shell-api-base-url"]')?.getAttribute("content")?.trim();
-  return fromMeta ? fromMeta.replace(/\/$/, "") : "";
+  return fromMeta ? resolveBrowserApiBaseUrl(fromMeta) : "";
 }
 function buildGatewayUrl(path) {
   const base = readApiBaseUrl();
@@ -6252,7 +6282,7 @@ function isSuccessStatus(statusCode) {
 function readLoginFetchBase() {
   const shell = window.MYBHARAT_SHELL?.login;
   const direct = shell?.apiBaseUrl?.trim().replace(/\/$/, "") || document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim().replace(/\/$/, "") || "";
-  return direct;
+  return resolveBrowserApiBaseUrl(direct);
 }
 function apiUrl(path) {
   const base = readLoginFetchBase();
@@ -6588,7 +6618,7 @@ var DEFAULT_LOGIN_API_ERROR = DEFAULT_API_ERROR_MESSAGE2;
 var shellLoginApiBaseUrl;
 function applyShellLoginApiConfig(apiBaseUrl) {
   const url = apiBaseUrl?.trim();
-  if (url) shellLoginApiBaseUrl = url.replace(/\/$/, "");
+  if (url) shellLoginApiBaseUrl = resolveBrowserApiBaseUrl(url);
   clearShellInternalAuthCache();
 }
 var installed = false;
@@ -6713,11 +6743,11 @@ function tryFirebaseEvent(event, loginRes) {
 function readShellLoginApiBaseUrl() {
   if (shellLoginApiBaseUrl) return shellLoginApiBaseUrl;
   const fromShellLogin = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-  if (fromShellLogin) return fromShellLogin.replace(/\/$/, "");
+  if (fromShellLogin) return resolveBrowserApiBaseUrl(fromShellLogin);
   const fromHeader = document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
-  if (fromHeader) return fromHeader.replace(/\/$/, "");
+  if (fromHeader) return resolveBrowserApiBaseUrl(fromHeader);
   const fromMeta = document.querySelector('meta[name="mybharat-shell-api-base-url"]')?.getAttribute("content")?.trim();
-  return fromMeta ? fromMeta.replace(/\/$/, "") : "";
+  return fromMeta ? resolveBrowserApiBaseUrl(fromMeta) : "";
 }
 function readShellLoginFetchBaseUrl() {
   syncShellLoginApiConfigFromDom();
@@ -10393,6 +10423,33 @@ function prepareMainNavItems(raw, options) {
 
 // src/navigation/useMainNavItems.ts
 import { useEffect as useEffect7, useRef as useRef2, useState as useState4 } from "react";
+
+// src/navigation/navLoadCache.ts
+var resultCache = /* @__PURE__ */ new Map();
+var inflightCache = /* @__PURE__ */ new Map();
+function navLoadCacheKey(source, maxDepth) {
+  return `${source}::${maxDepth ?? "default"}`;
+}
+function readCachedNavItems(key) {
+  return resultCache.get(key);
+}
+function runCachedNavLoad(key, load) {
+  const cached = resultCache.get(key);
+  if (cached) return Promise.resolve(cached);
+  let inflight = inflightCache.get(key);
+  if (!inflight) {
+    inflight = load().then((items) => {
+      resultCache.set(key, items);
+      return items;
+    }).finally(() => {
+      inflightCache.delete(key);
+    });
+    inflightCache.set(key, inflight);
+  }
+  return inflight;
+}
+
+// src/navigation/useMainNavItems.ts
 function useMainNavItems(options) {
   const { load, select, maxDepth, source = "Header nav" } = options;
   const [nav, setNav] = useState4([]);
@@ -10402,20 +10459,25 @@ function useMainNavItems(options) {
   selectRef.current = select;
   useEffect7(() => {
     let cancelled = false;
-    (async () => {
-      try {
-        const raw = await loadRef.current();
-        const selectFn = selectRef.current;
-        const slice = selectFn ? selectFn(raw) : raw;
-        const items = prepareMainNavItems(slice, { maxDepth, source });
-        if (!cancelled) setNav(items);
-      } catch {
-        if (!cancelled) {
-          alertMainNavLoadFailed(source);
-          setNav([]);
-        }
+    const cacheKey = navLoadCacheKey(source, maxDepth);
+    const cached = readCachedNavItems(cacheKey);
+    if (cached) {
+      setNav(cached);
+      return;
+    }
+    runCachedNavLoad(cacheKey, async () => {
+      const raw = await loadRef.current();
+      const selectFn = selectRef.current;
+      const slice = selectFn ? selectFn(raw) : raw;
+      return prepareMainNavItems(slice, { maxDepth, source });
+    }).then((items) => {
+      if (!cancelled) setNav(items);
+    }).catch(() => {
+      if (!cancelled) {
+        alertMainNavLoadFailed(source);
+        setNav([]);
       }
-    })();
+    });
     return () => {
       cancelled = true;
     };
@@ -10424,7 +10486,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.241";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.242";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   APP_ROUTES,
@@ -10492,6 +10554,7 @@ export {
   readMbAppTokenFromGatewayResponse,
   readShellCookieDomain,
   requireMainNavItems,
+  resolveBrowserApiBaseUrl,
   resolveCdnAssetUrl,
   resolveCdnBase,
   resolveEstablishSessionAction,
