@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.248 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.249 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27672,6 +27672,56 @@ var MyBharatShell = (() => {
     if (!headerEl) return "";
     return headerEl.getAttribute("cookie-domain")?.trim() || headerEl.getAttribute("cookiedomain")?.trim() || "";
   }
+  function readCurrentHostname() {
+    if (typeof window === "undefined") return "";
+    return window.location.hostname.trim().toLowerCase();
+  }
+  function isLocalhostLikeHost(host) {
+    return host === "localhost" || host === "127.0.0.1" || /^\d{1,3}(\.\d{1,3}){3}$/.test(host);
+  }
+  function isLocalhostLikeDomain(domain) {
+    const bare = domain.replace(/^\./, "").toLowerCase();
+    return bare === "localhost" || bare === "127.0.0.1" || /^\d{1,3}(\.\d{1,3}){3}$/.test(bare);
+  }
+  var warnedCookieDomains = /* @__PURE__ */ new Set();
+  function warnCookieDomainOnce(configured, hostname, reason) {
+    if (typeof console === "undefined") return;
+    const key = `${configured}|${hostname}|${reason}`;
+    if (warnedCookieDomains.has(key)) return;
+    warnedCookieDomains.add(key);
+    console.warn(
+      `[mybharat-shell] cookie-domain "${configured}" ignored on "${hostname}": ${reason}. Use a parent domain with a leading dot (e.g. ".local.com" for digisevak.local.com) or omit cookie-domain for host-only cookies.`
+    );
+  }
+  function formatAuthCookieDomainPart(configuredOrApiDomain) {
+    const hostname = readCurrentHostname();
+    const configured = (configuredOrApiDomain ?? readConfiguredShellCookieDomain()).trim();
+    if (!configured) return "";
+    if (isLocalhostLikeDomain(configured)) {
+      if (!isLocalhostLikeHost(hostname)) {
+        warnCookieDomainOnce(
+          configured,
+          hostname,
+          "localhost/IP cookie domains cannot be set from this host"
+        );
+      }
+      return "";
+    }
+    const bare = configured.replace(/^\./, "").toLowerCase();
+    const allowed = hostname === bare || hostname.endsWith(`.${bare}`);
+    if (!allowed) {
+      warnCookieDomainOnce(
+        configured,
+        hostname,
+        "configured domain is not a suffix of the current host"
+      );
+      return "";
+    }
+    if (hostname === bare) {
+      return "";
+    }
+    return `;domain=.${bare}`;
+  }
   function syncShellLoginCookieDomainFromDom() {
     const cookieDomain = readHeaderCookieDomainAttribute();
     if (!cookieDomain) return;
@@ -27687,13 +27737,6 @@ var MyBharatShell = (() => {
     syncShellLoginCookieDomainFromDom();
     return window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || readHeaderCookieDomainAttribute();
   }
-  function resolveAuthCookieDomain(apiDomain) {
-    const configured = readConfiguredShellCookieDomain();
-    if (configured) return configured;
-    const fromApi = apiDomain?.trim();
-    if (fromApi) return fromApi;
-    return window.location.hostname;
-  }
   function setMbAuthSessionCookies(tokenValue, options) {
     const value = tokenValue.trim();
     if (!value) return;
@@ -27701,8 +27744,7 @@ var MyBharatShell = (() => {
     const expiry = new Date(
       Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
     ).toUTCString();
-    const domain = resolveAuthCookieDomain(options?.cookieDomain).trim();
-    const domainPart = domain ? `;domain=${domain}` : "";
+    const domainPart = formatAuthCookieDomainPart(options?.cookieDomain);
     const names = AUTH_CONFIG.cookieNames;
     document.cookie = `${names.token}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
     document.cookie = `${names.tokenEssays}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
@@ -28182,12 +28224,12 @@ var MyBharatShell = (() => {
     const expiry = new Date(
       Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
     ).toUTCString();
-    const cookieDomain = resolveAuthCookieDomain(domain);
+    const domainPart = formatAuthCookieDomainPart(domain);
     const names = AUTH_CONFIG.cookieNames;
-    document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
-    document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
+    document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/${domainPart}`;
+    document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/${domainPart}`;
     if (encryptIdValue) {
-      document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
+      document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/${domainPart}`;
     }
   }
   function resolveFirebaseTrackingUserId(loginRes) {
@@ -32412,7 +32454,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.248" }
+          detail: { component: "header", version: "1.0.249" }
         })
       );
     }
@@ -32485,7 +32527,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.248" }
+          detail: { component: "footer", version: "1.0.249" }
         })
       );
     }
@@ -32546,7 +32588,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.248";
+  var MYBHARAT_SHELL_VERSION = "1.0.249";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

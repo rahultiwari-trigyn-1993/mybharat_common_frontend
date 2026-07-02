@@ -89,6 +89,75 @@ function readHeaderCookieDomainAttribute(): string {
   );
 }
 
+function readCurrentHostname(): string {
+  if (typeof window === 'undefined') return '';
+  return window.location.hostname.trim().toLowerCase();
+}
+
+function isLocalhostLikeHost(host: string): boolean {
+  return host === 'localhost' || host === '127.0.0.1' || /^\d{1,3}(\.\d{1,3}){3}$/.test(host);
+}
+
+function isLocalhostLikeDomain(domain: string): boolean {
+  const bare = domain.replace(/^\./, '').toLowerCase();
+  return bare === 'localhost' || bare === '127.0.0.1' || /^\d{1,3}(\.\d{1,3}){3}$/.test(bare);
+}
+
+const warnedCookieDomains = new Set<string>();
+
+function warnCookieDomainOnce(configured: string, hostname: string, reason: string): void {
+  if (typeof console === 'undefined') return;
+  const key = `${configured}|${hostname}|${reason}`;
+  if (warnedCookieDomains.has(key)) return;
+  warnedCookieDomains.add(key);
+  console.warn(
+    `[mybharat-shell] cookie-domain "${configured}" ignored on "${hostname}": ${reason}. ` +
+      'Use a parent domain with a leading dot (e.g. ".local.com" for digisevak.local.com) or omit cookie-domain for host-only cookies.',
+  );
+}
+
+/**
+ * Build the `;domain=` suffix for auth cookies on the current page host.
+ * Returns empty string for host-only cookies (required for localhost / invalid configs).
+ */
+export function formatAuthCookieDomainPart(configuredOrApiDomain?: string): string {
+  const hostname = readCurrentHostname();
+  const configured = (configuredOrApiDomain ?? readConfiguredShellCookieDomain()).trim();
+  if (!configured) return '';
+
+  if (isLocalhostLikeDomain(configured)) {
+    if (!isLocalhostLikeHost(hostname)) {
+      warnCookieDomainOnce(
+        configured,
+        hostname,
+        'localhost/IP cookie domains cannot be set from this host',
+      );
+    }
+    // Browsers reject `domain=localhost` — host-only cookie only.
+    return '';
+  }
+
+  const bare = configured.replace(/^\./, '').toLowerCase();
+  const allowed =
+    hostname === bare || hostname.endsWith(`.${bare}`);
+
+  if (!allowed) {
+    warnCookieDomainOnce(
+      configured,
+      hostname,
+      'configured domain is not a suffix of the current host',
+    );
+    return '';
+  }
+
+  if (hostname === bare) {
+    // Exact host — host-only cookie (omit Domain attribute).
+    return '';
+  }
+
+  return `;domain=.${bare}`;
+}
+
 /** Sync `<mybharat-header cookie-domain>` into shell login config before cookie writes. */
 export function syncShellLoginCookieDomainFromDom(): void {
   const cookieDomain = readHeaderCookieDomainAttribute();
@@ -138,8 +207,7 @@ export function setMbAuthSessionCookies(
   const expiry = new Date(
     Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1000
   ).toUTCString();
-  const domain = resolveAuthCookieDomain(options?.cookieDomain).trim();
-  const domainPart = domain ? `;domain=${domain}` : '';
+  const domainPart = formatAuthCookieDomainPart(options?.cookieDomain);
   const names = AUTH_CONFIG.cookieNames;
 
   document.cookie = `${names.token}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;

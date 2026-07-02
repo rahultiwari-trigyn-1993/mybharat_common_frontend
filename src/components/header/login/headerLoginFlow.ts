@@ -22,7 +22,7 @@ import {
   type ApiErrorPayload,
 } from './loginApiErrorMessage';
 import { AUTH_CONFIG } from '../../../config/auth';
-import { resolveAuthCookieDomain, syncShellLoginCookieDomainFromDom } from './authSessionCookies';
+import { syncShellLoginCookieDomainFromDom, formatAuthCookieDomainPart } from './authSessionCookies';
 import { APP_ROUTES } from '../../../config/routes';
 import { EXTERNAL_URLS } from '../../../config/external';
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
@@ -158,12 +158,12 @@ function setAuthCookies(tokenValue: string, domain: string, encryptIdValue?: str
   const expiry = new Date(
     Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1000
   ).toUTCString();
-  const cookieDomain = resolveAuthCookieDomain(domain);
+  const domainPart = formatAuthCookieDomainPart(domain);
   const names = AUTH_CONFIG.cookieNames;
-  document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
-  document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
+  document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/${domainPart}`;
+  document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/${domainPart}`;
   if (encryptIdValue) {
-    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
+    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/${domainPart}`;
   }
 }
 
