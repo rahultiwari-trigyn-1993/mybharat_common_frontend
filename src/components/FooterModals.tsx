@@ -7,6 +7,7 @@ import {
 import { resolveRecaptchaSiteKey } from './footer/resolveRecaptchaSiteKey';
 import { preloadRecaptchaScript } from './footer/footerRecaptchaLoader';
 import { scheduleFeedbackRecaptchaRender } from './footer/footerRecaptchaWidget';
+import { cleanupOrphanModalBackdrop } from './header/login/bootstrapModal';
 import { resolveCdnAssetUrl } from '../config/resolve';
 
 type BootstrapModal = {
@@ -67,6 +68,7 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
 
     const onHidden = () => {
       resetFeedbackRecaptchaSafely();
+      cleanupOrphanModalBackdrop();
     };
 
     modalEl.addEventListener('shown.bs.modal', onShown);
@@ -82,6 +84,20 @@ export const FooterModals: React.FC<FooterModalsProps> = ({
       modalEl.removeEventListener('hidden.bs.modal', onHidden);
     };
   }, [canRenderCaptcha, captchaSiteKey]);
+
+  useEffect(() => {
+    const modalEl = document.getElementById('feed_back1');
+    if (!modalEl) return undefined;
+
+    const onHidden = () => {
+      cleanupOrphanModalBackdrop();
+    };
+
+    modalEl.addEventListener('hidden.bs.modal', onHidden);
+    return () => {
+      modalEl.removeEventListener('hidden.bs.modal', onHidden);
+    };
+  }, []);
 
   const hideChoiceShowForm = () => {
     const Modal = getBootstrapModal();

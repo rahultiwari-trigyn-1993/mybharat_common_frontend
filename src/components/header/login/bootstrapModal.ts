@@ -85,10 +85,35 @@ export function showBootstrapModal(
   }
 }
 
+/** Remove leftover dimmer when host + shell Bootstrap both touch modals (e.g. CakePHP). */
+export function cleanupOrphanModalBackdrop(): void {
+  if (typeof document === 'undefined') return;
+
+  const visibleModals = document.querySelectorAll('.modal.show');
+  if (visibleModals.length > 0) return;
+
+  document.querySelectorAll('.modal-backdrop').forEach((node) => node.remove());
+  document.body.classList.remove('modal-open');
+  document.body.style.removeProperty('overflow');
+  document.body.style.removeProperty('padding-right');
+}
+
 export function hideBootstrapModal(id: string): void {
   const el = document.getElementById(id);
   const Modal = getBootstrapModal();
-  Modal?.getInstance(el)?.hide();
+  if (!el) return;
+
+  if (Modal) {
+    const instance = Modal.getInstance(el) ?? Modal.getOrCreateInstance(el);
+    instance.hide();
+  } else {
+    el.classList.remove('show');
+    el.setAttribute('aria-hidden', 'true');
+    el.removeAttribute('aria-modal');
+    el.style.display = 'none';
+  }
+
+  window.setTimeout(cleanupOrphanModalBackdrop, 350);
 }
 
 export function switchBootstrapModal(fromId: string, toId: string, delayMs = 0): void {

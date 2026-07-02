@@ -1,4 +1,8 @@
-import { hideBootstrapModal, showBootstrapModal } from '../header/login/bootstrapModal';
+import {
+  cleanupOrphanModalBackdrop,
+  hideBootstrapModal,
+  showBootstrapModal,
+} from '../header/login/bootstrapModal';
 import { validateEmail, validatePhone } from '../header/login/headerLoginFlow';
 import { resetFeedbackRecaptchaSafely } from './footerRecaptchaBridge';
 import {
@@ -183,6 +187,12 @@ function showFeedbackAlert(msg: string, type: 'danger' | 'success'): void {
   }, 10000);
 }
 
+function closeFeedbackModals(): void {
+  hideBootstrapModal('feed_back');
+  hideBootstrapModal('feed_back1');
+  cleanupOrphanModalBackdrop();
+}
+
 function resetFeedbackForm(): void {
   const fields = resolveIsLoggedIn() ? LOGGED_IN_VALIDATION_FIELDS : GUEST_VALIDATION_FIELDS;
 
@@ -321,7 +331,15 @@ function onDocumentClick(e: Event): void {
     return;
   }
 
-  if (target.closest('#form_cl, #feedback_mdl_btn')) {
+  if (target.closest('#form_cl')) {
+    e.preventDefault();
+    e.stopPropagation();
+    closeFeedbackModals();
+    resetFeedbackForm();
+    return;
+  }
+
+  if (target.closest('#feedback_mdl_btn')) {
     resetFeedbackForm();
   }
 }

@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.245 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.246 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -5782,10 +5782,29 @@ function showBootstrapModal(id, options) {
     whenElementReady(id, attemptShow);
   }
 }
+function cleanupOrphanModalBackdrop() {
+  if (typeof document === "undefined") return;
+  const visibleModals = document.querySelectorAll(".modal.show");
+  if (visibleModals.length > 0) return;
+  document.querySelectorAll(".modal-backdrop").forEach((node) => node.remove());
+  document.body.classList.remove("modal-open");
+  document.body.style.removeProperty("overflow");
+  document.body.style.removeProperty("padding-right");
+}
 function hideBootstrapModal(id) {
   const el = document.getElementById(id);
   const Modal2 = getBootstrapModal();
-  Modal2?.getInstance(el)?.hide();
+  if (!el) return;
+  if (Modal2) {
+    const instance = Modal2.getInstance(el) ?? Modal2.getOrCreateInstance(el);
+    instance.hide();
+  } else {
+    el.classList.remove("show");
+    el.setAttribute("aria-hidden", "true");
+    el.removeAttribute("aria-modal");
+    el.style.display = "none";
+  }
+  window.setTimeout(cleanupOrphanModalBackdrop, 350);
 }
 function switchBootstrapModal(fromId, toId, delayMs = 0) {
   hideBootstrapModal(fromId);
@@ -9534,6 +9553,11 @@ function showFeedbackAlert(msg, type) {
     el.style.display = "none";
   }, 1e4);
 }
+function closeFeedbackModals() {
+  hideBootstrapModal("feed_back");
+  hideBootstrapModal("feed_back1");
+  cleanupOrphanModalBackdrop();
+}
 function resetFeedbackForm() {
   const fields = resolveIsLoggedIn() ? LOGGED_IN_VALIDATION_FIELDS : GUEST_VALIDATION_FIELDS;
   for (const [fieldKey, label] of fields) {
@@ -9649,7 +9673,14 @@ function onDocumentClick3(e) {
     void onFormC2Click(e);
     return;
   }
-  if (target.closest("#form_cl, #feedback_mdl_btn")) {
+  if (target.closest("#form_cl")) {
+    e.preventDefault();
+    e.stopPropagation();
+    closeFeedbackModals();
+    resetFeedbackForm();
+    return;
+  }
+  if (target.closest("#feedback_mdl_btn")) {
     resetFeedbackForm();
   }
 }
@@ -9902,6 +9933,7 @@ var FooterModals = ({
     };
     const onHidden = () => {
       resetFeedbackRecaptchaSafely();
+      cleanupOrphanModalBackdrop();
     };
     modalEl.addEventListener("shown.bs.modal", onShown);
     modalEl.addEventListener("hidden.bs.modal", onHidden);
@@ -9913,6 +9945,17 @@ var FooterModals = ({
       modalEl.removeEventListener("hidden.bs.modal", onHidden);
     };
   }, [canRenderCaptcha, captchaSiteKey]);
+  useEffect7(() => {
+    const modalEl = document.getElementById("feed_back1");
+    if (!modalEl) return void 0;
+    const onHidden = () => {
+      cleanupOrphanModalBackdrop();
+    };
+    modalEl.addEventListener("hidden.bs.modal", onHidden);
+    return () => {
+      modalEl.removeEventListener("hidden.bs.modal", onHidden);
+    };
+  }, []);
   const hideChoiceShowForm = () => {
     const Modal2 = getBootstrapModal2();
     const el1 = document.getElementById("feed_back1");
@@ -10544,7 +10587,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.245";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.246";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   APP_ROUTES,

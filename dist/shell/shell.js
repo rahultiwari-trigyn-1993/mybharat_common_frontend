@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.245 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.246 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27253,10 +27253,29 @@ var MyBharatShell = (() => {
       whenElementReady(id, attemptShow);
     }
   }
+  function cleanupOrphanModalBackdrop() {
+    if (typeof document === "undefined") return;
+    const visibleModals = document.querySelectorAll(".modal.show");
+    if (visibleModals.length > 0) return;
+    document.querySelectorAll(".modal-backdrop").forEach((node) => node.remove());
+    document.body.classList.remove("modal-open");
+    document.body.style.removeProperty("overflow");
+    document.body.style.removeProperty("padding-right");
+  }
   function hideBootstrapModal(id) {
     const el = document.getElementById(id);
     const Modal2 = getBootstrapModal();
-    Modal2?.getInstance(el)?.hide();
+    if (!el) return;
+    if (Modal2) {
+      const instance = Modal2.getInstance(el) ?? Modal2.getOrCreateInstance(el);
+      instance.hide();
+    } else {
+      el.classList.remove("show");
+      el.setAttribute("aria-hidden", "true");
+      el.removeAttribute("aria-modal");
+      el.style.display = "none";
+    }
+    window.setTimeout(cleanupOrphanModalBackdrop, 350);
   }
   function switchBootstrapModal(fromId, toId, delayMs = 0) {
     hideBootstrapModal(fromId);
@@ -29836,6 +29855,11 @@ var MyBharatShell = (() => {
       el.style.display = "none";
     }, 1e4);
   }
+  function closeFeedbackModals() {
+    hideBootstrapModal("feed_back");
+    hideBootstrapModal("feed_back1");
+    cleanupOrphanModalBackdrop();
+  }
   function resetFeedbackForm() {
     const fields = resolveIsLoggedIn() ? LOGGED_IN_VALIDATION_FIELDS : GUEST_VALIDATION_FIELDS;
     for (const [fieldKey, label] of fields) {
@@ -29951,7 +29975,14 @@ var MyBharatShell = (() => {
       void onFormC2Click(e);
       return;
     }
-    if (target.closest("#form_cl, #feedback_mdl_btn")) {
+    if (target.closest("#form_cl")) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeFeedbackModals();
+      resetFeedbackForm();
+      return;
+    }
+    if (target.closest("#feedback_mdl_btn")) {
       resetFeedbackForm();
     }
   }
@@ -30204,6 +30235,7 @@ var MyBharatShell = (() => {
       };
       const onHidden = () => {
         resetFeedbackRecaptchaSafely();
+        cleanupOrphanModalBackdrop();
       };
       modalEl.addEventListener("shown.bs.modal", onShown);
       modalEl.addEventListener("hidden.bs.modal", onHidden);
@@ -30215,6 +30247,17 @@ var MyBharatShell = (() => {
         modalEl.removeEventListener("hidden.bs.modal", onHidden);
       };
     }, [canRenderCaptcha, captchaSiteKey]);
+    (0, import_react3.useEffect)(() => {
+      const modalEl = document.getElementById("feed_back1");
+      if (!modalEl) return void 0;
+      const onHidden = () => {
+        cleanupOrphanModalBackdrop();
+      };
+      modalEl.addEventListener("hidden.bs.modal", onHidden);
+      return () => {
+        modalEl.removeEventListener("hidden.bs.modal", onHidden);
+      };
+    }, []);
     const hideChoiceShowForm = () => {
       const Modal2 = getBootstrapModal2();
       const el1 = document.getElementById("feed_back1");
@@ -32344,7 +32387,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.245" }
+          detail: { component: "header", version: "1.0.246" }
         })
       );
     }
@@ -32415,7 +32458,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.245" }
+          detail: { component: "footer", version: "1.0.246" }
         })
       );
     }
@@ -32476,7 +32519,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.245";
+  var MYBHARAT_SHELL_VERSION = "1.0.246";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:
