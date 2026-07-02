@@ -8,10 +8,11 @@ import {
 export function useRequiredClientConfig(config?: RequiredClientConfigInput): void {
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const environment = config?.environment?.trim();
   const cdnBase = config?.cdnBase?.trim();
 
   useEffect(() => {
-    assertRequiredClientConfig({ baseUrl, apiBaseUrl, environment, cdnBase });
-  }, [baseUrl, apiBaseUrl, environment, cdnBase]);
+    assertRequiredClientConfig({ baseUrl, apiBaseUrl, apiProxyBaseUrl, environment, cdnBase });
+  }, [baseUrl, apiBaseUrl, apiProxyBaseUrl, environment, cdnBase]);
 }

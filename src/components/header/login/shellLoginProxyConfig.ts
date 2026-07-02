@@ -1,5 +1,15 @@
 import { SHELL_LOGIN_PROXY_DEFAULT } from '../../../config/apiPaths';
 
+function readProxyMetaTag(): string {
+  if (typeof document === 'undefined') return '';
+  return (
+    document
+      .querySelector('meta[name="mybharat-shell-api-proxy-base-url"]')
+      ?.getAttribute('content')
+      ?.trim() || ''
+  );
+}
+
 function readHeaderProxyAttribute(): string {
   if (typeof document === 'undefined') return '';
   const headerEl = document.querySelector('mybharat-header');
@@ -13,7 +23,7 @@ function readHeaderProxyAttribute(): string {
 
 /** Sync `<mybharat-header api-proxy-base-url>` into shell login config. */
 export function syncShellLoginProxyConfigFromDom(): void {
-  const apiProxyBaseUrl = readHeaderProxyAttribute();
+  const apiProxyBaseUrl = readHeaderProxyAttribute() || readProxyMetaTag();
   if (!apiProxyBaseUrl) return;
 
   window.MYBHARAT_SHELL = {
@@ -31,6 +41,7 @@ export function readShellLoginProxyPrefix(): string {
   return (
     window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() ||
     readHeaderProxyAttribute() ||
+    readProxyMetaTag() ||
     ''
   );
 }

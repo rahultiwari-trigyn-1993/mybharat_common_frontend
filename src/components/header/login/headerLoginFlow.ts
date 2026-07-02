@@ -721,6 +721,18 @@ async function resolveClientIpAddress(): Promise<string> {
   return ip;
 }
 
+/** BFF hosts should infer client IP server-side — avoid blocking on third-party IP APIs. */
+async function resolveClientIpAddressForOtp(): Promise<string> {
+  const fromShell = readShellClientIpAddress();
+  if (fromShell) return fromShell;
+
+  if (isShellLoginBffEnabled()) {
+    return '0.0.0.0';
+  }
+
+  return resolveClientIpAddress();
+}
+
 function prefetchClientIpAddress(): void {
   void resolveClientIpAddress();
 }
@@ -1000,8 +1012,8 @@ function buildSendMobileGuestUserOtpForm(
 }
 
 async function sendGuestOtp(data: Record<string, string>): Promise<SignInResponse> {
-  const ipAddress = await resolveClientIpAddress();
-  if (!ipAddress) {
+  const ipAddress = await resolveClientIpAddressForOtp();
+  if (!ipAddress && !isShellLoginBffEnabled()) {
     return {
       status_code: 400,
       message: 'Unable to detect your IP address. Please try again.',
@@ -1682,7 +1694,9 @@ export function installHeaderLoginFlow(): () => void {
 
   syncShellLoginApiConfigFromDom();
   applyShellLoginApiConfig(window.MYBHARAT_SHELL?.login?.apiBaseUrl);
-  prefetchClientIpAddress();
+  if (!isShellLoginBffEnabled()) {
+    prefetchClientIpAddress();
+  }
 
   document.addEventListener('click', onDocumentClick, true);
   document.addEventListener('input', onDocumentInput, true);

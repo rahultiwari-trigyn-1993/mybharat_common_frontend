@@ -1,75 +1,52 @@
+import { createDecipheriv, createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import {
-  constants,
-  createPrivateKey,
-  createPublicKey,
-  privateDecrypt,
-} from 'node:crypto';
+  isEncryptedLoginSecret,
+  LOGIN_PAYLOAD_HMAC_LABEL,
+  type EncryptedLoginSecret,
+} from './loginPayloadCryptoSpec';
+import { resolveLoginPayloadSessionKey } from './loginPayloadSessionKeys';
 
-export type EncryptedLoginSecret = {
-  v: 1;
-  alg: 'RSA-OAEP';
-  ciphertext: string;
-};
+export type { EncryptedLoginSecret } from './loginPayloadCryptoSpec';
+export { issueLoginPayloadSessionKey } from './loginPayloadSessionKeys';
 
-let configuredPrivateKey = '';
-let configuredPublicKey = '';
-
-/** Host server config — call from Vite plugin, Express, etc. (never from browser code). */
-export function configureLoginPayloadCrypto(options: {
-  privateKey?: string;
-  publicKey?: string;
-}): void {
-  configuredPrivateKey = options.privateKey?.trim() ?? '';
-  configuredPublicKey = options.publicKey?.trim() ?? '';
-}
-
-function normalizePem(value: string): string {
-  return value.replace(/\\n/g, '\n').trim();
-}
-
-function readPrivateKeyPem(): string {
-  return configuredPrivateKey || process.env.LOGIN_PAYLOAD_PRIVATE_KEY?.trim() || '';
-}
-
-function readPublicKeyPem(): string {
-  return configuredPublicKey || process.env.LOGIN_PAYLOAD_PUBLIC_KEY?.trim() || '';
-}
-
-export function isLoginPayloadCryptoConfigured(): boolean {
-  return Boolean(readPrivateKeyPem() || readPublicKeyPem());
-}
-
-export function getLoginPayloadPublicKeyPem(): string {
-  const configuredPublic = readPublicKeyPem();
-  if (configuredPublic) return normalizePem(configuredPublic);
-
-  const privatePem = readPrivateKeyPem();
-  if (!privatePem) {
-    throw new Error('LOGIN_PAYLOAD_PRIVATE_KEY or LOGIN_PAYLOAD_PUBLIC_KEY is not configured.');
-  }
-
-  const keyObject = createPrivateKey(normalizePem(privatePem));
-  return createPublicKey(keyObject).export({ type: 'spki', format: 'pem' }) as string;
+export function deriveLoginPayloadMacKey(aesKey: Buffer): Buffer {
+  return createHash('sha256')
+    .update(Buffer.concat([aesKey, Buffer.from(LOGIN_PAYLOAD_HMAC_LABEL, 'utf8')]))
+    .digest();
 }
 
 export function decryptLoginSecret(secret: EncryptedLoginSecret): string {
-  if (secret?.v !== 1 || secret?.alg !== 'RSA-OAEP' || !secret?.ciphertext?.trim()) {
+  if (!isEncryptedLoginSecret(secret)) {
     throw new Error('Invalid encrypted secret format.');
   }
 
-  const privatePem = readPrivateKeyPem();
-  if (!privatePem) {
-    throw new Error('LOGIN_PAYLOAD_PRIVATE_KEY is not configured.');
+  const aesKey = resolveLoginPayloadSessionKey(secret.kid);
+  const macKey = deriveLoginPayloadMacKey(aesKey);
+  const iv = Buffer.from(secret.iv, 'base64');
+  const ciphertext = Buffer.from(secret.ciphertext, 'base64');
+  const mac = Buffer.from(secret.mac, 'base64');
+
+  if (iv.length !== 16) throw new Error('Invalid login payload IV.');
+
+  const expected = createHmac('sha256', macKey)
+    .update(Buffer.concat([iv, ciphertext]))
+    .digest();
+  if (mac.length !== expected.length || !timingSafeEqual(mac, expected)) {
+    throw new Error('Login payload authentication failed.');
   }
 
-  const decrypted = privateDecrypt(
-    {
-      key: normalizePem(privatePem),
-      padding: constants.RSA_PKCS1_OAEP_PADDING,
-      oaepHash: 'sha256',
-    },
-    Buffer.from(secret.ciphertext, 'base64'),
-  );
+  const decipher = createDecipheriv('aes-256-cbc', aesKey, iv);
+  return Buffer.concat([decipher.update(ciphertext), decipher.final()]).toString('utf8');
+}
 
-  return decrypted.toString('utf8');
+/** @deprecated No static env keys — session keys from login-crypto-key. */
+export function configureLoginPayloadCrypto(_options?: unknown): void {}
+
+export function isLoginPayloadCryptoConfigured(): boolean {
+  return true;
+}
+
+/** @deprecated */
+export function getLoginPayloadPublicKeyPem(): never {
+  throw new Error('Use POST /_internal/login-crypto-key instead.');
 }

@@ -27,13 +27,6 @@ export type HeaderLoginConfig = {
 };
 
 function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
-  assertRequiredClientConfig({
-    baseUrl: config?.baseUrl,
-    apiBaseUrl: config?.apiBaseUrl,
-    environment: config?.environment,
-    cdnBase: config?.cdnBase,
-  });
-
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
   const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
@@ -59,7 +52,7 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
     return;
   }
 
-  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+  if (apiBaseUrl && !apiProxyBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
 
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -82,6 +75,14 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
       ...(cookieDomain ? { cookieDomain } : {}),
     },
   };
+
+  assertRequiredClientConfig({
+    baseUrl,
+    apiBaseUrl,
+    apiProxyBaseUrl,
+    environment,
+    cdnBase,
+  });
 }
 
 /** Syncs React `Header` props into shell login config. */

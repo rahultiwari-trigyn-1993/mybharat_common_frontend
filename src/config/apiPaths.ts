@@ -20,6 +20,8 @@ export const SHELL_LOGIN_PROXY_DEFAULT = '/mybharat-shell-api';
 export const BFF_INTERNAL_PATHS = {
   kcClient: '/_internal/kc-client',
   guestOauth: '/_internal/guest-oauth',
+  loginCryptoKey: '/_internal/login-crypto-key',
+  /** @deprecated Alias of loginCryptoKey */
   loginPubkey: '/_internal/login-pubkey',
   keycloakLogin: '/_internal/keycloak-login',
   verifyGuestOtp: '/_internal/verify-guest-otp',

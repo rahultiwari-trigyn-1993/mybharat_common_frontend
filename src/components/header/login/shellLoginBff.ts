@@ -1,11 +1,36 @@
 import { BFF_INTERNAL_PATHS } from '../../../config/apiPaths';
 import {
+  isApiSuccessStatus,
+  normalizeApiResponse,
+  type ApiErrorPayload,
+} from './loginApiErrorMessage';
+import {
   isShellLoginBffEnabled,
   readShellLoginProxyPrefix,
   syncShellLoginProxyConfigFromDom,
 } from './shellLoginProxyConfig';
 
 export { BFF_INTERNAL_PATHS };
+
+/** Gateway payloads often omit top-level status_code (e.g. checkUserExists message.given_data). */
+export function normalizeShellLoginBffPayload<T extends Record<string, unknown>>(
+  data: T,
+  httpStatus = 200,
+): T {
+  let normalized = normalizeApiResponse(data as ApiErrorPayload, httpStatus) as T;
+
+  if (!isApiSuccessStatus((normalized as ApiErrorPayload).status_code)) {
+    const message = (normalized as ApiErrorPayload).message;
+    if (message && typeof message === 'object' && !Array.isArray(message)) {
+      const given = (message as Record<string, unknown>).given_data;
+      if (typeof given === 'string' && given.trim()) {
+        normalized = { ...normalized, status_code: 200 };
+      }
+    }
+  }
+
+  return normalized;
+}
 
 export function buildShellLoginBffUrl(relativePath: string): string {
   syncShellLoginProxyConfigFromDom();
@@ -43,9 +68,13 @@ export async function postShellLoginBffJson<T extends Record<string, unknown>>(
 
   const text = await res.text();
   try {
-    return JSON.parse(text) as T;
+    return normalizeShellLoginBffPayload(JSON.parse(text) as T, res.status);
   } catch {
-    return { status_code: res.status, message: text || 'Login service error.' } as T;
+    const fallback: Record<string, unknown> = {
+      status_code: res.status,
+      message: text || 'Login service error.',
+    };
+    return normalizeShellLoginBffPayload(fallback as unknown as T, res.status);
   }
 }
 

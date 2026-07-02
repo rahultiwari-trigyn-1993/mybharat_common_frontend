@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.250 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.251 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -5240,10 +5240,7 @@ function readApiBaseUrlFromDom() {
 }
 function readApiProxyBaseUrlFromDom() {
   const header = document.querySelector("mybharat-header");
-  return header?.getAttribute("api-proxy-base-url")?.trim() || header?.getAttribute("api-proxy-baseurl")?.trim();
-}
-function readConfiguredApiProxyBaseUrl() {
-  return window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() || readApiProxyBaseUrlFromDom();
+  return header?.getAttribute("api-proxy-base-url")?.trim() || header?.getAttribute("api-proxy-baseurl")?.trim() || document.querySelector('meta[name="mybharat-shell-api-proxy-base-url"]')?.getAttribute("content")?.trim();
 }
 function readEnvironmentFromDom() {
   return document.querySelector("mybharat-header")?.getAttribute("environment")?.trim();
@@ -5256,6 +5253,7 @@ function mergeRequiredClientConfig(props) {
   return {
     baseUrl: props?.baseUrl?.trim() || shellLogin?.baseUrl?.trim() || readBaseUrlFromDom(),
     apiBaseUrl: props?.apiBaseUrl?.trim() || shellLogin?.apiBaseUrl?.trim() || readApiBaseUrlFromDom(),
+    apiProxyBaseUrl: props?.apiProxyBaseUrl?.trim() || shellLogin?.apiProxyBaseUrl?.trim() || readApiProxyBaseUrlFromDom(),
     environment: props?.environment?.trim() || shellLogin?.environment?.trim() || readEnvironmentFromDom(),
     cdnBase: props?.cdnBase?.trim() || window.MYBHARAT_SHELL?.header?.cdnBase?.trim() || window.MYBHARAT_SHELL?.footer?.cdnBase?.trim() || readCdnBaseFromDom()
   };
@@ -5270,7 +5268,7 @@ function assertRequiredClientConfig(props) {
     alertOnce("baseUrl", "Base Url is not configured");
     ok = false;
   }
-  if (!merged.apiBaseUrl && !readConfiguredApiProxyBaseUrl()) {
+  if (!merged.apiBaseUrl && !merged.apiProxyBaseUrl) {
     alertOnce("apiBaseUrl", "Api Base Url or login proxy (api-proxy-base-url) is not configured");
     ok = false;
   }
@@ -5950,6 +5948,8 @@ var SHELL_LOGIN_PROXY_DEFAULT = "/mybharat-shell-api";
 var BFF_INTERNAL_PATHS = {
   kcClient: "/_internal/kc-client",
   guestOauth: "/_internal/guest-oauth",
+  loginCryptoKey: "/_internal/login-crypto-key",
+  /** @deprecated Alias of loginCryptoKey */
   loginPubkey: "/_internal/login-pubkey",
   keycloakLogin: "/_internal/keycloak-login",
   verifyGuestOtp: "/_internal/verify-guest-otp",
@@ -6006,6 +6006,10 @@ function resolveBrowserApiBaseUrl(configured) {
 }
 
 // src/components/header/login/shellLoginProxyConfig.ts
+function readProxyMetaTag() {
+  if (typeof document === "undefined") return "";
+  return document.querySelector('meta[name="mybharat-shell-api-proxy-base-url"]')?.getAttribute("content")?.trim() || "";
+}
 function readHeaderProxyAttribute() {
   if (typeof document === "undefined") return "";
   const headerEl = document.querySelector("mybharat-header");
@@ -6013,7 +6017,7 @@ function readHeaderProxyAttribute() {
   return headerEl.getAttribute("api-proxy-base-url")?.trim() || headerEl.getAttribute("api-proxy-baseurl")?.trim() || "";
 }
 function syncShellLoginProxyConfigFromDom() {
-  const apiProxyBaseUrl = readHeaderProxyAttribute();
+  const apiProxyBaseUrl = readHeaderProxyAttribute() || readProxyMetaTag();
   if (!apiProxyBaseUrl) return;
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -6025,13 +6029,26 @@ function syncShellLoginProxyConfigFromDom() {
 }
 function readShellLoginProxyPrefix() {
   syncShellLoginProxyConfigFromDom();
-  return window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() || readHeaderProxyAttribute() || "";
+  return window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() || readHeaderProxyAttribute() || readProxyMetaTag() || "";
 }
 function isShellLoginBffEnabled() {
   return Boolean(readShellLoginProxyPrefix());
 }
 
 // src/components/header/login/shellLoginBff.ts
+function normalizeShellLoginBffPayload(data, httpStatus = 200) {
+  let normalized = normalizeApiResponse(data, httpStatus);
+  if (!isApiSuccessStatus(normalized.status_code)) {
+    const message = normalized.message;
+    if (message && typeof message === "object" && !Array.isArray(message)) {
+      const given = message.given_data;
+      if (typeof given === "string" && given.trim()) {
+        normalized = { ...normalized, status_code: 200 };
+      }
+    }
+  }
+  return normalized;
+}
 function buildShellLoginBffUrl(relativePath) {
   syncShellLoginProxyConfigFromDom();
   const prefix = readShellLoginProxyPrefix().replace(/\/$/, "");
@@ -6061,9 +6078,13 @@ async function postShellLoginBffJson(relativePath, body, options) {
   }
   const text = await res.text();
   try {
-    return JSON.parse(text);
+    return normalizeShellLoginBffPayload(JSON.parse(text), res.status);
   } catch {
-    return { status_code: res.status, message: text || "Login service error." };
+    const fallback = {
+      status_code: res.status,
+      message: text || "Login service error."
+    };
+    return normalizeShellLoginBffPayload(fallback, res.status);
   }
 }
 function readBearerFromBffResponse(data) {
@@ -6514,81 +6535,98 @@ function submitEstablishSessionForm(params) {
 }
 
 // src/components/header/login/loginPayloadSecret.ts
-var cachedPublicKeyPem = null;
-var publicKeyPromise = null;
+var LOGIN_PAYLOAD_ALG = "AES-256-CBC-HMAC-SHA256";
+var HMAC_LABEL = "mybharat-login-v1-hmac";
+var cachedSession = null;
+var sessionPromise = null;
 function canEncryptLoginSecrets() {
   return typeof window !== "undefined" && window.isSecureContext === true && typeof window.crypto?.subtle?.encrypt === "function";
 }
-function pemToBinary(pem) {
-  const base64 = pem.replace(/-----BEGIN PUBLIC KEY-----/g, "").replace(/-----END PUBLIC KEY-----/g, "").replace(/\s/g, "");
-  const raw = atob(base64);
-  const bytes = new Uint8Array(raw.length);
-  for (let i = 0; i < raw.length; i += 1) {
-    bytes[i] = raw.charCodeAt(i);
-  }
-  return bytes.buffer;
-}
-async function importRsaPublicKey(pem) {
-  return crypto.subtle.importKey(
-    "spki",
-    pemToBinary(pem),
-    { name: "RSA-OAEP", hash: "SHA-256" },
-    false,
-    ["encrypt"]
-  );
-}
-async function encryptLoginSecret(plaintext, publicKeyPem) {
-  const key = await importRsaPublicKey(publicKeyPem);
-  const encoded = new TextEncoder().encode(plaintext);
-  const ciphertext = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoded);
-  const bytes = new Uint8Array(ciphertext);
+function b64Encode(bytes) {
   let binary = "";
-  for (let i = 0; i < bytes.length; i += 1) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return {
-    v: 1,
-    alg: "RSA-OAEP",
-    ciphertext: btoa(binary)
-  };
+  for (let i = 0; i < bytes.length; i += 1) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
 }
-async function fetchLoginPublicKeyPem() {
-  if (cachedPublicKeyPem) return cachedPublicKeyPem;
-  if (publicKeyPromise) return publicKeyPromise;
-  publicKeyPromise = (async () => {
+function b64Decode(value) {
+  const raw = atob(value);
+  const bytes = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i += 1) bytes[i] = raw.charCodeAt(i);
+  return bytes;
+}
+function concat(a, b) {
+  const out = new Uint8Array(a.length + b.length);
+  out.set(a, 0);
+  out.set(b, a.length);
+  return out;
+}
+async function deriveMacKey(aesKey) {
+  const label = new TextEncoder().encode(HMAC_LABEL);
+  return new Uint8Array(await crypto.subtle.digest("SHA-256", concat(aesKey, label)));
+}
+async function fetchCryptoSession() {
+  if (cachedSession && cachedSession.expiresAt > Date.now() + 5e3) return cachedSession;
+  if (sessionPromise) return sessionPromise;
+  sessionPromise = (async () => {
     try {
-      const res = await postShellLoginBffJson(
-        BFF_INTERNAL_PATHS.loginPubkey,
-        {}
-      );
-      const pem = res.public_key?.trim();
-      if (pem) {
-        cachedPublicKeyPem = pem;
-        return pem;
-      }
+      const res = await postShellLoginBffJson(BFF_INTERNAL_PATHS.loginCryptoKey, {});
+      const kid = res.kid?.trim();
+      const keyB64 = res.key?.trim();
+      if (!kid || !keyB64) return null;
+      const session = {
+        kid,
+        key: b64Decode(keyB64),
+        expiresAt: Date.now() + Math.max(60, Number(res.expires_in ?? 600)) * 1e3
+      };
+      cachedSession = session;
+      return session;
     } catch {
+      return null;
     }
-    return null;
   })();
   try {
-    return await publicKeyPromise;
+    return await sessionPromise;
   } finally {
-    publicKeyPromise = null;
+    sessionPromise = null;
   }
+}
+async function encryptLoginSecret(plaintext, session) {
+  const iv = crypto.getRandomValues(new Uint8Array(16));
+  const aesKey = await crypto.subtle.importKey("raw", session.key, "AES-CBC", false, ["encrypt"]);
+  const ciphertext = await crypto.subtle.encrypt(
+    { name: "AES-CBC", iv },
+    aesKey,
+    new TextEncoder().encode(plaintext)
+  );
+  const ct = new Uint8Array(ciphertext);
+  const macKey = await deriveMacKey(session.key);
+  const macCryptoKey = await crypto.subtle.importKey(
+    "raw",
+    macKey,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const mac = await crypto.subtle.sign("HMAC", macCryptoKey, concat(iv, ct));
+  return {
+    v: 1,
+    alg: LOGIN_PAYLOAD_ALG,
+    kid: session.kid,
+    iv: b64Encode(iv),
+    ciphertext: b64Encode(ct),
+    mac: b64Encode(new Uint8Array(mac))
+  };
 }
 async function wrapLoginSecretField(plaintext, encryptedField, plainField) {
   const value = plaintext.trim();
   if (!value) return {};
-  if (!canEncryptLoginSecrets()) {
+  if (!isShellLoginBffEnabled() || !canEncryptLoginSecrets()) {
     return { [plainField]: value };
   }
-  const publicKey = await fetchLoginPublicKeyPem();
-  if (!publicKey) {
+  const session = await fetchCryptoSession();
+  if (!session) {
     return { [plainField]: value };
   }
-  return {
-    [encryptedField]: await encryptLoginSecret(value, publicKey)
-  };
+  return { [encryptedField]: await encryptLoginSecret(value, session) };
 }
 
 // src/components/header/login/loginWithOtpFlow.ts
@@ -7405,6 +7443,14 @@ async function resolveClientIpAddress() {
   if (ip) storeClientIpCache(ip);
   return ip;
 }
+async function resolveClientIpAddressForOtp() {
+  const fromShell = readShellClientIpAddress();
+  if (fromShell) return fromShell;
+  if (isShellLoginBffEnabled()) {
+    return "0.0.0.0";
+  }
+  return resolveClientIpAddress();
+}
 function prefetchClientIpAddress() {
   void resolveClientIpAddress();
 }
@@ -7628,8 +7674,8 @@ function buildSendMobileGuestUserOtpForm(data, ipAddress) {
   return form;
 }
 async function sendGuestOtp(data) {
-  const ipAddress = await resolveClientIpAddress();
-  if (!ipAddress) {
+  const ipAddress = await resolveClientIpAddressForOtp();
+  if (!ipAddress && !isShellLoginBffEnabled()) {
     return {
       status_code: 400,
       message: "Unable to detect your IP address. Please try again."
@@ -8236,7 +8282,9 @@ function installHeaderLoginFlow() {
   installed = true;
   syncShellLoginApiConfigFromDom();
   applyShellLoginApiConfig(window.MYBHARAT_SHELL?.login?.apiBaseUrl);
-  prefetchClientIpAddress();
+  if (!isShellLoginBffEnabled()) {
+    prefetchClientIpAddress();
+  }
   document.addEventListener("click", onDocumentClick, true);
   document.addEventListener("input", onDocumentInput, true);
   document.addEventListener("change", onDocumentInput, true);
@@ -9031,12 +9079,6 @@ function HeaderLoginShellPortal({
 // src/components/header/login/useHeaderLoginConfig.ts
 import { useEffect as useEffect3 } from "react";
 function applyHeaderLoginConfig(config) {
-  assertRequiredClientConfig({
-    baseUrl: config?.baseUrl,
-    apiBaseUrl: config?.apiBaseUrl,
-    environment: config?.environment,
-    cdnBase: config?.cdnBase
-  });
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
   const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
@@ -9050,7 +9092,7 @@ function applyHeaderLoginConfig(config) {
   if (!baseUrl && !apiBaseUrl && !apiProxyBaseUrl && !environment && !cdnBase && !oauthUsername && !oauthPassword && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
     return;
   }
-  if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+  if (apiBaseUrl && !apiProxyBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
     ...cdnBase ? {
@@ -9070,6 +9112,13 @@ function applyHeaderLoginConfig(config) {
       ...cookieDomain ? { cookieDomain } : {}
     }
   };
+  assertRequiredClientConfig({
+    baseUrl,
+    apiBaseUrl,
+    apiProxyBaseUrl,
+    environment,
+    cdnBase
+  });
 }
 function useHeaderLoginConfig(config) {
   applyHeaderLoginConfig(config);
@@ -9560,11 +9609,12 @@ import { useEffect as useEffect6 } from "react";
 function useRequiredClientConfig(config) {
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const environment = config?.environment?.trim();
   const cdnBase = config?.cdnBase?.trim();
   useEffect6(() => {
-    assertRequiredClientConfig({ baseUrl, apiBaseUrl, environment, cdnBase });
-  }, [baseUrl, apiBaseUrl, environment, cdnBase]);
+    assertRequiredClientConfig({ baseUrl, apiBaseUrl, apiProxyBaseUrl, environment, cdnBase });
+  }, [baseUrl, apiBaseUrl, apiProxyBaseUrl, environment, cdnBase]);
 }
 
 // src/components/footer/useFooterFeedbackShell.ts
@@ -10969,7 +11019,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.250";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.251";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   APP_ROUTES,

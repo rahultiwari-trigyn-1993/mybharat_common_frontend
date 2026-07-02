@@ -1,10 +1,8 @@
 import type { Connect, Plugin } from 'vite';
 import { getKeycloakClientAccessToken } from './keycloakClientToken';
 import {
-  configureLoginPayloadCrypto,
   decryptLoginSecret,
-  getLoginPayloadPublicKeyPem,
-  isLoginPayloadCryptoConfigured,
+  issueLoginPayloadSessionKey,
   type EncryptedLoginSecret,
 } from './loginPayloadCrypto';
 import { getAccessToken, type OAuthTokenConfig } from './oauthToken';
@@ -15,11 +13,6 @@ export interface ShellLoginInternalAuthOptions {
   /** APIGateway origin without path, e.g. `http://127.0.0.1:8000`. */
   apiOrigin: string;
   oauth: OAuthTokenConfig;
-  /** RSA keys for decrypting password/OTP from browser — host server env only. */
-  loginPayload?: {
-    privateKey?: string;
-    publicKey?: string;
-  };
 }
 
 function sendJson(res: Connect.ServerResponse, status: number, body: unknown): void {
@@ -103,6 +96,12 @@ async function postGatewayForm(
 function normalizeGatewaySuccessPayload(payload: Record<string, unknown>): Record<string, unknown> {
   if (payload.status_code != null && payload.status_code !== '') return payload;
   const message = payload.message;
+  if (message && typeof message === 'object' && !Array.isArray(message)) {
+    const given = (message as Record<string, unknown>).given_data;
+    if (typeof given === 'string' && given.trim()) {
+      return { ...payload, status_code: 200 };
+    }
+  }
   if (typeof message !== 'string' || !message.trim()) return payload;
   const normalized = message.trim().toLowerCase();
   if (normalized.includes('fail') || normalized.includes('error') || normalized.includes('invalid')) {
@@ -145,6 +144,26 @@ function readFormFields(body: Record<string, unknown>): Record<string, string> {
   return form;
 }
 
+function readClientIpFromRequest(req: Connect.IncomingMessage): string {
+  const xff = req.headers['x-forwarded-for'];
+  if (typeof xff === 'string' && xff.trim()) {
+    return xff.split(',')[0].trim();
+  }
+  const remote = req.socket?.remoteAddress?.replace(/^::ffff:/, '').trim();
+  return remote || '';
+}
+
+function ensureFormClientIp(
+  form: Record<string, string>,
+  req: Connect.IncomingMessage,
+): Record<string, string> {
+  const ip = form.ip_address?.trim();
+  if (ip && ip !== '0.0.0.0') return form;
+  const clientIp = readClientIpFromRequest(req);
+  if (!clientIp) return form;
+  return { ...form, ip_address: clientIp };
+}
+
 /**
  * Vite host plugin — implements opaque `/_internal/*` login routes on the **host server**.
  * Required when embedding the shell login UI (CDN or npm) on a Vite dev/preview server.
@@ -168,15 +187,11 @@ function attachInternalAuthMiddleware(
   server: { middlewares: Connect.Server },
   options: ShellLoginInternalAuthOptions,
 ): void {
-  configureLoginPayloadCrypto({
-    privateKey: options.loginPayload?.privateKey,
-    publicKey: options.loginPayload?.publicKey,
-  });
-
   const prefix = options.loginProxyPrefix.replace(/\/$/, '');
   const kcPath = `${prefix}/_internal/kc-client`;
   const oauthPath = `${prefix}/_internal/guest-oauth`;
-  const pubkeyPath = `${prefix}/_internal/login-pubkey`;
+  const loginCryptoKeyPath = `${prefix}/_internal/login-crypto-key`;
+  const loginPubkeyPath = `${prefix}/_internal/login-pubkey`;
   const keycloakLoginPath = `${prefix}/_internal/keycloak-login`;
   const verifyGuestOtpPath = `${prefix}/_internal/verify-guest-otp`;
   const sendGuestOtpPath = `${prefix}/_internal/send-guest-otp`;
@@ -219,23 +234,14 @@ function attachInternalAuthMiddleware(
       return;
     }
 
-    if (url === pubkeyPath) {
-      if (!isLoginPayloadCryptoConfigured()) {
-        sendJson(res, 503, {
-          status_code: 503,
-          message: 'Login payload encryption is not configured on the host.',
-        });
-        return;
-      }
+    if (url === loginCryptoKeyPath || url === loginPubkeyPath) {
       try {
-        sendJson(res, 200, {
-          status_code: 200,
-          public_key: getLoginPayloadPublicKeyPem(),
-        });
+        const issued = issueLoginPayloadSessionKey();
+        sendJson(res, 200, { status_code: 200, ...issued });
       } catch (err) {
-        sendJson(res, 503, {
-          status_code: 503,
-          message: err instanceof Error ? err.message : 'Login payload encryption failed',
+        sendJson(res, 502, {
+          status_code: 502,
+          message: err instanceof Error ? err.message : 'Login crypto key failed',
         });
       }
       return;
@@ -301,13 +307,15 @@ function attachInternalAuthMiddleware(
     if (url === sendGuestOtpPath) {
       try {
         const body = await readJsonBody(req);
-        const form = readFormFields(body);
+        const form = ensureFormClientIp(readFormFields(body), req);
         const oauthToken = await getAccessToken(options.oauth, forceRefresh);
-        const payload = await postGatewayForm(
-          options.apiOrigin,
-          '/sendMobileGuestUserOtp',
-          form,
-          oauthToken,
+        const payload = normalizeGatewaySuccessPayload(
+          await postGatewayForm(
+            options.apiOrigin,
+            '/sendMobileGuestUserOtp',
+            form,
+            oauthToken,
+          ),
         );
         sendJson(res, 200, payload);
       } catch (err) {
@@ -328,11 +336,13 @@ function attachInternalAuthMiddleware(
           return;
         }
         const clientToken = await getKeycloakClientAccessToken(options.apiOrigin, forceRefresh);
-        const payload = await postGatewayJson(
-          options.apiOrigin,
-          '/checkUserExists',
-          { identifier },
-          clientToken,
+        const payload = normalizeGatewaySuccessPayload(
+          await postGatewayJson(
+            options.apiOrigin,
+            '/checkUserExists',
+            { identifier },
+            clientToken,
+          ),
         );
         sendJson(res, 200, payload);
       } catch (err) {

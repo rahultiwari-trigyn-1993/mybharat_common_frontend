@@ -559,6 +559,8 @@ declare function resolveShellLoginConfig(props?: ShellRuntimeConfig): ShellRunti
 type RequiredClientConfigInput = {
     baseUrl?: string;
     apiBaseUrl?: string;
+    /** Same-origin login BFF prefix — satisfies login API config without `apiBaseUrl`. */
+    apiProxyBaseUrl?: string;
     environment?: string;
     cdnBase?: string;
 };

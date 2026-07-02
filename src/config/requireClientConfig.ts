@@ -3,6 +3,8 @@ import type { ClientEnvironment } from './types';
 export type RequiredClientConfigInput = {
   baseUrl?: string;
   apiBaseUrl?: string;
+  /** Same-origin login BFF prefix — satisfies login API config without `apiBaseUrl`. */
+  apiProxyBaseUrl?: string;
   environment?: string;
   cdnBase?: string;
 };
@@ -29,13 +31,14 @@ function readApiProxyBaseUrlFromDom(): string | undefined {
   const header = document.querySelector('mybharat-header');
   return (
     header?.getAttribute('api-proxy-base-url')?.trim() ||
-    header?.getAttribute('api-proxy-baseurl')?.trim()
+    header?.getAttribute('api-proxy-baseurl')?.trim() ||
+    document
+      .querySelector('meta[name="mybharat-shell-api-proxy-base-url"]')
+      ?.getAttribute('content')
+      ?.trim()
   );
 }
 
-function readConfiguredApiProxyBaseUrl(): string | undefined {
-  return window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() || readApiProxyBaseUrlFromDom();
-}
 
 function readEnvironmentFromDom(): string | undefined {
   return document.querySelector('mybharat-header')?.getAttribute('environment')?.trim();
@@ -58,6 +61,10 @@ export function mergeRequiredClientConfig(
       props?.baseUrl?.trim() || shellLogin?.baseUrl?.trim() || readBaseUrlFromDom(),
     apiBaseUrl:
       props?.apiBaseUrl?.trim() || shellLogin?.apiBaseUrl?.trim() || readApiBaseUrlFromDom(),
+    apiProxyBaseUrl:
+      props?.apiProxyBaseUrl?.trim() ||
+      shellLogin?.apiProxyBaseUrl?.trim() ||
+      readApiProxyBaseUrlFromDom(),
     environment:
       props?.environment?.trim() || shellLogin?.environment?.trim() || readEnvironmentFromDom(),
     cdnBase:
@@ -85,7 +92,7 @@ export function assertRequiredClientConfig(props?: RequiredClientConfigInput): b
     ok = false;
   }
 
-  if (!merged.apiBaseUrl && !readConfiguredApiProxyBaseUrl()) {
+  if (!merged.apiBaseUrl && !merged.apiProxyBaseUrl) {
     alertOnce('apiBaseUrl', 'Api Base Url or login proxy (api-proxy-base-url) is not configured');
     ok = false;
   }

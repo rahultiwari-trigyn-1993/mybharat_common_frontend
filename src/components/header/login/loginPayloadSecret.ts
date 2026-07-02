@@ -1,14 +1,23 @@
 import { BFF_INTERNAL_PATHS } from '../../../config/apiPaths';
 import { postShellLoginBffJson } from './shellLoginBff';
+import { isShellLoginBffEnabled } from './shellLoginProxyConfig';
+
+export const LOGIN_PAYLOAD_ALG = 'AES-256-CBC-HMAC-SHA256' as const;
+const HMAC_LABEL = 'mybharat-login-v1-hmac';
 
 export type EncryptedLoginSecret = {
   v: 1;
-  alg: 'RSA-OAEP';
+  alg: typeof LOGIN_PAYLOAD_ALG;
+  kid: string;
+  iv: string;
   ciphertext: string;
+  mac: string;
 };
 
-let cachedPublicKeyPem: string | null = null;
-let publicKeyPromise: Promise<string | null> | null = null;
+type CryptoSession = { kid: string; key: Uint8Array; expiresAt: number };
+
+let cachedSession: CryptoSession | null = null;
+let sessionPromise: Promise<CryptoSession | null> | null = null;
 
 export function canEncryptLoginSecrets(): boolean {
   return (
@@ -18,77 +27,97 @@ export function canEncryptLoginSecrets(): boolean {
   );
 }
 
-function pemToBinary(pem: string): ArrayBuffer {
-  const base64 = pem
-    .replace(/-----BEGIN PUBLIC KEY-----/g, '')
-    .replace(/-----END PUBLIC KEY-----/g, '')
-    .replace(/\s/g, '');
-  const raw = atob(base64);
-  const bytes = new Uint8Array(raw.length);
-  for (let i = 0; i < raw.length; i += 1) {
-    bytes[i] = raw.charCodeAt(i);
-  }
-  return bytes.buffer;
+function b64Encode(bytes: Uint8Array): string {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 1) binary += String.fromCharCode(bytes[i]!);
+  return btoa(binary);
 }
 
-async function importRsaPublicKey(pem: string): Promise<CryptoKey> {
-  return crypto.subtle.importKey(
-    'spki',
-    pemToBinary(pem),
-    { name: 'RSA-OAEP', hash: 'SHA-256' },
-    false,
-    ['encrypt'],
-  );
+function b64Decode(value: string): Uint8Array {
+  const raw = atob(value);
+  const bytes = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i += 1) bytes[i] = raw.charCodeAt(i);
+  return bytes;
+}
+
+function concat(a: Uint8Array, b: Uint8Array): Uint8Array {
+  const out = new Uint8Array(a.length + b.length);
+  out.set(a, 0);
+  out.set(b, a.length);
+  return out;
+}
+
+async function deriveMacKey(aesKey: Uint8Array): Promise<Uint8Array> {
+  const label = new TextEncoder().encode(HMAC_LABEL);
+  return new Uint8Array(await crypto.subtle.digest('SHA-256', concat(aesKey, label)));
+}
+
+async function fetchCryptoSession(): Promise<CryptoSession | null> {
+  if (cachedSession && cachedSession.expiresAt > Date.now() + 5000) return cachedSession;
+  if (sessionPromise) return sessionPromise;
+
+  sessionPromise = (async () => {
+    try {
+      const res = await postShellLoginBffJson<{
+        kid?: string;
+        key?: string;
+        expires_in?: number;
+      }>(BFF_INTERNAL_PATHS.loginCryptoKey, {});
+      const kid = res.kid?.trim();
+      const keyB64 = res.key?.trim();
+      if (!kid || !keyB64) return null;
+      const session: CryptoSession = {
+        kid,
+        key: b64Decode(keyB64),
+        expiresAt: Date.now() + Math.max(60, Number(res.expires_in ?? 600)) * 1000,
+      };
+      cachedSession = session;
+      return session;
+    } catch {
+      return null;
+    }
+  })();
+
+  try {
+    return await sessionPromise;
+  } finally {
+    sessionPromise = null;
+  }
 }
 
 export async function encryptLoginSecret(
   plaintext: string,
-  publicKeyPem: string,
+  session: CryptoSession,
 ): Promise<EncryptedLoginSecret> {
-  const key = await importRsaPublicKey(publicKeyPem);
-  const encoded = new TextEncoder().encode(plaintext);
-  const ciphertext = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, key, encoded);
-  const bytes = new Uint8Array(ciphertext);
-  let binary = '';
-  for (let i = 0; i < bytes.length; i += 1) {
-    binary += String.fromCharCode(bytes[i]!);
-  }
+  const iv = crypto.getRandomValues(new Uint8Array(16));
+  const aesKey = await crypto.subtle.importKey('raw', session.key, 'AES-CBC', false, ['encrypt']);
+  const ciphertext = await crypto.subtle.encrypt(
+    { name: 'AES-CBC', iv },
+    aesKey,
+    new TextEncoder().encode(plaintext),
+  );
+  const ct = new Uint8Array(ciphertext);
+  const macKey = await deriveMacKey(session.key);
+  const macCryptoKey = await crypto.subtle.importKey(
+    'raw',
+    macKey,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const mac = await crypto.subtle.sign('HMAC', macCryptoKey, concat(iv, ct));
+
   return {
     v: 1,
-    alg: 'RSA-OAEP',
-    ciphertext: btoa(binary),
+    alg: LOGIN_PAYLOAD_ALG,
+    kid: session.kid,
+    iv: b64Encode(iv),
+    ciphertext: b64Encode(ct),
+    mac: b64Encode(new Uint8Array(mac)),
   };
 }
 
-async function fetchLoginPublicKeyPem(): Promise<string | null> {
-  if (cachedPublicKeyPem) return cachedPublicKeyPem;
-  if (publicKeyPromise) return publicKeyPromise;
-
-  publicKeyPromise = (async () => {
-    try {
-      const res = await postShellLoginBffJson<{ public_key?: string }>(
-        BFF_INTERNAL_PATHS.loginPubkey,
-        {},
-      );
-      const pem = res.public_key?.trim();
-      if (pem) {
-        cachedPublicKeyPem = pem;
-        return pem;
-      }
-    } catch {
-      /* host may not configure RSA keys — fall back to plaintext over HTTPS BFF */
-    }
-    return null;
-  })();
-
-  try {
-    return await publicKeyPromise;
-  } finally {
-    publicKeyPromise = null;
-  }
-}
-
-/** Returns RSA envelope when possible; otherwise plaintext (same-origin BFF over HTTPS). */
+/** AES-256-CBC + HMAC via short-lived session key from BFF — no static client secrets. */
 export async function wrapLoginSecretField(
   plaintext: string,
   encryptedField: string,
@@ -97,21 +126,19 @@ export async function wrapLoginSecretField(
   const value = plaintext.trim();
   if (!value) return {};
 
-  if (!canEncryptLoginSecrets()) {
+  if (!isShellLoginBffEnabled() || !canEncryptLoginSecrets()) {
     return { [plainField]: value };
   }
 
-  const publicKey = await fetchLoginPublicKeyPem();
-  if (!publicKey) {
+  const session = await fetchCryptoSession();
+  if (!session) {
     return { [plainField]: value };
   }
 
-  return {
-    [encryptedField]: await encryptLoginSecret(value, publicKey),
-  };
+  return { [encryptedField]: await encryptLoginSecret(value, session) };
 }
 
 export function clearLoginPublicKeyCache(): void {
-  cachedPublicKeyPem = null;
-  publicKeyPromise = null;
+  cachedSession = null;
+  sessionPromise = null;
 }
