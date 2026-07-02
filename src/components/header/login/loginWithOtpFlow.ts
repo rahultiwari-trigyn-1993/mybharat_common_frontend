@@ -15,10 +15,13 @@ import {
 import { fetchInternalKeycloakClientAccessToken } from './shellLoginGateway';
 import { submitEstablishSessionForm, type EstablishSessionFlow } from './establishSessionForm';
 import { readMbAppTokenFromGatewayResponse, syncShellLoginCookieDomainFromDom } from './authSessionCookies';
-import { GATEWAY_PATHS } from '../../../config/apiPaths';
+import { GATEWAY_PATHS, BFF_INTERNAL_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
 import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
 import { AUTH_CONFIG } from '../../../config/auth';
+import { wrapLoginSecretField } from './loginPayloadSecret';
+import { postShellLoginBffJson } from './shellLoginBff';
+import { isShellLoginBffEnabled } from './shellLoginProxyConfig';
 
 const DEFAULT_ERROR = DEFAULT_API_ERROR_MESSAGE;
 const REG_CODE_STORAGE_KEY = AUTH_CONFIG.storageKeys.regCode;
@@ -109,11 +112,65 @@ async function parseJsonResponse<T extends LoginOtpApiResponse>(res: Response, t
   }
 }
 
+async function prepareBffGatewayBody(
+  path: string,
+  body: Record<string, unknown>,
+): Promise<Record<string, unknown>> {
+  if (path === GATEWAY_PATHS.keycloakLogin && typeof body.password === 'string') {
+    const { password, ...rest } = body;
+    return {
+      ...rest,
+      ...(await wrapLoginSecretField(String(password), 'password_secret', 'password')),
+    };
+  }
+  if (path === GATEWAY_PATHS.keycloakChangePassword && typeof body.password === 'string') {
+    const { password, ...rest } = body;
+    return {
+      ...rest,
+      ...(await wrapLoginSecretField(String(password), 'password_secret', 'password')),
+    };
+  }
+  return body;
+}
+
+function gatewayPathToBffPath(path: string): string | undefined {
+  switch (path) {
+    case GATEWAY_PATHS.keycloakLogin:
+      return BFF_INTERNAL_PATHS.keycloakLogin;
+    case GATEWAY_PATHS.keycloakGetExchangeToken:
+      return BFF_INTERNAL_PATHS.keycloakExchangeToken;
+    case GATEWAY_PATHS.keycloakForgotPassword:
+      return BFF_INTERNAL_PATHS.keycloakForgotPassword;
+    case GATEWAY_PATHS.keycloakChangePassword:
+      return BFF_INTERNAL_PATHS.keycloakChangePassword;
+    default:
+      return undefined;
+  }
+}
+
 async function postGatewayJson<T extends LoginOtpApiResponse>(
   path: string,
   body: Record<string, unknown>,
   bearerToken?: string
 ): Promise<T> {
+  const bffPath = gatewayPathToBffPath(path);
+  if (bffPath && isShellLoginBffEnabled()) {
+    try {
+      const payload = await prepareBffGatewayBody(path, body);
+      const data = await postShellLoginBffJson<T & Record<string, unknown>>(bffPath, payload);
+      const statusCode = inferApiStatusCode(data as ApiErrorPayload);
+      return normalizeApiResponse(
+        data as ApiErrorPayload,
+        typeof statusCode === 'number' ? statusCode : 200,
+      ) as T;
+    } catch (err) {
+      return {
+        status_code: 500,
+        message: resolveLoginFlowError(err),
+      } as T;
+    }
+  }
+
   const headers: Record<string, string> = {
     'Content-Type': 'Application/json',
     Accept: 'Application/json',
@@ -254,11 +311,13 @@ export async function completeLoginWithOtp(
     return { status_code: 500, message: 'Something went wrong! Please try again.' };
   }
 
-  let clientToken: string;
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  let clientToken: string | undefined;
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
 
   const exchange = await postGatewayJson<LoginOtpApiResponse>(
@@ -282,11 +341,13 @@ export async function completePasswordSignIn(
   username: string,
   password: string
 ): Promise<LoginOtpApiResponse | LoginOtpRedirectResult> {
-  let clientToken: string;
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  let clientToken: string | undefined;
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
 
   const loginRes = await postGatewayJson<LoginOtpApiResponse>(
@@ -409,11 +470,13 @@ export async function completeForgotPasswordUpdate(
     return { status_code: 500, message: DEFAULT_ERROR };
   }
 
-  let clientToken: string;
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  let clientToken: string | undefined;
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
 
   const forgotRes = await postGatewayJson<LoginOtpApiResponse>(
@@ -434,10 +497,12 @@ export async function completeForgotPasswordUpdate(
     return { status_code: 500, message: DEFAULT_ERROR };
   }
 
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
 
   const changeRes = await postGatewayJson<LoginOtpApiResponse>(

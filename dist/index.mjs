@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.247 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.250 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -5238,6 +5238,13 @@ function readBaseUrlFromDom() {
 function readApiBaseUrlFromDom() {
   return document.querySelector("mybharat-header")?.getAttribute("api-base-url")?.trim();
 }
+function readApiProxyBaseUrlFromDom() {
+  const header = document.querySelector("mybharat-header");
+  return header?.getAttribute("api-proxy-base-url")?.trim() || header?.getAttribute("api-proxy-baseurl")?.trim();
+}
+function readConfiguredApiProxyBaseUrl() {
+  return window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() || readApiProxyBaseUrlFromDom();
+}
 function readEnvironmentFromDom() {
   return document.querySelector("mybharat-header")?.getAttribute("environment")?.trim();
 }
@@ -5263,8 +5270,8 @@ function assertRequiredClientConfig(props) {
     alertOnce("baseUrl", "Base Url is not configured");
     ok = false;
   }
-  if (!merged.apiBaseUrl) {
-    alertOnce("apiBaseUrl", "Api Base Url is not configured");
+  if (!merged.apiBaseUrl && !readConfiguredApiProxyBaseUrl()) {
+    alertOnce("apiBaseUrl", "Api Base Url or login proxy (api-proxy-base-url) is not configured");
     ok = false;
   }
   if (!isValidEnvironment(merged.environment)) {
@@ -5314,6 +5321,7 @@ function resolveShellLoginConfig(props) {
     oauthUsername: props?.oauthUsername?.trim() || shell.oauthUsername?.trim(),
     oauthPassword: props?.oauthPassword?.trim() || shell.oauthPassword?.trim(),
     cookieDomain: props?.cookieDomain?.trim() || shell.cookieDomain?.trim(),
+    apiProxyBaseUrl: props?.apiProxyBaseUrl?.trim() || shell.apiProxyBaseUrl?.trim(),
     publicProfileApiBaseUrl: props?.publicProfileApiBaseUrl?.trim() || shell.publicProfileApiBaseUrl?.trim(),
     recaptchaSiteKey: props?.recaptchaSiteKey?.trim(),
     feedbackApiBaseUrl: props?.feedbackApiBaseUrl?.trim(),
@@ -5938,8 +5946,21 @@ var GATEWAY_PATHS = {
   saveFeedbackData: "/saveFeedbackData",
   triggerYouthReward: "/trigger-youth-reward-points"
 };
+var SHELL_LOGIN_PROXY_DEFAULT = "/mybharat-shell-api";
+var BFF_INTERNAL_PATHS = {
+  kcClient: "/_internal/kc-client",
+  guestOauth: "/_internal/guest-oauth",
+  loginPubkey: "/_internal/login-pubkey",
+  keycloakLogin: "/_internal/keycloak-login",
+  verifyGuestOtp: "/_internal/verify-guest-otp",
+  sendGuestOtp: "/_internal/send-guest-otp",
+  checkUserExists: "/_internal/check-user-exists",
+  keycloakExchangeToken: "/_internal/keycloak-exchange-token",
+  keycloakForgotPassword: "/_internal/keycloak-forgot-password",
+  keycloakChangePassword: "/_internal/keycloak-change-password"
+};
 var INTERNAL_PATHS = {
-  proxyDefault: "/mybharat-shell-api"
+  proxyDefault: SHELL_LOGIN_PROXY_DEFAULT
 };
 var PROXY_REWRITES = {
   kcClient: "/api/getKeycloakClientAccessToken",
@@ -5984,6 +6005,111 @@ function resolveBrowserApiBaseUrl(configured) {
   return trimmed;
 }
 
+// src/components/header/login/shellLoginProxyConfig.ts
+function readHeaderProxyAttribute() {
+  if (typeof document === "undefined") return "";
+  const headerEl = document.querySelector("mybharat-header");
+  if (!headerEl) return "";
+  return headerEl.getAttribute("api-proxy-base-url")?.trim() || headerEl.getAttribute("api-proxy-baseurl")?.trim() || "";
+}
+function syncShellLoginProxyConfigFromDom() {
+  const apiProxyBaseUrl = readHeaderProxyAttribute();
+  if (!apiProxyBaseUrl) return;
+  window.MYBHARAT_SHELL = {
+    ...window.MYBHARAT_SHELL,
+    login: {
+      ...window.MYBHARAT_SHELL?.login,
+      apiProxyBaseUrl
+    }
+  };
+}
+function readShellLoginProxyPrefix() {
+  syncShellLoginProxyConfigFromDom();
+  return window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() || readHeaderProxyAttribute() || "";
+}
+function isShellLoginBffEnabled() {
+  return Boolean(readShellLoginProxyPrefix());
+}
+
+// src/components/header/login/shellLoginBff.ts
+function buildShellLoginBffUrl(relativePath) {
+  syncShellLoginProxyConfigFromDom();
+  const prefix = readShellLoginProxyPrefix().replace(/\/$/, "");
+  const path = relativePath.startsWith("/") ? relativePath : `/${relativePath}`;
+  if (!prefix) return path;
+  return `${prefix}${path}`;
+}
+function buildRefreshQuery(forceRefresh) {
+  return forceRefresh ? "?refresh=1" : "";
+}
+async function postShellLoginBffJson(relativePath, body, options) {
+  const url = `${buildShellLoginBffUrl(relativePath)}${buildRefreshQuery(Boolean(options?.forceRefresh))}`;
+  let res;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...options?.forceRefresh ? { "X-Shell-Auth-Refresh": "1" } : {}
+      },
+      body: JSON.stringify(body)
+    });
+  } catch {
+    throw new Error("Unable to reach the login service. Please try again.");
+  }
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { status_code: res.status, message: text || "Login service error." };
+  }
+}
+function readBearerFromBffResponse(data) {
+  const direct = typeof data.access_token === "string" && data.access_token.trim() || typeof data.accessToken === "string" && data.accessToken.trim() || typeof data.token === "string" && data.token.trim() || "";
+  if (direct) return direct.replace(/^bearer\s+/i, "").trim();
+  const nested = data.data;
+  if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+    const node = nested;
+    const token = typeof node.access_token === "string" && node.access_token.trim() || typeof node.accessToken === "string" && node.accessToken.trim() || "";
+    if (token) return token.replace(/^bearer\s+/i, "").trim();
+  }
+  return "";
+}
+async function fetchBffKeycloakClientAccessToken(forceRefresh = false) {
+  if (!isShellLoginBffEnabled()) {
+    throw new Error("Login proxy is not configured.");
+  }
+  const data = await postShellLoginBffJson(
+    BFF_INTERNAL_PATHS.kcClient,
+    {},
+    { forceRefresh }
+  );
+  const token = readBearerFromBffResponse(data);
+  if (!token) {
+    const message = typeof data.message === "string" && data.message.trim() ? data.message : "Keycloak client token failed.";
+    throw new Error(message);
+  }
+  return token;
+}
+async function fetchBffGuestOauthAccessToken(forceRefresh = false) {
+  if (!isShellLoginBffEnabled()) {
+    throw new Error("Login proxy is not configured.");
+  }
+  const data = await postShellLoginBffJson(
+    BFF_INTERNAL_PATHS.guestOauth,
+    {},
+    { forceRefresh }
+  );
+  const token = readBearerFromBffResponse(data);
+  if (!token) {
+    const message = typeof data.message === "string" && data.message.trim() ? data.message : "Guest OAuth token failed.";
+    throw new Error(message);
+  }
+  return token;
+}
+
 // src/components/header/login/shellLoginGateway.ts
 var ShellGatewayAuthError = class extends Error {
   constructor(message) {
@@ -5994,6 +6120,7 @@ var ShellGatewayAuthError = class extends Error {
 var cachedKeycloakClientToken = null;
 var keycloakClientTokenPromise = null;
 var cachedGuestOauthToken = null;
+var warnedLegacyOauthInPage = false;
 function clearShellInternalKcAuthCache() {
   cachedKeycloakClientToken = null;
   keycloakClientTokenPromise = null;
@@ -6001,6 +6128,13 @@ function clearShellInternalKcAuthCache() {
 function clearShellInternalAuthCache() {
   clearShellInternalKcAuthCache();
   cachedGuestOauthToken = null;
+}
+function warnLegacyOauthInPageOnce() {
+  if (warnedLegacyOauthInPage || typeof console === "undefined") return;
+  warnedLegacyOauthInPage = true;
+  console.warn(
+    "[mybharat-shell] Direct APIGateway login mode: set api-proxy-base-url on <mybharat-header> and remove oauth-username/oauth-password from the page. See docs/cakephp-shell-auth-bff.md"
+  );
 }
 function readApiBaseUrl() {
   const fromShell = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
@@ -6081,13 +6215,14 @@ async function parseGatewayJson(res) {
   }
 }
 function readOauthCredentials() {
+  warnLegacyOauthInPageOnce();
   const login = window.MYBHARAT_SHELL?.login;
   return {
     username: login?.oauthUsername?.trim() ?? "",
     password: login?.oauthPassword?.trim() ?? ""
   };
 }
-async function fetchInternalKeycloakClientAccessToken(forceRefresh = false) {
+async function fetchDirectKeycloakClientAccessToken(forceRefresh = false) {
   if (forceRefresh) clearShellInternalKcAuthCache();
   if (cachedKeycloakClientToken) return cachedKeycloakClientToken;
   if (keycloakClientTokenPromise) return keycloakClientTokenPromise;
@@ -6123,13 +6258,13 @@ async function fetchInternalKeycloakClientAccessToken(forceRefresh = false) {
     if (cachedKeycloakClientToken) keycloakClientTokenPromise = null;
   }
 }
-async function fetchInternalGuestOauthAccessToken(forceRefresh = false) {
+async function fetchDirectGuestOauthAccessToken(forceRefresh = false) {
   if (forceRefresh) cachedGuestOauthToken = null;
   if (cachedGuestOauthToken) return cachedGuestOauthToken;
   const { username, password } = readOauthCredentials();
   if (!username || !password) {
     throw new ShellGatewayAuthError(
-      "Guest OAuth is not configured. Set MYBHARAT_SHELL.login.oauthUsername and oauthPassword."
+      "Guest OAuth is not configured. Set api-proxy-base-url on the host, or MYBHARAT_SHELL.login.oauthUsername and oauthPassword."
     );
   }
   let res;
@@ -6153,6 +6288,26 @@ async function fetchInternalGuestOauthAccessToken(forceRefresh = false) {
   }
   cachedGuestOauthToken = token;
   return token;
+}
+async function fetchInternalKeycloakClientAccessToken(forceRefresh = false) {
+  if (isShellLoginBffEnabled()) {
+    if (forceRefresh) clearShellInternalKcAuthCache();
+    if (cachedKeycloakClientToken && !forceRefresh) return cachedKeycloakClientToken;
+    const token = await fetchBffKeycloakClientAccessToken(forceRefresh);
+    cachedKeycloakClientToken = token;
+    return token;
+  }
+  return fetchDirectKeycloakClientAccessToken(forceRefresh);
+}
+async function fetchInternalGuestOauthAccessToken(forceRefresh = false) {
+  if (isShellLoginBffEnabled()) {
+    if (forceRefresh) cachedGuestOauthToken = null;
+    if (cachedGuestOauthToken && !forceRefresh) return cachedGuestOauthToken;
+    const token = await fetchBffGuestOauthAccessToken(forceRefresh);
+    cachedGuestOauthToken = token;
+    return token;
+  }
+  return fetchDirectGuestOauthAccessToken(forceRefresh);
 }
 
 // src/config/auth.ts
@@ -6233,19 +6388,88 @@ function readMbAppTokenFromGatewayResponse(authResponse) {
   }
   return rootAccessToken || keycloakAccessToken;
 }
+function readHeaderCookieDomainAttribute() {
+  if (typeof document === "undefined") return "";
+  const headerEl = document.querySelector("mybharat-header");
+  if (!headerEl) return "";
+  return headerEl.getAttribute("cookie-domain")?.trim() || headerEl.getAttribute("cookiedomain")?.trim() || "";
+}
+function readCurrentHostname() {
+  if (typeof window === "undefined") return "";
+  return window.location.hostname.trim().toLowerCase();
+}
+function isLocalhostLikeHost(host) {
+  return host === "localhost" || host === "127.0.0.1" || /^\d{1,3}(\.\d{1,3}){3}$/.test(host);
+}
+function isLocalhostLikeDomain(domain) {
+  const bare = domain.replace(/^\./, "").toLowerCase();
+  return bare === "localhost" || bare === "127.0.0.1" || /^\d{1,3}(\.\d{1,3}){3}$/.test(bare);
+}
+var warnedCookieDomains = /* @__PURE__ */ new Set();
+function warnCookieDomainOnce(configured, hostname, reason) {
+  if (typeof console === "undefined") return;
+  const key = `${configured}|${hostname}|${reason}`;
+  if (warnedCookieDomains.has(key)) return;
+  warnedCookieDomains.add(key);
+  console.warn(
+    `[mybharat-shell] cookie-domain "${configured}" ignored on "${hostname}": ${reason}. Use a parent domain with a leading dot (e.g. ".local.com" for digisevak.local.com) or omit cookie-domain for host-only cookies.`
+  );
+}
+function formatAuthCookieDomainPart(configuredOrApiDomain) {
+  const hostname = readCurrentHostname();
+  const configured = (configuredOrApiDomain ?? readConfiguredShellCookieDomain()).trim();
+  if (!configured) return "";
+  if (isLocalhostLikeDomain(configured)) {
+    if (!isLocalhostLikeHost(hostname)) {
+      warnCookieDomainOnce(
+        configured,
+        hostname,
+        "localhost/IP cookie domains cannot be set from this host"
+      );
+    }
+    return "";
+  }
+  const bare = configured.replace(/^\./, "").toLowerCase();
+  const allowed = hostname === bare || hostname.endsWith(`.${bare}`);
+  if (!allowed) {
+    warnCookieDomainOnce(
+      configured,
+      hostname,
+      "configured domain is not a suffix of the current host"
+    );
+    return "";
+  }
+  if (hostname === bare) {
+    return "";
+  }
+  return `;domain=.${bare}`;
+}
+function syncShellLoginCookieDomainFromDom() {
+  const cookieDomain = readHeaderCookieDomainAttribute();
+  if (!cookieDomain) return;
+  window.MYBHARAT_SHELL = {
+    ...window.MYBHARAT_SHELL,
+    login: {
+      ...window.MYBHARAT_SHELL?.login,
+      cookieDomain
+    }
+  };
+}
+function readConfiguredShellCookieDomain() {
+  syncShellLoginCookieDomainFromDom();
+  return window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || readHeaderCookieDomainAttribute();
+}
 function readShellCookieDomain() {
-  const configured = window.MYBHARAT_SHELL?.login?.cookieDomain?.trim();
-  if (configured) return configured;
-  return window.location.hostname;
+  return readConfiguredShellCookieDomain() || window.location.hostname;
 }
 function setMbAuthSessionCookies(tokenValue, options) {
   const value = tokenValue.trim();
   if (!value) return;
+  syncShellLoginCookieDomainFromDom();
   const expiry = new Date(
     Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
   ).toUTCString();
-  const domain = (options?.cookieDomain ?? readShellCookieDomain()).trim();
-  const domainPart = domain ? `;domain=${domain}` : "";
+  const domainPart = formatAuthCookieDomainPart(options?.cookieDomain);
   const names = AUTH_CONFIG.cookieNames;
   document.cookie = `${names.token}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
   document.cookie = `${names.tokenEssays}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
@@ -6287,6 +6511,84 @@ function submitEstablishSessionForm(params) {
   }
   document.body.appendChild(form);
   form.submit();
+}
+
+// src/components/header/login/loginPayloadSecret.ts
+var cachedPublicKeyPem = null;
+var publicKeyPromise = null;
+function canEncryptLoginSecrets() {
+  return typeof window !== "undefined" && window.isSecureContext === true && typeof window.crypto?.subtle?.encrypt === "function";
+}
+function pemToBinary(pem) {
+  const base64 = pem.replace(/-----BEGIN PUBLIC KEY-----/g, "").replace(/-----END PUBLIC KEY-----/g, "").replace(/\s/g, "");
+  const raw = atob(base64);
+  const bytes = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i += 1) {
+    bytes[i] = raw.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+async function importRsaPublicKey(pem) {
+  return crypto.subtle.importKey(
+    "spki",
+    pemToBinary(pem),
+    { name: "RSA-OAEP", hash: "SHA-256" },
+    false,
+    ["encrypt"]
+  );
+}
+async function encryptLoginSecret(plaintext, publicKeyPem) {
+  const key = await importRsaPublicKey(publicKeyPem);
+  const encoded = new TextEncoder().encode(plaintext);
+  const ciphertext = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoded);
+  const bytes = new Uint8Array(ciphertext);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += 1) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return {
+    v: 1,
+    alg: "RSA-OAEP",
+    ciphertext: btoa(binary)
+  };
+}
+async function fetchLoginPublicKeyPem() {
+  if (cachedPublicKeyPem) return cachedPublicKeyPem;
+  if (publicKeyPromise) return publicKeyPromise;
+  publicKeyPromise = (async () => {
+    try {
+      const res = await postShellLoginBffJson(
+        BFF_INTERNAL_PATHS.loginPubkey,
+        {}
+      );
+      const pem = res.public_key?.trim();
+      if (pem) {
+        cachedPublicKeyPem = pem;
+        return pem;
+      }
+    } catch {
+    }
+    return null;
+  })();
+  try {
+    return await publicKeyPromise;
+  } finally {
+    publicKeyPromise = null;
+  }
+}
+async function wrapLoginSecretField(plaintext, encryptedField, plainField) {
+  const value = plaintext.trim();
+  if (!value) return {};
+  if (!canEncryptLoginSecrets()) {
+    return { [plainField]: value };
+  }
+  const publicKey = await fetchLoginPublicKeyPem();
+  if (!publicKey) {
+    return { [plainField]: value };
+  }
+  return {
+    [encryptedField]: await encryptLoginSecret(value, publicKey)
+  };
 }
 
 // src/components/header/login/loginWithOtpFlow.ts
@@ -6331,7 +6633,55 @@ async function parseJsonResponse(res, text) {
     };
   }
 }
+async function prepareBffGatewayBody(path, body) {
+  if (path === GATEWAY_PATHS.keycloakLogin && typeof body.password === "string") {
+    const { password, ...rest } = body;
+    return {
+      ...rest,
+      ...await wrapLoginSecretField(String(password), "password_secret", "password")
+    };
+  }
+  if (path === GATEWAY_PATHS.keycloakChangePassword && typeof body.password === "string") {
+    const { password, ...rest } = body;
+    return {
+      ...rest,
+      ...await wrapLoginSecretField(String(password), "password_secret", "password")
+    };
+  }
+  return body;
+}
+function gatewayPathToBffPath(path) {
+  switch (path) {
+    case GATEWAY_PATHS.keycloakLogin:
+      return BFF_INTERNAL_PATHS.keycloakLogin;
+    case GATEWAY_PATHS.keycloakGetExchangeToken:
+      return BFF_INTERNAL_PATHS.keycloakExchangeToken;
+    case GATEWAY_PATHS.keycloakForgotPassword:
+      return BFF_INTERNAL_PATHS.keycloakForgotPassword;
+    case GATEWAY_PATHS.keycloakChangePassword:
+      return BFF_INTERNAL_PATHS.keycloakChangePassword;
+    default:
+      return void 0;
+  }
+}
 async function postGatewayJson(path, body, bearerToken) {
+  const bffPath = gatewayPathToBffPath(path);
+  if (bffPath && isShellLoginBffEnabled()) {
+    try {
+      const payload = await prepareBffGatewayBody(path, body);
+      const data = await postShellLoginBffJson(bffPath, payload);
+      const statusCode = inferApiStatusCode(data);
+      return normalizeApiResponse(
+        data,
+        typeof statusCode === "number" ? statusCode : 200
+      );
+    } catch (err) {
+      return {
+        status_code: 500,
+        message: resolveLoginFlowError(err)
+      };
+    }
+  }
   const headers = {
     "Content-Type": "Application/json",
     Accept: "Application/json"
@@ -6409,12 +6759,12 @@ function submitPortalEstablishSession(flow, username, authResponse) {
     assertRequiredClientConfig();
     throw new Error("Portal base URL is not configured for establish_session.");
   }
+  syncShellLoginCookieDomainFromDom();
   submitEstablishSessionForm({
     baseUrl,
     flow,
     username,
-    authResponse,
-    cookieDomain: window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || void 0
+    authResponse
   });
   return { redirecting: true };
 }
@@ -6427,10 +6777,12 @@ async function completeLoginWithOtp(username) {
     return { status_code: 500, message: "Something went wrong! Please try again." };
   }
   let clientToken;
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
   const exchange = await postGatewayJson(
     GATEWAY_PATHS.keycloakGetExchangeToken,
@@ -6448,10 +6800,12 @@ async function completeLoginWithOtp(username) {
 }
 async function completePasswordSignIn(username, password) {
   let clientToken;
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
   const loginRes = await postGatewayJson(
     GATEWAY_PATHS.keycloakLogin,
@@ -6535,10 +6889,12 @@ async function completeForgotPasswordUpdate(identifier, password) {
     return { status_code: 500, message: DEFAULT_ERROR };
   }
   let clientToken;
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
   const forgotRes = await postGatewayJson(
     GATEWAY_PATHS.keycloakForgotPassword,
@@ -6555,10 +6911,12 @@ async function completeForgotPasswordUpdate(identifier, password) {
   if (!userId || !dlId) {
     return { status_code: 500, message: DEFAULT_ERROR };
   }
-  try {
-    clientToken = await fetchClientAccessToken();
-  } catch (err) {
-    return { status_code: 500, message: resolveLoginFlowError(err) };
+  if (!isShellLoginBffEnabled()) {
+    try {
+      clientToken = await fetchClientAccessToken();
+    } catch (err) {
+      return { status_code: 500, message: resolveLoginFlowError(err) };
+    }
   }
   const changeRes = await postGatewayJson(
     GATEWAY_PATHS.keycloakChangePassword,
@@ -6721,20 +7079,16 @@ function clearLoginStorage() {
   } catch {
   }
 }
-function cookieExists(name) {
-  return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
-}
 function setAuthCookies(tokenValue, domain, encryptIdValue) {
   const expiry = new Date(
     Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
   ).toUTCString();
+  const domainPart = formatAuthCookieDomainPart(domain);
   const names = AUTH_CONFIG.cookieNames;
-  if (!cookieExists(names.token) && !cookieExists(names.tokenEssays)) {
-    document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
-    document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
-  }
+  document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/${domainPart}`;
+  document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/${domainPart}`;
   if (encryptIdValue) {
-    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${domain};`;
+    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/${domainPart}`;
   }
 }
 function resolveFirebaseTrackingUserId(loginRes) {
@@ -6777,6 +7131,8 @@ function syncShellLoginApiConfigFromDom() {
   const apiBaseUrl = headerEl?.getAttribute("api-base-url")?.trim();
   const baseUrl = headerEl?.getAttribute("login-base-url")?.trim();
   if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+  syncShellLoginCookieDomainFromDom();
+  syncShellLoginProxyConfigFromDom();
   if (!baseUrl && !apiBaseUrl) return;
   window.MYBHARAT_SHELL = {
     ...window.MYBHARAT_SHELL,
@@ -7287,6 +7643,9 @@ async function sendGuestOtp(data) {
     };
   }
   try {
+    if (isShellLoginBffEnabled()) {
+      return await postShellLoginBffJson(BFF_INTERNAL_PATHS.sendGuestOtp, form);
+    }
     let accessToken = await getOauthAccessToken();
     let res = await fetchLoginApiFormPost(
       GATEWAY_PATHS.sendMobileGuestUserOtp,
@@ -7320,6 +7679,14 @@ async function verifyGuestUserOtp(identifier, otp) {
     form.user_phone = "";
   }
   try {
+    if (isShellLoginBffEnabled()) {
+      const { otp: otpValue, ...rest } = form;
+      const wrapped = await wrapLoginSecretField(String(otpValue ?? ""), "otp_secret", "otp");
+      return await postShellLoginBffJson(BFF_INTERNAL_PATHS.verifyGuestOtp, {
+        ...rest,
+        ...wrapped
+      });
+    }
     let accessToken = await getOauthAccessToken();
     let res = await fetchLoginApiFormPost(
       GATEWAY_PATHS.verifyGuestUserOtp,
@@ -7347,6 +7714,12 @@ function readKeycloakGivenData(message) {
 }
 async function checkUserInKeycloak(identifier) {
   try {
+    if (isShellLoginBffEnabled()) {
+      return await postShellLoginBffJson(
+        BFF_INTERNAL_PATHS.checkUserExists,
+        { identifier }
+      );
+    }
     let accessToken = await getKeycloakClientAccessToken();
     let check = await fetchCheckUserExists(identifier, accessToken);
     if (isKeycloakUnauthorizedResponse(check)) {
@@ -8666,6 +9039,7 @@ function applyHeaderLoginConfig(config) {
   });
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const environment = config?.environment?.trim();
   const oauthUsername = config?.oauthUsername?.trim();
   const oauthPassword = config?.oauthPassword?.trim();
@@ -8673,7 +9047,7 @@ function applyHeaderLoginConfig(config) {
   const publicProfileApiBaseUrl = config?.publicProfileApiBaseUrl?.trim();
   const cookieDomain = config?.cookieDomain?.trim();
   const cdnBase = config?.cdnBase?.trim();
-  if (!baseUrl && !apiBaseUrl && !environment && !cdnBase && !oauthUsername && !oauthPassword && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
+  if (!baseUrl && !apiBaseUrl && !apiProxyBaseUrl && !environment && !cdnBase && !oauthUsername && !oauthPassword && !ipAddress && !publicProfileApiBaseUrl && !cookieDomain) {
     return;
   }
   if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
@@ -8687,6 +9061,7 @@ function applyHeaderLoginConfig(config) {
       ...window.MYBHARAT_SHELL?.login,
       ...baseUrl ? { baseUrl } : {},
       ...apiBaseUrl ? { apiBaseUrl } : {},
+      ...apiProxyBaseUrl ? { apiProxyBaseUrl } : {},
       ...environment ? { environment } : {},
       ...oauthUsername ? { oauthUsername } : {},
       ...oauthPassword ? { oauthPassword } : {},
@@ -8700,6 +9075,7 @@ function useHeaderLoginConfig(config) {
   applyHeaderLoginConfig(config);
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const environment = config?.environment?.trim();
   const oauthUsername = config?.oauthUsername?.trim();
   const oauthPassword = config?.oauthPassword?.trim();
@@ -8711,6 +9087,7 @@ function useHeaderLoginConfig(config) {
     applyHeaderLoginConfig({
       baseUrl,
       apiBaseUrl,
+      apiProxyBaseUrl,
       environment,
       cdnBase,
       oauthUsername,
@@ -8722,6 +9099,7 @@ function useHeaderLoginConfig(config) {
   }, [
     baseUrl,
     apiBaseUrl,
+    apiProxyBaseUrl,
     environment,
     cdnBase,
     oauthUsername,
@@ -9033,6 +9411,7 @@ var Header = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  apiProxyBaseUrl,
   environment,
   oauthUsername,
   oauthPassword,
@@ -9044,6 +9423,7 @@ var Header = ({
   useHeaderLoginConfig({
     baseUrl,
     apiBaseUrl,
+    apiProxyBaseUrl,
     environment,
     oauthUsername,
     oauthPassword,
@@ -9107,6 +9487,7 @@ var Header2 = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  apiProxyBaseUrl,
   environment,
   oauthUsername,
   oauthPassword,
@@ -9118,6 +9499,7 @@ var Header2 = ({
   useHeaderLoginConfig({
     baseUrl,
     apiBaseUrl,
+    apiProxyBaseUrl,
     environment,
     oauthUsername,
     oauthPassword,
@@ -10587,7 +10969,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.247";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.250";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   APP_ROUTES,

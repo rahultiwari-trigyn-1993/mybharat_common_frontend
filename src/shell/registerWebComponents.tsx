@@ -20,6 +20,7 @@ const HEADER_OBSERVED = [
   'webroot',
   'login-base-url',
   'api-base-url',
+  'api-proxy-base-url',
   'environment',
   'oauth-username',
   'oauth-password',
@@ -86,6 +87,7 @@ class MyBharatHeaderElement extends HTMLElement {
       webroot,
       baseUrl,
       apiBaseUrl,
+      apiProxyBaseUrl,
       environment,
       oauthUsername,
       oauthPassword,
@@ -104,6 +106,7 @@ class MyBharatHeaderElement extends HTMLElement {
         webroot={webroot}
         baseUrl={baseUrl}
         apiBaseUrl={apiBaseUrl}
+        apiProxyBaseUrl={apiProxyBaseUrl}
         environment={environment}
         oauthUsername={oauthUsername}
         oauthPassword={oauthPassword}

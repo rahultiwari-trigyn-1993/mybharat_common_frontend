@@ -23,9 +23,12 @@ import {
 } from './loginApiErrorMessage';
 import { AUTH_CONFIG } from '../../../config/auth';
 import { syncShellLoginCookieDomainFromDom, formatAuthCookieDomainPart } from './authSessionCookies';
+import { GATEWAY_PATHS, BFF_INTERNAL_PATHS } from '../../../config/apiPaths';
+import { postShellLoginBffJson } from './shellLoginBff';
+import { isShellLoginBffEnabled, syncShellLoginProxyConfigFromDom } from './shellLoginProxyConfig';
+import { wrapLoginSecretField } from './loginPayloadSecret';
 import { APP_ROUTES } from '../../../config/routes';
 import { EXTERNAL_URLS } from '../../../config/external';
-import { GATEWAY_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
 import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
 import { OTP_MESSAGES } from '../../../config/messages';
@@ -248,6 +251,7 @@ function syncShellLoginApiConfigFromDom(): void {
   if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
 
   syncShellLoginCookieDomainFromDom();
+  syncShellLoginProxyConfigFromDom();
 
   if (!baseUrl && !apiBaseUrl) return;
 
@@ -1013,6 +1017,10 @@ async function sendGuestOtp(data: Record<string, string>): Promise<SignInRespons
   }
 
   try {
+    if (isShellLoginBffEnabled()) {
+      return await postShellLoginBffJson<SignInResponse>(BFF_INTERNAL_PATHS.sendGuestOtp, form);
+    }
+
     let accessToken = await getOauthAccessToken();
     let res = await fetchLoginApiFormPost<SignInResponse>(
       GATEWAY_PATHS.sendMobileGuestUserOtp,
@@ -1036,7 +1044,7 @@ async function sendGuestOtp(data: Record<string, string>): Promise<SignInRespons
   }
 }
 
-/** POST verifyGuestUserOtp — direct APIGateway call with guest OAuth bearer. */
+/** POST verifyGuestUserOtp — BFF or direct APIGateway with guest OAuth bearer. */
 async function verifyGuestUserOtp(identifier: string, otp: string): Promise<SignInResponse> {
   const form: Record<string, string> = { otp };
   if (validateEmail(identifier)) {
@@ -1051,6 +1059,15 @@ async function verifyGuestUserOtp(identifier: string, otp: string): Promise<Sign
   }
 
   try {
+    if (isShellLoginBffEnabled()) {
+      const { otp: otpValue, ...rest } = form;
+      const wrapped = await wrapLoginSecretField(String(otpValue ?? ''), 'otp_secret', 'otp');
+      return await postShellLoginBffJson<SignInResponse>(BFF_INTERNAL_PATHS.verifyGuestOtp, {
+        ...rest,
+        ...wrapped,
+      });
+    }
+
     let accessToken = await getOauthAccessToken();
     let res = await fetchLoginApiFormPost<SignInResponse>(
       GATEWAY_PATHS.verifyGuestUserOtp,
@@ -1086,6 +1103,13 @@ function readKeycloakGivenData(message: KeycloakCheckResponse['message']): strin
 
 async function checkUserInKeycloak(identifier: string): Promise<KeycloakCheckResponse> {
   try {
+    if (isShellLoginBffEnabled()) {
+      return await postShellLoginBffJson<KeycloakCheckResponse>(
+        BFF_INTERNAL_PATHS.checkUserExists,
+        { identifier },
+      );
+    }
+
     let accessToken = await getKeycloakClientAccessToken();
     let check = await fetchCheckUserExists(identifier, accessToken);
 

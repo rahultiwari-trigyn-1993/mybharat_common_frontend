@@ -1,7 +1,6 @@
 /**
- * Direct APIGateway login calls from the browser (no host /mybharat-shell-api proxy).
- * Set `apiBaseUrl` (e.g. `https://api.example.com/api` or same-origin `/api`).
- * For guest OTP, set `MYBHARAT_SHELL.login.oauthUsername` / `oauthPassword`.
+ * APIGateway auth tokens — uses same-origin BFF when `api-proxy-base-url` is configured,
+ * otherwise falls back to direct APIGateway calls (legacy; requires oauth in page config).
  */
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
 import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
@@ -11,6 +10,11 @@ import {
   resolveUserFacingApiError,
   type ApiErrorPayload,
 } from './loginApiErrorMessage';
+import {
+  fetchBffGuestOauthAccessToken,
+  fetchBffKeycloakClientAccessToken,
+} from './shellLoginBff';
+import { isShellLoginBffEnabled } from './shellLoginProxyConfig';
 
 export class ShellGatewayAuthError extends Error {
   constructor(message: string) {
@@ -22,6 +26,7 @@ export class ShellGatewayAuthError extends Error {
 let cachedKeycloakClientToken: string | null = null;
 let keycloakClientTokenPromise: Promise<string> | null = null;
 let cachedGuestOauthToken: string | null = null;
+let warnedLegacyOauthInPage = false;
 
 export function clearShellInternalKcAuthCache(): void {
   cachedKeycloakClientToken = null;
@@ -31,6 +36,15 @@ export function clearShellInternalKcAuthCache(): void {
 export function clearShellInternalAuthCache(): void {
   clearShellInternalKcAuthCache();
   cachedGuestOauthToken = null;
+}
+
+function warnLegacyOauthInPageOnce(): void {
+  if (warnedLegacyOauthInPage || typeof console === 'undefined') return;
+  warnedLegacyOauthInPage = true;
+  console.warn(
+    '[mybharat-shell] Direct APIGateway login mode: set api-proxy-base-url on <mybharat-header> ' +
+      'and remove oauth-username/oauth-password from the page. See docs/cakephp-shell-auth-bff.md',
+  );
 }
 
 function readApiBaseUrl(): string {
@@ -108,7 +122,7 @@ function decodeJwtHeaderAlg(token: string): string {
   try {
     const parts = token.split('.');
     if (parts.length < 1) return '';
-    const base64 = parts[0].replace(/-/g, '+').replace(/_/g, '/');
+    const base64 = parts[0]!.replace(/-/g, '+').replace(/_/g, '/');
     const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
     const header = JSON.parse(atob(padded)) as { alg?: string };
     return header.alg ?? '';
@@ -124,7 +138,7 @@ async function parseGatewayJson(res: Response): Promise<Record<string, unknown>>
     if (Array.isArray(parsed)) {
       return normalizeApiResponse(
         { status_code: res.status, data: parsed } as ApiErrorPayload,
-        res.status
+        res.status,
       ) as Record<string, unknown>;
     }
     return normalizeApiResponse(parsed as ApiErrorPayload, res.status) as Record<string, unknown>;
@@ -134,6 +148,7 @@ async function parseGatewayJson(res: Response): Promise<Record<string, unknown>>
 }
 
 function readOauthCredentials(): { username: string; password: string } {
+  warnLegacyOauthInPageOnce();
   const login = window.MYBHARAT_SHELL?.login;
   return {
     username: login?.oauthUsername?.trim() ?? '',
@@ -141,10 +156,7 @@ function readOauthCredentials(): { username: string; password: string } {
   };
 }
 
-/** POST {apiBaseUrl}/getKeycloakClientAccessToken */
-export async function fetchInternalKeycloakClientAccessToken(
-  forceRefresh = false
-): Promise<string> {
+async function fetchDirectKeycloakClientAccessToken(forceRefresh = false): Promise<string> {
   if (forceRefresh) clearShellInternalKcAuthCache();
   if (cachedKeycloakClientToken) return cachedKeycloakClientToken;
   if (keycloakClientTokenPromise) return keycloakClientTokenPromise;
@@ -184,17 +196,14 @@ export async function fetchInternalKeycloakClientAccessToken(
   }
 }
 
-/** POST {apiBaseUrl}/oauth with guest credentials from MYBHARAT_SHELL.login */
-export async function fetchInternalGuestOauthAccessToken(
-  forceRefresh = false
-): Promise<string> {
+async function fetchDirectGuestOauthAccessToken(forceRefresh = false): Promise<string> {
   if (forceRefresh) cachedGuestOauthToken = null;
   if (cachedGuestOauthToken) return cachedGuestOauthToken;
 
   const { username, password } = readOauthCredentials();
   if (!username || !password) {
     throw new ShellGatewayAuthError(
-      'Guest OAuth is not configured. Set MYBHARAT_SHELL.login.oauthUsername and oauthPassword.'
+      'Guest OAuth is not configured. Set api-proxy-base-url on the host, or MYBHARAT_SHELL.login.oauthUsername and oauthPassword.',
     );
   }
 
@@ -220,4 +229,32 @@ export async function fetchInternalGuestOauthAccessToken(
   }
   cachedGuestOauthToken = token;
   return token;
+}
+
+/** Keycloak client access token — via BFF when configured. */
+export async function fetchInternalKeycloakClientAccessToken(
+  forceRefresh = false,
+): Promise<string> {
+  if (isShellLoginBffEnabled()) {
+    if (forceRefresh) clearShellInternalKcAuthCache();
+    if (cachedKeycloakClientToken && !forceRefresh) return cachedKeycloakClientToken;
+    const token = await fetchBffKeycloakClientAccessToken(forceRefresh);
+    cachedKeycloakClientToken = token;
+    return token;
+  }
+  return fetchDirectKeycloakClientAccessToken(forceRefresh);
+}
+
+/** Guest OAuth token for OTP APIs — via BFF when configured. */
+export async function fetchInternalGuestOauthAccessToken(
+  forceRefresh = false,
+): Promise<string> {
+  if (isShellLoginBffEnabled()) {
+    if (forceRefresh) cachedGuestOauthToken = null;
+    if (cachedGuestOauthToken && !forceRefresh) return cachedGuestOauthToken;
+    const token = await fetchBffGuestOauthAccessToken(forceRefresh);
+    cachedGuestOauthToken = token;
+    return token;
+  }
+  return fetchDirectGuestOauthAccessToken(forceRefresh);
 }

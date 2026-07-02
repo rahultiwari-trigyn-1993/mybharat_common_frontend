@@ -1,6 +1,8 @@
 export type { ClientEnvironment, ShellRuntimeConfig } from './types';
 export {
   GATEWAY_PATHS,
+  BFF_INTERNAL_PATHS,
+  SHELL_LOGIN_PROXY_DEFAULT,
   INTERNAL_PATHS,
   PROXY_REWRITES,
   PORTAL_PATHS,

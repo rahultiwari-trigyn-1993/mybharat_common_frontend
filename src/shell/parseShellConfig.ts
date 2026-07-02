@@ -32,6 +32,8 @@ export type ShellFooterConfig = {
 export type ShellLoginConfig = {
   baseUrl?: string;
   apiBaseUrl?: string;
+  /** Same-origin BFF prefix — e.g. `/mybharat-shell-api`. */
+  apiProxyBaseUrl?: string;
   environment?: 'local' | 'dev' | 'beta' | 'prod';
   oauthUsername?: string;
   oauthPassword?: string;
@@ -146,6 +148,10 @@ export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
   return {
     baseUrl: el.getAttribute('login-base-url') ?? global?.baseUrl,
     apiBaseUrl: el.getAttribute('api-base-url') ?? global?.apiBaseUrl,
+    apiProxyBaseUrl:
+      el.getAttribute('api-proxy-base-url') ??
+      el.getAttribute('api-proxy-baseurl') ??
+      global?.apiProxyBaseUrl,
     environment: (el.getAttribute('environment') ?? global?.environment) as
       | ShellLoginConfig['environment']
       | undefined,
@@ -168,6 +174,7 @@ export function resolveHeaderProps(el: HTMLElement): {
   webroot?: string;
   baseUrl?: string;
   apiBaseUrl?: string;
+  apiProxyBaseUrl?: string;
   environment?: 'local' | 'dev' | 'beta' | 'prod';
   oauthUsername?: string;
   oauthPassword?: string;
@@ -190,6 +197,7 @@ export function resolveHeaderProps(el: HTMLElement): {
     webroot: el.getAttribute('webroot') ?? global?.webroot,
     baseUrl: login.baseUrl,
     apiBaseUrl: login.apiBaseUrl,
+    apiProxyBaseUrl: login.apiProxyBaseUrl,
     environment: login.environment,
     oauthUsername: login.oauthUsername,
     oauthPassword: login.oauthPassword,

@@ -26,8 +26,10 @@ interface Window {
     };
     login?: {
       baseUrl?: string;
-      /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
+      /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. Legacy when BFF is used. */
       apiBaseUrl?: string;
+      /** Same-origin login BFF prefix — e.g. `/mybharat-shell-api`. */
+      apiProxyBaseUrl?: string;
       /** When true, rewrite cross-origin apiBaseUrl to same-origin `/api` (host must proxy). */
       sameOriginApi?: boolean;
       /** @deprecated Use sameOriginApi instead. Kept for compatibility — ignored when sameOriginApi is set. */

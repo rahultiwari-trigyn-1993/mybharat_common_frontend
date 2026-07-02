@@ -38,6 +38,7 @@ export function resolveShellLoginConfig(props?: ShellRuntimeConfig): ShellRuntim
     oauthUsername: props?.oauthUsername?.trim() || shell.oauthUsername?.trim(),
     oauthPassword: props?.oauthPassword?.trim() || shell.oauthPassword?.trim(),
     cookieDomain: props?.cookieDomain?.trim() || shell.cookieDomain?.trim(),
+    apiProxyBaseUrl: props?.apiProxyBaseUrl?.trim() || shell.apiProxyBaseUrl?.trim(),
     publicProfileApiBaseUrl:
       props?.publicProfileApiBaseUrl?.trim() || shell.publicProfileApiBaseUrl?.trim(),
     recaptchaSiteKey: props?.recaptchaSiteKey?.trim(),

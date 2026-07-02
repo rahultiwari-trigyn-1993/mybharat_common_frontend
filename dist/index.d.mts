@@ -119,6 +119,7 @@ type ClientEnvironment = 'local' | 'dev' | 'beta' | 'prod';
 type ShellRuntimeConfig = {
     baseUrl?: string;
     apiBaseUrl?: string;
+    apiProxyBaseUrl?: string;
     /** Host environment — required at runtime (`local` | `dev` | `beta` | `prod`). */
     environment?: ClientEnvironment;
     oauthUsername?: string;
@@ -152,6 +153,8 @@ type Header2Props = {
     baseUrl?: string;
     /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
     apiBaseUrl?: string;
+    /** Same-origin login BFF prefix — e.g. `/mybharat-shell-api`. */
+    apiProxyBaseUrl?: string;
     /** Host environment (`local` | `dev` | `beta` | `prod`). */
     environment?: ClientEnvironment;
     oauthUsername?: string;
@@ -180,8 +183,10 @@ type HeaderProps = {
     webroot?: string;
     /** Portal origin for header login redirects (`VITE_BASE_URL`). */
     baseUrl?: string;
-    /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
+    /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. Legacy when BFF is used. */
     apiBaseUrl?: string;
+    /** Same-origin login BFF prefix — e.g. `/mybharat-shell-api`. Recommended for CDN/CakePHP. */
+    apiProxyBaseUrl?: string;
     /** Host environment (`local` | `dev` | `beta` | `prod`). */
     environment?: ClientEnvironment;
     /** Guest OAuth username for OTP APIs. */
@@ -232,9 +237,9 @@ declare function submitOtpLoginFromModal(): void;
 declare function installHeaderLoginFlow(): () => void;
 
 declare function clearShellInternalAuthCache(): void;
-/** POST {apiBaseUrl}/getKeycloakClientAccessToken */
+/** Keycloak client access token — via BFF when configured. */
 declare function fetchInternalKeycloakClientAccessToken(forceRefresh?: boolean): Promise<string>;
-/** POST {apiBaseUrl}/oauth with guest credentials from MYBHARAT_SHELL.login */
+/** Guest OAuth token for OTP APIs — via BFF when configured. */
 declare function fetchInternalGuestOauthAccessToken(forceRefresh?: boolean): Promise<string>;
 
 /**
@@ -435,11 +440,11 @@ declare const GATEWAY_PATHS: {
     readonly saveFeedbackData: "/saveFeedbackData";
     readonly triggerYouthReward: "/trigger-youth-reward-points";
 };
-/** @deprecated Optional Vite dev plugin only — browser shell calls APIGateway directly. */
+/** @deprecated Use `SHELL_LOGIN_PROXY_DEFAULT`. */
 declare const INTERNAL_PATHS: {
     readonly proxyDefault: "/mybharat-shell-api";
 };
-/** @deprecated Optional Vite dev plugin only. */
+/** @deprecated BFF routes are listed in `BFF_INTERNAL_PATHS`. */
 declare const PROXY_REWRITES: {
     readonly kcClient: "/api/getKeycloakClientAccessToken";
     readonly guestOauth: "/api/oauth";

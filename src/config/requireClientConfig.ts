@@ -25,6 +25,18 @@ function readApiBaseUrlFromDom(): string | undefined {
   return document.querySelector('mybharat-header')?.getAttribute('api-base-url')?.trim();
 }
 
+function readApiProxyBaseUrlFromDom(): string | undefined {
+  const header = document.querySelector('mybharat-header');
+  return (
+    header?.getAttribute('api-proxy-base-url')?.trim() ||
+    header?.getAttribute('api-proxy-baseurl')?.trim()
+  );
+}
+
+function readConfiguredApiProxyBaseUrl(): string | undefined {
+  return window.MYBHARAT_SHELL?.login?.apiProxyBaseUrl?.trim() || readApiProxyBaseUrlFromDom();
+}
+
 function readEnvironmentFromDom(): string | undefined {
   return document.querySelector('mybharat-header')?.getAttribute('environment')?.trim();
 }
@@ -73,8 +85,8 @@ export function assertRequiredClientConfig(props?: RequiredClientConfigInput): b
     ok = false;
   }
 
-  if (!merged.apiBaseUrl) {
-    alertOnce('apiBaseUrl', 'Api Base Url is not configured');
+  if (!merged.apiBaseUrl && !readConfiguredApiProxyBaseUrl()) {
+    alertOnce('apiBaseUrl', 'Api Base Url or login proxy (api-proxy-base-url) is not configured');
     ok = false;
   }
 

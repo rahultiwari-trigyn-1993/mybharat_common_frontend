@@ -13,12 +13,29 @@ export const GATEWAY_PATHS = {
   triggerYouthReward: '/trigger-youth-reward-points',
 } as const;
 
-/** @deprecated Optional Vite dev plugin only — browser shell calls APIGateway directly. */
-export const INTERNAL_PATHS = {
-  proxyDefault: '/mybharat-shell-api',
+/** Default same-origin BFF prefix (host implements routes under this path). */
+export const SHELL_LOGIN_PROXY_DEFAULT = '/mybharat-shell-api';
+
+/** Same-origin BFF routes — browser calls these; host forwards to APIGateway. */
+export const BFF_INTERNAL_PATHS = {
+  kcClient: '/_internal/kc-client',
+  guestOauth: '/_internal/guest-oauth',
+  loginPubkey: '/_internal/login-pubkey',
+  keycloakLogin: '/_internal/keycloak-login',
+  verifyGuestOtp: '/_internal/verify-guest-otp',
+  sendGuestOtp: '/_internal/send-guest-otp',
+  checkUserExists: '/_internal/check-user-exists',
+  keycloakExchangeToken: '/_internal/keycloak-exchange-token',
+  keycloakForgotPassword: '/_internal/keycloak-forgot-password',
+  keycloakChangePassword: '/_internal/keycloak-change-password',
 } as const;
 
-/** @deprecated Optional Vite dev plugin only. */
+/** @deprecated Use `SHELL_LOGIN_PROXY_DEFAULT`. */
+export const INTERNAL_PATHS = {
+  proxyDefault: SHELL_LOGIN_PROXY_DEFAULT,
+} as const;
+
+/** @deprecated BFF routes are listed in `BFF_INTERNAL_PATHS`. */
 export const PROXY_REWRITES = {
   kcClient: '/api/getKeycloakClientAccessToken',
   guestOauth: '/api/oauth',

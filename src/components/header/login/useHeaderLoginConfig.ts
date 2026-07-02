@@ -6,8 +6,10 @@ import { applyShellLoginApiConfig } from './headerLoginFlow';
 export type HeaderLoginConfig = {
   /** Portal origin for post-login redirects (trailing slash recommended). */
   baseUrl?: string;
-  /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or same-origin `/api`. */
+  /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
   apiBaseUrl?: string;
+  /** Same-origin login BFF prefix — e.g. `/mybharat-shell-api`. */
+  apiProxyBaseUrl?: string;
   /** Host environment (`local` | `dev` | `beta` | `prod`). */
   environment?: ClientEnvironment;
   /** Guest OAuth username for sendMobileGuestUserOtp / verifyGuestUserOtp. */
@@ -34,6 +36,7 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
 
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const environment = config?.environment?.trim();
   const oauthUsername = config?.oauthUsername?.trim();
   const oauthPassword = config?.oauthPassword?.trim();
@@ -44,6 +47,7 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
   if (
     !baseUrl &&
     !apiBaseUrl &&
+    !apiProxyBaseUrl &&
     !environment &&
     !cdnBase &&
     !oauthUsername &&
@@ -69,6 +73,7 @@ function applyHeaderLoginConfig(config?: HeaderLoginConfig): void {
       ...window.MYBHARAT_SHELL?.login,
       ...(baseUrl ? { baseUrl } : {}),
       ...(apiBaseUrl ? { apiBaseUrl } : {}),
+      ...(apiProxyBaseUrl ? { apiProxyBaseUrl } : {}),
       ...(environment ? { environment: environment as ClientEnvironment } : {}),
       ...(oauthUsername ? { oauthUsername } : {}),
       ...(oauthPassword ? { oauthPassword } : {}),
@@ -85,6 +90,7 @@ export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
 
   const baseUrl = config?.baseUrl?.trim();
   const apiBaseUrl = config?.apiBaseUrl?.trim();
+  const apiProxyBaseUrl = config?.apiProxyBaseUrl?.trim();
   const environment = config?.environment?.trim();
   const oauthUsername = config?.oauthUsername?.trim();
   const oauthPassword = config?.oauthPassword?.trim();
@@ -97,6 +103,7 @@ export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
     applyHeaderLoginConfig({
       baseUrl,
       apiBaseUrl,
+      apiProxyBaseUrl,
       environment: environment as ClientEnvironment | undefined,
       cdnBase,
       oauthUsername,
@@ -108,6 +115,7 @@ export function useHeaderLoginConfig(config?: HeaderLoginConfig): void {
   }, [
     baseUrl,
     apiBaseUrl,
+    apiProxyBaseUrl,
     environment,
     cdnBase,
     oauthUsername,

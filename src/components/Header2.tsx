@@ -37,6 +37,8 @@ export type Header2Props = {
   baseUrl?: string;
   /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
   apiBaseUrl?: string;
+  /** Same-origin login BFF prefix — e.g. `/mybharat-shell-api`. */
+  apiProxyBaseUrl?: string;
   /** Host environment (`local` | `dev` | `beta` | `prod`). */
   environment?: ClientEnvironment;
   oauthUsername?: string;
@@ -59,6 +61,7 @@ export const Header2: React.FC<Header2Props> = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  apiProxyBaseUrl,
   environment,
   oauthUsername,
   oauthPassword,
@@ -70,6 +73,7 @@ export const Header2: React.FC<Header2Props> = ({
   useHeaderLoginConfig({
     baseUrl,
     apiBaseUrl,
+    apiProxyBaseUrl,
     environment,
     oauthUsername,
     oauthPassword,

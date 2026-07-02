@@ -30,8 +30,10 @@ export type HeaderProps = {
   webroot?: string;
   /** Portal origin for header login redirects (`VITE_BASE_URL`). */
   baseUrl?: string;
-  /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. */
+  /** APIGateway root — e.g. `https://api.mybharat.gov.in/api` or `/api`. Legacy when BFF is used. */
   apiBaseUrl?: string;
+  /** Same-origin login BFF prefix — e.g. `/mybharat-shell-api`. Recommended for CDN/CakePHP. */
+  apiProxyBaseUrl?: string;
   /** Host environment (`local` | `dev` | `beta` | `prod`). */
   environment?: ClientEnvironment;
   /** Guest OAuth username for OTP APIs. */
@@ -56,6 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
   webroot,
   baseUrl,
   apiBaseUrl,
+  apiProxyBaseUrl,
   environment,
   oauthUsername,
   oauthPassword,
@@ -67,6 +70,7 @@ export const Header: React.FC<HeaderProps> = ({
   useHeaderLoginConfig({
     baseUrl,
     apiBaseUrl,
+    apiProxyBaseUrl,
     environment,
     oauthUsername,
     oauthPassword,

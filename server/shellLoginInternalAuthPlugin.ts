@@ -122,6 +122,29 @@ function readEncryptedSecret(body: Record<string, unknown>, field: string): Encr
   return node as EncryptedLoginSecret;
 }
 
+function readPlainOrEncryptedSecret(
+  body: Record<string, unknown>,
+  plainField: string,
+  encryptedField: string,
+): string {
+  const plain = typeof body[plainField] === 'string' ? body[plainField].trim() : '';
+  if (plain) return plain;
+  return decryptLoginSecret(readEncryptedSecret(body, encryptedField));
+}
+
+function readStringField(body: Record<string, unknown>, field: string): string {
+  return typeof body[field] === 'string' ? body[field].trim() : '';
+}
+
+function readFormFields(body: Record<string, unknown>): Record<string, string> {
+  const form: Record<string, string> = {};
+  for (const [key, value] of Object.entries(body)) {
+    if (value == null) continue;
+    form[key] = String(value);
+  }
+  return form;
+}
+
 /**
  * Vite host plugin — implements opaque `/_internal/*` login routes on the **host server**.
  * Required when embedding the shell login UI (CDN or npm) on a Vite dev/preview server.
@@ -156,6 +179,10 @@ function attachInternalAuthMiddleware(
   const pubkeyPath = `${prefix}/_internal/login-pubkey`;
   const keycloakLoginPath = `${prefix}/_internal/keycloak-login`;
   const verifyGuestOtpPath = `${prefix}/_internal/verify-guest-otp`;
+  const sendGuestOtpPath = `${prefix}/_internal/send-guest-otp`;
+  const checkUserExistsPath = `${prefix}/_internal/check-user-exists`;
+  const keycloakExchangePath = `${prefix}/_internal/keycloak-exchange-token`;
+  const keycloakForgotPath = `${prefix}/_internal/keycloak-forgot-password`;
   const changePasswordPath = `${prefix}/_internal/keycloak-change-password`;
 
   server.middlewares.use(async (req, res, next) => {
@@ -222,7 +249,11 @@ function attachInternalAuthMiddleware(
           sendJson(res, 400, { status_code: 400, message: 'username is required.' });
           return;
         }
-        const password = decryptLoginSecret(readEncryptedSecret(body, 'password_secret'));
+        const password = readPlainOrEncryptedSecret(body, 'password', 'password_secret');
+        if (!password) {
+          sendJson(res, 400, { status_code: 400, message: 'password is required.' });
+          return;
+        }
         const clientToken = await getKeycloakClientAccessToken(options.apiOrigin, forceRefresh);
         const payload = await postGatewayJson(
           options.apiOrigin,
@@ -243,7 +274,11 @@ function attachInternalAuthMiddleware(
     if (url === verifyGuestOtpPath) {
       try {
         const body = await readJsonBody(req);
-        const otp = decryptLoginSecret(readEncryptedSecret(body, 'otp_secret'));
+        const otp = readPlainOrEncryptedSecret(body, 'otp', 'otp_secret');
+        if (!otp) {
+          sendJson(res, 400, { status_code: 400, message: 'otp is required.' });
+          return;
+        }
         const userEmail = typeof body.user_email === 'string' ? body.user_email : '';
         const userPhone = typeof body.user_phone === 'string' ? body.user_phone : '';
         const oauthToken = await getAccessToken(options.oauth, forceRefresh);
@@ -263,6 +298,110 @@ function attachInternalAuthMiddleware(
       return;
     }
 
+    if (url === sendGuestOtpPath) {
+      try {
+        const body = await readJsonBody(req);
+        const form = readFormFields(body);
+        const oauthToken = await getAccessToken(options.oauth, forceRefresh);
+        const payload = await postGatewayForm(
+          options.apiOrigin,
+          '/sendMobileGuestUserOtp',
+          form,
+          oauthToken,
+        );
+        sendJson(res, 200, payload);
+      } catch (err) {
+        sendJson(res, 502, {
+          status_code: 502,
+          message: err instanceof Error ? err.message : 'Send OTP failed',
+        });
+      }
+      return;
+    }
+
+    if (url === checkUserExistsPath) {
+      try {
+        const body = await readJsonBody(req);
+        const identifier = readStringField(body, 'identifier');
+        if (!identifier) {
+          sendJson(res, 400, { status_code: 400, message: 'identifier is required.' });
+          return;
+        }
+        const clientToken = await getKeycloakClientAccessToken(options.apiOrigin, forceRefresh);
+        const payload = await postGatewayJson(
+          options.apiOrigin,
+          '/checkUserExists',
+          { identifier },
+          clientToken,
+        );
+        sendJson(res, 200, payload);
+      } catch (err) {
+        sendJson(res, 502, {
+          status_code: 502,
+          message: err instanceof Error ? err.message : 'checkUserExists failed',
+        });
+      }
+      return;
+    }
+
+    if (url === keycloakExchangePath) {
+      try {
+        const body = await readJsonBody(req);
+        const username = readStringField(body, 'username');
+        const regCode = readStringField(body, 'reg_code');
+        if (!username || !regCode) {
+          sendJson(res, 400, {
+            status_code: 400,
+            message: 'username and reg_code are required.',
+          });
+          return;
+        }
+        const clientToken = await getKeycloakClientAccessToken(options.apiOrigin, forceRefresh);
+        const payload = await postGatewayJson(
+          options.apiOrigin,
+          '/keycloakGetExchangeToken',
+          { username, reg_code: regCode },
+          clientToken,
+        );
+        sendJson(res, 200, payload);
+      } catch (err) {
+        sendJson(res, 502, {
+          status_code: 502,
+          message: err instanceof Error ? err.message : 'Exchange token failed',
+        });
+      }
+      return;
+    }
+
+    if (url === keycloakForgotPath) {
+      try {
+        const body = await readJsonBody(req);
+        const identifier = readStringField(body, 'identifier');
+        const regCode = readStringField(body, 'reg_code');
+        if (!identifier || !regCode) {
+          sendJson(res, 400, {
+            status_code: 400,
+            message: 'identifier and reg_code are required.',
+          });
+          return;
+        }
+        const clientToken = await getKeycloakClientAccessToken(options.apiOrigin, forceRefresh);
+        const payload = await postGatewayJson(
+          options.apiOrigin,
+          '/keycloakForgotPassword',
+          { identifier, reg_code: regCode },
+          clientToken,
+        );
+        sendJson(res, 200, payload);
+      } catch (err) {
+        sendJson(res, 502, {
+          status_code: 502,
+          message: err instanceof Error ? err.message : 'Forgot password failed',
+        });
+      }
+      return;
+    }
+
     if (url === changePasswordPath) {
       try {
         const body = await readJsonBody(req);
@@ -272,7 +411,11 @@ function attachInternalAuthMiddleware(
           sendJson(res, 400, { status_code: 400, message: 'userId and dlId are required.' });
           return;
         }
-        const password = decryptLoginSecret(readEncryptedSecret(body, 'password_secret'));
+        const password = readPlainOrEncryptedSecret(body, 'password', 'password_secret');
+        if (!password) {
+          sendJson(res, 400, { status_code: 400, message: 'password is required.' });
+          return;
+        }
         const clientToken = await getKeycloakClientAccessToken(options.apiOrigin, forceRefresh);
         const payload = normalizeGatewaySuccessPayload(
           await postGatewayJson(
