@@ -22,6 +22,7 @@ import {
   type ApiErrorPayload,
 } from './loginApiErrorMessage';
 import { AUTH_CONFIG } from '../../../config/auth';
+import { resolveAuthCookieDomain, syncShellLoginCookieDomainFromDom } from './authSessionCookies';
 import { APP_ROUTES } from '../../../config/routes';
 import { EXTERNAL_URLS } from '../../../config/external';
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
@@ -153,21 +154,16 @@ function clearLoginStorage(): void {
   }
 }
 
-function cookieExists(name: string): boolean {
-  return document.cookie.split(';').some((c) => c.trim().startsWith(`${name}=`));
-}
-
 function setAuthCookies(tokenValue: string, domain: string, encryptIdValue?: string): void {
   const expiry = new Date(
     Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1000
   ).toUTCString();
+  const cookieDomain = resolveAuthCookieDomain(domain);
   const names = AUTH_CONFIG.cookieNames;
-  if (!cookieExists(names.token) && !cookieExists(names.tokenEssays)) {
-    document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
-    document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
-  }
+  document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
+  document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
   if (encryptIdValue) {
-    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${domain};`;
+    document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
   }
 }
 
@@ -250,6 +246,8 @@ function syncShellLoginApiConfigFromDom(): void {
   const baseUrl = headerEl?.getAttribute('login-base-url')?.trim();
 
   if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+
+  syncShellLoginCookieDomainFromDom();
 
   if (!baseUrl && !apiBaseUrl) return;
 

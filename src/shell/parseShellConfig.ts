@@ -152,7 +152,10 @@ export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
     oauthUsername: el.getAttribute('oauth-username') ?? global?.oauthUsername,
     oauthPassword: el.getAttribute('oauth-password') ?? global?.oauthPassword,
     ipAddress: el.getAttribute('ip-address') ?? global?.ipAddress,
-    cookieDomain: el.getAttribute('cookie-domain') ?? global?.cookieDomain,
+    cookieDomain:
+      el.getAttribute('cookie-domain') ??
+      el.getAttribute('cookiedomain') ??
+      global?.cookieDomain,
   };
 }
 

@@ -14,7 +14,7 @@ import {
 } from './loginApiErrorMessage';
 import { fetchInternalKeycloakClientAccessToken } from './shellLoginGateway';
 import { submitEstablishSessionForm, type EstablishSessionFlow } from './establishSessionForm';
-import { readMbAppTokenFromGatewayResponse } from './authSessionCookies';
+import { readMbAppTokenFromGatewayResponse, syncShellLoginCookieDomainFromDom } from './authSessionCookies';
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
 import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
@@ -231,12 +231,13 @@ function submitPortalEstablishSession(
     throw new Error('Portal base URL is not configured for establish_session.');
   }
 
+  syncShellLoginCookieDomainFromDom();
+
   submitEstablishSessionForm({
     baseUrl,
     flow,
     username,
     authResponse,
-    cookieDomain: window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || undefined,
   });
   return { redirecting: true };
 }

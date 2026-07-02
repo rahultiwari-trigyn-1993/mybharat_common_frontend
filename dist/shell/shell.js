@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.247 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.248 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27666,18 +27666,42 @@ var MyBharatShell = (() => {
     }
     return rootAccessToken || keycloakAccessToken;
   }
-  function readShellCookieDomain() {
-    const configured = window.MYBHARAT_SHELL?.login?.cookieDomain?.trim();
+  function readHeaderCookieDomainAttribute() {
+    if (typeof document === "undefined") return "";
+    const headerEl = document.querySelector("mybharat-header");
+    if (!headerEl) return "";
+    return headerEl.getAttribute("cookie-domain")?.trim() || headerEl.getAttribute("cookiedomain")?.trim() || "";
+  }
+  function syncShellLoginCookieDomainFromDom() {
+    const cookieDomain = readHeaderCookieDomainAttribute();
+    if (!cookieDomain) return;
+    window.MYBHARAT_SHELL = {
+      ...window.MYBHARAT_SHELL,
+      login: {
+        ...window.MYBHARAT_SHELL?.login,
+        cookieDomain
+      }
+    };
+  }
+  function readConfiguredShellCookieDomain() {
+    syncShellLoginCookieDomainFromDom();
+    return window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || readHeaderCookieDomainAttribute();
+  }
+  function resolveAuthCookieDomain(apiDomain) {
+    const configured = readConfiguredShellCookieDomain();
     if (configured) return configured;
+    const fromApi = apiDomain?.trim();
+    if (fromApi) return fromApi;
     return window.location.hostname;
   }
   function setMbAuthSessionCookies(tokenValue, options) {
     const value = tokenValue.trim();
     if (!value) return;
+    syncShellLoginCookieDomainFromDom();
     const expiry = new Date(
       Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
     ).toUTCString();
-    const domain = (options?.cookieDomain ?? readShellCookieDomain()).trim();
+    const domain = resolveAuthCookieDomain(options?.cookieDomain).trim();
     const domainPart = domain ? `;domain=${domain}` : "";
     const names = AUTH_CONFIG.cookieNames;
     document.cookie = `${names.token}=${encodeURIComponent(value)};expires=${expiry};path=${AUTH_CONFIG.cookiePath}${domainPart}`;
@@ -27842,12 +27866,12 @@ var MyBharatShell = (() => {
       assertRequiredClientConfig();
       throw new Error("Portal base URL is not configured for establish_session.");
     }
+    syncShellLoginCookieDomainFromDom();
     submitEstablishSessionForm({
       baseUrl,
       flow,
       username,
-      authResponse,
-      cookieDomain: window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() || void 0
+      authResponse
     });
     return { redirecting: true };
   }
@@ -28154,20 +28178,16 @@ var MyBharatShell = (() => {
     } catch {
     }
   }
-  function cookieExists(name) {
-    return document.cookie.split(";").some((c) => c.trim().startsWith(`${name}=`));
-  }
   function setAuthCookies(tokenValue, domain, encryptIdValue) {
     const expiry = new Date(
       Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1e3
     ).toUTCString();
+    const cookieDomain = resolveAuthCookieDomain(domain);
     const names = AUTH_CONFIG.cookieNames;
-    if (!cookieExists(names.token) && !cookieExists(names.tokenEssays)) {
-      document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
-      document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${domain};`;
-    }
+    document.cookie = `${names.token}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
+    document.cookie = `${names.tokenEssays}=${encodeURIComponent(tokenValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
     if (encryptIdValue) {
-      document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${domain};`;
+      document.cookie = `${names.encryptId}=${encodeURIComponent(encryptIdValue)};expires=${expiry};path=/;domain=${cookieDomain};`;
     }
   }
   function resolveFirebaseTrackingUserId(loginRes) {
@@ -28210,6 +28230,7 @@ var MyBharatShell = (() => {
     const apiBaseUrl = headerEl?.getAttribute("api-base-url")?.trim();
     const baseUrl = headerEl?.getAttribute("login-base-url")?.trim();
     if (apiBaseUrl) applyShellLoginApiConfig(apiBaseUrl);
+    syncShellLoginCookieDomainFromDom();
     if (!baseUrl && !apiBaseUrl) return;
     window.MYBHARAT_SHELL = {
       ...window.MYBHARAT_SHELL,
@@ -32298,7 +32319,7 @@ var MyBharatShell = (() => {
       oauthUsername: el.getAttribute("oauth-username") ?? global?.oauthUsername,
       oauthPassword: el.getAttribute("oauth-password") ?? global?.oauthPassword,
       ipAddress: el.getAttribute("ip-address") ?? global?.ipAddress,
-      cookieDomain: el.getAttribute("cookie-domain") ?? global?.cookieDomain
+      cookieDomain: el.getAttribute("cookie-domain") ?? el.getAttribute("cookiedomain") ?? global?.cookieDomain
     };
   }
   function resolveHeaderProps(el) {
@@ -32358,6 +32379,7 @@ var MyBharatShell = (() => {
     "oauth-password",
     "ip-address",
     "cookie-domain",
+    "cookiedomain",
     "bhashini"
   ];
   var FOOTER_OBSERVED = [
@@ -32390,7 +32412,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.247" }
+          detail: { component: "header", version: "1.0.248" }
         })
       );
     }
@@ -32463,7 +32485,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.247" }
+          detail: { component: "footer", version: "1.0.248" }
         })
       );
     }
@@ -32524,7 +32546,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.247";
+  var MYBHARAT_SHELL_VERSION = "1.0.248";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

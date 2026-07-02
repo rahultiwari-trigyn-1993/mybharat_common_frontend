@@ -25,6 +25,7 @@ const HEADER_OBSERVED = [
   'oauth-password',
   'ip-address',
   'cookie-domain',
+  'cookiedomain',
   'bhashini',
 ] as const;
 const FOOTER_OBSERVED = [

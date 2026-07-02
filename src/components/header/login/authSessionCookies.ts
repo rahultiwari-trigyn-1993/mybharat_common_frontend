@@ -78,9 +78,50 @@ export function readMbAppTokenFromGatewayResponse(authResponse: unknown): string
   return rootAccessToken || keycloakAccessToken;
 }
 
+function readHeaderCookieDomainAttribute(): string {
+  if (typeof document === 'undefined') return '';
+  const headerEl = document.querySelector('mybharat-header');
+  if (!headerEl) return '';
+  return (
+    headerEl.getAttribute('cookie-domain')?.trim() ||
+    headerEl.getAttribute('cookiedomain')?.trim() ||
+    ''
+  );
+}
+
+/** Sync `<mybharat-header cookie-domain>` into shell login config before cookie writes. */
+export function syncShellLoginCookieDomainFromDom(): void {
+  const cookieDomain = readHeaderCookieDomainAttribute();
+  if (!cookieDomain) return;
+
+  window.MYBHARAT_SHELL = {
+    ...window.MYBHARAT_SHELL,
+    login: {
+      ...window.MYBHARAT_SHELL?.login,
+      cookieDomain,
+    },
+  };
+}
+
+/** Explicit shell/header cookie domain (empty when not configured). */
+export function readConfiguredShellCookieDomain(): string {
+  syncShellLoginCookieDomainFromDom();
+  return (
+    window.MYBHARAT_SHELL?.login?.cookieDomain?.trim() ||
+    readHeaderCookieDomainAttribute()
+  );
+}
+
 export function readShellCookieDomain(): string {
-  const configured = window.MYBHARAT_SHELL?.login?.cookieDomain?.trim();
+  return readConfiguredShellCookieDomain() || window.location.hostname;
+}
+
+/** Prefer shell/header `cookie-domain`, then API `domain`, then current hostname. */
+export function resolveAuthCookieDomain(apiDomain?: string): string {
+  const configured = readConfiguredShellCookieDomain();
   if (configured) return configured;
+  const fromApi = apiDomain?.trim();
+  if (fromApi) return fromApi;
   return window.location.hostname;
 }
 
@@ -92,10 +133,12 @@ export function setMbAuthSessionCookies(
   const value = tokenValue.trim();
   if (!value) return;
 
+  syncShellLoginCookieDomainFromDom();
+
   const expiry = new Date(
     Date.now() + AUTH_CONFIG.cookieExpiryMinutes * 60 * 1000
   ).toUTCString();
-  const domain = (options?.cookieDomain ?? readShellCookieDomain()).trim();
+  const domain = resolveAuthCookieDomain(options?.cookieDomain).trim();
   const domainPart = domain ? `;domain=${domain}` : '';
   const names = AUTH_CONFIG.cookieNames;
 
