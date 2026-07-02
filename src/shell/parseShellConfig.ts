@@ -152,6 +152,7 @@ export function resolveHeaderLoginConfig(el: HTMLElement): ShellLoginConfig {
     oauthUsername: el.getAttribute('oauth-username') ?? global?.oauthUsername,
     oauthPassword: el.getAttribute('oauth-password') ?? global?.oauthPassword,
     ipAddress: el.getAttribute('ip-address') ?? global?.ipAddress,
+    cookieDomain: el.getAttribute('cookie-domain') ?? global?.cookieDomain,
   };
 }
 
@@ -168,6 +169,7 @@ export function resolveHeaderProps(el: HTMLElement): {
   oauthUsername?: string;
   oauthPassword?: string;
   ipAddress?: string;
+  cookieDomain?: string;
   bhashini?: boolean;
 } {
   const global = window.MYBHARAT_SHELL?.header;
@@ -189,6 +191,7 @@ export function resolveHeaderProps(el: HTMLElement): {
     oauthUsername: login.oauthUsername,
     oauthPassword: login.oauthPassword,
     ipAddress: login.ipAddress,
+    cookieDomain: login.cookieDomain,
     bhashini: parseBooleanAttr(el.getAttribute('bhashini')) ?? global?.bhashini,
   };
 }

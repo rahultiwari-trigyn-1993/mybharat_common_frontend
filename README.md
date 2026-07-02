@@ -238,6 +238,7 @@ document.addEventListener("mb:open-login", (e) => console.log(e.detail.mode));
 | | `api-proxy-base-url` | `/mybharat-shell-api` |
 | | `login-payload-public-key` | RSA public key PEM (optional) |
 | | `ip-address` | Client IP for OTP send (optional) |
+| | `cookie-domain` | `.mybharat.gov.in` — post-login token cookie domain |
 | `<mybharat-footer>` | `is-logged-in` | `true` / `false` |
 | | `recaptcha-site-key` | Google reCAPTCHA site key |
 
@@ -266,7 +267,7 @@ These are **safe for the browser** — URLs and the RSA **public** key only:
 | `loginPayloadPublicKey` | `login-payload-public-key` | RSA public key PEM (optional; else browser calls `/_internal/login-pubkey`) |
 | `ipAddress` | `ip-address` | Client IP for OTP send (optional) |
 | `publicProfileApiBaseUrl` | — (React prop or `window.MYBHARAT_SHELL.login`) | Post-login `getUserId` API |
-| `cookieDomain` | — (React prop or `window.MYBHARAT_SHELL.login`) | Cookie domain after login |
+| `cookieDomain` | `cookie-domain` | Cookie domain after login (e.g. `.mybharat.gov.in`) |
 
 **React example:**
 

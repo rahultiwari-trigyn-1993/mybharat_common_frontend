@@ -24,6 +24,7 @@ const HEADER_OBSERVED = [
   'oauth-username',
   'oauth-password',
   'ip-address',
+  'cookie-domain',
   'bhashini',
 ] as const;
 const FOOTER_OBSERVED = [
@@ -88,6 +89,7 @@ class MyBharatHeaderElement extends HTMLElement {
       oauthUsername,
       oauthPassword,
       ipAddress,
+      cookieDomain,
       bhashini,
     } = resolveHeaderProps(this);
     const Comp = variant === 'header2' ? Header2 : Header;
@@ -105,6 +107,7 @@ class MyBharatHeaderElement extends HTMLElement {
         oauthUsername={oauthUsername}
         oauthPassword={oauthPassword}
         ipAddress={ipAddress}
+        cookieDomain={cookieDomain}
         bhashini={bhashini}
       />
     );

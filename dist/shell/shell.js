@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.246 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.247 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -32297,7 +32297,8 @@ var MyBharatShell = (() => {
       environment: el.getAttribute("environment") ?? global?.environment,
       oauthUsername: el.getAttribute("oauth-username") ?? global?.oauthUsername,
       oauthPassword: el.getAttribute("oauth-password") ?? global?.oauthPassword,
-      ipAddress: el.getAttribute("ip-address") ?? global?.ipAddress
+      ipAddress: el.getAttribute("ip-address") ?? global?.ipAddress,
+      cookieDomain: el.getAttribute("cookie-domain") ?? global?.cookieDomain
     };
   }
   function resolveHeaderProps(el) {
@@ -32318,6 +32319,7 @@ var MyBharatShell = (() => {
       oauthUsername: login.oauthUsername,
       oauthPassword: login.oauthPassword,
       ipAddress: login.ipAddress,
+      cookieDomain: login.cookieDomain,
       bhashini: parseBooleanAttr(el.getAttribute("bhashini")) ?? global?.bhashini
     };
   }
@@ -32355,6 +32357,7 @@ var MyBharatShell = (() => {
     "oauth-username",
     "oauth-password",
     "ip-address",
+    "cookie-domain",
     "bhashini"
   ];
   var FOOTER_OBSERVED = [
@@ -32387,7 +32390,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.246" }
+          detail: { component: "header", version: "1.0.247" }
         })
       );
     }
@@ -32415,6 +32418,7 @@ var MyBharatShell = (() => {
         oauthUsername,
         oauthPassword,
         ipAddress,
+        cookieDomain,
         bhashini
       } = resolveHeaderProps(this);
       const Comp = variant === "header2" ? Header2_default : Header_default;
@@ -32433,6 +32437,7 @@ var MyBharatShell = (() => {
             oauthUsername,
             oauthPassword,
             ipAddress,
+            cookieDomain,
             bhashini
           }
         )
@@ -32458,7 +32463,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.246" }
+          detail: { component: "footer", version: "1.0.247" }
         })
       );
     }
@@ -32519,7 +32524,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.246";
+  var MYBHARAT_SHELL_VERSION = "1.0.247";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:
