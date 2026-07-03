@@ -1,4 +1,4 @@
-/*! mybharat_common_frontend@1.0.252 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
+/*! mybharat_common_frontend@1.0.253 — if this version is wrong in Sources, Vite cached an old pre-bundle; see README "Vite dev server" */
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -9762,17 +9762,38 @@ function buildSaveFeedbackPayload(form, isLoggedIn) {
 }
 async function postFormToApi(url, form) {
   const base = resolveApiFetchBase();
+  const usesProxy = usesHostApiAuthProxy(base);
+  let token;
+  if (!usesProxy) {
+    try {
+      token = await fetchInternalGuestOauthAccessToken();
+    } catch {
+      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
+    }
+  }
+  let response = await postFormToApiOnce(url, form, token);
+  if (!isFeedbackGuestTokenExpired(response)) return response;
+  try {
+    token = await fetchInternalGuestOauthAccessToken(true);
+  } catch {
+    return response;
+  }
+  return postFormToApiOnce(url, form, token);
+}
+function isFeedbackGuestTokenExpired(res) {
+  const code = res.status_code;
+  if (code !== 401 && code !== "401") return false;
+  const statusText = [res.status, res.message].filter((value) => typeof value === "string" && value.trim().length > 0).join(" ");
+  return /token\s+is\s+expired|token\s+expired/i.test(statusText);
+}
+async function postFormToApiOnce(url, form, bearerToken) {
+  const base = resolveApiFetchBase();
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
     Accept: "application/json"
   };
-  if (!usesHostApiAuthProxy(base)) {
-    try {
-      const token = await fetchInternalGuestOauthAccessToken();
-      headers.Authorization = `Bearer ${token}`;
-    } catch {
-      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
-    }
+  if (bearerToken) {
+    headers.Authorization = `Bearer ${bearerToken.replace(/^bearer\s+/i, "").trim()}`;
   }
   let res;
   try {
@@ -11019,7 +11040,7 @@ function useMainNavItems(options) {
 }
 
 // src/index.ts
-var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.252";
+var MYBHARAT_COMMON_FRONTEND_VERSION = "1.0.253";
 var index_default = { Header: Header_default, Header2: Header2_default, Footer: Footer_default };
 export {
   APP_ROUTES,

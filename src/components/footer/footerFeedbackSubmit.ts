@@ -20,6 +20,7 @@ export const SAVE_FEEDBACK_DATA_PATH = GATEWAY_PATHS.saveFeedbackData;
 export const TRIGGER_YOUTH_REWARD_PATH = GATEWAY_PATHS.triggerYouthReward;
 
 export type FeedbackApiResponse = {
+  status?: string;
   status_code?: number | string;
   data?: string;
   message?: string;
@@ -200,18 +201,51 @@ async function postFormToApi(
   form: Record<string, string>
 ): Promise<FeedbackApiResponse> {
   const base = resolveApiFetchBase();
+  const usesProxy = usesHostApiAuthProxy(base);
+
+  let token: string | undefined;
+  if (!usesProxy) {
+    try {
+      token = await fetchInternalGuestOauthAccessToken();
+    } catch {
+      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+    }
+  }
+
+  let response = await postFormToApiOnce(url, form, token);
+  if (!isFeedbackGuestTokenExpired(response)) return response;
+
+  try {
+    token = await fetchInternalGuestOauthAccessToken(true);
+  } catch {
+    return response;
+  }
+
+  return postFormToApiOnce(url, form, token);
+}
+
+function isFeedbackGuestTokenExpired(res: FeedbackApiResponse): boolean {
+  const code = res.status_code;
+  if (code !== 401 && code !== '401') return false;
+  const statusText = [res.status, res.message]
+    .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+    .join(' ');
+  return /token\s+is\s+expired|token\s+expired/i.test(statusText);
+}
+
+async function postFormToApiOnce(
+  url: string,
+  form: Record<string, string>,
+  bearerToken?: string,
+): Promise<FeedbackApiResponse> {
+  const base = resolveApiFetchBase();
   const headers: Record<string, string> = {
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     Accept: 'application/json',
   };
 
-  if (!usesHostApiAuthProxy(base)) {
-    try {
-      const token = await fetchInternalGuestOauthAccessToken();
-      headers.Authorization = `Bearer ${token}`;
-    } catch {
-      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
-    }
+  if (bearerToken) {
+    headers.Authorization = `Bearer ${bearerToken.replace(/^bearer\s+/i, '').trim()}`;
   }
 
   let res: Response;
