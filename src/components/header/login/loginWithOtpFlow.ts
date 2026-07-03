@@ -17,7 +17,7 @@ import { submitEstablishSessionForm, type EstablishSessionFlow } from './establi
 import { readMbAppTokenFromGatewayResponse, syncShellLoginCookieDomainFromDom } from './authSessionCookies';
 import { GATEWAY_PATHS, BFF_INTERNAL_PATHS } from '../../../config/apiPaths';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
-import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
+import { resolveBrowserApiBaseUrl, isSameOriginApiBase } from '../../../config/resolveBrowserApiBaseUrl';
 import { AUTH_CONFIG } from '../../../config/auth';
 import { wrapLoginSecretField } from './loginPayloadSecret';
 import { postShellLoginBffJson } from './shellLoginBff';
@@ -183,7 +183,7 @@ async function postGatewayJson<T extends LoginOtpApiResponse>(
   try {
     res = await fetch(apiUrl(path), {
       method: 'POST',
-      credentials: 'omit',
+      credentials: isSameOriginApiBase(readLoginFetchBase()) ? 'same-origin' : 'omit',
       headers,
       body: JSON.stringify(body),
     });

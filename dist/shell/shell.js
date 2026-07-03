@@ -1,4 +1,4 @@
-/*! mybharat_shell@1.0.253 — CDN Web Component bundle for Header/Footer */
+/*! mybharat_shell@1.0.254 — CDN Web Component bundle for Header/Footer */
 
 "use strict";
 var MyBharatShell = (() => {
@@ -27427,7 +27427,9 @@ var MyBharatShell = (() => {
     checkUserExists: "/_internal/check-user-exists",
     keycloakExchangeToken: "/_internal/keycloak-exchange-token",
     keycloakForgotPassword: "/_internal/keycloak-forgot-password",
-    keycloakChangePassword: "/_internal/keycloak-change-password"
+    keycloakChangePassword: "/_internal/keycloak-change-password",
+    saveFeedbackData: "/_internal/save-feedback-data",
+    triggerYouthReward: "/_internal/trigger-youth-reward"
   };
   var PORTAL_PATHS = {
     establishSession: "/establish_session"
@@ -27443,15 +27445,31 @@ var MyBharatShell = (() => {
     if (loggedSameOriginRewrite) return;
     loggedSameOriginRewrite = true;
     console.info(
-      `[mybharat_common_frontend] sameOriginApi: "${from}" \u2192 "${to}". Host must proxy /api to APIGateway (Vite or CakePHP).`
+      `[mybharat_common_frontend] sameOriginApi: "${from}" \u2192 "${to}". Host must proxy /api to APIGateway (Vite or CakePHP). Set MYBHARAT_SHELL.login.sameOriginApi = false to keep cross-origin URLs.`
     );
+  }
+  function isSameOriginRewriteDisabled() {
+    const login = window.MYBHARAT_SHELL?.login;
+    if (login?.sameOriginApi === false) return true;
+    if (login?.crossOriginApi === true) return true;
+    return false;
+  }
+  function isSameOriginApiBase(base) {
+    const trimmed = base?.trim().replace(/\/$/, "") ?? "";
+    if (!trimmed) return false;
+    if (typeof window === "undefined") return trimmed.startsWith("/");
+    if (!/^https?:\/\//i.test(trimmed)) return true;
+    try {
+      return new URL(trimmed).origin === window.location.origin;
+    } catch {
+      return false;
+    }
   }
   function resolveBrowserApiBaseUrl(configured) {
     const trimmed = configured?.trim().replace(/\/$/, "") ?? "";
     if (!trimmed) return "";
     if (typeof window === "undefined") return trimmed;
-    const login = window.MYBHARAT_SHELL?.login;
-    if (login?.sameOriginApi !== true) return trimmed;
+    if (isSameOriginRewriteDisabled()) return trimmed;
     if (!/^https?:\/\//i.test(trimmed)) return trimmed;
     try {
       const parsed = new URL(trimmed);
@@ -27575,6 +27593,34 @@ var MyBharatShell = (() => {
       throw new Error(message);
     }
     return token;
+  }
+  async function postShellLoginBffForm(relativePath, form, options) {
+    const url = `${buildShellLoginBffUrl(relativePath)}${buildRefreshQuery(Boolean(options?.forceRefresh))}`;
+    let res;
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          Accept: "application/json",
+          ...options?.forceRefresh ? { "X-Shell-Auth-Refresh": "1" } : {}
+        },
+        body: new URLSearchParams(form)
+      });
+    } catch {
+      throw new Error("Unable to reach the login service. Please try again.");
+    }
+    const text = await res.text();
+    try {
+      return normalizeShellLoginBffPayload(JSON.parse(text), res.status);
+    } catch {
+      const fallback = {
+        status_code: res.status,
+        message: text || "Login service error."
+      };
+      return normalizeShellLoginBffPayload(fallback, res.status);
+    }
   }
   async function fetchBffGuestOauthAccessToken(forceRefresh = false) {
     if (!isShellLoginBffEnabled()) {
@@ -27714,7 +27760,7 @@ var MyBharatShell = (() => {
       try {
         res = await fetch(buildGatewayUrl(GATEWAY_PATHS.getKeycloakClientAccessToken), {
           method: "POST",
-          credentials: "omit",
+          credentials: isSameOriginApiBase(readApiBaseUrl()) ? "same-origin" : "omit",
           headers: { Accept: "application/json" }
         });
       } catch {
@@ -27754,7 +27800,7 @@ var MyBharatShell = (() => {
     try {
       res = await fetch(buildGatewayUrl(GATEWAY_PATHS.oauth), {
         method: "POST",
-        credentials: "omit",
+        credentials: isSameOriginApiBase(readApiBaseUrl()) ? "same-origin" : "omit",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Accept: "application/json"
@@ -28160,7 +28206,7 @@ var MyBharatShell = (() => {
     try {
       res = await fetch(apiUrl(path), {
         method: "POST",
-        credentials: "omit",
+        credentials: isSameOriginApiBase(readLoginFetchBase()) ? "same-origin" : "omit",
         headers,
         body: JSON.stringify(body)
       });
@@ -28593,6 +28639,9 @@ var MyBharatShell = (() => {
     syncShellLoginApiConfigFromDom();
     return readShellLoginApiBaseUrl();
   }
+  function readShellLoginFetchCredentials() {
+    return isSameOriginApiBase(readShellLoginFetchBaseUrl()) ? "same-origin" : "omit";
+  }
   function syncShellLoginApiConfigFromDom() {
     const headerEl = document.querySelector("mybharat-header");
     const apiBaseUrl = headerEl?.getAttribute("api-base-url")?.trim();
@@ -28712,7 +28761,7 @@ var MyBharatShell = (() => {
     try {
       res = await fetch(url, {
         method: "POST",
-        credentials: "omit",
+        credentials: readShellLoginFetchCredentials(),
         headers,
         body: new URLSearchParams(form)
       });
@@ -28751,7 +28800,7 @@ var MyBharatShell = (() => {
     try {
       res = await fetch(url, {
         method: "POST",
-        credentials: "omit",
+        credentials: readShellLoginFetchCredentials(),
         headers,
         body: JSON.stringify(body)
       });
@@ -29939,9 +29988,9 @@ var MyBharatShell = (() => {
   var feedbackIsLoggedInOverride;
   function applyFooterFeedbackApiConfig(options) {
     const apiBase = options?.feedbackApiBaseUrl?.trim();
-    if (apiBase) feedbackApiBaseUrl = apiBase.replace(/\/$/, "");
+    if (apiBase) feedbackApiBaseUrl = resolveBrowserApiBaseUrl(apiBase);
     const rewardsBase = options?.rewardsApiBaseUrl?.trim();
-    if (rewardsBase) rewardsApiBaseUrl = rewardsBase.replace(/\/$/, "");
+    if (rewardsBase) rewardsApiBaseUrl = resolveBrowserApiBaseUrl(rewardsBase);
     const submitUrl = options?.feedbackSubmitUrl?.trim();
     if (submitUrl) feedbackSubmitUrlOverride = submitUrl;
     if (options?.userSession !== void 0) {
@@ -29958,11 +30007,11 @@ var MyBharatShell = (() => {
   function resolveApiFetchBase() {
     if (feedbackApiBaseUrl) return feedbackApiBaseUrl;
     const fromFooter = window.MYBHARAT_SHELL?.footer?.feedbackApiBaseUrl?.trim();
-    if (fromFooter) return fromFooter.replace(/\/$/, "");
+    if (fromFooter) return resolveBrowserApiBaseUrl(fromFooter);
     const fromShell = getShellApiFetchBaseUrl();
     if (fromShell) return fromShell.replace(/\/$/, "");
     const loginApi = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-    if (loginApi) return loginApi.replace(/\/$/, "");
+    if (loginApi) return resolveBrowserApiBaseUrl(loginApi);
     return "";
   }
   function resolveSubmitUrl() {
@@ -29976,14 +30025,17 @@ var MyBharatShell = (() => {
   function resolveRewardsApiFetchBase() {
     if (rewardsApiBaseUrl) return rewardsApiBaseUrl;
     const fromFooter = window.MYBHARAT_SHELL?.footer?.rewardsApiBaseUrl?.trim();
-    if (fromFooter) return fromFooter.replace(/\/$/, "");
+    if (fromFooter) return resolveBrowserApiBaseUrl(fromFooter);
     return "";
   }
+  function hostApiInjectsAuth() {
+    return window.MYBHARAT_SHELL?.login?.hostApiInjectsAuth === true;
+  }
   function usesHostApiAuthProxy(base) {
-    return base === DEV_API_PROXY_PREFIXES.feedback;
+    return hostApiInjectsAuth() && isSameOriginApiBase(base);
   }
   function usesHostRewardsApiAuthProxy(base) {
-    return base === DEV_API_PROXY_PREFIXES.rewards;
+    return hostApiInjectsAuth() && (base === DEV_API_PROXY_PREFIXES.rewards || isSameOriginApiBase(base));
   }
   function unwrapRawUserRecord(input) {
     if (input == null || typeof input !== "object") return null;
@@ -30048,6 +30100,12 @@ var MyBharatShell = (() => {
     );
   }
   async function postFormToApi(url, form) {
+    if (isShellLoginBffEnabled()) {
+      let response2 = await postFormViaBff(form);
+      if (!isFeedbackGuestTokenExpired(response2)) return response2;
+      response2 = await postFormViaBff(form, true);
+      return response2;
+    }
     const base = resolveApiFetchBase();
     const usesProxy = usesHostApiAuthProxy(base);
     let token;
@@ -30066,6 +30124,18 @@ var MyBharatShell = (() => {
       return response;
     }
     return postFormToApiOnce(url, form, token);
+  }
+  async function postFormViaBff(form, forceRefresh = false) {
+    try {
+      const data = await postShellLoginBffForm(
+        BFF_INTERNAL_PATHS.saveFeedbackData,
+        form,
+        { forceRefresh }
+      );
+      return normalizeApiResponse(data, 200);
+    } catch {
+      return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
+    }
   }
   function isFeedbackGuestTokenExpired(res) {
     const code = res.status_code;
@@ -30088,7 +30158,7 @@ var MyBharatShell = (() => {
         method: "POST",
         headers,
         body: new URLSearchParams(form),
-        credentials: usesHostApiAuthProxy(base) ? "same-origin" : "omit"
+        credentials: isSameOriginApiBase(base) ? "same-origin" : "omit"
       });
     } catch {
       return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE2 };
@@ -30109,7 +30179,14 @@ var MyBharatShell = (() => {
   }
   async function postJsonToRewardsApi(path, body) {
     const base = resolveRewardsApiFetchBase();
-    if (!base) return;
+    if (!base && !isShellLoginBffEnabled()) return;
+    if (isShellLoginBffEnabled()) {
+      try {
+        await postShellLoginBffJson(BFF_INTERNAL_PATHS.triggerYouthReward, body);
+      } catch {
+      }
+      return;
+    }
     const url = buildRewardsApiUrl(path);
     const headers = {
       "Content-Type": "application/json",
@@ -30123,7 +30200,7 @@ var MyBharatShell = (() => {
       method: "POST",
       headers,
       body: JSON.stringify(body),
-      credentials: usesHostRewardsApiAuthProxy(base) ? "same-origin" : "omit"
+      credentials: isSameOriginApiBase(base) ? "same-origin" : "omit"
     });
   }
   async function triggerGeneralFeedbackReward(userId) {
@@ -32842,7 +32919,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "header", version: "1.0.253" }
+          detail: { component: "header", version: "1.0.254" }
         })
       );
     }
@@ -32917,7 +32994,7 @@ var MyBharatShell = (() => {
       this.dispatchEvent(
         new CustomEvent("mb:ready", {
           bubbles: true,
-          detail: { component: "footer", version: "1.0.253" }
+          detail: { component: "footer", version: "1.0.254" }
         })
       );
     }
@@ -32978,7 +33055,7 @@ var MyBharatShell = (() => {
   if (typeof document !== "undefined") {
     installHeaderAccessibilityFont();
   }
-  var MYBHARAT_SHELL_VERSION = "1.0.253";
+  var MYBHARAT_SHELL_VERSION = "1.0.254";
   return __toCommonJS(shell_exports);
 })();
 /*! Bundled license information:

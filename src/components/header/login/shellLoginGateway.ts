@@ -3,7 +3,7 @@
  * otherwise falls back to direct APIGateway calls (legacy; requires oauth in page config).
  */
 import { GATEWAY_PATHS } from '../../../config/apiPaths';
-import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
+import { resolveBrowserApiBaseUrl, isSameOriginApiBase } from '../../../config/resolveBrowserApiBaseUrl';
 import {
   DEFAULT_API_ERROR_MESSAGE,
   normalizeApiResponse,
@@ -166,7 +166,7 @@ async function fetchDirectKeycloakClientAccessToken(forceRefresh = false): Promi
     try {
       res = await fetch(buildGatewayUrl(GATEWAY_PATHS.getKeycloakClientAccessToken), {
         method: 'POST',
-        credentials: 'omit',
+        credentials: isSameOriginApiBase(readApiBaseUrl()) ? 'same-origin' : 'omit',
         headers: { Accept: 'application/json' },
       });
     } catch {
@@ -211,7 +211,7 @@ async function fetchDirectGuestOauthAccessToken(forceRefresh = false): Promise<s
   try {
     res = await fetch(buildGatewayUrl(GATEWAY_PATHS.oauth), {
       method: 'POST',
-      credentials: 'omit',
+      credentials: isSameOriginApiBase(readApiBaseUrl()) ? 'same-origin' : 'omit',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Accept: 'application/json',

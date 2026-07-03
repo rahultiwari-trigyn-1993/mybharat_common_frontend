@@ -30,7 +30,7 @@ import { wrapLoginSecretField } from './loginPayloadSecret';
 import { APP_ROUTES } from '../../../config/routes';
 import { EXTERNAL_URLS } from '../../../config/external';
 import { assertRequiredClientConfig } from '../../../config/requireClientConfig';
-import { resolveBrowserApiBaseUrl } from '../../../config/resolveBrowserApiBaseUrl';
+import { resolveBrowserApiBaseUrl, isSameOriginApiBase } from '../../../config/resolveBrowserApiBaseUrl';
 import { OTP_MESSAGES } from '../../../config/messages';
 
 /** Matches header.ctp jQuery selectors — works for in-package and host-page Sign In controls. */
@@ -242,6 +242,10 @@ function readShellLoginFetchBaseUrl(): string {
   return readShellLoginApiBaseUrl();
 }
 
+function readShellLoginFetchCredentials(): RequestCredentials {
+  return isSameOriginApiBase(readShellLoginFetchBaseUrl()) ? 'same-origin' : 'omit';
+}
+
 /** Sync `<mybharat-header api-base-url>` into shell login config before fetch. */
 function syncShellLoginApiConfigFromDom(): void {
   const headerEl = document.querySelector('mybharat-header');
@@ -420,16 +424,16 @@ async function fetchLoginApi<T extends SignInResponse>(
   try {
     if (method === 'GET') {
       const qs = form ? `?${new URLSearchParams(form).toString()}` : '';
-      res = await fetch(`${url}${qs}`, { method: 'GET', credentials: 'omit' });
+      res = await fetch(`${url}${qs}`, { method: 'GET', credentials: readShellLoginFetchCredentials() });
     } else if (form && Object.keys(form).length > 0) {
       res = await fetch(url, {
         method: 'POST',
-        credentials: 'omit',
+        credentials: readShellLoginFetchCredentials(),
         headers: { 'Content-Type': LOGIN_API_FORM_CONTENT_TYPE },
         body: new URLSearchParams(form),
       });
     } else {
-      res = await fetch(url, { method: 'POST', credentials: 'omit' });
+      res = await fetch(url, { method: 'POST', credentials: readShellLoginFetchCredentials() });
     }
   } catch {
     throw new LoginApiError(DEFAULT_LOGIN_API_ERROR);
@@ -465,7 +469,7 @@ async function fetchLoginApiFormPost<T extends SignInResponse>(
   try {
     res = await fetch(url, {
       method: 'POST',
-      credentials: 'omit',
+      credentials: readShellLoginFetchCredentials(),
       headers,
       body: new URLSearchParams(form),
     });
@@ -515,7 +519,7 @@ async function fetchLoginApiJsonPost<T extends SignInResponse>(
   try {
     res = await fetch(url, {
       method: 'POST',
-      credentials: 'omit',
+      credentials: readShellLoginFetchCredentials(),
       headers,
       body: JSON.stringify(body),
     });

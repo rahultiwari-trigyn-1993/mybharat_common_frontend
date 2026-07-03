@@ -1,8 +1,9 @@
 /**
  * APIGateway root for browser fetch.
- * Default: use `apiBaseUrl` as configured (e.g. `http://127.0.0.1:8000/api`).
- * Set `MYBHARAT_SHELL.login.sameOriginApi = true` to rewrite cross-origin URLs to `/api`
- * when the host proxies `/api` → APIGateway (avoids CORS OPTIONS).
+ * Cross-origin URLs are rewritten to same-origin `/api` by default so the browser
+ * sends POST only (no CORS OPTIONS preflight). Host must proxy `/api` → APIGateway.
+ *
+ * Opt out: `MYBHARAT_SHELL.login.sameOriginApi = false` or deprecated `crossOriginApi: true`.
  */
 let loggedSameOriginRewrite = false;
 
@@ -11,8 +12,30 @@ function logSameOriginRewrite(from: string, to: string): void {
   loggedSameOriginRewrite = true;
   console.info(
     `[mybharat_common_frontend] sameOriginApi: "${from}" → "${to}". ` +
-      'Host must proxy /api to APIGateway (Vite or CakePHP).'
+      'Host must proxy /api to APIGateway (Vite or CakePHP). ' +
+      'Set MYBHARAT_SHELL.login.sameOriginApi = false to keep cross-origin URLs.'
   );
+}
+
+function isSameOriginRewriteDisabled(): boolean {
+  const login = window.MYBHARAT_SHELL?.login;
+  if (login?.sameOriginApi === false) return true;
+  /** @deprecated Allow cross-origin APIGateway (triggers CORS OPTIONS). */
+  if (login?.crossOriginApi === true) return true;
+  return false;
+}
+
+/** True when `base` resolves to the current page origin (relative `/api` or same host). */
+export function isSameOriginApiBase(base: string): boolean {
+  const trimmed = base?.trim().replace(/\/$/, '') ?? '';
+  if (!trimmed) return false;
+  if (typeof window === 'undefined') return trimmed.startsWith('/');
+  if (!/^https?:\/\//i.test(trimmed)) return true;
+  try {
+    return new URL(trimmed).origin === window.location.origin;
+  } catch {
+    return false;
+  }
 }
 
 /** Normalize configured APIGateway root for browser `fetch`. */
@@ -21,10 +44,7 @@ export function resolveBrowserApiBaseUrl(configured?: string): string {
   if (!trimmed) return '';
 
   if (typeof window === 'undefined') return trimmed;
-
-  const login = window.MYBHARAT_SHELL?.login;
-  if (login?.sameOriginApi !== true) return trimmed;
-
+  if (isSameOriginRewriteDisabled()) return trimmed;
   if (!/^https?:\/\//i.test(trimmed)) return trimmed;
 
   try {

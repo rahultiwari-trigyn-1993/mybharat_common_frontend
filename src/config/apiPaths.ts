@@ -30,6 +30,8 @@ export const BFF_INTERNAL_PATHS = {
   keycloakExchangeToken: '/_internal/keycloak-exchange-token',
   keycloakForgotPassword: '/_internal/keycloak-forgot-password',
   keycloakChangePassword: '/_internal/keycloak-change-password',
+  saveFeedbackData: '/_internal/save-feedback-data',
+  triggerYouthReward: '/_internal/trigger-youth-reward',
 } as const;
 
 /** @deprecated Use `SHELL_LOGIN_PROXY_DEFAULT`. */

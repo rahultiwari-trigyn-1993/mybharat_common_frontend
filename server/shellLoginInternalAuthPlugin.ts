@@ -37,6 +37,24 @@ async function readJsonBody(req: Connect.IncomingMessage): Promise<Record<string
   });
 }
 
+async function readUrlEncodedForm(req: Connect.IncomingMessage): Promise<Record<string, string>> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    req.on('data', (chunk: Buffer) => chunks.push(chunk));
+    req.on('end', () => {
+      const text = Buffer.concat(chunks).toString('utf8');
+      const form: Record<string, string> = {};
+      if (text) {
+        for (const [key, value] of new URLSearchParams(text)) {
+          form[key] = value;
+        }
+      }
+      resolve(form);
+    });
+    req.on('error', reject);
+  });
+}
+
 function gatewayApiUrl(apiOrigin: string, path: string): string {
   const suffix = path.startsWith('/') ? path : `/${path}`;
   return `${apiOrigin.replace(/\/$/, '')}/api${suffix}`;
@@ -199,6 +217,8 @@ function attachInternalAuthMiddleware(
   const keycloakExchangePath = `${prefix}/_internal/keycloak-exchange-token`;
   const keycloakForgotPath = `${prefix}/_internal/keycloak-forgot-password`;
   const changePasswordPath = `${prefix}/_internal/keycloak-change-password`;
+  const saveFeedbackPath = `${prefix}/_internal/save-feedback-data`;
+  const triggerYouthRewardPath = `${prefix}/_internal/trigger-youth-reward`;
 
   server.middlewares.use(async (req, res, next) => {
     const rawUrl = req.url ?? '';
@@ -440,6 +460,46 @@ function attachInternalAuthMiddleware(
         sendJson(res, 502, {
           status_code: 502,
           message: err instanceof Error ? err.message : 'Password change failed',
+        });
+      }
+      return;
+    }
+
+    if (url === saveFeedbackPath) {
+      try {
+        const form = await readUrlEncodedForm(req);
+        const guestToken = await getAccessToken(options.oauth, forceRefresh);
+        const payload = await postGatewayForm(
+          options.apiOrigin,
+          '/saveFeedbackData',
+          form,
+          guestToken,
+        );
+        sendJson(res, 200, payload);
+      } catch (err) {
+        sendJson(res, 502, {
+          status_code: 502,
+          message: err instanceof Error ? err.message : 'Save feedback failed',
+        });
+      }
+      return;
+    }
+
+    if (url === triggerYouthRewardPath) {
+      try {
+        const body = await readJsonBody(req);
+        const guestToken = await getAccessToken(options.oauth, forceRefresh);
+        const payload = await postGatewayJson(
+          options.apiOrigin,
+          '/trigger-youth-reward-points',
+          body,
+          guestToken,
+        );
+        sendJson(res, 200, payload);
+      } catch (err) {
+        sendJson(res, 502, {
+          status_code: 502,
+          message: err instanceof Error ? err.message : 'Youth reward trigger failed',
         });
       }
       return;

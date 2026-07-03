@@ -3,6 +3,11 @@ import {
 } from '../header/login/headerLoginFlow';
 import { fetchInternalGuestOauthAccessToken } from '../header/login/shellLoginGateway';
 import {
+  postShellLoginBffForm,
+  postShellLoginBffJson,
+} from '../header/login/shellLoginBff';
+import { isShellLoginBffEnabled } from '../header/login/shellLoginProxyConfig';
+import {
   DEFAULT_API_ERROR_MESSAGE,
   isApiSuccessStatus,
   normalizeApiResponse,
@@ -14,7 +19,8 @@ import {
   parseHeaderUserSession,
   type HeaderUserSessionInput,
 } from '../header/headerUserSession';
-import { DEV_API_PROXY_PREFIXES, GATEWAY_PATHS } from '../../config/apiPaths';
+import { BFF_INTERNAL_PATHS, DEV_API_PROXY_PREFIXES, GATEWAY_PATHS } from '../../config/apiPaths';
+import { isSameOriginApiBase, resolveBrowserApiBaseUrl } from '../../config/resolveBrowserApiBaseUrl';
 
 export const SAVE_FEEDBACK_DATA_PATH = GATEWAY_PATHS.saveFeedbackData;
 export const TRIGGER_YOUTH_REWARD_PATH = GATEWAY_PATHS.triggerYouthReward;
@@ -53,10 +59,10 @@ export function applyFooterFeedbackApiConfig(options?: {
   isLoggedIn?: boolean;
 }): void {
   const apiBase = options?.feedbackApiBaseUrl?.trim();
-  if (apiBase) feedbackApiBaseUrl = apiBase.replace(/\/$/, '');
+  if (apiBase) feedbackApiBaseUrl = resolveBrowserApiBaseUrl(apiBase);
 
   const rewardsBase = options?.rewardsApiBaseUrl?.trim();
-  if (rewardsBase) rewardsApiBaseUrl = rewardsBase.replace(/\/$/, '');
+  if (rewardsBase) rewardsApiBaseUrl = resolveBrowserApiBaseUrl(rewardsBase);
 
   const submitUrl = options?.feedbackSubmitUrl?.trim();
   if (submitUrl) feedbackSubmitUrlOverride = submitUrl;
@@ -82,13 +88,13 @@ function resolveApiFetchBase(): string {
   if (feedbackApiBaseUrl) return feedbackApiBaseUrl;
 
   const fromFooter = window.MYBHARAT_SHELL?.footer?.feedbackApiBaseUrl?.trim();
-  if (fromFooter) return fromFooter.replace(/\/$/, '');
+  if (fromFooter) return resolveBrowserApiBaseUrl(fromFooter);
 
   const fromShell = getShellApiFetchBaseUrl();
   if (fromShell) return fromShell.replace(/\/$/, '');
 
   const loginApi = window.MYBHARAT_SHELL?.login?.apiBaseUrl?.trim();
-  if (loginApi) return loginApi.replace(/\/$/, '');
+  if (loginApi) return resolveBrowserApiBaseUrl(loginApi);
 
   return '';
 }
@@ -108,17 +114,22 @@ function resolveRewardsApiFetchBase(): string {
   if (rewardsApiBaseUrl) return rewardsApiBaseUrl;
 
   const fromFooter = window.MYBHARAT_SHELL?.footer?.rewardsApiBaseUrl?.trim();
-  if (fromFooter) return fromFooter.replace(/\/$/, '');
+  if (fromFooter) return resolveBrowserApiBaseUrl(fromFooter);
 
   return '';
 }
 
+/** Host injects Bearer at the proxy — browser must not send Authorization (same-origin POST only). */
+function hostApiInjectsAuth(): boolean {
+  return window.MYBHARAT_SHELL?.login?.hostApiInjectsAuth === true;
+}
+
 function usesHostApiAuthProxy(base: string): boolean {
-  return base === DEV_API_PROXY_PREFIXES.feedback;
+  return hostApiInjectsAuth() && isSameOriginApiBase(base);
 }
 
 function usesHostRewardsApiAuthProxy(base: string): boolean {
-  return base === DEV_API_PROXY_PREFIXES.rewards;
+  return hostApiInjectsAuth() && (base === DEV_API_PROXY_PREFIXES.rewards || isSameOriginApiBase(base));
 }
 
 function unwrapRawUserRecord(input: HeaderUserSessionInput): Record<string, unknown> | null {
@@ -200,6 +211,13 @@ async function postFormToApi(
   url: string,
   form: Record<string, string>
 ): Promise<FeedbackApiResponse> {
+  if (isShellLoginBffEnabled()) {
+    let response = await postFormViaBff(form);
+    if (!isFeedbackGuestTokenExpired(response)) return response;
+    response = await postFormViaBff(form, true);
+    return response;
+  }
+
   const base = resolveApiFetchBase();
   const usesProxy = usesHostApiAuthProxy(base);
 
@@ -222,6 +240,22 @@ async function postFormToApi(
   }
 
   return postFormToApiOnce(url, form, token);
+}
+
+async function postFormViaBff(
+  form: Record<string, string>,
+  forceRefresh = false,
+): Promise<FeedbackApiResponse> {
+  try {
+    const data = await postShellLoginBffForm<FeedbackApiResponse>(
+      BFF_INTERNAL_PATHS.saveFeedbackData,
+      form,
+      { forceRefresh },
+    );
+    return normalizeApiResponse(data as ApiErrorPayload, 200) as FeedbackApiResponse;
+  } catch {
+    return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
+  }
 }
 
 function isFeedbackGuestTokenExpired(res: FeedbackApiResponse): boolean {
@@ -254,7 +288,7 @@ async function postFormToApiOnce(
       method: 'POST',
       headers,
       body: new URLSearchParams(form),
-      credentials: usesHostApiAuthProxy(base) ? 'same-origin' : 'omit',
+      credentials: isSameOriginApiBase(base) ? 'same-origin' : 'omit',
     });
   } catch {
     return { status_code: 500, message: DEFAULT_API_ERROR_MESSAGE };
@@ -278,7 +312,16 @@ function buildRewardsApiUrl(path: string): string {
 
 async function postJsonToRewardsApi(path: string, body: unknown): Promise<void> {
   const base = resolveRewardsApiFetchBase();
-  if (!base) return;
+  if (!base && !isShellLoginBffEnabled()) return;
+
+  if (isShellLoginBffEnabled()) {
+    try {
+      await postShellLoginBffJson(BFF_INTERNAL_PATHS.triggerYouthReward, body as Record<string, unknown>);
+    } catch {
+      /* non-blocking */
+    }
+    return;
+  }
 
   const url = buildRewardsApiUrl(path);
 
@@ -296,7 +339,7 @@ async function postJsonToRewardsApi(path: string, body: unknown): Promise<void> 
     method: 'POST',
     headers,
     body: JSON.stringify(body),
-    credentials: usesHostRewardsApiAuthProxy(base) ? 'same-origin' : 'omit',
+    credentials: isSameOriginApiBase(base) ? 'same-origin' : 'omit',
   });
 }
 

@@ -30,8 +30,10 @@ interface Window {
       apiBaseUrl?: string;
       /** Same-origin login BFF prefix — e.g. `/mybharat-shell-api`. */
       apiProxyBaseUrl?: string;
-      /** When true, rewrite cross-origin apiBaseUrl to same-origin `/api` (host must proxy). */
+      /** When true, rewrite cross-origin apiBaseUrl to same-origin `/api` (host must proxy). Default: auto-rewrite unless `sameOriginApi: false`. */
       sameOriginApi?: boolean;
+      /** When true, host proxy adds Authorization — browser omits Bearer on same-origin `/api`. */
+      hostApiInjectsAuth?: boolean;
       /** @deprecated Use sameOriginApi instead. Kept for compatibility — ignored when sameOriginApi is set. */
       crossOriginApi?: boolean;
       environment?: 'local' | 'dev' | 'beta' | 'prod';

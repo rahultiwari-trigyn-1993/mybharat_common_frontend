@@ -119,6 +119,41 @@ export async function fetchBffKeycloakClientAccessToken(forceRefresh = false): P
   return token;
 }
 
+/** Same-origin form POST to the login BFF (no CORS preflight). */
+export async function postShellLoginBffForm<T extends Record<string, unknown>>(
+  relativePath: string,
+  form: Record<string, string>,
+  options?: { forceRefresh?: boolean },
+): Promise<T> {
+  const url = `${buildShellLoginBffUrl(relativePath)}${buildRefreshQuery(Boolean(options?.forceRefresh))}`;
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        Accept: 'application/json',
+        ...(options?.forceRefresh ? { 'X-Shell-Auth-Refresh': '1' } : {}),
+      },
+      body: new URLSearchParams(form),
+    });
+  } catch {
+    throw new Error('Unable to reach the login service. Please try again.');
+  }
+
+  const text = await res.text();
+  try {
+    return normalizeShellLoginBffPayload(JSON.parse(text) as T, res.status);
+  } catch {
+    const fallback: Record<string, unknown> = {
+      status_code: res.status,
+      message: text || 'Login service error.',
+    };
+    return normalizeShellLoginBffPayload(fallback as unknown as T, res.status);
+  }
+}
+
 export async function fetchBffGuestOauthAccessToken(forceRefresh = false): Promise<string> {
   if (!isShellLoginBffEnabled()) {
     throw new Error('Login proxy is not configured.');
